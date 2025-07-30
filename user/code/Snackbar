@@ -1,0 +1,4 @@
+Snackbar snackbar=SnackbarUtils.snackbarCreateByResIdWithActionByResId(textInputLayoutInputAmount,R.string.enterIntoAccountSuccessful,false,R.string.ok,(view,snackbar1)->snackbar1.dismiss())
+        .setTextColor(ContextCompat.getColor(activity,R.color.white))
+        .setBackgroundTint(ContextCompat.getColor(activity,R.color.color_202020));
+        snackbar.show();

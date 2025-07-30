@@ -1,0 +1,10 @@
+// PopupWindow
+        EasyPopupWindow menuPopupWindow=EasyPopupWindow.create()
+        .setContext(appCompatActivity)
+        .setWidth(270)
+        .setContentView(R.layout.account_detail_activity_popup_window)
+        .setAnimationStyle(R.style.EasyPopupWindowAnimationStyle)
+        .setFocusAndOutsideEnable(true)
+        .apply();
+        MaterialButton accountDetailActivityPopupWindowMbModify=menuPopupWindow.findViewById(R.id.accountDetailActivityPopupWindowMbModify);
+        MaterialButton accountDetailActivityPopupWindowMbDelete=menuPopupWindow.findViewById(R.id.accountDetailActivityPopupWindowMbDelete);

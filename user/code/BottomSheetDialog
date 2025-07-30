@@ -1,0 +1,22 @@
+View bottomSheetDialogView=LayoutInflater.from(appCompatActivity).inflate(R.layout.bottom_sheet_dialog,null);
+        // 修改
+        MaterialButton bottomSheetDialogMbModify=bottomSheetDialogView.findViewById(R.id.bottomSheetDialogMbModify);
+        bottomSheetDialogMbModify.setOnClickListener(new View.OnClickListener(){
+@Override
+public void onClick(View v){
+
+        }
+        });
+        // 删除
+        MaterialButton bottomSheetDialogMbDelete=bottomSheetDialogView.findViewById(R.id.bottomSheetDialogMbDelete);
+        bottomSheetDialogMbDelete.setOnClickListener(new View.OnClickListener(){
+@Override
+public void onClick(View v){
+
+        }
+        });
+        // BottomSheetDialog
+        BottomSheetDialog bottomSheetDialog=new BottomSheetDialog(appCompatActivity);
+        bottomSheetDialog.setContentView(bottomSheetDialogView);
+        bottomSheetDialog.show();
+
