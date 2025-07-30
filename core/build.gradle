@@ -1,15 +1,17 @@
 plugins {
     alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
     namespace 'com.zsp.core'
-    compileSdk 36
+    compileSdk rootProject.ext.compileSdk
+    // Android 6.0 移除对 Apache 的 HTTP client 支持（需添 org.apache.http.legacy.jar）
+    /*useLibrary 'org.apache.http.legacy'*/
 
     defaultConfig {
-        minSdk 24
+        minSdk rootProject.ext.minSdk
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
     }
 
@@ -18,15 +20,34 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        pre {
+            initWith release
+        }
     }
     compileOptions {
+        // 源代码兼容 Java 11 (可按需设)
         sourceCompatibility JavaVersion.VERSION_11
+        // 生成的字节码兼容 Java 11 (可按需设)
         targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = rootProject.ext.jvmTarget
     }
 }
 
 dependencies {
-
-    implementation libs.appcompat
-    implementation libs.material
+    api libs.appcompat
+    api libs.material
+    implementation libs.core.ktx
+    /*自带*/
+    api libs.eventbus
+    api libs.timber
+    api libs.mmkv
+    api libs.relinker
+    api libs.rxjava
+    api libs.rxandroid
+    api libs.okio
+    api libs.glide
+    api libs.lottie
+    api files('libs/tbs_sdk_44286.jar')
 }
