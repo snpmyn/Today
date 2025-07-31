@@ -1,0 +1,13 @@
+<animated-selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/state_on"
+        android:drawable="@drawable/bottom_navigation_view_menu_home_page_select_22dp"
+        android:state_checked="true" />
+    <item
+        android:id="@+id/state_off"
+        android:drawable="@drawable/bottom_navigation_view_menu_home_page_normal_22dp" />
+    <transition
+        android:drawable="@drawable/bottom_navigation_view_menu_home_page_normal_22dp"
+        android:fromId="@id/state_off"
+        android:toId="@id/state_on" />
+</animated-selector>
