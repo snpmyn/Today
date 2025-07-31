@@ -797,7 +797,7 @@ abstract class DataHandler extends LitePalBase {
                 return false;
             case "float":
             case "java.lang.Float":
-                return 0f;
+                return 0F;
             case "double":
             case "java.lang.Double":
                 return 0.0;
@@ -1184,8 +1184,7 @@ abstract class DataHandler extends LitePalBase {
             if (null != value) {
                 date = (long) value;
             }
-            if (date == Long.MAX_VALUE) {
-                // Long.MAX_VALUE is a date that will never reach, which represents null in our case.
+            if (date == Long.MAX_VALUE) { // Long.MAX_VALUE is a date that will never reach, which represents null in our case.
                 value = null;
             } else {
                 value = new Date(date);
