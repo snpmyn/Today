@@ -32,17 +32,14 @@ public class FluentQuery {
      * Representing the where clause in SQL.
      */
     String[] mConditions;
-
     /**
      * Representing the order by clause in SQL.
      */
     String mOrderBy;
-
     /**
      * Representing the limit clause in SQL.
      */
     String mLimit;
-
     /**
      * Representing the offset in SQL.
      */
@@ -331,7 +328,6 @@ public class FluentQuery {
      * This method is deprecated and will be removed in the future releases.
      * Handle async db operation in your own logic instead.
      */
-    @Deprecated
     public <T> FindExecutor<T> findLastAsync(Class<T> modelClass) {
         return findLastAsync(modelClass, false);
     }
@@ -424,7 +420,6 @@ public class FluentQuery {
      * This method is deprecated and will be removed in the future releases.
      * Handle async db operation in your own logic instead.
      */
-    @Deprecated
     public CountExecutor countAsync(@NonNull Class<?> modelClass) {
         return countAsync(BaseUtility.changeCase(DBUtility.getTableNameByClassName(modelClass.getName())));
     }
@@ -496,7 +491,6 @@ public class FluentQuery {
      * This method is deprecated and will be removed in the future releases.
      * Handle async db operation in your own logic instead.
      */
-    @Deprecated
     public AverageExecutor averageAsync(@NonNull final Class<?> modelClass, final String column) {
         return averageAsync(BaseUtility.changeCase(DBUtility.getTableNameByClassName(modelClass.getName())), column);
     }
@@ -570,7 +564,6 @@ public class FluentQuery {
      * This method is deprecated and will be removed in the future releases.
      * Handle async db operation in your own logic instead.
      */
-    @Deprecated
     public <T> FindExecutor<T> maxAsync(@NonNull final Class<?> modelClass, final String columnName, final Class<T> columnType) {
         return maxAsync(BaseUtility.changeCase(DBUtility.getTableNameByClassName(modelClass.getName())), columnName, columnType);
     }
@@ -646,7 +639,6 @@ public class FluentQuery {
      * This method is deprecated and will be removed in the future releases.
      * Handle async db operation in your own logic instead.
      */
-    @Deprecated
     public <T> FindExecutor<T> minAsync(@NonNull final Class<?> modelClass, final String columnName, final Class<T> columnType) {
         return minAsync(BaseUtility.changeCase(DBUtility.getTableNameByClassName(modelClass.getName())), columnName, columnType);
     }
@@ -722,7 +714,6 @@ public class FluentQuery {
      * This method is deprecated and will be removed in the future releases.
      * Handle async db operation in your own logic instead.
      */
-    @Deprecated
     public <T> FindExecutor<T> sumAsync(@NonNull final Class<?> modelClass, final String columnName, final Class<T> columnType) {
         return sumAsync(BaseUtility.changeCase(DBUtility.getTableNameByClassName(modelClass.getName())), columnName, columnType);
     }
