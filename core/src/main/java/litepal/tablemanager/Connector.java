@@ -38,9 +38,8 @@ public class Connector {
      * @return A writable SQLiteDatabase instance
      */
     public synchronized static SQLiteDatabase getWritableDatabase() {
-        try (LitePalOpenHelper litePalHelper = buildConnection()) {
-            return litePalHelper.getWritableDatabase();
-        }
+        LitePalOpenHelper litePalHelper = buildConnection();
+        return litePalHelper.getWritableDatabase();
     }
 
     /**
