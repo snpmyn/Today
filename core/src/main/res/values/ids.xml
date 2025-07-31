@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--fragmentation-->
+    <item name="fragmentationAreExpand" type="id" />
+    <item name="fragmentationHierarchy" type="id" />
+    <!--banner-->
+    <item name="bannerViewRealItem" type="id" />
+</resources>
