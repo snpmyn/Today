@@ -115,8 +115,7 @@ public class AssociationsModel {
         if (o instanceof AssociationsModel) {
             AssociationsModel association = (AssociationsModel) o;
             if (association.getTableName() != null && association.getAssociatedTableName() != null) {
-                boolean flag = association.getTableHoldsForeignKey().equals(tableHoldsForeignKey);
-                if (association.getAssociationType() == associationType && flag) {
+                if ((association.getAssociationType() == associationType) && tableHoldsForeignKey.equals(association.getTableHoldsForeignKey())) {
                     if (association.getTableName().equals(tableName) && association.getAssociatedTableName().equals(associatedTableName) && association.getTableHoldsForeignKey().equals(tableHoldsForeignKey)) {
                         return true;
                     } else
