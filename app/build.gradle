@@ -2,43 +2,136 @@ plugins {
     alias(libs.plugins.android.application)
 }
 
+// Creates a variable called keystorePropertiesFile, and initializes it to the keystore.properties file.
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+// Initializes a new Properties() object called keystoreProperties.
+def keystoreProperties = new Properties()
+// Loads the keystore.properties file into the keystoreProperties object.
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
     namespace 'com.zsp.today'
-    compileSdk 36
+    compileSdk rootProject.ext.compileSdk
 
     defaultConfig {
         applicationId "com.zsp.today"
-        minSdk 24
-        targetSdk 36
+        minSdk rootProject.ext.minSdk
+        targetSdk rootProject.ext.targetSdk
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        /*ndk {
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'//, 'mips', 'mips64'
+        }*/
+        resourceConfigurations += ['en', 'zh']
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file('../user/SignatureFile/debug.keystore')
+            storePassword 'android'
+            keyPassword 'android'
+            keyAlias = 'androiddebugkey'
+        }
+        release {
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+            keyPassword keystoreProperties['keyPassword']
+            keyAlias = keystoreProperties['keyAlias']
+        }
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            // 启用资源缩减但未启用代码缩减会报错，需同时启用。
+            // 启用代码缩减（包括 ProGuard / R8）
+            minifyEnabled true
+            // 确保有适当的 ProGuard 规则文件配置，因代码缩减可能会移除某些被反射调用的代码。
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            // 启用资源缩减
+            shrinkResources true
+            signingConfig signingConfigs.release
+            buildConfigField "String", "DOMAIN_NAME", '"http://xxx.com"'
+            manifestPlaceholders = [app_name: "今日"]
+            versionNameSuffix "-release"
+            /*debuggable true*/
+        }
+        debug {
+            signingConfig signingConfigs.debug
+            buildConfigField "String", "DOMAIN_NAME", '"http://xxx.com"'
+            manifestPlaceholders = [app_name: "今日D"]
+            versionNameSuffix "-debug"
+        }
+        // The `initWith` property allows you to copy configurations from other build types, then configure only the settings you want to change.
+        // This one copies the debug release type, and then changes the manifest placeholder and application ID.
+        pre {
+            initWith release
+            manifestPlaceholders = [app_name: "今日P"]
+            versionNameSuffix "-pre"
+        }
+    }
+    // Specifies one flavor dimension.
+    flavorDimensions += ["dimension"]
+    productFlavors {
+        // 开发环境
+        develop {
+            buildConfigField "int", "ENVIRONMENT_TYPE", "1"
+            // Assigns this product flavor to the "version" flavor dimension.
+            // This property is optional if you are using only one dimension.
+            dimension "dimension"
+            versionNameSuffix "-develop"
+        }
+        // 公测环境
+        beta {
+            buildConfigField "int", "ENVIRONMENT_TYPE", "2"
+            // Assigns this product flavor to the "version" flavor dimension.
+            // This property is optional if you are using only one dimension.
+            dimension "dimension"
+            versionNameSuffix "-beta"
+            versionCode 1
+            versionName "1.0"
+        }
+        // 生产环境
+        product {
+            buildConfigField "int", "ENVIRONMENT_TYPE", "3"
+            // Assigns this product flavor to the "version" flavor dimension.
+            // This property is optional if you are using only one dimension.
+            dimension "dimension"
+            versionNameSuffix "-product"
+            versionCode 1
+            versionName "1.0"
         }
     }
     compileOptions {
+        // 源代码兼容 Java 11 (可按需设)
         sourceCompatibility JavaVersion.VERSION_11
+        // 生成的字节码兼容 Java 11 (可按需设)
         targetCompatibility JavaVersion.VERSION_11
     }
     buildFeatures {
         viewBinding true
+        buildConfig = true
     }
 }
 
 dependencies {
-
-    implementation libs.appcompat
-    implementation libs.material
     implementation libs.constraintlayout
     implementation libs.navigation.fragment
     implementation libs.navigation.ui
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
+    /*自带*/
+    implementation libs.gson
+    /*gson*/
+    implementation libs.jxl
+    /*jxl*/
+    implementation libs.work.runtime
+    /*work*/
+    implementation libs.mpac
+    /*MPAndroidChart*/
+    implementation project(':core')
+    /*core*/
 }
