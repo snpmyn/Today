@@ -43,4 +43,9 @@ public class DefaultVerticalAnimator extends FragmentAnimator implements Parcela
     public void writeToParcel(@NotNull Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 }

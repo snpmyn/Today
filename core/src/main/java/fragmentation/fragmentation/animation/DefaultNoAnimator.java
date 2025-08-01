@@ -41,4 +41,9 @@ public class DefaultNoAnimator extends FragmentAnimator implements Parcelable {
     public void writeToParcel(@NotNull Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 }
