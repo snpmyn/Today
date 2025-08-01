@@ -7,7 +7,7 @@ import java.util.List;
  * @author: 郑少鹏
  * @date: 2019/5/20 9:24
  */
-class DebugFragmentRecord {
+public class DebugFragmentRecord {
     CharSequence fragmentName;
     List<DebugFragmentRecord> debugFragmentRecords;
 
