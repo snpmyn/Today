@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/accountDetailActivityPopupMenuModify"
+        android:icon="@drawable/ic_help_feedback_color_e4d588_purple_500_20dp"
+        android:title="@string/modify" />
+    <item
+        android:id="@+id/accountDetailActivityPopupMenuDelete"
+        android:icon="@drawable/ic_clean_cache_color_e4d588_purple_500_20dp"
+        android:title="@string/delete" />
+</menu>

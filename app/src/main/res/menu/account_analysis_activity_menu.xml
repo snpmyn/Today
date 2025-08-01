@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/accountAnalysisActivityMenuChooseDate"
+        android:contentDescription="@string/chooseDate"
+        android:icon="@drawable/ic_date_range_white_24dp"
+        android:title="@string/chooseDate"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/accountAnalysisActivityMenuMonthAnalysis"
+        android:contentDescription="@string/monthAnalysis"
+        android:icon="@drawable/ic_analytics_font_input_24dp"
+        android:title="@string/monthAnalysis" />
+    <item
+        android:id="@+id/accountAnalysisActivityMenuYearAnalysis"
+        android:contentDescription="@string/yearAnalysis"
+        android:icon="@drawable/ic_analytics_font_input_24dp"
+        android:title="@string/yearAnalysis" />
+</menu>
