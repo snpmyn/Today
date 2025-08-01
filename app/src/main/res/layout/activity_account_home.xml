@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".module.account.AccountHomeActivity">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/accountHomeActivityMt"
+        style="@style/Widget.MaterialComponents.Toolbar.Primary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:menu="@menu/account_home_activity_menu" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/accountHomeActivityRv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/accountHomeActivityMt"
+        android:background="@color/pageBackground"
+        android:scrollbars="none" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/accountHomeActivityEfab"
+        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="@dimen/dp_24"
+        android:layout_marginBottom="@dimen/dp_24"
+        android:text="@string/returnToThisYear"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        app:icon="@drawable/ic_arrow_right_white_20dp"
+        app:iconPadding="@dimen/dp_6"
+        app:iconSize="@dimen/dp_20"
+        app:iconTint="@color/white" />
+</RelativeLayout>
