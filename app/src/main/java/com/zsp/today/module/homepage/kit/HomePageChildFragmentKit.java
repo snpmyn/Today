@@ -1,0 +1,180 @@
+package com.zsp.today.module.homepage.kit;
+
+import android.content.Context;
+import android.view.View;
+import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.zsp.today.R;
+import com.zsp.today.application.App;
+import com.zsp.today.module.account.AccountHomeActivity;
+import com.zsp.today.module.function.database.FunctionDataBaseTable;
+import com.zsp.today.module.homepage.bean.HomePageMenuEnum;
+import com.zsp.today.module.homepage.fragment.HomePageChildFragment;
+import com.zsp.today.value.FunctionCondition;
+import com.zsp.today.value.FunctionConstant;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import litepal.kit.LitePalKit;
+import timber.log.Timber;
+import util.datetime.DateUtils;
+import util.glide.util.GlideUtils;
+import util.intent.IntentJump;
+import util.mmkv.MmkvKit;
+import widget.adapttemplate.bean.MenuBean;
+import widget.adapttemplate.kit.MenuAdapterKit;
+import widget.kotlin.banner.IBannerView;
+import widget.kotlin.banner.view.BannerView;
+/**
+ * Created on 2021/9/15
+ * @author zsp
+ * @desc 首页子碎片配套元件
+ */
+public class HomePageChildFragmentKit {
+    /**
+     * 显示标题
+     * @param homePageFragment        首页子碎片
+     * @param collapsingToolbarLayout CollapsingToolbarLayout
+     */
+    public void showTitle(HomePageChildFragment homePageFragment, CollapsingToolbarLayout collapsingToolbarLayout) {
+        switch (DateUtils.getCurrentWeek(DateUtils.getCurrentTimeYearMonthDayHourMinute())) {
+            case "星期一":
+                collapsingToolbarLayout.setTitle(String.format(homePageFragment.getString(R.string.formatHomePageChildFragmentTitleOne), "无为而治", "清净自在"));
+                break;
+            case "星期二":
+                collapsingToolbarLayout.setTitle(String.format(homePageFragment.getString(R.string.formatHomePageChildFragmentTitleOne), "福生无量", "天长地久"));
+                break;
+            case "星期三":
+                collapsingToolbarLayout.setTitle(String.format(homePageFragment.getString(R.string.formatHomePageChildFragmentTitleOne), "居尘出尘", "常乐我净"));
+                break;
+            case "星期四":
+                collapsingToolbarLayout.setTitle(String.format(homePageFragment.getString(R.string.formatHomePageChildFragmentTitleOne), "明心见性", "得道逍遥"));
+                break;
+            case "星期五":
+                collapsingToolbarLayout.setTitle("福生无量");
+                break;
+            case "星期六":
+                collapsingToolbarLayout.setTitle("吉祥康宁");
+                break;
+            case "星期日":
+                collapsingToolbarLayout.setTitle(String.format(homePageFragment.getString(R.string.formatHomePageChildFragmentTitleTwo), "心逍遥", "气长清", "安若素"));
+                break;
+            default:
+                break;
+        }
+    }
+    /**
+     * 轮播
+     * @param bannerView BannerView
+     */
+    public void banner(@NonNull BannerView bannerView) {
+        List<Integer> integerList = new ArrayList<>(3);
+        integerList.add(R.drawable.ic_launcher_background);
+        integerList.add(R.drawable.ic_launcher_background);
+        integerList.add(R.drawable.ic_launcher_background);
+        bannerView.setBannerViewImpl(new IBannerView() {
+            @Override
+            public void onPageSelected(int position) {
+                Timber.d("选 %s", position);
+            }
+            @Override
+            public boolean isDefaultAutoScroll() {
+                return true;
+            }
+            @Override
+            public View getDefaultView(@NotNull Context context) {
+                View view = new View(context);
+                view.setBackgroundColor(ContextCompat.getColor(context, com.zsp.core.R.color.white));
+                return view;
+            }
+            @Override
+            public int getCount() {
+                return integerList.size();
+            }
+            @NotNull
+            @Override
+            public View getItemView(@NotNull Context context) {
+                return new ImageView(context);
+            }
+            @Override
+            public void onBindView(@NotNull View itemView, int position) {
+                if (itemView instanceof ImageView) {
+                    ImageView imageView = (ImageView) itemView;
+                    imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    GlideUtils.loadByObject(itemView.getContext(), integerList.get(position), imageView);
+                }
+            }
+        });
+    }
+    /**
+     * 预存
+     */
+    public void preStore() {
+        if (MmkvKit.defaultMmkv().decodeBool(FunctionConstant.FUNCTION_ACTIVITY_$_PRE_STORE, false)) {
+            return;
+        }
+        HomePageMenuEnum[] homePageMenuEnums = HomePageMenuEnum.values();
+        List<FunctionDataBaseTable> functionDataBaseTableList = new ArrayList<>(homePageMenuEnums.length);
+        for (HomePageMenuEnum homePageMenuEnum : homePageMenuEnums) {
+            if (!homePageMenuEnum.getMenuShow()) {
+                continue;
+            }
+            functionDataBaseTableList.add(new FunctionDataBaseTable(App.getAppInstance().getPhoneNumber(false, null), null, homePageMenuEnum.getMenuId(), homePageMenuEnum.getMenuName(), true));
+        }
+        if (LitePalKit.getInstance().multiSave(functionDataBaseTableList)) {
+            MmkvKit.defaultMmkv().encode(FunctionConstant.FUNCTION_ACTIVITY_$_PRE_STORE, true);
+        }
+    }
+    /**
+     * 展示
+     * @param appCompatActivity 活动
+     * @param recyclerView      控件
+     */
+    public void display(AppCompatActivity appCompatActivity, RecyclerView recyclerView) {
+        // 数据
+        HomePageMenuEnum[] homePageMenuEnums = HomePageMenuEnum.values();
+        Map<Integer, Integer> menuIconResIdMap = new HashMap<>(homePageMenuEnums.length);
+        for (HomePageMenuEnum homePageMenuEnum : homePageMenuEnums) {
+            menuIconResIdMap.put(homePageMenuEnum.getMenuId(), homePageMenuEnum.getMenuIconResId());
+        }
+        Map<Integer, String> menuNameMap = new HashMap<>(homePageMenuEnums.length);
+        for (HomePageMenuEnum homePageMenuEnum : homePageMenuEnums) {
+            menuNameMap.put(homePageMenuEnum.getMenuId(), homePageMenuEnum.getMenuName());
+        }
+        List<FunctionDataBaseTable> functionDataBaseTableList = LitePalKit.getInstance().queryByWhere(FunctionDataBaseTable.class, FunctionCondition.FUNCTION_FUNCTION_SHOW, "1");
+        List<MenuBean> moduleBeanList = new ArrayList<>(functionDataBaseTableList.size());
+        for (FunctionDataBaseTable functionDataBaseTable : functionDataBaseTableList) {
+            int menuId = functionDataBaseTable.getFunctionId();
+            Integer menuIconResId = menuIconResIdMap.get(menuId);
+            String menuName = menuNameMap.get(menuId);
+            if ((null != menuIconResId) && (null != menuName)) {
+                moduleBeanList.add(new MenuBean(menuId, menuIconResId, menuName));
+            }
+        }
+        // 菜单适配器配套元件
+        MenuAdapterKit menuAdapterKit = new MenuAdapterKit();
+        menuAdapterKit.display(appCompatActivity, recyclerView, moduleBeanList, 3, 48, 192, (view, menuBean) -> distribute(appCompatActivity, menuBean.getMenuId()));
+    }
+    /**
+     * 分发
+     * @param appCompatActivity 活动
+     * @param menuId            菜单 ID
+     */
+    private void distribute(AppCompatActivity appCompatActivity, int menuId) {
+        // 账目
+        if (menuId == 1) {
+            IntentJump.getInstance().jump(null, appCompatActivity, false, AccountHomeActivity.class);
+        }
+    }
+}
