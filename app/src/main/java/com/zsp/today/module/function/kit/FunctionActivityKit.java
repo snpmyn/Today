@@ -1,0 +1,58 @@
+package com.zsp.today.module.function.kit;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.zsp.today.kit.BackupKit;
+import com.zsp.today.module.function.database.FunctionDataBaseTable;
+import com.zsp.today.value.FunctionCondition;
+import com.zsp.today.value.RxBusConstant;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import litepal.kit.LitePalKit;
+import util.rxbus.RxBus;
+import widget.adapttemplate.bean.FunctionBean;
+import widget.adapttemplate.kit.FunctionAdapterKit;
+/**
+ * Created on 2021/12/2
+ * @author zsp
+ * @desc 功能页配套元件
+ */
+public class FunctionActivityKit {
+    /**
+     * 展示
+     * @param appCompatActivity 活动
+     * @param recyclerView      控件
+     */
+    public void display(AppCompatActivity appCompatActivity, RecyclerView recyclerView) {
+        // 数据
+        List<FunctionDataBaseTable> functionDataBaseTableList = LitePalKit.getInstance().findAll(FunctionDataBaseTable.class);
+        List<FunctionBean> functionBeanList = new ArrayList<>(functionDataBaseTableList.size());
+        for (FunctionDataBaseTable functionDataBaseTable : functionDataBaseTableList) {
+            functionBeanList.add(new FunctionBean(functionDataBaseTable.getFunctionId(), functionDataBaseTable.getFunctionName(), functionDataBaseTable.getFunctionShow()));
+        }
+        // 功能适配器配套元件
+        FunctionAdapterKit functionAdapterKit = new FunctionAdapterKit();
+        functionAdapterKit.display(appCompatActivity, recyclerView, functionBeanList, 3, 48, 192, functionBean -> {
+            // 更新
+            update(functionBean);
+            // 备份
+            BackupKit.getInstance().backup(appCompatActivity, FunctionDataBaseTable.class, null);
+        });
+    }
+    /**
+     * 更新
+     * @param functionBean 功能数据
+     */
+    private void update(@NonNull FunctionBean functionBean) {
+        FunctionDataBaseTable functionDataBaseTableUpdate = new FunctionDataBaseTable();
+        functionDataBaseTableUpdate.setFunctionShow(functionBean.isFunctionShow());
+        List<FunctionDataBaseTable> functionDataBaseTableList = LitePalKit.getInstance().queryByWhere(FunctionDataBaseTable.class, FunctionCondition.FUNCTION_FUNCTION_ID, String.valueOf(functionBean.getFunctionId()));
+        FunctionDataBaseTable functionDataBaseTable = functionDataBaseTableList.get(0);
+        LitePalKit.getInstance().singleUpdate(functionDataBaseTableUpdate, functionDataBaseTable.getBaseObjectId());
+        RxBus.get().post(RxBusConstant.HOME_PAGE_CHILD_FRAGMENT_$_REFRESH_MENU, RxBusConstant.HOME_PAGE_CHILD_FRAGMENT_$_REFRESH_MENU_CODE);
+    }
+}
