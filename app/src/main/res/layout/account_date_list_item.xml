@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:cardElevation="@dimen/dp_0"
+    app:rippleColor="@color/purple_500">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/accountDateListItemTvTotalAmount"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/accountDateListItemTvDate"
+            android:gravity="center"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            tools:text="66" />
+
+        <TextView
+            android:id="@+id/accountDateListItemTvDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/purple_500"
+            android:gravity="center_horizontal"
+            android:paddingTop="@dimen/dp_6"
+            android:paddingBottom="@dimen/dp_6"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_10"
+            tools:text="2020/12/27" />
+    </RelativeLayout>
+</com.google.android.material.card.MaterialCardView>
