@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -14,6 +15,7 @@ import com.zsp.core.R;
 
 import fragmentation.support.SupportFragment;
 import util.activity.ActivitySuperviseManager;
+import util.log.LogUtils;
 
 /**
  * Created on 2021/3/12
@@ -43,6 +45,29 @@ public abstract class BasePoolFragment extends SupportFragment {
         } else {
             throw new RuntimeException(context + " must implements OnBackToFirstListener");
         }
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                LogUtils.i("是第一个碎片", areFirstFragment() + " handleOnBackPressed " + getChildFragmentManager().getBackStackEntryCount());
+                if (getChildFragmentManager().getBackStackEntryCount() > 1) {
+                    popChild();
+                } else if (areFirstFragment) {
+                    // 第一 Fragment 时退
+                    ActivitySuperviseManager.getInstance().twoClickToExit(getString(R.string.exitAppHint));
+                } else {
+                    // 非第一则回第一 Fragment
+                    onBackToFirstListener.onBackToFirstFragment();
+                    // 第一 Fragment 时退
+                    // TODO: SDK 36 时 areFirstFragment 一直 false 导致不走中间分支，故添中间分支逻辑于此。
+                    ActivitySuperviseManager.getInstance().twoClickToExit(getString(R.string.exitAppHint));
+                }
+            }
+        });
     }
 
     @Override
@@ -197,6 +222,7 @@ public abstract class BasePoolFragment extends SupportFragment {
      */
     @Override
     public boolean onBackPressedSupport() {
+        LogUtils.i("是第一个碎片", areFirstFragment + " onBackPressedSupport " + getChildFragmentManager().getBackStackEntryCount());
         if (getChildFragmentManager().getBackStackEntryCount() > 1) {
             popChild();
         } else if (areFirstFragment) {
