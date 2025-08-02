@@ -77,7 +77,7 @@ public class SupportActivity extends AppCompatActivity implements ISupportActivi
     /**
      * onBackPressed
      * <p>
-     * 调父类构造方法会导致返回顺序紊乱
+     * 此处调父类构造方法会导致返回顺序紊乱
      * super.onBackPressed();
      * <p>
      * 不建复写该方法，{@link #onBackPressedSupport} 替。
