@@ -168,10 +168,10 @@ public class DebugHierarchyViewContainer extends ScrollView {
         textView.setGravity(Gravity.CENTER_VERTICAL);
         textView.setPadding((int) (mPadding + hierarchy * mPadding * 1.5), 0, mPadding, 0);
         textView.setCompoundDrawablePadding(mPadding / 2);
-        try (TypedArray typedArray = mContext.obtainStyledAttributes(new int[]{android.R.attr.selectableItemBackground})) {
-            textView.setBackground(typedArray.getDrawable(0));
-            typedArray.recycle();
-        }
+        // TODO: 此处用 try-with-resources 会导致点击图标查看栈数据闪退
+        TypedArray typedArray = mContext.obtainStyledAttributes(new int[]{android.R.attr.selectableItemBackground});
+        textView.setBackground(typedArray.getDrawable(0));
+        typedArray.recycle();
         textView.setText(fragmentRecord.fragmentName);
         return textView;
     }
