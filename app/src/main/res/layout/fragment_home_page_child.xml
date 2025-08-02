@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/homePageChildFragmentAbl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/homePageChildFragmentCtl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/pageBackground"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_12"
+                android:layout_marginTop="?actionBarSize"
+                android:layout_marginRight="@dimen/dp_12"
+                android:layout_marginBottom="@dimen/dp_12"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_12"
+                    android:background="@color/transparent" />
+
+                <widget.kotlin.banner.view.BannerView
+                    android:id="@+id/homePageChildFragmentBv"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_200"
+                    app:BannerViewCornerRadius="@dimen/dp_8"
+                    app:BannerViewIntervalInMillis="4000"
+                    app:BannerViewMargin="@dimen/dp_4"
+                    app:BannerViewWidthRatio="0.85"
+                    app:layout_constraintTop_toBottomOf="@+id/homePageChildFragmentMt">
+
+                    <widget.kotlin.banner.indicator.CrossBarIndicator
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="@dimen/dp_8"
+                        app:CrossBarIndicatorBackgroundColor="@color/white"
+                        app:CrossBarIndicatorForegroundColor="@color/purple_500"
+                        app:CrossBarIndicatorHeight="@dimen/dp_2"
+                        app:CrossBarIndicatorSpace="@dimen/dp_4"
+                        app:CrossBarIndicatorWidth="@dimen/dp_24" />
+                </widget.kotlin.banner.view.BannerView>
+            </LinearLayout>
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/homePageChildFragmentMt"
+                style="@style/Widget.MaterialComponents.Toolbar.Primary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="@dimen/dp_0"
+                app:layout_collapseMode="pin"
+                app:menu="@menu/home_page_child_fragment_menu"
+                app:subtitleTextColor="@color/white"
+                app:titleTextColor="@color/white" />
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/homePageChildFragmentRv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/pageBackground"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
