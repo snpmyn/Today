@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--BannerView-->
+    <declare-styleable name="BannerView">
+        <attr name="BannerViewHeight" format="dimension" />
+        <attr name="BannerViewCornerRadius" format="dimension" />
+        <!--百分比设条目宽-->
+        <attr name="BannerViewWidthRatio" format="float" />
+        <attr name="BannerViewMargin" format="dimension" />
+        <attr name="BannerViewIntervalInMillis" format="integer" />
+        <!--滑后页停时(SMOOTH 模式生效)-->
+        <attr name="BannerViewHoldInMillis" format="integer" />
+        <attr name="BannerViewScrollMode" format="enum">
+            <enum name="INTERVAL" value="101" />
+            <enum name="SMOOTH" value="102" />
+        </attr>
+        <!--条目视图与父 wrapper 对齐方式(定条目视图外边距留白位)-->
+        <attr name="BannerViewAlign" format="enum">
+            <enum name="CENTER_HORIZONTAL" value="201" />
+            <enum name="ALIGN_PARENT_LEFT" value="202" />
+            <enum name="ALIGN_PARENT_RIGHT" value="203" />
+        </attr>
+    </declare-styleable>
+    <!--CrossBarIndicator-->
+    <declare-styleable name="CrossBarIndicator">
+        <attr name="CrossBarIndicatorWidth" format="dimension" />
+        <attr name="CrossBarIndicatorHeight" format="dimension" />
+        <attr name="CrossBarIndicatorSpace" format="dimension" />
+        <attr name="CrossBarIndicatorBackgroundColor" format="color" />
+        <attr name="CrossBarIndicatorForegroundColor" format="color" />
+    </declare-styleable>
+    <!--NoPaddingTextView-->
+    <declare-styleable name="NoPaddingTextView">
+        <attr name="noPaddingTextViewRemoveDefaultPadding" format="boolean" />
+    </declare-styleable>
+    <!--LeftAndRightAlignTextView-->
+    <declare-styleable name="LeftAndRightAlignTextView">
+        <attr name="leftAndRightAlignTextViewTextJustify" format="boolean" />
+        <attr name="leftAndRightAlignTextViewForbiddenActionMenu" format="boolean" />
+        <attr name="leftAndRightAlignTextViewTextHeightColor" format="color" />
+    </declare-styleable>
+    <!--VerticalTextView-->
+    <declare-styleable name="VerticalTextView">
+        <attr name="verticalTextViewLineSpacingExtra" format="dimension" />
+        <attr name="verticalTextViewCharSpacingExtra" format="dimension" />
+        <attr name="verticalTextViewTextLeftToRight" format="boolean" />
+        <attr name="verticalTextViewUnderLineText" format="boolean" />
+        <attr name="verticalTextViewUnderLineWidth" format="float" />
+        <attr name="verticalTextViewUnderLineColor" format="color" />
+        <attr name="verticalTextViewUnderlineOffset" format="dimension" />
+        <attr name="verticalTextViewTextHeightLightColor" format="color" />
+        <attr name="verticalTextViewShowActionMenu" format="boolean" />
+    </declare-styleable>
+</resources>
