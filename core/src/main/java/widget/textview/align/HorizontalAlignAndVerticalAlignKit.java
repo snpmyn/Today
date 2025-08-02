@@ -44,8 +44,7 @@ public class HorizontalAlignAndVerticalAlignKit {
      * @param direction            方向
      */
     public void setVerticalAlignAreFromLeftToRight(@NonNull VerticalTextView verticalTextView, Boolean fromLeftToRight, @NonNull HorizontalScrollView horizontalScrollView, int direction) {
-        verticalTextView.setAreLeftToRight(fromLeftToRight);
-        verticalTextView.requestLayout();
+        verticalTextView.setAreLeftToRight(fromLeftToRight).requestLayout();
         horizontalScrollView.fullScroll(direction);
     }
 
@@ -56,8 +55,7 @@ public class HorizontalAlignAndVerticalAlignKit {
      * @param areUnderLineText 需下划线否
      */
     public void setVerticalAlignAreUnderLineText(@NonNull VerticalTextView verticalTextView, Boolean areUnderLineText) {
-        verticalTextView.setAreUnderLineText(areUnderLineText);
-        verticalTextView.requestLayout();
+        verticalTextView.setAreUnderLineText(areUnderLineText).requestLayout();
     }
 
     /**
