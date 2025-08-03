@@ -31,8 +31,7 @@ public class Folder {
     /**
      * 外备份
      */
-    public static String EXTERNAL_BACKUP_DOCUMENTS = getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath();
-    public static String EXTERNAL_BACKUP_DOWNLOADS = getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
+    public static String EXTERNAL_BACKUP = getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath();
 
     /**
      * 获取外部文件目录
