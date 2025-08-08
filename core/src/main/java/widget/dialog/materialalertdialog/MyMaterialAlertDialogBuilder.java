@@ -1,4 +1,4 @@
-package widget.bocdialog.materialalertdialog;
+package widget.dialog.materialalertdialog;
 
 import android.content.Context;
 
