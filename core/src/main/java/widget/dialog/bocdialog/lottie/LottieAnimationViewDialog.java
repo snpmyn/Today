@@ -1,4 +1,4 @@
-package widget.bocdialog.lottie;
+package widget.dialog.bocdialog.lottie;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
@@ -17,9 +17,9 @@ import lottie.LottieKit;
 import util.data.StringUtils;
 import util.density.DensityUtils;
 import util.view.ViewUtils;
-import widget.bocdialog.base.BaseInstanceDialog;
-import widget.bocdialog.loading.listener.OnBackPressedListener;
-import widget.bocdialog.lottie.bean.DialogLottieAnimationEnum;
+import widget.dialog.bocdialog.base.BaseInstanceDialog;
+import widget.dialog.bocdialog.loading.listener.OnBackPressedListener;
+import widget.dialog.bocdialog.lottie.bean.DialogLottieAnimationEnum;
 
 /**
  * Created on 2022/4/6

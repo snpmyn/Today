@@ -1,4 +1,4 @@
-package widget.bocdialog.lottie.bean;
+package widget.dialog.bocdialog.lottie.bean;
 
 /**
  * Created on 2022/6/24
