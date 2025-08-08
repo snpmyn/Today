@@ -18,7 +18,7 @@ import java.util.List;
 import util.list.ListUtils;
 import util.toast.ToastKit;
 import util.view.ViewUtils;
-import widget.bocdialog.materialalertdialog.SingleChooseMaterialAlertDialogKit;
+import widget.dialog.materialalertdialog.SingleChooseMaterialAlertDialogKit;
 
 /**
  * Created on 2021/6/13 0013

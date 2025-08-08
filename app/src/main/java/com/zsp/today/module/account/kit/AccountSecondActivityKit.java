@@ -27,7 +27,7 @@ import litepal.kit.LitePalKit;
 import util.intent.IntentJump;
 import util.intent.IntentVerify;
 import util.rxbus.RxBus;
-import widget.bocdialog.materialalertdialog.MyMaterialAlertDialogBuilder;
+import widget.dialog.materialalertdialog.MyMaterialAlertDialogBuilder;
 import widget.recyclerview.configure.RecyclerViewConfigure;
 import widget.recyclerview.controller.RecyclerViewDisplayController;
 import widget.recyclerview.listener.OnRecyclerViewOnItemClickListener;
