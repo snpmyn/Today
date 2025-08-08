@@ -1,8 +1,8 @@
-package widget.bocdialog.message.listener;
+package widget.dialog.bocdialog.message.listener;
 
 import android.view.View;
 
-import widget.bocdialog.message.RightAngleMessageDialog;
+import widget.dialog.bocdialog.message.RightAngleMessageDialog;
 
 /**
  * Created on 2020-09-03

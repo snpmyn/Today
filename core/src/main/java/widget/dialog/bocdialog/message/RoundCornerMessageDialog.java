@@ -1,4 +1,4 @@
-package widget.bocdialog.message;
+package widget.dialog.bocdialog.message;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -15,8 +15,8 @@ import com.zsp.core.R;
 
 import org.jetbrains.annotations.NotNull;
 
-import widget.bocdialog.base.BaseInstanceDialog;
-import widget.bocdialog.message.listener.OnRoundCornerMessageDialogButtonClickListener;
+import widget.dialog.bocdialog.base.BaseInstanceDialog;
+import widget.dialog.bocdialog.message.listener.OnRoundCornerMessageDialogButtonClickListener;
 
 /**
  * Created on 2020-08-21
