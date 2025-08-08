@@ -1,4 +1,4 @@
-package widget.bocdialog.loading;
+package widget.dialog.bocdialog.loading;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -9,8 +9,8 @@ import android.widget.TextView;
 import com.zsp.core.R;
 
 import util.density.DensityUtils;
-import widget.bocdialog.base.BaseInstanceDialog;
-import widget.bocdialog.loading.listener.OnBackPressedListener;
+import widget.dialog.bocdialog.base.BaseInstanceDialog;
+import widget.dialog.bocdialog.loading.listener.OnBackPressedListener;
 
 /**
  * Created on 2020-08-28

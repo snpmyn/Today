@@ -1,4 +1,4 @@
-package widget.bocdialog.loading.listener;
+package widget.dialog.bocdialog.loading.listener;
 
 /**
  * Created on 2020-08-31
