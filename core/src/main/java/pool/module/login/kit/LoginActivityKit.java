@@ -1,4 +1,4 @@
-package pool.login.kit;
+package pool.module.login.kit;
 
 import android.widget.EditText;
 
@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.zsp.core.R;
 
-import pool.login.listener.LoginActivityListener;
+import pool.module.login.listener.LoginActivityListener;
 import pool.value.PoolConstant;
 import util.mmkv.MmkvKit;
 import util.number.NumberFormatUtils;

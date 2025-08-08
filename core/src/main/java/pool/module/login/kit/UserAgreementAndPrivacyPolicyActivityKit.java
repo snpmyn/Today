@@ -1,4 +1,4 @@
-package pool.login.kit;
+package pool.module.login.kit;
 
 import android.content.Intent;
 import android.text.TextUtils;
@@ -13,7 +13,7 @@ import com.zsp.core.R;
 
 import org.jetbrains.annotations.NotNull;
 
-import pool.login.UserAgreementAndPrivacyPolicyActivity;
+import pool.module.login.UserAgreementAndPrivacyPolicyActivity;
 import pool.value.PoolConstant;
 import util.intent.IntentJump;
 import util.intent.IntentVerify;
