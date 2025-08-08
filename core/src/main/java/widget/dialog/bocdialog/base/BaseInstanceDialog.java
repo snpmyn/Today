@@ -1,4 +1,4 @@
-package widget.bocdialog.base;
+package widget.dialog.bocdialog.base;
 
 import android.content.Context;
 

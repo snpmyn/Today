@@ -1,17 +1,17 @@
-package widget.bocdialog.kit;
+package widget.dialog.bocdialog.kit;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.lang.ref.WeakReference;
 
-import widget.bocdialog.base.BaseInstanceDialog;
-import widget.bocdialog.loading.CanCancelLoadingDialog;
-import widget.bocdialog.loading.CommonLoadingDialog;
-import widget.bocdialog.loading.listener.OnBackPressedListener;
-import widget.bocdialog.loading.listener.OnClickToCloseListener;
-import widget.bocdialog.loading.listener.OnDialogCloseListener;
-import widget.bocdialog.lottie.LottieAnimationViewDialog;
-import widget.bocdialog.lottie.bean.DialogLottieAnimationEnum;
+import widget.dialog.bocdialog.base.BaseInstanceDialog;
+import widget.dialog.bocdialog.loading.CanCancelLoadingDialog;
+import widget.dialog.bocdialog.loading.CommonLoadingDialog;
+import widget.dialog.bocdialog.loading.listener.OnBackPressedListener;
+import widget.dialog.bocdialog.loading.listener.OnClickToCloseListener;
+import widget.dialog.bocdialog.loading.listener.OnDialogCloseListener;
+import widget.dialog.bocdialog.lottie.LottieAnimationViewDialog;
+import widget.dialog.bocdialog.lottie.bean.DialogLottieAnimationEnum;
 
 /**
  * Created on 2022/6/24
