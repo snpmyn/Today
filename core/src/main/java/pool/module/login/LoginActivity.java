@@ -1,4 +1,4 @@
-package pool.login;
+package pool.module.login;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -16,9 +16,9 @@ import com.google.android.material.button.MaterialButton;
 import com.zsp.core.R;
 
 import pool.base.BasePoolActivity;
-import pool.login.kit.LoginActivityKit;
-import pool.login.kit.UserAgreementAndPrivacyPolicyActivityKit;
-import pool.login.listener.LoginActivityListener;
+import pool.module.login.kit.LoginActivityKit;
+import pool.module.login.kit.UserAgreementAndPrivacyPolicyActivityKit;
+import pool.module.login.listener.LoginActivityListener;
 import pool.value.PoolConstant;
 
 /**

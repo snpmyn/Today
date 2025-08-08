@@ -1,4 +1,4 @@
-package pool.login;
+package pool.module.login;
 
 import android.os.Bundle;
 import android.webkit.WebView;
@@ -8,7 +8,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.zsp.core.R;
 
 import pool.base.BasePoolActivity;
-import pool.login.kit.UserAgreementAndPrivacyPolicyActivityKit;
+import pool.module.login.kit.UserAgreementAndPrivacyPolicyActivityKit;
 
 /**
  * @desc: 用户协议和隐私政策页
