@@ -16,29 +16,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 import litepal.kit.LitePalKit;
-import pool.login.LoginActivity;
+import pool.module.login.LoginActivity;
 import util.cache.CacheManager;
 import util.intent.IntentJump;
 import util.toast.ToastKit;
 import widget.adapttemplate.bean.MenuBean;
 import widget.adapttemplate.kit.MenuAdapterKit;
-import widget.bocdialog.materialalertdialog.MyMaterialAlertDialogBuilder;
+import widget.dialog.materialalertdialog.MyMaterialAlertDialogBuilder;
+
 /**
  * Created on 2021/2/1
+ *
  * @author zsp
  * @desc 我的子碎片配套元件
  */
 public class MineChildFragmentKit {
     /**
      * 设置姓名
+     *
      * @param appCompatActivity 活动
      * @param textViewName      姓名
      */
     public void setName(@NonNull AppCompatActivity appCompatActivity, @NonNull TextView textViewName) {
         textViewName.setText(App.getAppInstance().getPhoneNumber(true, appCompatActivity.getString(R.string.app_name)));
     }
+
     /**
      * 展示
+     *
      * @param appCompatActivity 活动
      * @param mineChildFragment 我的子碎片
      * @param recyclerView      控件
@@ -52,8 +57,10 @@ public class MineChildFragmentKit {
         MenuAdapterKit menuAdapterKit = new MenuAdapterKit();
         menuAdapterKit.display(appCompatActivity, recyclerView, moduleBeanList, 3, 48, 192, (view, menuBean) -> distribute(appCompatActivity, mineChildFragment, menuBean.getMenuId()));
     }
+
     /**
      * 分发
+     *
      * @param appCompatActivity 活动
      * @param mineChildFragment 我的子碎片
      * @param functionId        功能 ID
@@ -72,8 +79,10 @@ public class MineChildFragmentKit {
                 break;
         }
     }
+
     /**
      * 清理缓存
+     *
      * @param appCompatActivity 活动
      */
     public void cleanCache(AppCompatActivity appCompatActivity) {
@@ -85,8 +94,10 @@ public class MineChildFragmentKit {
             ToastKit.showShort(String.format(appCompatActivity.getString(R.string.formatCleanCacheSuccessful), totalCacheSize));
         }
     }
+
     /**
      * 退出
+     *
      * @param appCompatActivity 活动
      */
     public void loginOut(AppCompatActivity appCompatActivity) {

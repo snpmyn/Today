@@ -4,10 +4,11 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.zsp.today.R;
-import com.zsp.today.base.BaseFragment;
 import com.zsp.today.module.mine.fragment.MineChildFragment;
 
 import org.jetbrains.annotations.NotNull;
+
+import pool.base.BasePoolFragment;
 
 /**
  * Created on 2020/12/14
@@ -15,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
  * @author zsp
  * @desc 我的碎片
  */
-public class MineFragment extends BaseFragment {
+public class MineFragment extends BasePoolFragment {
     public static @NotNull MineFragment newInstance() {
         Bundle bundle = new Bundle();
         MineFragment fragment = new MineFragment();

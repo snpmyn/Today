@@ -10,11 +10,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.appbar.AppBarLayout;
 import com.zsp.today.R;
-import com.zsp.today.base.BaseFragment;
 import com.zsp.today.module.mine.kit.MineChildFragmentKit;
 
 import org.jetbrains.annotations.NotNull;
 
+import pool.base.BasePoolFragment;
 import util.toast.ToastKit;
 import widget.appbarlayout.listener.BaseAppBarLayoutStateChangeListener;
 
@@ -24,7 +24,7 @@ import widget.appbarlayout.listener.BaseAppBarLayoutStateChangeListener;
  * @author zsp
  * @desc 我的子碎片
  */
-public class MineChildFragment extends BaseFragment implements View.OnClickListener {
+public class MineChildFragment extends BasePoolFragment implements View.OnClickListener {
     private LottieAnimationView mineChildFragmentLavHeadPortrait;
     private TextView mineChildFragmentTvName;
     private TextView mineChildFragmentTvNameInMaterialToolbar;
