@@ -1,6 +1,5 @@
 package pool.module.login;
 
-import android.os.Bundle;
 import android.webkit.WebView;
 import android.widget.TextView;
 
@@ -32,17 +31,6 @@ public class UserAgreementAndPrivacyPolicyActivity extends BasePoolActivity {
     @Override
     protected int layoutResId() {
         return R.layout.activity_user_agreement_and_privacy_policy;
-    }
-
-    /**
-     * 加载视图
-     *
-     * @param savedInstanceState 状态保存
-     * @param layoutResId        布局资源 ID
-     */
-    @Override
-    protected void initContentView(Bundle savedInstanceState, int layoutResId) {
-        setContentView(layoutResId);
     }
 
     /**

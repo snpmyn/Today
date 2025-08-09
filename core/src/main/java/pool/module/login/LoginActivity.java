@@ -1,6 +1,5 @@
 package pool.module.login;
 
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -63,18 +62,6 @@ public class LoginActivity extends BasePoolActivity implements View.OnClickListe
     @Override
     protected int layoutResId() {
         return R.layout.activity_login;
-    }
-
-    /**
-     * 加载视图
-     *
-     * @param savedInstanceState 状态保存
-     * @param layoutResId        布局资源 ID
-     */
-    @Override
-    protected void initContentView(Bundle savedInstanceState, int layoutResId) {
-        //StatusBarUtils.statusBarLight(this, R.color.pageBackground);
-        setContentView(layoutResId);
     }
 
     /**
