@@ -11,13 +11,13 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.zsp.today.R;
-import com.zsp.today.base.BaseFragment;
 import com.zsp.today.module.function.FunctionActivity;
 import com.zsp.today.module.homepage.kit.HomePageChildFragmentKit;
 import com.zsp.today.value.RxBusConstant;
 
 import org.jetbrains.annotations.NotNull;
 
+import pool.base.BasePoolFragment;
 import util.intent.IntentJump;
 import util.rxbus.RxBus;
 import util.rxbus.annotation.Subscribe;
@@ -25,12 +25,14 @@ import util.rxbus.annotation.Tag;
 import util.rxbus.thread.EventThread;
 import widget.appbarlayout.listener.BaseAppBarLayoutStateChangeListener;
 import widget.kotlin.banner.view.BannerView;
+
 /**
  * Created on 2020/12/17
+ *
  * @author zsp
  * @desc 首页子碎片
  */
-public class HomePageChildFragment extends BaseFragment {
+public class HomePageChildFragment extends BasePoolFragment {
     private AppBarLayout homePageChildFragmentAbl;
     private CollapsingToolbarLayout homePageChildFragmentCtl;
     private MaterialToolbar homePageChildFragmentMt;
@@ -40,28 +42,34 @@ public class HomePageChildFragment extends BaseFragment {
      * 首页子碎片配套元件
      */
     private HomePageChildFragmentKit homePageChildFragmentKit;
+
     public static @NotNull HomePageChildFragment newInstance() {
         Bundle bundle = new Bundle();
         HomePageChildFragment fragment = new HomePageChildFragment();
         fragment.setArguments(bundle);
         return fragment;
     }
+
     /**
      * 布局资源 ID
+     *
      * @return 布局资源 ID
      */
     @Override
     protected int layoutResId() {
         return R.layout.fragment_home_page_child;
     }
+
     /**
      * 第一 Fragment 否
+     *
      * @return 第一 Fragment 否
      */
     @Override
     protected boolean areFirstFragment() {
         return true;
     }
+
     /**
      * EventBus 注册
      * <p>
@@ -71,10 +79,12 @@ public class HomePageChildFragment extends BaseFragment {
     protected void eventBusRegister() {
         RxBus.get().register(this);
     }
+
     /**
      * 初始控件
      * <p>
      * 此处仅设 Toolbar 标题、返回箭头等轻量 UI 操作。
+     *
      * @param view 视图
      */
     @Override
@@ -85,6 +95,7 @@ public class HomePageChildFragment extends BaseFragment {
         homePageChildFragmentBv = view.findViewById(R.id.homePageChildFragmentBv);
         homePageChildFragmentRv = view.findViewById(R.id.homePageChildFragmentRv);
     }
+
     /**
      * Fragment 对用户可见时调
      */
@@ -92,6 +103,7 @@ public class HomePageChildFragment extends BaseFragment {
     protected void visibleToUser() {
 
     }
+
     /**
      * 开始加载
      * <p>
@@ -102,6 +114,7 @@ public class HomePageChildFragment extends BaseFragment {
     protected void startLoadOnLazyInitView() {
 
     }
+
     /**
      * 开始加载
      * <p>
@@ -114,6 +127,7 @@ public class HomePageChildFragment extends BaseFragment {
         setListener();
         startLogic();
     }
+
     /**
      * Fragment 对用户不可见时调
      */
@@ -121,6 +135,7 @@ public class HomePageChildFragment extends BaseFragment {
     protected void invisibleToUser() {
 
     }
+
     /**
      * EventBus 反注册
      * <p>
@@ -130,9 +145,11 @@ public class HomePageChildFragment extends BaseFragment {
     protected void eventBusUnregister() {
         RxBus.get().unregister(this);
     }
+
     private void initConfiguration() {
         homePageChildFragmentKit = new HomePageChildFragmentKit();
     }
+
     private void setListener() {
         homePageChildFragmentMt.setOnMenuItemClickListener(item -> {
             IntentJump.getInstance().jump(null, fragmentationSupportActivity, false, FunctionActivity.class);
@@ -152,22 +169,26 @@ public class HomePageChildFragment extends BaseFragment {
             }
         });
     }
+
     private void startLogic() {
         homePageChildFragmentKit.banner(homePageChildFragmentBv);
         homePageChildFragmentKit.preStore();
         homePageChildFragmentKit.display(fragmentationSupportActivity, homePageChildFragmentRv);
     }
+
     @Subscribe(thread = EventThread.MAIN_THREAD, tags = {@Tag(RxBusConstant.HOME_PAGE_CHILD_FRAGMENT_$_REFRESH_MENU)})
     public void homePageChildFragmentRefreshAccount(Integer integer) {
         if (integer == RxBusConstant.HOME_PAGE_CHILD_FRAGMENT_$_REFRESH_MENU_CODE) {
             homePageChildFragmentKit.display(fragmentationSupportActivity, homePageChildFragmentRv);
         }
     }
+
     @Override
     public void onStart() {
         super.onStart();
         homePageChildFragmentBv.startAutoScroll();
     }
+
     @Override
     public void onStop() {
         super.onStop();

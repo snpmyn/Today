@@ -4,10 +4,11 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.zsp.today.R;
-import com.zsp.today.base.BaseFragment;
 import com.zsp.today.module.homepage.fragment.HomePageChildFragment;
 
 import org.jetbrains.annotations.NotNull;
+
+import pool.base.BasePoolFragment;
 
 /**
  * Created on 2020/12/14
@@ -15,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
  * @author zsp
  * @desc 首页碎片
  */
-public class HomePageFragment extends BaseFragment {
+public class HomePageFragment extends BasePoolFragment {
     public static @NotNull HomePageFragment newInstance() {
         Bundle bundle = new Bundle();
         HomePageFragment fragment = new HomePageFragment();
