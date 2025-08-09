@@ -5,9 +5,9 @@ import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.zsp.today.R;
-import com.zsp.today.base.BaseActivity;
 import com.zsp.today.module.account.kit.AddAccountActivityKit;
 
+import pool.base.BasePoolActivity;
 import widget.textwatcher.CustomTextWatcher;
 
 /**
@@ -15,7 +15,7 @@ import widget.textwatcher.CustomTextWatcher;
  * @author: zsp
  * @date: 2021/3/12 5:31 PM
  */
-public class AddAccountActivity extends BaseActivity {
+public class AddAccountActivity extends BasePoolActivity {
     private MaterialToolbar addAccountActivityMt;
     private TextInputLayout addAccountActivityLlTilChooseDate;
     private MaterialAutoCompleteTextView addAccountActivityLlMactvDate;

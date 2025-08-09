@@ -8,15 +8,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.zsp.today.R;
-import com.zsp.today.base.BaseActivity;
 import com.zsp.today.module.account.bean.AccountTransferBean;
 import com.zsp.today.module.account.kit.AccountSecondActivityKit;
 import com.zsp.today.value.AccountConstant;
 import com.zsp.today.value.RxBusConstant;
 
+import pool.base.BasePoolActivity;
 import util.intent.IntentJump;
 import util.intent.IntentVerify;
-import util.rxbus.RxBus;
 import util.rxbus.annotation.Subscribe;
 import util.rxbus.annotation.Tag;
 import util.rxbus.thread.EventThread;
@@ -29,7 +28,7 @@ import widget.transition.kit.TransitionKit;
  * @author: zsp
  * @date: 2021/11/4 11:22 上午
  */
-public class AccountSecondActivity extends BaseActivity {
+public class AccountSecondActivity extends BasePoolActivity {
     private MaterialToolbar accountSecondActivityMt;
     private RecyclerView accountSecondActivityRv;
     /**
@@ -55,18 +54,6 @@ public class AccountSecondActivity extends BaseActivity {
     @Override
     protected int layoutResId() {
         return R.layout.activity_account_second;
-    }
-
-    /**
-     * 加载视图
-     *
-     * @param savedInstanceState 状态保存
-     * @param layoutResId        布局资源 ID
-     */
-    @Override
-    protected void initContentView(Bundle savedInstanceState, int layoutResId) {
-        super.initContentView(savedInstanceState, layoutResId);
-        RxBus.get().register(this);
     }
 
     /**
@@ -128,11 +115,5 @@ public class AccountSecondActivity extends BaseActivity {
         if (integer == RxBusConstant.ACCOUNT_HOME_ACTIVITY_AND_SECOND_ACTIVITY_$_REFRESH_ACCOUNT_CODE) {
             accountSecondActivityKit.displayAccount(this, accountSecondActivityRv, statusManager);
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        RxBus.get().unregister(this);
     }
 }

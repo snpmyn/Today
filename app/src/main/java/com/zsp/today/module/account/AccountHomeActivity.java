@@ -12,16 +12,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.zsp.today.R;
-import com.zsp.today.base.BaseActivity;
 import com.zsp.today.module.account.kit.AccountHomeActivityKit;
 import com.zsp.today.module.account.kit.AccountMonthKit;
 import com.zsp.today.value.RxBusConstant;
 
 import org.jetbrains.annotations.NotNull;
 
+import pool.base.BasePoolActivity;
 import util.datetime.DateUtils;
 import util.intent.IntentJump;
-import util.rxbus.RxBus;
 import util.rxbus.annotation.Subscribe;
 import util.rxbus.annotation.Tag;
 import util.rxbus.thread.EventThread;
@@ -35,7 +34,7 @@ import widget.transition.kit.TransitionKit;
  * @author: zsp
  * @date: 2021/6/13 0013 下午 7:23
  */
-public class AccountHomeActivity extends BaseActivity implements View.OnClickListener {
+public class AccountHomeActivity extends BasePoolActivity implements View.OnClickListener {
     /**
      * 指定年
      */
@@ -66,18 +65,6 @@ public class AccountHomeActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected int layoutResId() {
         return R.layout.activity_account_home;
-    }
-
-    /**
-     * 加载视图
-     *
-     * @param savedInstanceState 状态保存
-     * @param layoutResId        布局资源 ID
-     */
-    @Override
-    protected void initContentView(Bundle savedInstanceState, int layoutResId) {
-        super.initContentView(savedInstanceState, layoutResId);
-        RxBus.get().register(this);
     }
 
     /**
@@ -164,11 +151,5 @@ public class AccountHomeActivity extends BaseActivity implements View.OnClickLis
         if (integer == RxBusConstant.ACCOUNT_HOME_ACTIVITY_AND_SECOND_ACTIVITY_$_REFRESH_ACCOUNT_CODE) {
             accountHomeActivityKit.displayAccount(this, accountHomeActivityRv, AccountMonthKit.getInstance().getAccountMonthListBeanListByMonthRemoveDuplicationWithSort(appointYear, true), statusManager);
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        RxBus.get().unregister(this);
     }
 }
