@@ -7,11 +7,11 @@ import android.widget.TextView;
 import com.github.mikephil.charting.charts.LineChart;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.zsp.today.R;
-import com.zsp.today.base.BaseActivity;
 import com.zsp.today.module.account.kit.AccountAnalysisActivityKit;
 
 import org.jetbrains.annotations.NotNull;
 
+import pool.base.BasePoolActivity;
 import widget.menu.MenuItemKit;
 
 /**
@@ -19,7 +19,7 @@ import widget.menu.MenuItemKit;
  * @author: zsp
  * @date: 2021/6/13 0013 下午 7:34
  */
-public class AccountAnalysisActivity extends BaseActivity {
+public class AccountAnalysisActivity extends BasePoolActivity {
     private MaterialToolbar accountAnalysisActivityMt;
     private TextView accountAnalysisActivityTv;
     private LineChart accountAnalysisActivityLcYearAnalysis;
