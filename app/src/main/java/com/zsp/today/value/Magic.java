@@ -10,6 +10,5 @@ public class Magic {
     /**
      * String
      */
-    public static final String STRING_SPLASH_ACTIVITY = "SplashActivity";
     public static final String STRING_ZERO_K = "0K";
 }
