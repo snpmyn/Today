@@ -4,15 +4,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.zsp.today.R;
-import com.zsp.today.base.BaseActivity;
 import com.zsp.today.module.function.kit.FunctionActivityKit;
+
+import pool.base.BasePoolActivity;
 
 /**
  * @desc: 功能页
  * @author: zsp
  * @date: 2021/12/2 4:23 下午
  */
-public class FunctionActivity extends BaseActivity {
+public class FunctionActivity extends BasePoolActivity {
     private MaterialToolbar functionActivityMt;
     private RecyclerView functionActivityRv;
     /**
