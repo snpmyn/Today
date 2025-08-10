@@ -34,16 +34,21 @@ import util.intent.IntentJump;
 import util.mmkv.MmkvKit;
 import widget.adapttemplate.bean.MenuBean;
 import widget.adapttemplate.kit.MenuAdapterKit;
+import widget.carousel.CarouselItem;
+import widget.carousel.CarouselKit;
 import widget.kotlin.banner.IBannerView;
 import widget.kotlin.banner.view.BannerView;
+
 /**
  * Created on 2021/9/15
+ *
  * @author zsp
  * @desc 首页子碎片配套元件
  */
 public class HomePageChildFragmentKit {
     /**
      * 显示标题
+     *
      * @param homePageFragment        首页子碎片
      * @param collapsingToolbarLayout CollapsingToolbarLayout
      */
@@ -74,49 +79,102 @@ public class HomePageChildFragmentKit {
                 break;
         }
     }
+
     /**
      * 轮播
+     *
      * @param bannerView BannerView
      */
     public void banner(@NonNull BannerView bannerView) {
-        List<Integer> integerList = new ArrayList<>(3);
-        integerList.add(R.drawable.ic_launcher_background);
-        integerList.add(R.drawable.ic_launcher_background);
-        integerList.add(R.drawable.ic_launcher_background);
+        List<Integer> imageList = getImages();
         bannerView.setBannerViewImpl(new IBannerView() {
             @Override
             public void onPageSelected(int position) {
                 Timber.d("选 %s", position);
             }
+
             @Override
             public boolean isDefaultAutoScroll() {
                 return true;
             }
+
             @Override
             public View getDefaultView(@NotNull Context context) {
                 View view = new View(context);
                 view.setBackgroundColor(ContextCompat.getColor(context, com.zsp.core.R.color.white));
                 return view;
             }
+
             @Override
             public int getCount() {
-                return integerList.size();
+                return imageList.size();
             }
+
             @NotNull
             @Override
             public View getItemView(@NotNull Context context) {
                 return new ImageView(context);
             }
+
             @Override
             public void onBindView(@NotNull View itemView, int position) {
                 if (itemView instanceof ImageView) {
                     ImageView imageView = (ImageView) itemView;
                     imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    GlideUtils.loadByObject(itemView.getContext(), integerList.get(position), imageView);
+                    GlideUtils.loadByObject(itemView.getContext(), imageList.get(position), imageView);
                 }
             }
         });
     }
+
+    /**
+     * 图集
+     *
+     * @return 图集
+     */
+    @NonNull
+    private static List<Integer> getImages() {
+        List<Integer> imageList = new ArrayList<>(12);
+        imageList.add(R.drawable.banner_one);
+        imageList.add(R.drawable.banner_two);
+        imageList.add(R.drawable.banner_three);
+        imageList.add(R.drawable.banner_four);
+        imageList.add(R.drawable.banner_five);
+        imageList.add(R.drawable.banner_six);
+        imageList.add(R.drawable.banner_seven);
+        imageList.add(R.drawable.banner_eight);
+        imageList.add(R.drawable.banner_nine);
+        imageList.add(R.drawable.banner_ten);
+        imageList.add(R.drawable.banner_eleven);
+        imageList.add(R.drawable.banner_twelve);
+        return imageList;
+    }
+
+    /**
+     * 轮播
+     *
+     * @param recyclerView RecyclerView
+     */
+    public void carousel(RecyclerView recyclerView) {
+        // 轮播条目集
+        List<CarouselItem> carouselItemList = new ArrayList<>(12);
+        carouselItemList.add(new CarouselItem(R.drawable.banner_one));
+        carouselItemList.add(new CarouselItem(R.drawable.banner_two));
+        carouselItemList.add(new CarouselItem(R.drawable.banner_three));
+        carouselItemList.add(new CarouselItem(R.drawable.banner_four));
+        carouselItemList.add(new CarouselItem(R.drawable.banner_five));
+        carouselItemList.add(new CarouselItem(R.drawable.banner_six));
+        carouselItemList.add(new CarouselItem(R.drawable.banner_seven));
+        carouselItemList.add(new CarouselItem(R.drawable.banner_eight));
+        carouselItemList.add(new CarouselItem(R.drawable.banner_nine));
+        carouselItemList.add(new CarouselItem(R.drawable.banner_ten));
+        carouselItemList.add(new CarouselItem(R.drawable.banner_eleven));
+        carouselItemList.add(new CarouselItem(R.drawable.banner_twelve));
+        // 轮播配套原件
+        CarouselKit carouselKit = new CarouselKit();
+        carouselKit.execute(recyclerView, carouselItemList, false, false);
+    }
+
     /**
      * 预存
      */
@@ -136,8 +194,10 @@ public class HomePageChildFragmentKit {
             MmkvKit.defaultMmkv().encode(FunctionConstant.FUNCTION_ACTIVITY_$_PRE_STORE, true);
         }
     }
+
     /**
      * 展示
+     *
      * @param appCompatActivity 活动
      * @param recyclerView      控件
      */
@@ -166,8 +226,10 @@ public class HomePageChildFragmentKit {
         MenuAdapterKit menuAdapterKit = new MenuAdapterKit();
         menuAdapterKit.display(appCompatActivity, recyclerView, moduleBeanList, 3, 48, 192, (view, menuBean) -> distribute(appCompatActivity, menuBean.getMenuId()));
     }
+
     /**
      * 分发
+     *
      * @param appCompatActivity 活动
      * @param menuId            菜单 ID
      */
