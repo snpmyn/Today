@@ -37,6 +37,7 @@ public class HomePageChildFragment extends BasePoolFragment {
     private CollapsingToolbarLayout homePageChildFragmentCtl;
     private MaterialToolbar homePageChildFragmentMt;
     private BannerView homePageChildFragmentBv;
+    private RecyclerView homePageChildFragmentRvBanner;
     private RecyclerView homePageChildFragmentRv;
     /**
      * 首页子碎片配套元件
@@ -93,6 +94,7 @@ public class HomePageChildFragment extends BasePoolFragment {
         homePageChildFragmentCtl = view.findViewById(R.id.homePageChildFragmentCtl);
         homePageChildFragmentMt = view.findViewById(R.id.homePageChildFragmentMt);
         homePageChildFragmentBv = view.findViewById(R.id.homePageChildFragmentBv);
+        homePageChildFragmentRvBanner = view.findViewById(R.id.homePageChildFragmentRvBanner);
         homePageChildFragmentRv = view.findViewById(R.id.homePageChildFragmentRv);
     }
 
@@ -172,6 +174,7 @@ public class HomePageChildFragment extends BasePoolFragment {
 
     private void startLogic() {
         homePageChildFragmentKit.banner(homePageChildFragmentBv);
+        homePageChildFragmentKit.carousel(homePageChildFragmentRvBanner);
         homePageChildFragmentKit.preStore();
         homePageChildFragmentKit.display(fragmentationSupportActivity, homePageChildFragmentRv);
     }
