@@ -35,6 +35,7 @@
                     android:id="@+id/homePageChildFragmentBv"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dp_200"
+                    android:visibility="gone"
                     app:BannerViewCornerRadius="@dimen/dp_8"
                     app:BannerViewIntervalInMillis="4000"
                     app:BannerViewMargin="@dimen/dp_4"
@@ -53,6 +54,13 @@
                         app:CrossBarIndicatorSpace="@dimen/dp_4"
                         app:CrossBarIndicatorWidth="@dimen/dp_24" />
                 </widget.kotlin.banner.view.BannerView>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/homePageChildFragmentRvBanner"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_200"
+                    android:clipChildren="false"
+                    android:clipToPadding="false" />
             </LinearLayout>
 
             <com.google.android.material.appbar.MaterialToolbar
