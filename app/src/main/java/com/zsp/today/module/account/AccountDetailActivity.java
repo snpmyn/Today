@@ -110,12 +110,12 @@ public class AccountDetailActivity extends BasePoolActivity {
         // FloatingActionButton
         accountDetailActivityFab.setOnClickListener(v -> {
             ViewUtils.hideView(accountDetailActivityFab, View.GONE);
-            MaterialContainerTransformKit.getInstance().showEndView(AccountDetailActivity.this, accountDetailActivityRl, accountDetailActivityFab, accountDetailActivityMcv);
+            MaterialContainerTransformKit.getInstance().showEndView(AccountDetailActivity.this, accountDetailActivityRl, accountDetailActivityFab, accountDetailActivityMcv, false);
             accountDetailActivityKit.everydayAnalysis(AccountDetailActivity.this, accountDetailActivityPc, accountTransferBean.getDate());
         });
         // ImageButton
         accountDetailActivityIb.setOnClickListener(v -> {
-            MaterialContainerTransformKit.getInstance().showStartView(AccountDetailActivity.this, accountDetailActivityRl, accountDetailActivityFab, accountDetailActivityMcv);
+            MaterialContainerTransformKit.getInstance().showStartView(AccountDetailActivity.this, accountDetailActivityRl, accountDetailActivityFab, accountDetailActivityMcv, false);
             ViewUtils.showView(accountDetailActivityFab);
         });
     }
