@@ -75,19 +75,6 @@ public class SupportActivity extends AppCompatActivity implements ISupportActivi
     }
 
     /**
-     * onBackPressed
-     * <p>
-     * 此处调父类构造方法会导致返回顺序紊乱
-     * super.onBackPressed();
-     * <p>
-     * 不建复写该方法，{@link #onBackPressedSupport} 替。
-     */
-    @Override
-    final public void onBackPressed() {
-        supportActivityDelegate.onBackPressed();
-    }
-
-    /**
      * onBackPressedSupport
      * <p>
      * 回调时机为 Activity 回退栈内 Fragment 数小等 1 时默 finish Activity。
