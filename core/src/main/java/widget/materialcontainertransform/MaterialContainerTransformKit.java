@@ -39,13 +39,15 @@ public class MaterialContainerTransformKit {
     /**
      * 显示终止视图
      *
+     * @param context   上下文
      * @param sceneRoot 根场景节点
      * @param StartView 开始视图
      * @param endView   终止视图
+     * @param debug     调试
      */
-    public void showEndView(Context context, ViewGroup sceneRoot, View StartView, View endView) {
+    public void showEndView(Context context, ViewGroup sceneRoot, View StartView, View endView, boolean debug) {
         // Construct a container transform transition between two views.
-        MaterialContainerTransform materialContainerTransform = buildContainerTransform(context, sceneRoot, true, false);
+        MaterialContainerTransform materialContainerTransform = buildContainerTransform(context, sceneRoot, true, debug);
         materialContainerTransform.setStartView(StartView);
         materialContainerTransform.setEndView(endView);
         // Add a single target to stop the container transform from running on both the start and end view.
@@ -59,13 +61,15 @@ public class MaterialContainerTransformKit {
     /**
      * 显示开始视图
      *
+     * @param context   上下文
      * @param sceneRoot 根场景节点
      * @param StartView 开始视图
      * @param endView   终止视图
+     * @param debug     调试
      */
-    public void showStartView(Context context, ViewGroup sceneRoot, View StartView, View endView) {
+    public void showStartView(Context context, ViewGroup sceneRoot, View StartView, View endView, boolean debug) {
         // Construct a container transform transition between two views.
-        MaterialContainerTransform materialContainerTransform = buildContainerTransform(context, sceneRoot, false, false);
+        MaterialContainerTransform materialContainerTransform = buildContainerTransform(context, sceneRoot, false, debug);
         materialContainerTransform.setStartView(endView);
         materialContainerTransform.setEndView(StartView);
         // Add a single target to stop the container transform from running on both the start and end view.
