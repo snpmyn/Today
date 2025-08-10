@@ -12,7 +12,6 @@ import org.jetbrains.annotations.NotNull;
 import fragmentation.fragmentation.animation.DefaultVerticalAnimator;
 import fragmentation.fragmentation.animation.FragmentAnimator;
 import fragmentation.fragmentation.debug.DebugStackDelegate;
-import fragmentation.fragmentation.queue.BaseAction;
 
 /**
  * @decs: SupportActivityDelegate
@@ -156,28 +155,6 @@ public class SupportActivityDelegate {
      */
     public void post(final Runnable runnable) {
         mTransactionDelegate.post(runnable);
-    }
-
-    /**
-     * onBackPressed
-     * <p>
-     * 不建复写该方法，{@link #onBackPressedSupport} 替。
-     */
-    public void onBackPressed() {
-        mTransactionDelegate.mActionQueue.enqueue(new BaseAction(BaseAction.ACTION_BACK) {
-            @Override
-            public void run() {
-                if (!mFragmentClickable) {
-                    mFragmentClickable = true;
-                }
-                // 获 activeFragment（栈顶开始，状 show 的那个）
-                ISupportFragment activeFragment = SupportHelper.getActiveFragment(getSupportFragmentManager());
-                if (mTransactionDelegate.dispatchBackPressedEvent(activeFragment)) {
-                    return;
-                }
-                mSupport.onBackPressedSupport();
-            }
-        });
     }
 
     /**
