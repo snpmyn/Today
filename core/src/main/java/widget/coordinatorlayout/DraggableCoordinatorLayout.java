@@ -20,6 +20,8 @@ import java.util.List;
  *
  * @author 郑少鹏
  * @desc DraggableCoordinatorLayout
+ * <p>
+ * 暂无引用
  */
 public class DraggableCoordinatorLayout extends CoordinatorLayout {
     private final ViewDragHelper viewDragHelper;
@@ -147,4 +149,3 @@ public class DraggableCoordinatorLayout extends CoordinatorLayout {
         void onViewReleased(@NonNull View view, float v, float v1);
     }
 }
-
