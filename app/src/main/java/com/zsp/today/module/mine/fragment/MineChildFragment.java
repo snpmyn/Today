@@ -15,7 +15,7 @@ import com.zsp.today.module.mine.kit.MineChildFragmentKit;
 import org.jetbrains.annotations.NotNull;
 
 import pool.base.BasePoolFragment;
-import util.toast.ToastKit;
+import widget.toast.ToastKit;
 import widget.appbarlayout.listener.BaseAppBarLayoutStateChangeListener;
 
 /**
