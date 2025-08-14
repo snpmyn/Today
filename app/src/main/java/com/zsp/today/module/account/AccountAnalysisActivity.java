@@ -1,6 +1,5 @@
 package com.zsp.today.module.account;
 
-import android.annotation.SuppressLint;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -83,7 +82,6 @@ public class AccountAnalysisActivity extends BasePoolActivity {
      *
      * @param menuItem 菜单条目
      */
-    @SuppressLint("NonConstantResourceId")
     private void menuItemClickToExecute(@NotNull MenuItem menuItem) {
         int itemId = menuItem.getItemId();
         if (itemId == R.id.accountAnalysisActivityMenuChooseDate) {
