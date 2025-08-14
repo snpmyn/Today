@@ -35,7 +35,7 @@ import util.density.DensityUtils;
 import util.keyboard.KeyboardUtils;
 import util.screen.ScreenUtils;
 import util.statusbar.StatusBarUtils;
-import util.toast.ToastKit;
+import widget.toast.ToastKit;
 import util.validate.CheckOutUtils;
 import util.vibrator.VibratorUtils;
 import widget.value.WidgetMagic;

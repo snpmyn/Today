@@ -37,7 +37,7 @@ import util.density.DensityUtils;
 import util.keyboard.KeyboardUtils;
 import util.screen.ScreenUtils;
 import util.statusbar.StatusBarUtils;
-import util.toast.ToastKit;
+import widget.toast.ToastKit;
 import util.vibrator.VibratorUtils;
 import widget.value.WidgetMagic;
 
@@ -891,4 +891,3 @@ public class VerticalTextView extends androidx.appcompat.widget.AppCompatTextVie
         return matcher.matches();
     }
 }
-
