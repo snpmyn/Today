@@ -107,7 +107,7 @@ public class LoginActivity extends BasePoolActivity implements View.OnClickListe
                 if (s.length() != 0) {
                     loginActivityMbLogin.setEnabled(true);
                     loginActivityMbLogin.setTextColor(ContextCompat.getColor(LoginActivity.this, R.color.fontInput));
-                    loginActivityMbLogin.setBackgroundColor(ContextCompat.getColor(LoginActivity.this, R.color.purple_500));
+                    loginActivityMbLogin.setBackgroundColor(ContextCompat.getColor(LoginActivity.this, R.color.basic));
                 } else {
                     loginActivityMbLogin.setEnabled(false);
                     loginActivityMbLogin.setTextColor(ContextCompat.getColor(LoginActivity.this, R.color.fontHint));

@@ -11,7 +11,7 @@ import pool.module.login.listener.LoginActivityListener;
 import pool.value.PoolConstant;
 import util.mmkv.MmkvKit;
 import util.number.NumberFormatUtils;
-import util.toast.ToastKit;
+import widget.toast.ToastKit;
 import util.validate.RegularUtils;
 
 /**
