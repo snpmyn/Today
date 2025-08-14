@@ -13,6 +13,8 @@ import com.tencent.mmkv.MMKVLogLevel;
 import com.tencent.mmkv.MMKVRecoverStrategic;
 import com.zsp.core.R;
 
+import java.util.List;
+
 import util.activity.ActivitySuperviseManager;
 import util.listener.AppListener;
 import util.log.LogUtils;
@@ -40,6 +42,7 @@ import widget.status.manager.StatusManager;
  */
 public abstract class BasePoolApp extends Application implements MMKVHandler, MMKVContentChangeNotification {
     private static Boolean debug;
+    private static List<String> permissionList;
     private static BasePoolApp basePoolAppInstance;
 
     /**
@@ -49,6 +52,15 @@ public abstract class BasePoolApp extends Application implements MMKVHandler, MM
      */
     public static Boolean getDebug() {
         return debug;
+    }
+
+    /**
+     * 获权限集
+     *
+     * @return 权限集
+     */
+    public static List<String> getPermissionList() {
+        return permissionList;
     }
 
     /**
@@ -71,6 +83,8 @@ public abstract class BasePoolApp extends Application implements MMKVHandler, MM
         Timber.d("%s onCreate", getClass().getSimpleName());
         // 调试否
         debug = debug();
+        // 权限集
+        permissionList = permissionList();
         // Application 本已单例
         basePoolAppInstance = this;
         // 状态管理器布局 ID
@@ -134,6 +148,13 @@ public abstract class BasePoolApp extends Application implements MMKVHandler, MM
      * @return 调试否
      */
     protected abstract Boolean debug();
+
+    /**
+     * 权限集
+     *
+     * @return 权限集
+     */
+    protected abstract List<String> permissionList();
 
     /**
      * 初始化配置

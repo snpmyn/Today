@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import fragmentation.support.SupportActivity;
 import util.edittext.EditTextUtils;
 import util.keyboard.KeyboardUtils;
+import util.rxbus.RxBus;
 import util.view.ViewUtils;
 
 /**
@@ -24,7 +25,7 @@ import util.view.ViewUtils;
  * 提代码可读性，显井井有条、优美。
  * <p>
  * 下抽象法子类须实现：
- * {@link #initContentView(Bundle, int)}
+ * {@link #layoutResId()}
  * {@link #stepUi()}
  * {@link #initConfiguration()}
  * {@link #setListener()}
@@ -34,8 +35,10 @@ public abstract class BasePoolActivity extends SupportActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // 注册事件
+        RxBus.get().register(this);
         // 加载视图
-        initContentView(savedInstanceState, layoutResId());
+        setContentView(layoutResId());
         // 初始控件
         stepUi();
         // 初始配置
@@ -52,14 +55,6 @@ public abstract class BasePoolActivity extends SupportActivity {
      * @return 布局资源 ID
      */
     protected abstract int layoutResId();
-
-    /**
-     * 加载视图
-     *
-     * @param savedInstanceState 状态保存
-     * @param layoutResId        布局资源 ID
-     */
-    protected abstract void initContentView(Bundle savedInstanceState, int layoutResId);
 
     /**
      * 初始控件
@@ -128,6 +123,11 @@ public abstract class BasePoolActivity extends SupportActivity {
         }
         return super.dispatchTouchEvent(ev);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // 反注册事件
+        RxBus.get().unregister(this);
+    }
 }
-
-
