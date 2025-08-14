@@ -12,6 +12,6 @@
         android:id="@+id/carouselItemIv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="@string/toDo"
+        android:contentDescription="@string/carousel"
         android:scaleType="centerCrop" />
 </com.google.android.material.carousel.MaskableFrameLayout>
