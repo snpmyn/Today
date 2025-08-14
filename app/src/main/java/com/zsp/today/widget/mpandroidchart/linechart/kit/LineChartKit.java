@@ -55,7 +55,7 @@ public class LineChartKit implements OnChartValueSelectedListener {
         /*lineChart.getDescription().setTextSize(10.0F);*/
         // Sets the text color to use for the labels.
         // Make sure to use getResources().getColor(...) when using a color from the resources.
-        lineChart.getDescription().setTextColor(ContextCompat.getColor(weakReference.get(), com.zsp.core.R.color.purple_500));
+        lineChart.getDescription().setTextColor(ContextCompat.getColor(weakReference.get(), com.zsp.core.R.color.basic));
         // Set this to false to disable all gestures and touches on the chart.
         // Default: true
         /*lineChart.setTouchEnabled(true);*/
