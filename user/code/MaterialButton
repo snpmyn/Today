@@ -36,7 +36,7 @@
                 android:textColor="@color/pool_user_agreement_and_privacy_policy_text"
                 android:textSize="@dimen/sp_10"
                 android:textStyle="bold"
-                app:icon="@drawable/ic_help_feedback_color_e4d588_purple_500_20dp"
+                app:icon="@drawable/ic_help_feedback_color_e4d588_basic_20dp"
                 app:iconGravity="textStart"
                 app:iconSize="@dimen/dp_16"
                 app:iconTint="@color/pool_user_agreement_and_privacy_policy_text"
