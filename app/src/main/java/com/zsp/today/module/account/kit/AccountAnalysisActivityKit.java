@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import util.list.ListUtils;
-import util.toast.ToastKit;
+import widget.toast.ToastKit;
 import util.view.ViewUtils;
 import widget.dialog.materialalertdialog.SingleChooseMaterialAlertDialogKit;
 
@@ -95,6 +95,6 @@ public class AccountAnalysisActivityKit {
         }
         // 显示
         LineChartKit lineChartKit = new LineChartKit();
-        lineChartKit.execute(appCompatActivity, lineChart, appCompatActivity.getString(R.string.yuan), mode, floats, accountDateListBeanList.isEmpty(), noDataText, com.zsp.core.R.color.purple_500, "", values);
+        lineChartKit.execute(appCompatActivity, lineChart, appCompatActivity.getString(R.string.yuan), mode, floats, accountDateListBeanList.isEmpty(), noDataText, com.zsp.core.R.color.basic, "", values);
     }
 }
