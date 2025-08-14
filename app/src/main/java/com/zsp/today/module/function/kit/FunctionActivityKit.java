@@ -16,14 +16,17 @@ import litepal.kit.LitePalKit;
 import util.rxbus.RxBus;
 import widget.adapttemplate.bean.FunctionBean;
 import widget.adapttemplate.kit.FunctionAdapterKit;
+
 /**
  * Created on 2021/12/2
+ *
  * @author zsp
  * @desc 功能页配套元件
  */
 public class FunctionActivityKit {
     /**
      * 展示
+     *
      * @param appCompatActivity 活动
      * @param recyclerView      控件
      */
@@ -43,8 +46,10 @@ public class FunctionActivityKit {
             BackupKit.getInstance().backup(appCompatActivity, FunctionDataBaseTable.class, null);
         });
     }
+
     /**
      * 更新
+     *
      * @param functionBean 功能数据
      */
     private void update(@NonNull FunctionBean functionBean) {
