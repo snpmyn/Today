@@ -13,6 +13,7 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -29,13 +30,19 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/mineChildFragmentLavHeadPortrait"
-                    android:layout_width="@dimen/dp_70"
-                    android:layout_height="@dimen/dp_70"
-                    app:lottie_autoPlay="true"
-                    app:lottie_fileName="HeadPortrait.json"
-                    app:lottie_loop="true" />
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/white_solid_circle">
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/mineChildFragmentLavHeadPortrait"
+                        android:layout_width="@dimen/dp_70"
+                        android:layout_height="@dimen/dp_70"
+                        app:lottie_autoPlay="true"
+                        app:lottie_fileName="HeadPortrait.json"
+                        app:lottie_loop="true" />
+                </RelativeLayout>
 
                 <TextView
                     android:id="@+id/mineChildFragmentTvName"
