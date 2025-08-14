@@ -37,7 +37,7 @@
             tools:text="内容" />
     </LinearLayout>
 
-    <View
+    <Space
         android:layout_width="match_parent"
         android:layout_height="@dimen/px1"
         android:background="@color/gray" />
@@ -54,12 +54,12 @@
             android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/white_purple_500_drawable_selector"
-            android:textColor="@color/purple_500_white_color_selector"
+            android:background="@drawable/white_basic_drawable_selector"
+            android:textColor="@color/basic_white_color_selector"
             android:textSize="@dimen/sp_14"
             tools:text="取消" />
 
-        <View
+        <Space
             android:layout_width="@dimen/px1"
             android:layout_height="match_parent"
             android:background="@color/gray" />
@@ -70,8 +70,8 @@
             android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/white_purple_500_drawable_selector"
-            android:textColor="@color/purple_500_white_color_selector"
+            android:background="@drawable/white_basic_drawable_selector"
+            android:textColor="@color/basic_white_color_selector"
             android:textSize="@dimen/sp_14"
             tools:text="确定" />
     </LinearLayout>
