@@ -183,12 +183,12 @@ public class RightAngleMessageDialog extends BaseInstanceDialog {
      */
     @SuppressLint("ClickableViewAccessibility")
     private void setButtonDefaultSelect(final @NotNull Button button) {
-        button.setBackground(ContextCompat.getDrawable(context, R.drawable.purple_500_white_drawable_selector));
+        button.setBackground(ContextCompat.getDrawable(context, R.drawable.basic_white_drawable_selector));
         button.setTextColor(ContextCompat.getColor(context, R.color.white));
         button.setOnTouchListener((view, motionEvent) -> {
             switch (motionEvent.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    button.setTextColor(ContextCompat.getColor(context, R.color.purple_500));
+                    button.setTextColor(ContextCompat.getColor(context, R.color.basic));
                     break;
                 case MotionEvent.ACTION_MOVE:
                     int[] location = new int[2];

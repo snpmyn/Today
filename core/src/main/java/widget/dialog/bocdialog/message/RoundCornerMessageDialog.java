@@ -166,7 +166,7 @@ public class RoundCornerMessageDialog extends BaseInstanceDialog {
      * 设置左按钮默认选中
      */
     private void setLeftButtonDefaultSelect() {
-        roundCornerMessageDialogBtnLeft.setBackground(ContextCompat.getDrawable(context, R.drawable.purple_500_white_solid_blr14_selector));
+        roundCornerMessageDialogBtnLeft.setBackground(ContextCompat.getDrawable(context, R.drawable.basic_white_solid_blr14_selector));
         setButtonDefaultSelect(roundCornerMessageDialogBtnLeft);
     }
 
@@ -174,7 +174,7 @@ public class RoundCornerMessageDialog extends BaseInstanceDialog {
      * 设置右按钮默认选中
      */
     private void setRightButtonDefaultSelect() {
-        roundCornerMessageDialogBtnRight.setBackground(ContextCompat.getDrawable(context, R.drawable.purple_500_white_solid_brr14_selector));
+        roundCornerMessageDialogBtnRight.setBackground(ContextCompat.getDrawable(context, R.drawable.basic_white_solid_brr14_selector));
         setButtonDefaultSelect(roundCornerMessageDialogBtnRight);
     }
 
@@ -189,7 +189,7 @@ public class RoundCornerMessageDialog extends BaseInstanceDialog {
         button.setOnTouchListener((view, motionEvent) -> {
             switch (motionEvent.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    button.setTextColor(ContextCompat.getColor(context, R.color.purple_500));
+                    button.setTextColor(ContextCompat.getColor(context, R.color.basic));
                     break;
                 case MotionEvent.ACTION_MOVE:
                     int[] location = new int[2];
@@ -298,4 +298,3 @@ public class RoundCornerMessageDialog extends BaseInstanceDialog {
         }
     }
 }
-
