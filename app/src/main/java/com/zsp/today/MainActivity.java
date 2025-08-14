@@ -1,29 +1,19 @@
 package com.zsp.today;
 
-import android.os.Bundle;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
-
-import androidx.annotation.NonNull;
 
 import android.view.View;
 
-import androidx.core.app.ActivityCompat;
-
-import com.zsp.today.base.BaseActivity;
-import com.zsp.today.base.BaseFragment;
 import com.zsp.today.kit.MainActivityKit;
 import com.zsp.today.module.homepage.HomePageFragment;
 import com.zsp.today.module.mine.MineFragment;
 import com.zsp.today.value.RxBusConstant;
 
-import android.view.MenuItem;
-
 import org.jetbrains.annotations.NotNull;
 
+import pool.base.BasePoolActivity;
+import pool.base.BasePoolFragment;
 import timber.log.Timber;
-import util.rxbus.RxBus;
 import util.rxbus.annotation.Subscribe;
 import util.rxbus.annotation.Tag;
 import util.rxbus.thread.EventThread;
@@ -35,11 +25,11 @@ import util.view.ViewUtils;
  * @date: 2025/7/30 11:18
  * @version: v 1.0
  */
-public class MainActivity extends BaseActivity implements BaseFragment.OnBackToFirstListener {
+public class MainActivity extends BasePoolActivity implements BasePoolFragment.OnBackToFirstListener {
     private BottomNavigationView mainActivityBnv;
     public static final int FIRST = 0;
     public static final int SECOND = 1;
-    private final BaseFragment[] supportFragments = new BaseFragment[2];
+    private final BasePoolFragment[] supportFragments = new BasePoolFragment[2];
     /**
      * Fragment
      */
@@ -57,18 +47,6 @@ public class MainActivity extends BaseActivity implements BaseFragment.OnBackToF
     @Override
     protected int layoutResId() {
         return R.layout.activity_main;
-    }
-
-    /**
-     * 加载视图
-     *
-     * @param savedInstanceState 状态保存
-     * @param layoutResId        布局资源 ID
-     */
-    @Override
-    protected void initContentView(Bundle savedInstanceState, int layoutResId) {
-        super.initContentView(savedInstanceState, layoutResId);
-        RxBus.get().register(this);
     }
 
     /**
@@ -93,17 +71,14 @@ public class MainActivity extends BaseActivity implements BaseFragment.OnBackToF
      */
     @Override
     protected void setListener() {
-        mainActivityBnv.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                int itemId = item.getItemId();
-                if (itemId == com.zsp.core.R.id.bottomNavigationViewMenuHomePage) {
-                    showHideFragmentExecute(0, prePosition);
-                } else if (itemId == com.zsp.core.R.id.bottomNavigationViewMenuMine) {
-                    showHideFragmentExecute(1, prePosition);
-                }
-                return true;
+        mainActivityBnv.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == com.zsp.core.R.id.bottomNavigationViewMenuHomePage) {
+                showHideFragmentExecute(0, prePosition);
+            } else if (itemId == com.zsp.core.R.id.bottomNavigationViewMenuMine) {
+                showHideFragmentExecute(1, prePosition);
             }
+            return true;
         });
     }
 
@@ -122,7 +97,7 @@ public class MainActivity extends BaseActivity implements BaseFragment.OnBackToF
      * Fragment 显示
      */
     private void fragmentShow() {
-        BaseFragment firstFragment = findFragment(HomePageFragment.class);
+        BasePoolFragment firstFragment = findFragment(HomePageFragment.class);
         if (null == firstFragment) {
             supportFragments[FIRST] = HomePageFragment.newInstance();
             supportFragments[SECOND] = MineFragment.newInstance();
@@ -169,26 +144,5 @@ public class MainActivity extends BaseActivity implements BaseFragment.OnBackToF
             default:
                 break;
         }
-    }
-
-    /**
-     * onBackPressedSupport
-     * <p>
-     * 回调时机为 Activity 回退栈内 Fragment 数小等 1 时默 finish Activity。
-     * 尽量复写该法而非 onBackPress() 保 SupportFragment 内 onBackPressedSupport() 回退事件正常执行。
-     */
-    @Override
-    public void onBackPressedSupport() {
-        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
-            pop();
-        } else {
-            ActivityCompat.finishAfterTransition(this);
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        RxBus.get().unregister(this);
     }
 }
