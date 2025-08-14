@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     tools:context=".module.account.AddAccountActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -48,19 +47,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/chooseDate"
-                android:textColorHint="@color/fontHint"
-                app:endIconDrawable="@drawable/ic_add_purple_500_18dp"
+                android:textColorHint="@color/basic"
+                app:endIconDrawable="@drawable/ic_add_basic_20dp"
                 app:endIconMode="custom"
-                app:endIconTint="@color/purple_500"
+                app:endIconTint="@color/basic"
                 app:helperText="@string/date"
-                app:helperTextTextColor="@color/purple_500"
-                app:startIconDrawable="@drawable/ic_date_range_purple_500_24dp"
-                app:startIconTint="@color/purple_500">
+                app:helperTextTextColor="@color/basic"
+                app:startIconDrawable="@drawable/ic_calendar_today_basic_24dp"
+                app:startIconTint="@color/basic">
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/addAccountActivityLlMactvDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:enabled="false"
                     android:inputType="none"
                     android:textColor="@color/fontInput"
                     android:textSize="@dimen/sp_14" />
@@ -75,15 +75,15 @@
                 android:layout_marginBottom="@dimen/dp_12"
                 android:hint="@string/chooseCategory"
                 android:textColorHint="@color/fontHint"
-                app:endIconDrawable="@drawable/ic_add_purple_500_18dp"
+                app:endIconDrawable="@drawable/ic_add_basic_20dp"
                 app:endIconMode="custom"
-                app:endIconTint="@color/purple_500"
+                app:endIconTint="@color/basic"
                 app:errorEnabled="true"
                 app:errorTextColor="@color/color_EA6464"
                 app:helperText="@string/category"
-                app:helperTextTextColor="@color/purple_500"
-                app:startIconDrawable="@drawable/ic_category_purple_500_24dp"
-                app:startIconTint="@color/purple_500">
+                app:helperTextTextColor="@color/basic"
+                app:startIconDrawable="@drawable/ic_category_basic_24dp"
+                app:startIconTint="@color/basic">
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/addAccountActivityMactvCategory"
@@ -106,13 +106,13 @@
                 app:errorEnabled="true"
                 app:errorTextColor="@color/color_EA6464"
                 app:helperText="@string/amount"
-                app:helperTextTextColor="@color/purple_500"
+                app:helperTextTextColor="@color/basic"
                 app:prefixText="@string/renMinBi"
-                app:prefixTextColor="@color/purple_500"
-                app:startIconDrawable="@drawable/ic_wallet_purple_500_24dp"
-                app:startIconTint="@color/purple_500"
+                app:prefixTextColor="@color/basic"
+                app:startIconDrawable="@drawable/ic_wallet_basic_24dp"
+                app:startIconTint="@color/basic"
                 app:suffixText="@string/yuan"
-                app:suffixTextColor="@color/purple_500">
+                app:suffixTextColor="@color/basic">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/addAccountActivityLlTietAmount"
