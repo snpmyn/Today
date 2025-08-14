@@ -17,7 +17,7 @@
     </style>
 
     <style name="ThemeOverlay.App.CircularProgressIndicator" parent="">
-        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimary">@color/basic</item>
     </style>
     <!--CustomDialogStyle-->
     <style name="CustomDialogStyle" parent="@android:style/Theme.Dialog">
