@@ -28,7 +28,7 @@ import util.intent.IntentVerify;
 import util.keyboard.KeyboardUtils;
 import util.list.ListUtils;
 import util.rxbus.RxBus;
-import util.toast.ToastKit;
+import widget.toast.ToastKit;
 import widget.dialog.materialalertdialog.SingleChooseMaterialAlertDialogKit;
 import widget.materialdatepicker.MaterialDatePickerKit;
 
