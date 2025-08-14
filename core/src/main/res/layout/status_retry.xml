@@ -31,6 +31,6 @@
         android:layout_height="?actionBarSize"
         android:text="@string/checkSetting"
         android:textSize="@dimen/sp_10"
-        app:strokeColor="@color/purple_500"
+        app:strokeColor="@color/basic"
         app:strokeWidth="@dimen/px1" />
 </LinearLayout>
