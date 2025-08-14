@@ -15,7 +15,7 @@
         android:contentDescription="@string/progressBar"
         android:scaleType="centerInside"
         android:src="@drawable/boc_dialog_can_cancel_loading"
-        app:tint="@color/purple_500" />
+        app:tint="@color/basic" />
 
     <TextView
         android:id="@+id/canCancelLoadingDialogTvHint"
