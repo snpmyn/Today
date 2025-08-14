@@ -217,6 +217,6 @@ public class AccountDetailActivityKit {
         }
         // 显示
         HalfPieChartKit halfPieChartKit = new HalfPieChartKit();
-        halfPieChartKit.execute(appCompatActivity, pieChart, date, pieEntries, appCompatActivity.getString(R.string.yuan), accountDataBaseTableList.isEmpty(), appCompatActivity.getString(R.string.noAccountDataAvailable), com.zsp.core.R.color.purple_500);
+        halfPieChartKit.execute(appCompatActivity, pieChart, date, pieEntries, appCompatActivity.getString(R.string.yuan), accountDataBaseTableList.isEmpty(), appCompatActivity.getString(R.string.noAccountDataAvailable), com.zsp.core.R.color.basic);
     }
 }

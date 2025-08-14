@@ -1,9 +1,7 @@
 package com.zsp.today.module.account.kit;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -11,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.zsp.today.R;
 import com.zsp.today.application.App;
@@ -36,7 +33,8 @@ import litepal.kit.LitePalKit;
 import util.data.StringUtils;
 import util.datetime.DateUtils;
 import util.intent.IntentJump;
-import util.toast.ToastKit;
+import widget.dialog.bottomsheetdialog.MyBottomSheetDialog;
+import widget.toast.ToastKit;
 import util.view.ViewUtils;
 import widget.dialog.materialalertdialog.MyMaterialAlertDialogBuilder;
 import widget.dialog.materialalertdialog.SingleChooseMaterialAlertDialogKit;
@@ -150,24 +148,23 @@ public class AccountHomeActivityKit {
      * @param appCompatActivity 活动
      */
     public void bottomSheetDialog(AppCompatActivity appCompatActivity) {
-        // BottomSheetDialog
-        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(appCompatActivity);
-        @SuppressLint("InflateParams") View bottomSheetDialogView = LayoutInflater.from(appCompatActivity).inflate(R.layout.account_home_activity_bottom_sheet_dialog, null);
+        // MyBottomSheetDialog
+        MyBottomSheetDialog myBottomSheetDialog = new MyBottomSheetDialog(appCompatActivity, R.layout.account_home_activity_bottom_sheet_dialog);
+        View bottomSheetDialogView = myBottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+        assert bottomSheetDialogView != null;
         // 账目分析
         DrawableCenterTextView accountHomeActivityBottomSheetDialogDctvAccountAnalysis = bottomSheetDialogView.findViewById(R.id.accountHomeActivityBottomSheetDialogDctvAccountAnalysis);
         accountHomeActivityBottomSheetDialogDctvAccountAnalysis.setOnClickListener(v -> {
-            bottomSheetDialog.dismiss();
+            myBottomSheetDialog.dismiss();
             IntentJump.getInstance().jump(null, appCompatActivity, false, AccountAnalysisActivity.class);
         });
         // 导出账单
         DrawableCenterTextView accountHomeActivityBottomSheetDialogDctvExportAccount = bottomSheetDialogView.findViewById(R.id.accountHomeActivityBottomSheetDialogDctvExportAccount);
         accountHomeActivityBottomSheetDialogDctvExportAccount.setOnClickListener(v -> {
-            bottomSheetDialog.dismiss();
+            myBottomSheetDialog.dismiss();
             exportAccount(appCompatActivity);
         });
-        // BottomSheetDialog
-        bottomSheetDialog.setContentView(bottomSheetDialogView);
-        bottomSheetDialog.show();
+        myBottomSheetDialog.show();
     }
 
     /**
