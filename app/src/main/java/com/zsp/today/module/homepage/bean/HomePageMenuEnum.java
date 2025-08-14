@@ -12,7 +12,7 @@ public enum HomePageMenuEnum {
     /**
      * 账目
      */
-    ACCOUNT(1, R.drawable.ic_account_font_input_purple_500_24dp, "账目", true);
+    ACCOUNT(1, R.drawable.ic_account_font_input_basic_24dp, "账目", true);
     /**
      * 菜单 ID
      */
