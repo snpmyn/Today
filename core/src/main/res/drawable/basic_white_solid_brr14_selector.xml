@@ -3,19 +3,19 @@
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
             <solid android:color="@color/white" />
-            <corners android:bottomLeftRadius="@dimen/dp_14" />
+            <corners android:bottomRightRadius="@dimen/dp_14" />
         </shape>
     </item>
     <item android:state_selected="true">
         <shape android:shape="rectangle">
             <solid android:color="@color/white" />
-            <corners android:bottomLeftRadius="@dimen/dp_14" />
+            <corners android:bottomRightRadius="@dimen/dp_14" />
         </shape>
     </item>
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="@color/purple_500" />
-            <corners android:bottomLeftRadius="@dimen/dp_14" />
+            <solid android:color="@color/basic" />
+            <corners android:bottomRightRadius="@dimen/dp_14" />
         </shape>
     </item>
 </selector>
