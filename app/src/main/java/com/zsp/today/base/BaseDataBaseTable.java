@@ -92,4 +92,3 @@ public class BaseDataBaseTable extends LitePalSupport {
         return super.getBaseObjId();
     }
 }
-
