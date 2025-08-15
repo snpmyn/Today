@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
     <FrameLayout
@@ -16,10 +15,18 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/mainActivityBnv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/navigationBarBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/bottom_navigation_view_menu" />
+    <!--备用-->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
         style="@style/BottomNavigationViewStyle"
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
+        android:layout_height="wrap_content"
         android:background="@color/navigationBarBackground"
+        android:visibility="gone"
         app:itemTextColor="@color/font_hint_font_input_color_selector"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_navigation_view_menu" />

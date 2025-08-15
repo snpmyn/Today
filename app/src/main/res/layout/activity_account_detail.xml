@@ -64,17 +64,6 @@
             android:layout_height="@dimen/dp_276"
             android:layout_margin="@dimen/dp_2" />
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|end"
-            android:layout_marginTop="@dimen/dp_12"
-            android:layout_marginEnd="@dimen/dp_12"
-            android:background="?selectableItemBackgroundBorderless"
-            android:contentDescription="@string/closeEverydayAnalysis"
-            android:visibility="gone"
-            app:srcCompat="@drawable/ic_close_basic_24dp" />
-
         <Button
             android:id="@+id/accountDetailActivityButton"
             style="?attr/materialIconButtonFilledTonalStyle"
@@ -85,5 +74,16 @@
             android:layout_marginEnd="@dimen/dp_6"
             android:contentDescription="@string/closeEverydayAnalysis"
             app:icon="@drawable/ic_close_white_24dp" />
+        <!--备用-->
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|end"
+            android:layout_marginTop="@dimen/dp_12"
+            android:layout_marginEnd="@dimen/dp_12"
+            android:background="?selectableItemBackgroundBorderless"
+            android:contentDescription="@string/closeEverydayAnalysis"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_close_basic_24dp" />
     </com.google.android.material.card.MaterialCardView>
 </RelativeLayout>
