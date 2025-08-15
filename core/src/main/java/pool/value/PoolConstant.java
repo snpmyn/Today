@@ -8,6 +8,10 @@ package pool.value;
  */
 public class PoolConstant {
     /**
+     * 用户协议和隐私政策
+     */
+    public static final String USER_AGREEMENT_AND_PRIVACY_POLICY = "UserAgreementAndPrivacyPolicy";
+    /**
      * 用户协议
      */
     public static final String USER_AGREEMENT = "UserAgreement";
@@ -15,6 +19,14 @@ public class PoolConstant {
      * 隐私政策
      */
     public static final String PRIVACY_POLICY = "PrivacyPolicy";
+    /**
+     * 闪屏（使用默认动画）
+     */
+    public static final String SPLASH_$_USE_DEFAULT_ANIMATION = "SplashUseDefaultAnimation";
+    /**
+     * 闪屏（动画）
+     */
+    public static final String SPLASH_$_ANIMATION = "SplashAnimation";
     /**
      * 登录（手机号）
      */
