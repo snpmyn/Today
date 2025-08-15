@@ -206,4 +206,3 @@ public class VisibleDelegate {
         return mHandler;
     }
 }
-
