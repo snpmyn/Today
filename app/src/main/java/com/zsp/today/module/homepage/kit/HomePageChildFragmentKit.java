@@ -10,6 +10,8 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.carousel.CarouselLayoutManager;
+import com.google.android.material.carousel.HeroCarouselStrategy;
 import com.zsp.today.R;
 import com.zsp.today.application.App;
 import com.zsp.today.module.account.AccountHomeActivity;
@@ -172,7 +174,7 @@ public class HomePageChildFragmentKit {
         carouselItemList.add(new CarouselItem(R.drawable.banner_twelve));
         // 轮播配套原件
         CarouselKit carouselKit = new CarouselKit();
-        carouselKit.execute(recyclerView, carouselItemList, false, false);
+        carouselKit.execute(recyclerView, carouselItemList, new HeroCarouselStrategy(), false, CarouselLayoutManager.ALIGNMENT_CENTER, false);
     }
 
     /**
