@@ -1,4 +1,4 @@
-package util.toast;
+package widget.toast;
 
 import android.widget.Toast;
 
