@@ -8,6 +8,7 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.view.Gravity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,8 +20,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import util.datetime.CurrentTimeMillisClock;
-import util.toast.ToastKit;
 import timber.log.Timber;
+import widget.toast.ToastKit;
 
 /**
  * Created on 2017/9/19.
@@ -35,9 +36,9 @@ import timber.log.Timber;
  * 基类之 {@link AppCompatActivity#onCreate(Bundle, PersistableBundle)} 推当前 Activity 至 Activity 管理容器，需时遍历容器并 finish 所有 Activity。
  */
 public class ActivitySuperviseManager {
+    private long touchDownTime = 0L;
     private static final long WAIT_TIME = 2000L;
     private final List<Activity> ACTIVITIES = Collections.synchronizedList(new LinkedList<>());
-    private long touchDownTime = 0L;
 
     public static ActivitySuperviseManager getInstance() {
         return InstanceHolder.INSTANCE;
@@ -159,7 +160,7 @@ public class ActivitySuperviseManager {
             appExit();
         } else {
             touchDownTime = CurrentTimeMillisClock.getInstance().now();
-            ToastKit.showShort(exitHint);
+            ToastKit.showShortWithGravity(exitHint, Gravity.CENTER);
         }
     }
 
