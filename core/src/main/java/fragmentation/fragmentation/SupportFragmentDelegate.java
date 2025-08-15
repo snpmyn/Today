@@ -637,11 +637,9 @@ public class SupportFragmentDelegate {
     }
 
     private int getWindowBackground() {
-        int background;
-        try (TypedArray a = mFragmentActivity.getTheme().obtainStyledAttributes(new int[]{android.R.attr.windowBackground})) {
-            background = a.getResourceId(0, 0);
-            a.recycle();
-        }
+        TypedArray typedArray = mFragmentActivity.getTheme().obtainStyledAttributes(new int[]{android.R.attr.windowBackground});
+        int background = typedArray.getResourceId(0, 0);
+        typedArray.recycle();
         return background;
     }
 
