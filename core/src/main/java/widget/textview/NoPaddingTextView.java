@@ -68,10 +68,9 @@ public class NoPaddingTextView extends AppCompatTextView {
      * @param attrs   属性
      */
     private void initAttributes(@NonNull Context context, AttributeSet attrs) {
-        try (TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.NoPaddingTextView)) {
-            toRemoveTheInBodyMargin = typedArray.getBoolean(R.styleable.NoPaddingTextView_noPaddingTextViewRemoveDefaultPadding, false);
-            typedArray.recycle();
-        }
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.NoPaddingTextView);
+        toRemoveTheInBodyMargin = typedArray.getBoolean(R.styleable.NoPaddingTextView_noPaddingTextViewRemoveDefaultPadding, false);
+        typedArray.recycle();
     }
 
     /**

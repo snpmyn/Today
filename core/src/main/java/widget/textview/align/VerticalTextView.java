@@ -232,18 +232,17 @@ public class VerticalTextView extends androidx.appcompat.widget.AppCompatTextVie
     public VerticalTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.mContext = context;
-        try (TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.VerticalTextView)) {
-            mLineSpacingExtra = typedArray.getDimension(R.styleable.VerticalTextView_verticalTextViewLineSpacingExtra, 6);
-            mCharSpacingExtra = typedArray.getDimension(R.styleable.VerticalTextView_verticalTextViewCharSpacingExtra, 6);
-            areLeftToRight = typedArray.getBoolean(R.styleable.VerticalTextView_verticalTextViewTextLeftToRight, false);
-            areUnderLineText = typedArray.getBoolean(R.styleable.VerticalTextView_verticalTextViewUnderLineText, false);
-            mUnderLineColor = typedArray.getColor(R.styleable.VerticalTextView_verticalTextViewUnderLineColor, Color.RED);
-            mUnderLineWidth = typedArray.getFloat(R.styleable.VerticalTextView_verticalTextViewUnderLineWidth, 1.5F);
-            mUnderLineOffset = typedArray.getDimension(R.styleable.VerticalTextView_verticalTextViewUnderlineOffset, 3);
-            mTextHighlightColor = typedArray.getColor(R.styleable.VerticalTextView_verticalTextViewTextHeightLightColor, 0x60ffeb3b);
-            areShowActionMenu = typedArray.getBoolean(R.styleable.VerticalTextView_verticalTextViewShowActionMenu, false);
-            typedArray.recycle();
-        }
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.VerticalTextView);
+        mLineSpacingExtra = typedArray.getDimension(R.styleable.VerticalTextView_verticalTextViewLineSpacingExtra, 6);
+        mCharSpacingExtra = typedArray.getDimension(R.styleable.VerticalTextView_verticalTextViewCharSpacingExtra, 6);
+        areLeftToRight = typedArray.getBoolean(R.styleable.VerticalTextView_verticalTextViewTextLeftToRight, false);
+        areUnderLineText = typedArray.getBoolean(R.styleable.VerticalTextView_verticalTextViewUnderLineText, false);
+        mUnderLineColor = typedArray.getColor(R.styleable.VerticalTextView_verticalTextViewUnderLineColor, Color.RED);
+        mUnderLineWidth = typedArray.getFloat(R.styleable.VerticalTextView_verticalTextViewUnderLineWidth, 1.5F);
+        mUnderLineOffset = typedArray.getDimension(R.styleable.VerticalTextView_verticalTextViewUnderlineOffset, 3);
+        mTextHighlightColor = typedArray.getColor(R.styleable.VerticalTextView_verticalTextViewTextHeightLightColor, 0x60ffeb3b);
+        areShowActionMenu = typedArray.getBoolean(R.styleable.VerticalTextView_verticalTextViewShowActionMenu, false);
+        typedArray.recycle();
         mLineSpacingExtra = Math.max(6, mLineSpacingExtra);
         mCharSpacingExtra = Math.max(6, mCharSpacingExtra);
         if (areUnderLineText) {

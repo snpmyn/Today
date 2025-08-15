@@ -183,12 +183,11 @@ public class LeftAndRightAlignTextView extends AppCompatEditText {
     public LeftAndRightAlignTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.mContext = context;
-        try (TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.LeftAndRightAlignTextView)) {
-            areTextJustify = typedArray.getBoolean(R.styleable.LeftAndRightAlignTextView_leftAndRightAlignTextViewTextJustify, true);
-            areForbiddenActionMenu = typedArray.getBoolean(R.styleable.LeftAndRightAlignTextView_leftAndRightAlignTextViewForbiddenActionMenu, false);
-            mTextHighlightColor = typedArray.getColor(R.styleable.LeftAndRightAlignTextView_leftAndRightAlignTextViewTextHeightColor, 0x60ffeb3b);
-            typedArray.recycle();
-        }
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.LeftAndRightAlignTextView);
+        areTextJustify = typedArray.getBoolean(R.styleable.LeftAndRightAlignTextView_leftAndRightAlignTextViewTextJustify, true);
+        areForbiddenActionMenu = typedArray.getBoolean(R.styleable.LeftAndRightAlignTextView_leftAndRightAlignTextViewForbiddenActionMenu, false);
+        mTextHighlightColor = typedArray.getColor(R.styleable.LeftAndRightAlignTextView_leftAndRightAlignTextViewTextHeightColor, 0x60ffeb3b);
+        typedArray.recycle();
         init();
     }
 
