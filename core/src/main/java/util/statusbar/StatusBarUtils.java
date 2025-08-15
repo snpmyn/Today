@@ -592,13 +592,13 @@ public class StatusBarUtils {
     /**
      * 状态栏暗
      * <p>
-     * 默 purple_500
+     * 默 basic
      *
      * @param appCompatActivity 活动
      * @param colorResId        颜色资源 ID
      */
     public static void statusBarDark(AppCompatActivity appCompatActivity, int colorResId) {
-        StatusBarUtils.setColorNoTranslucent(appCompatActivity, ContextCompat.getColor(appCompatActivity, (colorResId == 0) ? R.color.purple_500 : colorResId));
+        StatusBarUtils.setColorNoTranslucent(appCompatActivity, ContextCompat.getColor(appCompatActivity, (colorResId == 0) ? R.color.basic : colorResId));
         StatusBarUtils.statusBarTextColorDark(appCompatActivity, false);
     }
 }
