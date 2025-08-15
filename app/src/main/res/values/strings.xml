@@ -25,6 +25,7 @@
     <string name="monthAnalysis">月度分析</string>
     <string name="chooseCategory">选择类目</string>
     <string name="accountAnalysis">账目分析</string>
+    <string name="poolSplashContent">TODAY</string>
     <string name="noCacheAvailable">暂无缓存</string>
     <string name="everydayAnalysis">每日分析</string>
     <string name="modifySuccessful">修改成功</string>
