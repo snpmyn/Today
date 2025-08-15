@@ -13,7 +13,7 @@
         android:background="@color/pageBackground"
         android:elevation="@dimen/dp_0"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/ic_arrow_back_10dp_18dp" />
+        app:navigationIcon="@drawable/ic_arrow_back_black_transparent_10dp_18dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
