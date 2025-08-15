@@ -164,6 +164,7 @@ public class HomePageChildFragment extends BasePoolFragment {
                     // 折叠
                     homePageChildFragmentKit.showTitle(HomePageChildFragment.this, homePageChildFragmentCtl);
                     homePageChildFragmentCtl.setCollapsedTitleTextColor(ContextCompat.getColor(fragmentationSupportActivity, com.zsp.core.R.color.white));
+                    homePageChildFragmentCtl.setCollapsedTitleTextSize(66.0F);
                 } else {
                     // 中间
                     homePageChildFragmentCtl.setTitle("");
