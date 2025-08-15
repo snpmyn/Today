@@ -19,4 +19,3 @@ public class AfterSaveStateTransactionWarningException extends RuntimeException 
         Timber.d("Fragmentation: %s", getMessage());
     }
 }
-
