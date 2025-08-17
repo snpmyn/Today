@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_180"
+        android:background="@color/widget_notification_enable_dialog_fragment_background">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="lottie_animation_notification_enable_dialog_fragment.json"
+            app:lottie_loop="true" />
+
+        <TextView
+            android:id="@+id/fragmentNotificationEnableDialogTvOpenDrugReturnNotification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/openNotificationHint"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fragmentNotificationEnableDialogTvOpenDrugReturnNotification"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp_10"
+            android:text="@string/neverMissTheLatestNewsAnymore"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_14" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/white_basic_solid_blr14_selector"
+        android:baselineAligned="false">
+
+        <RelativeLayout
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/fragmentNotificationEnableDialogMbTalkAboutItNext"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="?actionBarSize"
+                android:layout_centerInParent="true"
+                android:text="@string/talkAboutItNext"
+                android:textColor="@color/fontInput"
+                android:textSize="@dimen/sp_13" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/fragmentNotificationEnableDialogMbGoToOpen"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="?actionBarSize"
+                android:layout_centerInParent="true"
+                android:text="@string/goToOpen"
+                android:textSize="@dimen/sp_13" />
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>
