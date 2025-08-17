@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/splashAnimationDetailFragmentMt"
+        style="@style/Widget.MaterialComponents.Toolbar.Primary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/dp_0"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/startAnimation" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:background="@color/basic"
+        android:padding="@dimen/dp_36"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/splashAnimationDetailFragmentMt">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/splashAnimationDetailFragmentLav"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="?actionBarSize" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/splashAnimationDetailFragmentMb"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:layout_alignParentBottom="true"
+            android:insetLeft="@dimen/dp_0"
+            android:insetTop="@dimen/dp_0"
+            android:insetRight="@dimen/dp_0"
+            android:insetBottom="@dimen/dp_0"
+            android:text="@string/use"
+            android:textColor="@color/color_F86C09"
+            android:textSize="@dimen/sp_14"
+            android:textStyle="bold"
+            app:backgroundTint="@color/pageBackground"
+            app:cornerRadius="@dimen/dp_180"
+            app:icon="@drawable/ic_fire_color_f86c09_24dp"
+            app:iconGravity="textStart"
+            app:iconSize="@dimen/dp_24"
+            app:iconTint="@color/color_F86C09"
+            app:rippleColor="@color/color_F86C09" />
+    </RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
