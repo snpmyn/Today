@@ -1,9 +1,10 @@
 package com.zsp.today;
 
+import android.content.Intent;
+
+import androidx.annotation.Nullable;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import android.view.View;
-
 import com.zsp.today.kit.MainActivityKit;
 import com.zsp.today.module.homepage.HomePageFragment;
 import com.zsp.today.module.mine.MineFragment;
@@ -17,7 +18,7 @@ import timber.log.Timber;
 import util.rxbus.annotation.Subscribe;
 import util.rxbus.annotation.Tag;
 import util.rxbus.thread.EventThread;
-import util.view.ViewUtils;
+import widget.notification.kit.NotificationKit;
 
 /**
  * @decs: 主页
@@ -135,14 +136,46 @@ public class MainActivity extends BasePoolActivity implements BasePoolFragment.O
         switch (integer) {
             // 隐底导航视图
             case RxBusConstant.MAIN_ACTIVITY_$_HIDE_BOTTOM_NAVIGATION_VIEW_CODE:
-                ViewUtils.hideView(mainActivityBnv, View.GONE);
+                mainActivityKit.hideBottomNavigationView(mainActivityBnv);
                 break;
             // 显底导航视图
             case RxBusConstant.MAIN_ACTIVITY_$_SHOW_BOTTOM_NAVIGATION_VIEW_CODE:
-                ViewUtils.showView(mainActivityBnv);
+                mainActivityKit.showBottomNavigationView(mainActivityBnv);
                 break;
             default:
                 break;
+        }
+    }
+
+    /**
+     * 活动结果
+     * <p>
+     * RESULT_CANCELED (值为 0)
+     * 表示用户取消了操作或 Activity 没有成功完成任务
+     * 通常当用户按下返回按钮或明确取消某个操作时使用
+     * 这是默认的返回结果，如果不显式设置结果，系统会默认使用 RESULT_CANCELED。
+     * <p>
+     * RESULT_OK (值为 -1)
+     * 表示操作成功完成
+     * 当 Activity 成功执行了预期任务并返回数据时使用
+     * <p>
+     * 用户取消操作：当用户主动取消操作（如点击取消按钮或按返回键）时，应该返回 RESULT_CANCELED。
+     * 操作未完成：当 Activity 没有完成其主要任务时返回
+     * 默认行为：如果没有显式设置结果，Android 会自动使用 RESULT_CANCELED。
+     *
+     * @param requestCode The integer request code originally supplied to
+     *                    startActivityForResult(), allowing you to identify who this
+     *                    result came from.
+     * @param resultCode  The integer result code returned by the child activity
+     *                    through its setResult().
+     * @param data        An Intent, which can return result data to the caller
+     *                    (various data can be attached to Intent "extras").
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if ((resultCode == RESULT_CANCELED) && (requestCode == NotificationKit.NOTIFICATION_KIT_REQUEST_CODE)) {
+            mainActivityKit.execute(this);
         }
     }
 }
