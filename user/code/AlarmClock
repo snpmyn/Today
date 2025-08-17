@@ -1,0 +1,26 @@
+/**
+     * 闹钟
+     * @param appCompatActivity 活动
+     */
+    private void alarmClock(@NonNull AppCompatActivity appCompatActivity) {
+        Intent intent = new Intent(AlarmClock.ACTION_SET_ALARM);
+
+        intent.putExtra(AlarmClock.EXTRA_HOUR, 17);
+        intent.putExtra(AlarmClock.EXTRA_MINUTES, 0);
+        intent.putExtra(AlarmClock.EXTRA_MESSAGE, appCompatActivity.getString(R.string.app_name));
+
+        ArrayList<Integer> days = new ArrayList<>(7);
+        days.add(Calendar.SUNDAY);
+        days.add(Calendar.MONDAY);
+        days.add(Calendar.TUESDAY);
+        days.add(Calendar.WEDNESDAY);
+        days.add(Calendar.THURSDAY);
+        days.add(Calendar.FRIDAY);
+        days.add(Calendar.SATURDAY);
+
+        intent.putIntegerArrayListExtra(AlarmClock.EXTRA_DAYS, days);
+        intent.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
+        intent.putExtra(AlarmClock.EXTRA_VIBRATE, true);
+
+        appCompatActivity.startActivity(intent);
+    }
