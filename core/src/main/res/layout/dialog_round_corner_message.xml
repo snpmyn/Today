@@ -37,7 +37,7 @@
             tools:text="内容" />
     </LinearLayout>
 
-    <Space
+    <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/px1"
         android:background="@color/gray" />
@@ -59,7 +59,7 @@
             android:textSize="@dimen/sp_14"
             tools:text="取消" />
 
-        <Space
+        <View
             android:layout_width="@dimen/px1"
             android:layout_height="match_parent"
             android:background="@color/gray" />

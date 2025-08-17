@@ -38,7 +38,7 @@
         </LinearLayout>
     </ScrollView>
 
-    <Space
+    <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/px1"
         android:background="@color/gray" />
@@ -57,7 +57,7 @@
             android:textColor="@color/fontInput"
             android:textSize="@dimen/sp_14" />
 
-        <Space
+        <View
             android:layout_width="@dimen/px1"
             android:layout_height="match_parent"
             android:background="@color/gray" />
