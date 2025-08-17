@@ -1,7 +1,7 @@
 package com.zsp.today.module.account;
 
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,7 +38,7 @@ public class AccountDetailActivity extends BasePoolActivity {
     private FloatingActionButton accountDetailActivityFab;
     private MaterialCardView accountDetailActivityMcv;
     private PieChart accountDetailActivityPc;
-    private ImageButton accountDetailActivityIb;
+    private Button accountDetailActivityButton;
     /**
      * 账目传输
      */
@@ -73,7 +73,7 @@ public class AccountDetailActivity extends BasePoolActivity {
         accountDetailActivityFab = findViewById(R.id.accountDetailActivityFab);
         accountDetailActivityMcv = findViewById(R.id.accountDetailActivityMcv);
         accountDetailActivityPc = findViewById(R.id.accountDetailActivityPc);
-        accountDetailActivityIb = findViewById(R.id.accountDetailActivityIb);
+        accountDetailActivityButton = findViewById(R.id.accountDetailActivityButton);
     }
 
     /**
@@ -114,7 +114,7 @@ public class AccountDetailActivity extends BasePoolActivity {
             accountDetailActivityKit.everydayAnalysis(AccountDetailActivity.this, accountDetailActivityPc, accountTransferBean.getDate());
         });
         // ImageButton
-        accountDetailActivityIb.setOnClickListener(v -> {
+        accountDetailActivityButton.setOnClickListener(v -> {
             MaterialContainerTransformKit.getInstance().showStartView(AccountDetailActivity.this, accountDetailActivityRl, accountDetailActivityFab, accountDetailActivityMcv, false);
             ViewUtils.showView(accountDetailActivityFab);
         });
