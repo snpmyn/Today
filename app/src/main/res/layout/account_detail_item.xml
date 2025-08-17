@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize">
 
-        <Space
+        <View
             android:id="@+id/accountDetailItemView"
             android:layout_width="@dimen/dp_12"
             android:layout_height="match_parent"
