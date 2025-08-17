@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     tools:context=".module.account.AccountAnalysisActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -30,12 +29,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/dp_12"
-            android:textColor="@color/purple_500"
+            android:textColor="@color/basic"
             android:textSize="@dimen/sp_14"
             android:textStyle="bold"
             tools:text="月度分析" />
 
         <com.google.android.material.card.MaterialCardView
+            style="?attr/materialCardViewFilledStyle"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_0"
             android:layout_margin="@dimen/dp_12"
@@ -55,7 +55,7 @@
                 android:visibility="gone" />
         </com.google.android.material.card.MaterialCardView>
 
-        <View
+        <Space
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_0"
             android:layout_weight="1" />
