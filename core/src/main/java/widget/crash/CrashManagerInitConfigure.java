@@ -22,6 +22,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
+import pool.application.BasePoolApp;
 import timber.log.Timber;
 import util.activity.ActivitySuperviseManager;
 import util.file.FileUtils;
@@ -180,7 +181,7 @@ public class CrashManagerInitConfigure implements Thread.UncaughtExceptionHandle
         stringBuilder.append(result);
         try {
             String fileName = ("crash-" + dateFormat.format(new Date()) + ".log");
-            FileUtils.saveStringAsFile(stringBuilder.toString(), path, fileName);
+            FileUtils.saveStringAsFile(BasePoolApp.getBasePoolAppInstance(), stringBuilder.toString(), path, fileName);
         } catch (Exception e) {
             Timber.e(e);
         }
