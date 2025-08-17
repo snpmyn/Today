@@ -1,15 +1,24 @@
 package com.zsp.today.application;
 
+import android.Manifest;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import com.zsp.today.BuildConfig;
 import com.zsp.today.kit.AppKit;
 import com.zsp.today.module.login.UserDataBaseTable;
 import com.zsp.today.value.Folder;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import fragmentation.configure.FragmentationInitConfig;
 import litepal.configure.LitePalInitConfigure;
 import litepal.kit.LitePalKit;
 import pool.application.BasePoolApp;
-import pool.login.LoginActivity;
+import pool.module.login.LoginActivity;
+import pool.module.splash.kit.SplashActivityKit;
 import timber.log.Timber;
 import widget.crash.CrashManagerInitConfigure;
 import widget.status.manager.StatusManager;
@@ -83,6 +92,19 @@ public class App extends BasePoolApp {
     }
 
     /**
+     * 权限集
+     *
+     * @return 权限集
+     */
+    @RequiresApi(api = Build.VERSION_CODES.R)
+    @Override
+    protected List<String> permissionList() {
+        List<String> list = new ArrayList<>(1);
+        list.add(Manifest.permission.MANAGE_EXTERNAL_STORAGE);
+        return list;
+    }
+
+    /**
      * 初始化配置
      */
     protected void initConfiguration() {
@@ -96,6 +118,9 @@ public class App extends BasePoolApp {
         TbsInitConfigure.initTbs();
         // 应用配套元件
         AppKit appKit = new AppKit();
+        // 闪屏页监听
+        SplashActivityKit splashActivityKit = new SplashActivityKit();
+        splashActivityKit.setSplashActivityListener(appKit::distribute);
         // 登录页监听
         LoginActivity.setLoginActivityListener(appKit::login);
     }
