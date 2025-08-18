@@ -13,7 +13,6 @@
             android:id="@+id/homePageChildFragmentCtl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/pageBackground"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -79,7 +78,6 @@
         android:id="@+id/homePageChildFragmentRv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/pageBackground"
         android:overScrollMode="never"
         android:scrollbars="none"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
