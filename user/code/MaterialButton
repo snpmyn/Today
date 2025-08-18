@@ -7,6 +7,7 @@
             android:insetLeft="@dimen/dp_0"
             android:insetRight="@dimen/dp_0"
             android:paddingBottom="@dimen/dp_12"
+            android:filterTouchesWhenObscured="true"
             android:text="@string/enterIntoAccount"
             android:textColor="@color/white"
             android:textSize="@dimen/sp_13" />
@@ -18,6 +19,7 @@
                 android:backgroundTint="@color/color_00E386"
                 android:textSize="@dimen/sp_10"
                 android:insetTop="@dimen/dp_0"
+                android:filterTouchesWhenObscured="true"
                 android:insetBottom="@dimen/dp_0"
                 android:insetLeft="@dimen/dp_0"
                 android:insetRight="@dimen/dp_0"
@@ -29,6 +31,7 @@
                 android:layout_height="?actionBarSize"
                 android:layout_weight="1"
                 android:text="@string/modify"
+                android:filterTouchesWhenObscured="true"
                 android:insetTop="@dimen/dp_0"
                 android:insetBottom="@dimen/dp_0"
                 android:insetLeft="@dimen/dp_0"
