@@ -39,6 +39,7 @@
         <activity android:name=".module.account.AccountDetailActivity" />
         <activity android:name=".module.account.AccountAnalysisActivity" />
         <activity android:name=".module.account.AddAccountActivity" />
+        <activity android:name=".module.widget.tablayout.TabLayoutActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
