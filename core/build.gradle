@@ -38,6 +38,8 @@ android {
 dependencies {
     api libs.appcompat
     api libs.material
+    api libs.lifecycle.livedata.ktx
+    api libs.lifecycle.viewmodel.ktx
     implementation libs.core.ktx
     /*自带*/
     api libs.eventbus
