@@ -52,11 +52,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             // 启用资源缩减
             shrinkResources true
+            // 调试
+            /*debuggable true*/
             signingConfig signingConfigs.release
             buildConfigField "String", "DOMAIN_NAME", '"http://xxx.com"'
             manifestPlaceholders = [app_name: "今日"]
             versionNameSuffix "-release"
-            /*debuggable true*/
         }
         debug {
             signingConfig signingConfigs.debug
