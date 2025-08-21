@@ -107,9 +107,7 @@ public class AccountHomeActivityKit {
     public void displayAccount(AppCompatActivity appCompatActivity, RecyclerView recyclerView, List<AccountMonthListBean> accountMonthListBeanList, StatusManager statusManager) {
         // 控件
         RecyclerViewConfigure recyclerViewConfigure = new RecyclerViewConfigure(appCompatActivity, recyclerView);
-        if (recyclerView.getItemDecorationCount() == 0) {
-            recyclerViewConfigure.linearVerticalLayout(true, 48, true, true, false);
-        }
+        recyclerViewConfigure.linearVerticalLayout(true, 48, true, true, false);
         // 适配器
         AccountMonthListAdapter accountMonthListAdapter = new AccountMonthListAdapter(appCompatActivity);
         accountMonthListAdapter.setAccountMonthListData(accountMonthListBeanList);

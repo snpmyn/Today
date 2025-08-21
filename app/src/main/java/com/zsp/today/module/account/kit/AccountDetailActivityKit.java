@@ -82,9 +82,7 @@ public class AccountDetailActivityKit {
         List<AccountDetailBean> accountDetailBeanList = AccountBasicKit.getInstance().transformAccountDataBaseTableToAccountDetailBean(accountDataBaseTableList);
         // 控件
         RecyclerViewConfigure recyclerViewConfigure = new RecyclerViewConfigure(appCompatActivity, recyclerView);
-        if (recyclerView.getItemDecorationCount() == 0) {
-            recyclerViewConfigure.linearVerticalLayout(true, 48, true, true, false);
-        }
+        recyclerViewConfigure.linearVerticalLayout(true, 48, true, true, false);
         // 适配器
         AccountDetailAdapter accountDetailAdapter = getAccountDetailAdapter(appCompatActivity, statusManager, accountDetailBeanList);
         // 状态判断
