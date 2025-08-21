@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:elevation="@dimen/dp_0"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/startAnimation" />
+        app:title="@string/startAnimation"
+        app:titleTextColor="@color/white" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -33,6 +34,8 @@
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
             android:layout_alignParentBottom="true"
+            android:backgroundTint="@color/white"
+            android:filterTouchesWhenObscured="true"
             android:insetLeft="@dimen/dp_0"
             android:insetTop="@dimen/dp_0"
             android:insetRight="@dimen/dp_0"
@@ -41,7 +44,28 @@
             android:textColor="@color/color_F86C09"
             android:textSize="@dimen/sp_14"
             android:textStyle="bold"
-            app:backgroundTint="@color/pageBackground"
+            app:cornerRadius="@dimen/dp_180"
+            app:icon="@drawable/ic_fire_color_f86c09_24dp"
+            app:iconGravity="textStart"
+            app:iconSize="@dimen/dp_24"
+            app:iconTint="@color/color_F86C09"
+            app:rippleColor="@color/color_F86C09" />
+        <!--备用-->
+        <com.google.android.material.button.MaterialButton
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:layout_alignParentBottom="true"
+            android:filterTouchesWhenObscured="true"
+            android:insetLeft="@dimen/dp_0"
+            android:insetTop="@dimen/dp_0"
+            android:insetRight="@dimen/dp_0"
+            android:insetBottom="@dimen/dp_0"
+            android:text="@string/use"
+            android:textColor="@color/color_F86C09"
+            android:textSize="@dimen/sp_14"
+            android:textStyle="bold"
+            android:visibility="gone"
             app:cornerRadius="@dimen/dp_180"
             app:icon="@drawable/ic_fire_color_f86c09_24dp"
             app:iconGravity="textStart"

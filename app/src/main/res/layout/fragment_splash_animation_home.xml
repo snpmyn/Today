@@ -11,12 +11,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:menu="@menu/splash_animation_home_fragment_menu"
-        app:title="@string/startAnimation" />
+        app:title="@string/startAnimation"
+        app:titleTextColor="@color/white" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/splashAnimationHomeFragmentRv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/pageBackground"
         android:scrollbars="none" />
 </LinearLayout>
