@@ -29,13 +29,14 @@ public class MenuAdapterKit {
      * @param spanCount               跨距数
      * @param spacing                 间距
      * @param totalMargin             总外边距
+     * @param spruce                  spruce 否
      * @param menuAdapterKitInterface 菜单适配器配套元件接口
      */
-    public void display(AppCompatActivity appCompatActivity, RecyclerView recyclerView, List<MenuBean> menuBeanList, int spanCount, int spacing, int totalMargin, MenuAdapterKitInterface menuAdapterKitInterface) {
+    public void display(AppCompatActivity appCompatActivity, RecyclerView recyclerView, List<MenuBean> menuBeanList, int spanCount, int spacing, int totalMargin, boolean spruce, MenuAdapterKitInterface menuAdapterKitInterface) {
         // 控件
         RecyclerViewConfigure recyclerViewConfigure = new RecyclerViewConfigure(appCompatActivity, recyclerView);
         if (recyclerView.getItemDecorationCount() == 0) {
-            recyclerViewConfigure.gridLayout(spanCount, spacing, true, true, false);
+            recyclerViewConfigure.gridLayout(spanCount, spacing, true, true, spruce);
         }
         // 适配器
         MenuAdapter menuAdapter = new MenuAdapter(appCompatActivity, spanCount, totalMargin);
