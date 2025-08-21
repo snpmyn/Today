@@ -53,11 +53,15 @@ public class FunctionActivityKit {
      * @param functionBean 功能数据
      */
     private void update(@NonNull FunctionBean functionBean) {
+        // 创建待更新对象
         FunctionDataBaseTable functionDataBaseTableUpdate = new FunctionDataBaseTable();
         functionDataBaseTableUpdate.setFunctionShow(functionBean.isFunctionShow());
+        // 获取被更新对象
         List<FunctionDataBaseTable> functionDataBaseTableList = LitePalKit.getInstance().queryByWhere(FunctionDataBaseTable.class, FunctionCondition.FUNCTION_FUNCTION_ID, String.valueOf(functionBean.getFunctionId()));
         FunctionDataBaseTable functionDataBaseTable = functionDataBaseTableList.get(0);
+        // 单个更新
         LitePalKit.getInstance().singleUpdate(functionDataBaseTableUpdate, functionDataBaseTable.getBaseObjectId());
+        // 刷新菜单
         RxBus.get().post(RxBusConstant.HOME_PAGE_CHILD_FRAGMENT_$_REFRESH_MENU, RxBusConstant.HOME_PAGE_CHILD_FRAGMENT_$_REFRESH_MENU_CODE);
     }
 }
