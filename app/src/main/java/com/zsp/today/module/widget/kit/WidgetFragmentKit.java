@@ -1,7 +1,5 @@
 package com.zsp.today.module.widget.kit;
 
-import android.view.View;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -52,12 +50,7 @@ public class WidgetFragmentKit {
         StatusManagerKit.statusJudge(statusManager, false, menuBeanList);
         // 菜单适配器配套元件
         MenuAdapterKit menuAdapterKit = new MenuAdapterKit();
-        menuAdapterKit.display(appCompatActivity, recyclerView, menuBeanList, spanCount, spacing, totalMargin, true, new MenuAdapterKit.MenuAdapterKitInterface() {
-            @Override
-            public void onItemClick(View view, MenuBean menuBean) {
-                distribute(appCompatActivity, menuBean.getMenuId());
-            }
-        });
+        menuAdapterKit.display(appCompatActivity, recyclerView, menuBeanList, spanCount, spacing, totalMargin, false, (view, menuBean) -> distribute(appCompatActivity, menuBean.getMenuId()));
     }
 
     /**
