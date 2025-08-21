@@ -7,13 +7,16 @@
     <string name="date">日期</string>
     <string name="renMinBi">¥</string>
     <string name="amount">金额</string>
+    <string name="widget">组件</string>
     <string name="modify">修改</string>
     <string name="logOut">退出</string>
     <string name="function">功能</string>
     <string name="category">类目</string>
     <string name="iKnow">我知道啦</string>
+    <string name="twoColumn">两列</string>
     <string name="accountTwo">账单</string>
     <string name="fullScreen">全屏</string>
+    <string name="threeColumn">三列</string>
     <string name="addAccount">添加账目</string>
     <string name="chooseDate">选择日期</string>
     <string name="chooseYear">选择年份</string>
@@ -23,12 +26,14 @@
     <string name="todayAccount">今日账目</string>
     <string name="yearAnalysis">年度分析</string>
     <string name="moreFunction">更多功能</string>
+    <string name="sendDangerous">发送险情</string>
     <string name="exportAccount">导出账单</string>
     <string name="accountDetail">账目详情</string>
     <string name="monthAnalysis">月度分析</string>
     <string name="startAnimation">启动动画</string>
     <string name="chooseCategory">选择类目</string>
     <string name="restoreDefault">恢复默认</string>
+    <string name="dangerousNotice">险情通知</string>
     <string name="accountAnalysis">账目分析</string>
     <string name="poolSplashContent">TODAY</string>
     <string name="noCacheAvailable">暂无缓存</string>
@@ -39,8 +44,10 @@
     <string name="pleaseInputAmount">请输入金额</string>
     <string name="internalBackupFail">内备份失败</string>
     <string name="externalBackupFail">外备份失败</string>
+    <string name="waitForImplementation">等待实现</string>
     <string name="pleaseChooseCategory">请选择类目</string>
     <string name="noYearDataAvailable">暂无年份数据</string>
+    <string name="inputDangerousNotice">输入险情通知</string>
     <string name="accountHasBeenRestored">账目已恢复</string>
     <string name="rememberToKeepAccount">记得记账哦！</string>
     <string name="closeEverydayAnalysis">关闭每日分析</string>
@@ -48,20 +55,14 @@
     <string name="accountNotificationChinese">账目通知</string>
     <string name="enterIntoAccountSuccessful">入账成功</string>
     <string name="wantToDeleteThisAccount">要删除这条账目吗？</string>
+    <string name="emergencyContactPhoneNumber">紧急联系人手机号</string>
     <string name="noYearAnalysisDataAvailable">暂无年度分析数据</string>
     <string name="noMonthAnalysisDataAvailable">暂无月度分析数据</string>
     <string name="accountNotificationEnglish">account notification</string>
     <string name="wantToDeleteTheAccountOfTheDay">要删除这天的账目吗？</string>
+    <string name="inputEmergencyContactPhoneNumber">输入紧急联系人手机号</string>
     <string name="receiveNotificationAreBasedOnThePermission">接收通知需要该权限</string>
     <string name="needToInputPhoneNumberToLoginAgainAfterLogOut">退出后需输入手机号重新登录</string>
-    <!-- format -->
-    <string name="formatYuan">%1$s 元</string>
-    <string name="formatMonth">%1$s 月</string>
-    <string name="formatCleanCacheSuccessful">已清理 %1$s</string>
-    <string name="formatAccountFileName">/账单 %1$s-%2$s.xls</string>
-    <string name="formatAccountExportSuccessful">账单导出成功\n%1$s</string>
-    <string name="formatHomePageChildFragmentTitleOne">%1$s　%2$s</string>
-    <string name="formatHomePageChildFragmentTitleTwo">%1$s　%2$s　%3$s</string>
     <!-- string-array -->
     <string-array name="year">
         <item>2024</item>
@@ -77,4 +78,15 @@
         <item>通勤</item>
         <item>其它</item>
     </string-array>
+    <!--widget - TabLayout-->
+    <string name="tabLayoutTitleOne">TabOne</string>
+    <string name="tabLayoutTitleTwo">TabTwo</string>
+    <!-- format -->
+    <string name="formatYuan">%1$s 元</string>
+    <string name="formatMonth">%1$s 月</string>
+    <string name="formatCleanCacheSuccessful">已清理 %1$s</string>
+    <string name="formatAccountFileName">/账单 %1$s-%2$s.xls</string>
+    <string name="formatAccountExportSuccessful">账单导出成功\n%1$s</string>
+    <string name="formatHomePageChildFragmentTitleOne">%1$s　%2$s</string>
+    <string name="formatHomePageChildFragmentTitleTwo">%1$s　%2$s　%3$s</string>
 </resources>
