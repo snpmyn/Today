@@ -84,6 +84,11 @@ public class RecyclerViewConfigure {
      * @param spruce             spruce 否
      */
     public void linearHorizontalLayout(boolean needSpace, int space, boolean topAndBottomOffset, boolean hasFixedSize, boolean spruce) {
+        // 条目装饰数量
+        if (recyclerView.getItemDecorationCount() > 0) {
+            recyclerView.removeItemDecorationAt(0);
+        }
+        // 设置布局管理器
         // false 头至尾 / true 尾至头（默 false）
         recyclerView.setLayoutManager(new MyLinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false, (recycler, state) -> {
             if (spruce) {
@@ -109,6 +114,11 @@ public class RecyclerViewConfigure {
      * @param spruce             spruce 否
      */
     public void linearVerticalLayout(boolean needSpace, int space, boolean leftAndRightOffset, boolean hasFixedSize, boolean spruce) {
+        // 条目装饰数量
+        if (recyclerView.getItemDecorationCount() > 0) {
+            recyclerView.removeItemDecorationAt(0);
+        }
+        // 设置布局管理器
         recyclerView.setLayoutManager(new MyLinearLayoutManager(context, (recycler, state) -> {
             if (spruce) {
                 spruceKit.defaultSort(recyclerView, interObjectDelay, duration);
@@ -133,6 +143,11 @@ public class RecyclerViewConfigure {
      * @param spruce                         spruce 否
      */
     public void gridLayout(int spanCount, int spacing, boolean firstRowHaveTopSpaceDecoration, boolean hasFixedSize, boolean spruce) {
+        // 条目装饰数量
+        if (recyclerView.getItemDecorationCount() > 0) {
+            recyclerView.removeItemDecorationAt(0);
+        }
+        // 设置布局管理器
         recyclerView.setLayoutManager(new MyGridLayoutManager(context, spanCount, (recycler, state) -> {
             if (spruce) {
                 spruceKit.linearSort(recyclerView, interObjectDelay, reversed, direction, duration);
