@@ -1,4 +1,4 @@
-package com.zsp.today.widget.status;
+package widget.status.kit;
 
 import java.util.List;
 
@@ -16,9 +16,14 @@ public class StatusManagerKit {
      * 状态判断
      *
      * @param statusManager 状态管理器
+     * @param needLoad      需加载
      * @param list          集合
      */
-    public static void statusJudge(StatusManager statusManager, List<?> list) {
+    public static void statusJudge(StatusManager statusManager, boolean needLoad, List<?> list) {
+        if (needLoad) {
+            statusManager.showLoading();
+            return;
+        }
         if (ListUtils.listIsEmpty(list)) {
             statusManager.showEmpty();
             return;
