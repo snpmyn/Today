@@ -18,7 +18,8 @@ import com.zsp.today.module.account.database.AccountDataBaseTable;
 import com.zsp.today.value.AccountCondition;
 import com.zsp.today.value.AccountConstant;
 import com.zsp.today.value.RxBusConstant;
-import com.zsp.today.widget.status.StatusManagerKit;
+
+import widget.status.kit.StatusManagerKit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +50,9 @@ public class AccountSecondActivityKit {
      * @param statusManager     状态管理器
      */
     public void displayAccount(@NonNull AppCompatActivity appCompatActivity, RecyclerView recyclerView, StatusManager statusManager) {
+        // 状态判断
+        StatusManagerKit.statusJudge(statusManager, true, null);
+        // 数据
         AccountTransferBean accountTransferBean = (AccountTransferBean) IntentVerify.getSerializableExtra(appCompatActivity.getIntent(), AccountConstant.ACCOUNT_HOME_ACTIVITY_$_ACCOUNT_TRANSFER_BEAN);
         List<AccountDateListBean> accountDateListBeanList;
         if (null == accountTransferBean) {
@@ -83,7 +87,7 @@ public class AccountSecondActivityKit {
                     LitePalKit.getInstance().multiDelete(AccountDataBaseTable.class, AccountCondition.ACCOUNT_PHONE_NUMBER_AND_DATE, App.getAppInstance().getPhoneNumber(false, null), accountDateListBean.getDate());
                     RecyclerViewDisplayController.deleteDynamic(accountDateListAdapter, position, accountDateListBeanList);
                     // 状态判断
-                    StatusManagerKit.statusJudge(statusManager, accountDateListBeanList);
+                    StatusManagerKit.statusJudge(statusManager, false, accountDateListBeanList);
                     RxBus.get().post(RxBusConstant.ACCOUNT_HOME_ACTIVITY_AND_SECOND_ACTIVITY_$_REFRESH_ACCOUNT, RxBusConstant.ACCOUNT_HOME_ACTIVITY_AND_SECOND_ACTIVITY_$_REFRESH_ACCOUNT_CODE);
                     // 备份
                     BackupKit.getInstance().backup(appCompatActivity, AccountDataBaseTable.class, null);
@@ -91,7 +95,7 @@ public class AccountSecondActivityKit {
             }
         });
         // 状态判断
-        StatusManagerKit.statusJudge(statusManager, accountDateListBeanList);
+        StatusManagerKit.statusJudge(statusManager, false, accountDateListBeanList);
         // 展示
         RecyclerViewDisplayController.display(recyclerView, accountDateListAdapter);
     }

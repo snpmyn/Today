@@ -29,7 +29,8 @@ import com.zsp.today.value.AccountCondition;
 import com.zsp.today.value.AccountConstant;
 import com.zsp.today.value.RxBusConstant;
 import com.zsp.today.widget.mpandroidchart.piechart.HalfPieChartKit;
-import com.zsp.today.widget.status.StatusManagerKit;
+
+import widget.status.kit.StatusManagerKit;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -74,6 +75,9 @@ public class AccountDetailActivityKit {
      * @param statusManager     状态管理器
      */
     public void displayAccount(AppCompatActivity appCompatActivity, RecyclerView recyclerView, String date, StatusManager statusManager) {
+        // 状态判断
+        StatusManagerKit.statusJudge(statusManager, true, null);
+        // 数据
         List<AccountDataBaseTable> accountDataBaseTableList = LitePalKit.getInstance().queryByWhere(AccountDataBaseTable.class, AccountCondition.ACCOUNT_PHONE_NUMBER_AND_DATE, App.getAppInstance().getPhoneNumber(false, null), date);
         List<AccountDetailBean> accountDetailBeanList = AccountBasicKit.getInstance().transformAccountDataBaseTableToAccountDetailBean(accountDataBaseTableList);
         // 控件
@@ -84,7 +88,7 @@ public class AccountDetailActivityKit {
         // 适配器
         AccountDetailAdapter accountDetailAdapter = getAccountDetailAdapter(appCompatActivity, statusManager, accountDetailBeanList);
         // 状态判断
-        StatusManagerKit.statusJudge(statusManager, accountDetailBeanList);
+        StatusManagerKit.statusJudge(statusManager, false, accountDetailBeanList);
         // 展示
         RecyclerViewDisplayController.display(recyclerView, accountDetailAdapter);
     }
@@ -188,7 +192,7 @@ public class AccountDetailActivityKit {
             LitePalKit.getInstance().multiDelete(AccountDataBaseTable.class, AccountCondition.ACCOUNT_PHONE_NUMBER_AND_DATE_AND_CATEGORY_AND_AMOUNT, App.getAppInstance().getPhoneNumber(false, null), accountDetailBean.getDate(), accountDetailBean.getCategory(), BigDecimalUtils.bigDecimalToString(BigDecimal.valueOf(accountDetailBean.getAmount())));
             RecyclerViewDisplayController.deleteDynamic(accountDetailAdapter, position, accountDetailBeanList);
             // 状态判断
-            StatusManagerKit.statusJudge(statusManager, accountDetailBeanList);
+            StatusManagerKit.statusJudge(statusManager, false, accountDetailBeanList);
             RxBus.get().post(RxBusConstant.ACCOUNT_HOME_ACTIVITY_AND_SECOND_ACTIVITY_$_REFRESH_ACCOUNT, RxBusConstant.ACCOUNT_HOME_ACTIVITY_AND_SECOND_ACTIVITY_$_REFRESH_ACCOUNT_CODE);
             // 备份
             BackupKit.getInstance().backup(appCompatActivity, AccountDataBaseTable.class, null);

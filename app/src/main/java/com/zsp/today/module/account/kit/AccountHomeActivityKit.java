@@ -24,7 +24,8 @@ import com.zsp.today.value.AccountCondition;
 import com.zsp.today.value.AccountConstant;
 import com.zsp.today.value.Folder;
 import com.zsp.today.widget.excel.ExcelKit;
-import com.zsp.today.widget.status.StatusManagerKit;
+
+import widget.status.kit.StatusManagerKit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +65,8 @@ public class AccountHomeActivityKit {
      * @param appointYear       指定年
      */
     public void judgeDisplayAccount(AppCompatActivity appCompatActivity, RecyclerView recyclerView, @NonNull StatusManager statusManager, String appointYear) {
-        statusManager.showLoading();
+        // 状态判断
+        StatusManagerKit.statusJudge(statusManager, true, null);
         displayAccount(appCompatActivity, recyclerView, AccountMonthKit.getInstance().getAccountMonthListBeanListByMonthRemoveDuplicationWithSort(appointYear, true), statusManager);
     }
 
@@ -88,7 +90,7 @@ public class AccountHomeActivityKit {
             }
             List<AccountMonthListBean> accountMonthListBeanList = AccountMonthKit.getInstance().getAccountMonthListBeanListByMonthRemoveDuplicationWithSort(value, true);
             // 状态判断
-            StatusManagerKit.statusJudge(statusManager, accountMonthListBeanList);
+            StatusManagerKit.statusJudge(statusManager, false, accountMonthListBeanList);
             // 展示账目
             displayAccount(appCompatActivity, recyclerView, accountMonthListBeanList, statusManager);
         });
@@ -130,14 +132,14 @@ public class AccountHomeActivityKit {
                     LitePalKit.getInstance().multiDelete(AccountDataBaseTable.class, AccountCondition.ACCOUNT_PHONE_NUMBER_AND_YEAR_AND_MONTH, App.getAppInstance().getPhoneNumber(false, null), accountMonthListBean.getYear(), accountMonthListBean.getMonth());
                     RecyclerViewDisplayController.deleteDynamic(accountMonthListAdapter, position, accountMonthListBeanList);
                     // 状态判断
-                    StatusManagerKit.statusJudge(statusManager, accountMonthListBeanList);
+                    StatusManagerKit.statusJudge(statusManager, false, accountMonthListBeanList);
                     // 备份
                     BackupKit.getInstance().backup(appCompatActivity, AccountDataBaseTable.class, null);
                 }).setNegativeButton(R.string.wait, (dialog, which) -> dialog.dismiss()).setCancelable(false).show();
             }
         });
         // 状态判断
-        StatusManagerKit.statusJudge(statusManager, accountMonthListBeanList);
+        StatusManagerKit.statusJudge(statusManager, false, accountMonthListBeanList);
         // 展示
         RecyclerViewDisplayController.display(recyclerView, accountMonthListAdapter);
     }
