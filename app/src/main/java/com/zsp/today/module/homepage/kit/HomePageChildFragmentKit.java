@@ -15,11 +15,14 @@ import com.google.android.material.carousel.HeroCarouselStrategy;
 import com.zsp.today.R;
 import com.zsp.today.application.App;
 import com.zsp.today.module.account.AccountHomeActivity;
+import com.zsp.today.module.dangerous.DangerousActivity;
+import com.zsp.today.module.widget.WidgetFragment;
 import com.zsp.today.module.function.database.FunctionDataBaseTable;
 import com.zsp.today.module.homepage.bean.HomePageMenuEnum;
 import com.zsp.today.module.homepage.fragment.HomePageChildFragment;
 import com.zsp.today.value.FunctionCondition;
 import com.zsp.today.value.FunctionConstant;
+import com.zsp.today.value.RxBusConstant;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -34,6 +37,7 @@ import util.datetime.DateUtils;
 import util.glide.util.GlideUtils;
 import util.intent.IntentJump;
 import util.mmkv.MmkvKit;
+import util.rxbus.RxBus;
 import widget.adapttemplate.bean.MenuBean;
 import widget.adapttemplate.kit.MenuAdapterKit;
 import widget.carousel.CarouselItem;
@@ -200,45 +204,62 @@ public class HomePageChildFragmentKit {
     /**
      * 展示
      *
-     * @param appCompatActivity 活动
-     * @param recyclerView      控件
+     * @param appCompatActivity     活动
+     * @param homePageChildFragment 首页子碎片
+     * @param recyclerView          控件
      */
-    public void display(AppCompatActivity appCompatActivity, RecyclerView recyclerView) {
-        // 数据
+    public void display(AppCompatActivity appCompatActivity, HomePageChildFragment homePageChildFragment, RecyclerView recyclerView) {
+        // 获取主页菜单图标资源 ID 集
         HomePageMenuEnum[] homePageMenuEnums = HomePageMenuEnum.values();
         Map<Integer, Integer> menuIconResIdMap = new HashMap<>(homePageMenuEnums.length);
         for (HomePageMenuEnum homePageMenuEnum : homePageMenuEnums) {
             menuIconResIdMap.put(homePageMenuEnum.getMenuId(), homePageMenuEnum.getMenuIconResId());
         }
-        Map<Integer, String> menuNameMap = new HashMap<>(homePageMenuEnums.length);
-        for (HomePageMenuEnum homePageMenuEnum : homePageMenuEnums) {
-            menuNameMap.put(homePageMenuEnum.getMenuId(), homePageMenuEnum.getMenuName());
-        }
+        // 获取功能数据库表可显数据集
         List<FunctionDataBaseTable> functionDataBaseTableList = LitePalKit.getInstance().queryByWhere(FunctionDataBaseTable.class, FunctionCondition.FUNCTION_FUNCTION_SHOW, "1");
-        List<MenuBean> moduleBeanList = new ArrayList<>(functionDataBaseTableList.size());
+        // 获取菜单集
+        List<MenuBean> menuBeanList = new ArrayList<>(functionDataBaseTableList.size());
         for (FunctionDataBaseTable functionDataBaseTable : functionDataBaseTableList) {
             int menuId = functionDataBaseTable.getFunctionId();
             Integer menuIconResId = menuIconResIdMap.get(menuId);
-            String menuName = menuNameMap.get(menuId);
-            if ((null != menuIconResId) && (null != menuName)) {
-                moduleBeanList.add(new MenuBean(menuId, menuIconResId, menuName));
+            if (null != menuIconResId) {
+                menuBeanList.add(new MenuBean(menuId, menuIconResId, functionDataBaseTable.getFunctionName()));
             }
         }
         // 菜单适配器配套元件
         MenuAdapterKit menuAdapterKit = new MenuAdapterKit();
-        menuAdapterKit.display(appCompatActivity, recyclerView, moduleBeanList, 3, 48, 192, (view, menuBean) -> distribute(appCompatActivity, menuBean.getMenuId()));
+        menuAdapterKit.display(appCompatActivity, recyclerView, menuBeanList, 3, 48, 192, false, new MenuAdapterKit.MenuAdapterKitInterface() {
+            @Override
+            public void onItemClick(View view, MenuBean menuBean) {
+                distribute(appCompatActivity, homePageChildFragment, menuBean.getMenuId());
+            }
+        });
     }
 
     /**
      * 分发
      *
-     * @param appCompatActivity 活动
-     * @param menuId            菜单 ID
+     * @param appCompatActivity     活动
+     * @param homePageChildFragment 首页子碎片
+     * @param menuId                菜单 ID
      */
-    private void distribute(AppCompatActivity appCompatActivity, int menuId) {
-        // 账目
-        if (menuId == 1) {
-            IntentJump.getInstance().jump(null, appCompatActivity, false, AccountHomeActivity.class);
+    private void distribute(AppCompatActivity appCompatActivity, HomePageChildFragment homePageChildFragment, int menuId) {
+        switch (menuId) {
+            // 账目
+            case 1:
+                IntentJump.getInstance().jump(null, appCompatActivity, false, AccountHomeActivity.class);
+                break;
+            // 险情
+            case 2:
+                IntentJump.getInstance().jump(null, appCompatActivity, false, DangerousActivity.class);
+                break;
+            // 组件
+            case 3:
+                RxBus.get().post(RxBusConstant.MAIN_ACTIVITY_$_BOTTOM_NAVIGATION_VIEW, RxBusConstant.MAIN_ACTIVITY_$_HIDE_BOTTOM_NAVIGATION_VIEW_CODE);
+                homePageChildFragment.start(WidgetFragment.newInstance());
+                break;
+            default:
+                break;
         }
     }
 }
