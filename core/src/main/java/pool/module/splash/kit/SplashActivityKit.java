@@ -36,7 +36,6 @@ import widget.dialog.materialalertdialog.MyMaterialAlertDialogBuilder;
  */
 public class SplashActivityKit {
     private static SplashActivityListener splashActivityListener;
-    private BaseDialog baseDialog;
 
     /**
      * 执行
@@ -45,8 +44,8 @@ public class SplashActivityKit {
      */
     public void execute(AppCompatActivity appCompatActivity) {
         if (MmkvKit.defaultMmkv().decodeBool(PoolConstant.USER_AGREEMENT_AND_PRIVACY_POLICY)) {
-            requestPermissions(appCompatActivity);
-        } else if (null == baseDialog) {
+            checkConnect(appCompatActivity);
+        } else {
             userAgreementAndPrivacyPolicy(appCompatActivity);
         }
     }
@@ -57,7 +56,9 @@ public class SplashActivityKit {
      * @param appCompatActivity 活动
      */
     private void userAgreementAndPrivacyPolicy(@NonNull AppCompatActivity appCompatActivity) {
-        baseDialog = CustomDialog.init().setLayoutId(R.layout.dialog_user_agreement_and_privacy_policy).setBaseViewConvertListener(new BaseViewConvertListener() {
+        // 不同意并退出
+        // 同意
+        CustomDialog.init().setLayoutId(R.layout.dialog_user_agreement_and_privacy_policy).setBaseViewConvertListener(new BaseViewConvertListener() {
             @Override
             public void convertView(ViewHolder holder, final BaseDialog dialog) {
                 TextView dialogUserAgreementAndPrivacyPolicyTvUserAgreementAndPrivacyPolicyContent = holder.getView(R.id.dialogUserAgreementAndPrivacyPolicyTvUserAgreementAndPrivacyPolicyContent);
@@ -100,11 +101,8 @@ public class SplashActivityKit {
                 TextView dialogUserAgreementAndPrivacyPolicyTvAgree = holder.getView(R.id.dialogUserAgreementAndPrivacyPolicyTvAgree);
                 dialogUserAgreementAndPrivacyPolicyTvAgree.setOnClickListener(v -> {
                     dialog.dismiss();
-                    if (!NetManager.areNetConnected(appCompatActivity)) {
-                        new MyMaterialAlertDialogBuilder(appCompatActivity).setTitle(R.string.hint).setMessage(R.string.currentNoNetwork).setPositiveButton(R.string.continueUse, (dialog1, which) -> dialog1.dismiss()).setCancelable(false).show();
-                        return;
-                    }
-                    handle(appCompatActivity);
+                    MmkvKit.defaultMmkv().encode(PoolConstant.USER_AGREEMENT_AND_PRIVACY_POLICY, true);
+                    checkConnect(appCompatActivity);
                 });
             }
         }).setWidth(300).setOutCancel(false).setAnimStyle(R.style.DefaultAnimation).show(appCompatActivity.getSupportFragmentManager());
@@ -122,12 +120,18 @@ public class SplashActivityKit {
     }
 
     /**
-     * 处理
+     * 检查连接
      *
      * @param appCompatActivity 活动
      */
-    private void handle(AppCompatActivity appCompatActivity) {
-        MmkvKit.defaultMmkv().encode(PoolConstant.USER_AGREEMENT_AND_PRIVACY_POLICY, true);
+    private void checkConnect(AppCompatActivity appCompatActivity) {
+        if (!NetManager.areNetConnected(appCompatActivity)) {
+            new MyMaterialAlertDialogBuilder(appCompatActivity).setTitle(R.string.hint).setMessage(R.string.currentNoNetwork).setPositiveButton(R.string.continueUse, (dialog, which) -> {
+                dialog.dismiss();
+                requestPermissions(appCompatActivity);
+            }).setCancelable(false).show();
+            return;
+        }
         requestPermissions(appCompatActivity);
     }
 
