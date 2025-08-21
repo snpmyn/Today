@@ -177,13 +177,13 @@ public class HomePageChildFragment extends BasePoolFragment {
         homePageChildFragmentKit.banner(homePageChildFragmentBv);
         homePageChildFragmentKit.carousel(homePageChildFragmentRvBanner);
         homePageChildFragmentKit.preStore();
-        homePageChildFragmentKit.display(fragmentationSupportActivity, homePageChildFragmentRv);
+        homePageChildFragmentKit.display(fragmentationSupportActivity, this, homePageChildFragmentRv);
     }
 
     @Subscribe(thread = EventThread.MAIN_THREAD, tags = {@Tag(RxBusConstant.HOME_PAGE_CHILD_FRAGMENT_$_REFRESH_MENU)})
     public void homePageChildFragmentRefreshAccount(Integer integer) {
         if (integer == RxBusConstant.HOME_PAGE_CHILD_FRAGMENT_$_REFRESH_MENU_CODE) {
-            homePageChildFragmentKit.display(fragmentationSupportActivity, homePageChildFragmentRv);
+            homePageChildFragmentKit.display(fragmentationSupportActivity, this, homePageChildFragmentRv);
         }
     }
 
