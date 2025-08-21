@@ -1,0 +1,16 @@
+@Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // 实现 Android 应用全屏或边缘到边缘 (edge-to-edge) 显示
+        // 启用边缘到边缘显示模式，让应用内容延伸到系统栏（状态栏和导航栏）下面。
+        // 自动处理系统栏与内容的交互，确保内容不会被系统栏遮挡。
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_dangerous);
+        // 避免系统栏遮挡内容。通过调整视图的内边距，确保内容不会被状态栏或导航栏覆盖。
+        // 兼容不同 Android 版本。使用 WindowInsetsCompat 而不是直接使用 WindowInsets，确保在旧版本 Android 上也能正常工作。
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+    }
