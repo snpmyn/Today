@@ -59,7 +59,7 @@ public class MineChildFragmentKit {
         moduleBeanList.add(new MenuBean(3, R.drawable.ic_log_out_basic_20dp, appCompatActivity.getString(R.string.logOut)));
         // 模块适配器配套元件
         MenuAdapterKit menuAdapterKit = new MenuAdapterKit();
-        menuAdapterKit.display(appCompatActivity, recyclerView, moduleBeanList, 3, 48, 192, (view, menuBean) -> distribute(appCompatActivity, mineChildFragment, menuBean.getMenuId()));
+        menuAdapterKit.display(appCompatActivity, recyclerView, moduleBeanList, 3, 48, 192, false, (view, menuBean) -> distribute(appCompatActivity, mineChildFragment, menuBean.getMenuId()));
     }
 
     /**
