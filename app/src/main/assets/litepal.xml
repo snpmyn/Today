@@ -49,5 +49,6 @@
         can access. "internal" will act as default.
         For example:
     -->
-    <storage value="external" />
+    <!--若两 APP 都设 external 且有同名数据库表，则该两 APP 可互访对方数据库表，导致数据污染。与数据库名无关-->
+    <storage value="internal" />
 </litepal>
