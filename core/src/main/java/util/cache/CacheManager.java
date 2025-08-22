@@ -18,6 +18,8 @@ import timber.log.Timber;
  * @date 2018/11/6
  */
 public class CacheManager {
+    public static final String STRING_ZERO_K = "0K";
+
     /**
      * 全缓存大小
      *
@@ -33,41 +35,15 @@ public class CacheManager {
     }
 
     /**
-     * 清全缓存
-     *
-     * @param context 上下文
-     */
-    public static void clearAllCache(@NotNull Context context) {
-        deleteDir(context.getApplicationContext().getCacheDir());
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            deleteDir(context.getApplicationContext().getExternalCacheDir());
-        }
-    }
-
-    private static boolean deleteDir(File dir) {
-        if ((null != dir) && dir.isDirectory()) {
-            String[] children = dir.list();
-            if (null != children) {
-                for (String aChildren : children) {
-                    boolean success = deleteDir(new File(dir, aChildren));
-                    if (!success) {
-                        return false;
-                    }
-                }
-            }
-        }
-        if (null != dir) {
-            return dir.delete();
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * 目录大小
      * <p>
-     * Context.getExternalFilesDir() --> SDCard/Android/data/应用包名/files/ 目录（通放长存数据）
-     * Context.getExternalCacheDir() --> SDCard/Android/data/应用包名/cache/ 目录（通放临缓数据）
+     * Context.getCacheDir() 缓存
+     * <p>
+     * Context.getExternalFilesDir() 外部缓存
+     * SDCard/Android/data/应用包名/files/ 目录（通放长存数据）
+     * <p>
+     * Context.getExternalCacheDir() 外部缓存
+     * SDCard/Android/data/应用包名/cache/ 目录（通放临缓数据）
      *
      * @param file 文件
      * @return 目录大小
@@ -77,9 +53,9 @@ public class CacheManager {
         try {
             File[] fileList = file.listFiles();
             if (null != fileList) {
-                for (File aFileList : fileList) {
+                for (File fileInner : fileList) {
                     // 下面还有文件
-                    size = (aFileList.isDirectory() ? (size + folderSize(aFileList)) : (size + aFileList.length()));
+                    size = (fileInner.isDirectory() ? (size + folderSize(fileInner)) : (size + fileInner.length()));
                 }
             }
         } catch (Exception e) {
@@ -116,5 +92,42 @@ public class CacheManager {
         }
         BigDecimal result4 = new BigDecimal(teraBytes);
         return result4.setScale(2, RoundingMode.HALF_UP).toPlainString() + "TB";
+    }
+
+    /**
+     * 清全缓存
+     *
+     * @param context 上下文
+     */
+    public static void clearAllCache(@NotNull Context context) {
+        deleteFile(context.getApplicationContext().getCacheDir());
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            deleteFile(context.getApplicationContext().getExternalCacheDir());
+        }
+    }
+
+    /**
+     * 删除文件
+     *
+     * @param file 文件
+     * @return 删除成功
+     */
+    private static boolean deleteFile(File file) {
+        if ((null != file) && file.isDirectory()) {
+            String[] children = file.list();
+            if (null != children) {
+                for (String child : children) {
+                    boolean success = deleteFile(new File(file, child));
+                    if (!success) {
+                        return false;
+                    }
+                }
+            }
+        }
+        if (null != file) {
+            return file.delete();
+        } else {
+            return false;
+        }
     }
 }
