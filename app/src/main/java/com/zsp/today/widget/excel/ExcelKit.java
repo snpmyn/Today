@@ -127,7 +127,7 @@ public class ExcelKit {
                 // 头列日期
                 writableSheet.addCell(new Label(0, i + 1, columnHeads.get(i), writableCellFormatContent));
                 // 根据去重后日期查询处理每日期下账目数据
-                List<AccountDataBaseTable> accountDataBaseTableList = LitePalKit.getInstance().queryByWhere(AccountDataBaseTable.class, AccountCondition.ACCOUNT_PHONE_NUMBER_AND_DATE, App.getAppInstance().getPhoneNumber(false, null), columnHeads.get(i));
+                List<AccountDataBaseTable> accountDataBaseTableList = LitePalKit.getInstance().queryByWhere(AccountDataBaseTable.class, AccountCondition.ACCOUNT_PHONE_NUMBER_AND_DATE, App.getAppInstance().getPhoneNumber(), columnHeads.get(i));
                 for (int j = 0; j < accountDataBaseTableList.size(); j++) {
                     // 其它列宽（j + 1 排除头列）
                     writableSheet.setColumnView(j + 1, 12);
