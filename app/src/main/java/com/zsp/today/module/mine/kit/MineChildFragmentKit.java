@@ -41,7 +41,7 @@ public class MineChildFragmentKit {
      * @param textViewName      姓名
      */
     public void setName(@NonNull AppCompatActivity appCompatActivity, @NonNull TextView textViewName) {
-        textViewName.setText(App.getAppInstance().getPhoneNumber(true, appCompatActivity.getString(R.string.app_name)));
+        textViewName.setText(App.getAppInstance().getPhoneNumber());
     }
 
     /**
