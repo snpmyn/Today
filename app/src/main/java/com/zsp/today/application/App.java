@@ -54,13 +54,11 @@ public class App extends BasePoolApp {
     /**
      * 获取手机号
      *
-     * @param haveAppointValue 有指定值否
-     * @param appointValue     指定值
      * @return 手机号
      */
-    public String getPhoneNumber(boolean haveAppointValue, String appointValue) {
+    public String getPhoneNumber() {
         UserDataBaseTable userDataBaseTable = getUserDataBaseTable();
-        return ((null != userDataBaseTable) ? userDataBaseTable.getPhoneNumber() : (haveAppointValue ? appointValue : "12345678910"));
+        return (null == userDataBaseTable) ? "12345678910" : userDataBaseTable.getPhoneNumber();
     }
 
     /**
@@ -99,8 +97,9 @@ public class App extends BasePoolApp {
     @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     protected List<String> permissionList() {
-        List<String> list = new ArrayList<>(1);
+        List<String> list = new ArrayList<>(2);
         list.add(Manifest.permission.MANAGE_EXTERNAL_STORAGE);
+        list.add(Manifest.permission.SEND_SMS);
         return list;
     }
 
