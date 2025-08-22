@@ -176,7 +176,6 @@ public class HomePageChildFragment extends BasePoolFragment {
     private void startLogic() {
         homePageChildFragmentKit.banner(homePageChildFragmentBv);
         homePageChildFragmentKit.carousel(homePageChildFragmentRvBanner);
-        homePageChildFragmentKit.preStore();
         homePageChildFragmentKit.display(fragmentationSupportActivity, this, homePageChildFragmentRv);
     }
 

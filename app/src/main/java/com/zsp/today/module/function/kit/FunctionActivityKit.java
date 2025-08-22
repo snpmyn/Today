@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.zsp.today.application.App;
 import com.zsp.today.kit.BackupKit;
 import com.zsp.today.module.function.database.FunctionDataBaseTable;
 import com.zsp.today.value.FunctionCondition;
@@ -32,7 +33,7 @@ public class FunctionActivityKit {
      */
     public void display(AppCompatActivity appCompatActivity, RecyclerView recyclerView) {
         // 数据
-        List<FunctionDataBaseTable> functionDataBaseTableList = LitePalKit.getInstance().findAll(FunctionDataBaseTable.class);
+        List<FunctionDataBaseTable> functionDataBaseTableList = LitePalKit.getInstance().queryByWhere(FunctionDataBaseTable.class, FunctionCondition.FUNCTION_PHONE_NUMBER, App.getAppInstance().getPhoneNumber());
         List<FunctionBean> functionBeanList = new ArrayList<>(functionDataBaseTableList.size());
         for (FunctionDataBaseTable functionDataBaseTable : functionDataBaseTableList) {
             functionBeanList.add(new FunctionBean(functionDataBaseTable.getFunctionId(), functionDataBaseTable.getFunctionName(), functionDataBaseTable.getFunctionShow()));
@@ -57,7 +58,7 @@ public class FunctionActivityKit {
         FunctionDataBaseTable functionDataBaseTableUpdate = new FunctionDataBaseTable();
         functionDataBaseTableUpdate.setFunctionShow(functionBean.isFunctionShow());
         // 获取被更新对象
-        List<FunctionDataBaseTable> functionDataBaseTableList = LitePalKit.getInstance().queryByWhere(FunctionDataBaseTable.class, FunctionCondition.FUNCTION_FUNCTION_ID, String.valueOf(functionBean.getFunctionId()));
+        List<FunctionDataBaseTable> functionDataBaseTableList = LitePalKit.getInstance().queryByWhere(FunctionDataBaseTable.class, FunctionCondition.FUNCTION_PHONE_NUMBER_AND_FUNCTION_ID, App.getAppInstance().getPhoneNumber(), String.valueOf(functionBean.getFunctionId()));
         FunctionDataBaseTable functionDataBaseTable = functionDataBaseTableList.get(0);
         // 单个更新
         LitePalKit.getInstance().singleUpdate(functionDataBaseTableUpdate, functionDataBaseTable.getBaseObjectId());
