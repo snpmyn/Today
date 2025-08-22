@@ -11,7 +11,6 @@ import com.zsp.today.application.App;
 import com.zsp.today.module.login.UserDataBaseTable;
 import com.zsp.today.module.mine.fragment.MineChildFragment;
 import com.zsp.today.module.mine.fragment.SplashAnimationHomeFragment;
-import com.zsp.today.value.Magic;
 import com.zsp.today.value.RxBusConstant;
 
 import java.util.ArrayList;
@@ -96,7 +95,7 @@ public class MineChildFragmentKit {
      */
     public void cleanCache(AppCompatActivity appCompatActivity) {
         String totalCacheSize = CacheManager.totalCacheSize(appCompatActivity);
-        if (Magic.STRING_ZERO_K.equals(totalCacheSize)) {
+        if (CacheManager.STRING_ZERO_K.equals(totalCacheSize)) {
             ToastKit.showShort(appCompatActivity.getString(R.string.noCacheAvailable));
         } else {
             CacheManager.clearAllCache(appCompatActivity);
