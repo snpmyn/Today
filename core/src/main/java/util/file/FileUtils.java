@@ -13,6 +13,7 @@ import android.webkit.MimeTypeMap;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -22,10 +23,12 @@ import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
@@ -58,11 +61,9 @@ public class FileUtils {
             // mkdirs() 建多级文件夹
             // mkdir() 建一级文件夹
             if (singleLevel) {
-                // 创建并输出创建结果
-                Timber.i(FileUtils.class.getSimpleName(), folder.mkdir());
+                boolean flag = folder.mkdir();
             } else {
-                // 创建并输出创建结果
-                Timber.i(FileUtils.class.getSimpleName(), folder.mkdirs());
+                boolean flag = folder.mkdirs();
             }
         }
     }
@@ -241,15 +242,13 @@ public class FileUtils {
                             if (f.isDirectory()) {
                                 deleteFile(f);
                             } else {
-                                // 删除并输出创建结果
-                                Timber.i(FileUtils.class.getSimpleName(), f.delete());
+                                boolean flag = f.delete();
                             }
                         }
                     }
                 }
             } else {
-                // 删除并输出创建结果
-                Timber.i(FileUtils.class.getSimpleName(), file.delete());
+                boolean flag = file.delete();
             }
         } catch (Exception e) {
             Timber.e(e);
@@ -342,8 +341,7 @@ public class FileUtils {
                     String var5 = var4.substring(0, var4.lastIndexOf(File.separator));
                     File var6 = new File(var5);
                     if (!var6.exists()) {
-                        // 创建并输出创建结果
-                        Timber.i(FileUtils.class.getSimpleName(), var6.mkdirs());
+                        boolean flag = var6.mkdirs();
                     }
                     var2 = new BufferedInputStream(new FileInputStream(newFile));
                     var3 = new BufferedOutputStream(new FileOutputStream(destFile));
@@ -527,6 +525,7 @@ public class FileUtils {
 
     /**
      * Get the value of the data column for this uri.
+     * <p>
      * This is useful for MediaStore uris, and other file-based ContentProviders.
      *
      * @param context       The context.
@@ -702,8 +701,7 @@ public class FileUtils {
     private static @NotNull File getDocumentCacheDir(@NonNull Context context) {
         File dir = new File(context.getCacheDir(), "documents");
         if (!dir.exists()) {
-            // 创建并输出创建结果
-            Timber.i(FileUtils.class.getSimpleName(), dir.mkdirs());
+            boolean flag = dir.mkdirs();
         }
         Timber.d("cacheDir: %s", context.getCacheDir());
         Timber.d("dir: %s", dir);
@@ -743,33 +741,20 @@ public class FileUtils {
     }
 
     private static void saveFileFromUri(@NotNull Context context, Uri uri, String destinationPath) {
-        InputStream inputStream = null;
-        BufferedOutputStream bufferedOutputStream = null;
-        //noinspection TryFinallyCanBeTryWithResources
-        try {
-            inputStream = context.getContentResolver().openInputStream(uri);
-            bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(destinationPath, false));
-            byte[] buf = new byte[1024];
-            if (null != inputStream) {
-                // 读并输出创建结果
-                Timber.i(FileUtils.class.getSimpleName(), inputStream.read(buf));
-                do {
-                    bufferedOutputStream.write(buf);
-                } while (inputStream.read(buf) != -1);
-            }
-        } catch (IOException e) {
-            Timber.e(e);
-        } finally {
+        try (InputStream inputStream = context.getContentResolver().openInputStream(uri); BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(destinationPath, false))) {
             try {
+                byte[] buf = new byte[1024];
                 if (null != inputStream) {
-                    inputStream.close();
-                }
-                if (null != bufferedOutputStream) {
-                    bufferedOutputStream.close();
+                    int tag = inputStream.read(buf);
+                    do {
+                        bufferedOutputStream.write(buf);
+                    } while (inputStream.read(buf) != -1);
                 }
             } catch (IOException e) {
                 Timber.e(e);
             }
+        } catch (IOException e) {
+            Timber.e(e);
         }
     }
 
@@ -781,8 +766,7 @@ public class FileUtils {
             bytesArray = new byte[(int) file.length()];
             // read file into bytes[]
             fileInputStream = new FileInputStream(file);
-            // 读并输出创建结果
-            Timber.i(FileUtils.class.getSimpleName(), fileInputStream.read(bytesArray));
+            int tag = fileInputStream.read(bytesArray);
         } catch (IOException e) {
             Timber.e(e);
         } finally {
@@ -910,7 +894,7 @@ public class FileUtils {
      * @param fileName 文件名
      * @return 存成功否
      */
-    public static boolean saveStringAsFile(String string, String filePath, String fileName) {
+    public static boolean saveStringAsFile(Context context, String string, String filePath, String fileName) {
         // 文件创否
         boolean flag = true;
         // 拼接文件完整路径
@@ -921,17 +905,16 @@ public class FileUtils {
             File file = new File(fullPath, fileName);
             File parentFile = file.getParentFile();
             if ((null != parentFile) && !parentFile.exists()) {
-                // 创建并输出创建结果
                 // 父目录不存则创父目录
-                Timber.i(FileUtils.class.getSimpleName(), parentFile.mkdirs());
+                boolean mkdirsFlag = parentFile.mkdirs();
             }
             if (file.exists()) {
                 // 已存删旧文件
-                // 删除并输出创建结果
-                Timber.i(FileUtils.class.getSimpleName(), file.delete());
+                /*boolean deleteFlagOne = file.delete();*/
+                /*boolean deleteFlagTwo = deleteFileByFileName(context, fileName, "txt");*/
+                boolean deleteFlagThree = deleteFileByFileUri(context, getUriForFile(context, file));
             }
-            // 创建并输出创建结果
-            Timber.i(FileUtils.class.getSimpleName(), file.createNewFile());
+            boolean createNewFileFlag = file.createNewFile();
             // 格式化 JSON 字符串
             string = JsonFormat.formatJson(string);
             // 格式化后字符串写入文件
@@ -945,5 +928,193 @@ public class FileUtils {
         }
         // 返成否
         return flag;
+    }
+
+    /**
+     * 通过文件统一资源标识符删除文件
+     *
+     * @param context 上下文
+     * @param fileUri 文件统一资源标识符
+     * @return 删除结果
+     */
+    public static boolean deleteFileByFileUri(@NonNull Context context, Uri fileUri) {
+        try {
+            int deletedRows = context.getContentResolver().delete(fileUri, null, null);
+            return deletedRows > 0;
+        } catch (SecurityException e) {
+            Timber.e(e);
+            return false;
+        }
+    }
+
+    /**
+     * 通过文件 ID 删除文件
+     *
+     * @param context  上下文
+     * @param fileId   文件 ID
+     * @param mimeType 文件格式
+     * @return 删除结果
+     */
+    public static boolean deleteFileByFileId(Context context, long fileId, @NonNull String mimeType) {
+        Uri contentUri;
+        if (mimeType.startsWith("image/")) {
+            contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        } else if (mimeType.startsWith("video/")) {
+            contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+        } else if (mimeType.startsWith("audio/")) {
+            contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        } else {
+            // 通用文件
+            contentUri = MediaStore.Files.getContentUri("external");
+        }
+        String selection = MediaStore.MediaColumns._ID + "=?";
+        String[] selectionArgs = new String[]{String.valueOf(fileId)};
+        try {
+            int deletedRows = context.getContentResolver().delete(contentUri, selection, selectionArgs);
+            return deletedRows > 0;
+        } catch (SecurityException e) {
+            Timber.e(e);
+            return false;
+        }
+    }
+
+    /**
+     * 通过文件名删除文件
+     *
+     * @param context  上下文
+     * @param fileName 文件名
+     * @param mimeType 文件格式
+     * @return 删除结果
+     */
+    public static boolean deleteFileByFileName(Context context, String fileName, @NonNull String mimeType) {
+        Uri contentUri;
+        if (mimeType.startsWith("image/")) {
+            contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        } else if (mimeType.startsWith("video/")) {
+            contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+        } else if (mimeType.startsWith("audio/")) {
+            contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        } else {
+            // 通用文件
+            contentUri = MediaStore.Files.getContentUri("external");
+        }
+        String selection = MediaStore.MediaColumns.DISPLAY_NAME + "=?";
+        String[] selectionArgs = new String[]{fileName};
+        try {
+            int deletedRows = context.getContentResolver().delete(contentUri, selection, selectionArgs);
+            return deletedRows > 0;
+        } catch (SecurityException e) {
+            Timber.e(e);
+            return false;
+        }
+    }
+
+    /**
+     * 获取文件统一资源标识符
+     *
+     * @param context 上下文
+     * @param file    文件
+     * @return 统一资源标识符
+     */
+    public static Uri getUriForFile(Context context, File file) {
+        return FileProvider.getUriForFile(context, context.getPackageName() + ".fileprovider", file);
+    }
+
+    /**
+     * 获取文件流
+     *
+     * @param context  上下文
+     * @param fileName 文件名
+     * @return 文件流
+     * @throws FileNotFoundException FileNotFoundException
+     */
+    public static String getFileStream(@NonNull Context context, String fileName) throws FileNotFoundException {
+        String content;
+        FileInputStream fileInputStream = context.openFileInput(fileName);
+        InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, StandardCharsets.UTF_8);
+        StringBuilder stringBuilder = new StringBuilder();
+        try (BufferedReader bufferedReader = new BufferedReader(inputStreamReader)) {
+            String line = bufferedReader.readLine();
+            while (line != null) {
+                stringBuilder.append(line).append('\n');
+                line = bufferedReader.readLine();
+            }
+        } catch (IOException e) {
+            // Error occurred when opening raw file for reading.
+            Timber.e(e);
+        } finally {
+            content = stringBuilder.toString();
+        }
+        return content;
+    }
+
+    /**
+     * 创建缓存文件
+     * <p>
+     * 如果您只需要暂时存储敏感数据，应使用应用在内部存储空间中的指定缓存目录保存数据。
+     * 与所有应用专属存储空间一样，当用户卸载应用后，系统会移除存储在此目录中的文件，但也可以更早地移除此目录中的文件。
+     * <p>
+     * 注意：此缓存目录旨在存储应用的少量敏感数据。如需确定应用当前可用的缓存空间大小，请调用 getCacheQuotaBytes()。
+     *
+     * @param context  上下文
+     * @param fileName 文件名
+     * @return 文件
+     * @throws IOException IOException
+     */
+    @NonNull
+    public static File createCacheFile(@NonNull Context context, String fileName) throws IOException {
+        return File.createTempFile(fileName, null, context.getCacheDir());
+    }
+
+    /**
+     * 创建外部缓存文件
+     * <p>
+     * 如需将应用专属文件添加到外部存储空间中的缓存，请获取对 externalCacheDir 的引用。
+     *
+     * @param context  上下文
+     * @param fileName 文件名
+     */
+    public static void createExternalCacheFile(@NonNull Context context, String fileName) {
+        File externalCacheFile = new File(context.getExternalCacheDir(), fileName);
+    }
+
+    /**
+     * 删除文件
+     *
+     * @param context  上下文
+     * @param fileName 文件名
+     */
+    public static void deleteFile(@NonNull Context context, String fileName) {
+        context.deleteFile(fileName);
+    }
+
+    /**
+     * 验证存储空间的可用性
+     * <p>
+     * 由于外部存储空间位于用户可能能够移除的物理卷上，因此在尝试从外部存储空间读取应用专属数据或将应用专属数据写入外部存储空间之前，请验证该卷是否可访问。
+     * 您可以通过调用 Environment.getExternalStorageState() 查询该卷的状态。
+     * <p>
+     * 如果返回的状态为 MEDIA_MOUNTED，那么您就可以在外部存储空间中读取和写入应用专属文件。
+     * 如果返回的状态为 MEDIA_MOUNTED_READ_ONLY，您只能读取这些文件。
+     *
+     * @return 可读可写
+     */
+    private boolean areExternalStorageReadableAndWritable() {
+        return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
+    }
+
+    /**
+     * 验证存储空间的可用性
+     * <p>
+     * 由于外部存储空间位于用户可能能够移除的物理卷上，因此在尝试从外部存储空间读取应用专属数据或将应用专属数据写入外部存储空间之前，请验证该卷是否可访问。
+     * 您可以通过调用 Environment.getExternalStorageState() 查询该卷的状态。
+     * <p>
+     * 如果返回的状态为 MEDIA_MOUNTED，那么您就可以在外部存储空间中读取和写入应用专属文件。
+     * 如果返回的状态为 MEDIA_MOUNTED_READ_ONLY，您只能读取这些文件。
+     *
+     * @return 只读
+     */
+    private boolean areExternalStorageReadable() {
+        return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) || Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED_READ_ONLY);
     }
 }
