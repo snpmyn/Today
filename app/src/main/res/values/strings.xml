@@ -55,6 +55,7 @@
     <string name="accountNotificationChinese">账目通知</string>
     <string name="enterIntoAccountSuccessful">入账成功</string>
     <string name="wantToDeleteThisAccount">要删除这条账目吗？</string>
+    <string name="homePageMenuHasBeenRestored">主页菜单已恢复</string>
     <string name="emergencyContactPhoneNumber">紧急联系人手机号</string>
     <string name="noYearAnalysisDataAvailable">暂无年度分析数据</string>
     <string name="noMonthAnalysisDataAvailable">暂无月度分析数据</string>
