@@ -78,7 +78,7 @@ public class AccountDetailActivityKit {
         // 状态判断
         StatusManagerKit.statusJudge(statusManager, true, null);
         // 数据
-        List<AccountDataBaseTable> accountDataBaseTableList = LitePalKit.getInstance().queryByWhere(AccountDataBaseTable.class, AccountCondition.ACCOUNT_PHONE_NUMBER_AND_DATE, App.getAppInstance().getPhoneNumber(false, null), date);
+        List<AccountDataBaseTable> accountDataBaseTableList = LitePalKit.getInstance().queryByWhere(AccountDataBaseTable.class, AccountCondition.ACCOUNT_PHONE_NUMBER_AND_DATE, App.getAppInstance().getPhoneNumber(), date);
         List<AccountDetailBean> accountDetailBeanList = AccountBasicKit.getInstance().transformAccountDataBaseTableToAccountDetailBean(accountDataBaseTableList);
         // 控件
         RecyclerViewConfigure recyclerViewConfigure = new RecyclerViewConfigure(appCompatActivity, recyclerView);
@@ -187,7 +187,7 @@ public class AccountDetailActivityKit {
     private void deleteAccount(AppCompatActivity appCompatActivity, AccountDetailAdapter accountDetailAdapter, List<AccountDetailBean> accountDetailBeanList, int position, AccountDetailBean accountDetailBean, StatusManager statusManager) {
         new MyMaterialAlertDialogBuilder(appCompatActivity).setTitle(com.zsp.core.R.string.hint).setMessage(R.string.wantToDeleteThisAccount).setPositiveButton(R.string.yes, (dialog, which) -> {
             dialog.dismiss();
-            LitePalKit.getInstance().multiDelete(AccountDataBaseTable.class, AccountCondition.ACCOUNT_PHONE_NUMBER_AND_DATE_AND_CATEGORY_AND_AMOUNT, App.getAppInstance().getPhoneNumber(false, null), accountDetailBean.getDate(), accountDetailBean.getCategory(), BigDecimalUtils.bigDecimalToString(BigDecimal.valueOf(accountDetailBean.getAmount())));
+            LitePalKit.getInstance().multiDelete(AccountDataBaseTable.class, AccountCondition.ACCOUNT_PHONE_NUMBER_AND_DATE_AND_CATEGORY_AND_AMOUNT, App.getAppInstance().getPhoneNumber(), accountDetailBean.getDate(), accountDetailBean.getCategory(), BigDecimalUtils.bigDecimalToString(BigDecimal.valueOf(accountDetailBean.getAmount())));
             RecyclerViewDisplayController.deleteDynamic(accountDetailAdapter, position, accountDetailBeanList);
             // 状态判断
             StatusManagerKit.statusJudge(statusManager, false, accountDetailBeanList);
@@ -212,7 +212,7 @@ public class AccountDetailActivityKit {
             pieChart.setLayoutParams(layoutParams);
         }
         // 数据
-        List<AccountDataBaseTable> accountDataBaseTableList = LitePalKit.getInstance().queryByWhere(AccountDataBaseTable.class, AccountCondition.ACCOUNT_PHONE_NUMBER_AND_DATE, App.getAppInstance().getPhoneNumber(false, null), date);
+        List<AccountDataBaseTable> accountDataBaseTableList = LitePalKit.getInstance().queryByWhere(AccountDataBaseTable.class, AccountCondition.ACCOUNT_PHONE_NUMBER_AND_DATE, App.getAppInstance().getPhoneNumber(), date);
         ArrayList<PieEntry> pieEntries = new ArrayList<>(accountDataBaseTableList.size());
         for (AccountDataBaseTable accountDataBaseTable : accountDataBaseTableList) {
             pieEntries.add(new PieEntry(accountDataBaseTable.getAmount().floatValue() / new BigDecimal(AccountBasicKit.getInstance().totalAmountBaseOnAccountDataBaseTable(accountDataBaseTableList)).floatValue(), accountDataBaseTable.getCategory()));

@@ -127,7 +127,7 @@ public class AccountHomeActivityKit {
                 new MyMaterialAlertDialogBuilder(appCompatActivity).setTitle(com.zsp.core.R.string.hint).setMessage(R.string.wantToDeleteTheAccountOfTheDay).setPositiveButton(R.string.yes, (dialog, which) -> {
                     dialog.dismiss();
                     AccountMonthListBean accountMonthListBean = (AccountMonthListBean) t;
-                    LitePalKit.getInstance().multiDelete(AccountDataBaseTable.class, AccountCondition.ACCOUNT_PHONE_NUMBER_AND_YEAR_AND_MONTH, App.getAppInstance().getPhoneNumber(false, null), accountMonthListBean.getYear(), accountMonthListBean.getMonth());
+                    LitePalKit.getInstance().multiDelete(AccountDataBaseTable.class, AccountCondition.ACCOUNT_PHONE_NUMBER_AND_YEAR_AND_MONTH, App.getAppInstance().getPhoneNumber(), accountMonthListBean.getYear(), accountMonthListBean.getMonth());
                     RecyclerViewDisplayController.deleteDynamic(accountMonthListAdapter, position, accountMonthListBeanList);
                     // 状态判断
                     StatusManagerKit.statusJudge(statusManager, false, accountMonthListBeanList);
@@ -173,7 +173,7 @@ public class AccountHomeActivityKit {
      * @param appCompatActivity 活动
      */
     public void exportAccount(AppCompatActivity appCompatActivity) {
-        List<AccountDataBaseTable> accountDataBaseTableList = LitePalKit.getInstance().queryByWhereAndOrderAndSelect(AccountDataBaseTable.class, new String[]{AccountCondition.ACCOUNT_PHONE_NUMBER, App.getAppInstance().getPhoneNumber(false, null)}, "date", false, "date", "category", "amount");
+        List<AccountDataBaseTable> accountDataBaseTableList = LitePalKit.getInstance().queryByWhereAndOrderAndSelect(AccountDataBaseTable.class, new String[]{AccountCondition.ACCOUNT_PHONE_NUMBER, App.getAppInstance().getPhoneNumber()}, "date", false, "date", "category", "amount");
         if (accountDataBaseTableList.isEmpty()) {
             ToastKit.showShort(appCompatActivity.getString(R.string.noAccountDataAvailable));
             return;

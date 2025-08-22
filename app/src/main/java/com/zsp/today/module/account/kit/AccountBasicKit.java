@@ -34,7 +34,7 @@ public class AccountBasicKit {
      */
     public List<String> yearRemoveDuplicationWithSort(boolean asc) {
         // 按序查询仅包含年数据
-        List<AccountDataBaseTable> accountDataBaseTableList = LitePalKit.getInstance().queryByWhereAndOrderAndSelect(AccountDataBaseTable.class, new String[]{AccountCondition.ACCOUNT_PHONE_NUMBER, App.getAppInstance().getPhoneNumber(false, null)}, "year", asc, "year");
+        List<AccountDataBaseTable> accountDataBaseTableList = LitePalKit.getInstance().queryByWhereAndOrderAndSelect(AccountDataBaseTable.class, new String[]{AccountCondition.ACCOUNT_PHONE_NUMBER, App.getAppInstance().getPhoneNumber()}, "year", asc, "year");
         // 按序去重
         List<String> yearList = new ArrayList<>();
         for (AccountDataBaseTable accountDataBaseTable : accountDataBaseTableList) {
@@ -52,7 +52,7 @@ public class AccountBasicKit {
      */
     public List<String> monthRemoveDuplicationWithSort(String appointYear, boolean asc) {
         // 按序查询仅包含月数据
-        List<AccountDataBaseTable> accountDataBaseTableList = LitePalKit.getInstance().queryByWhereAndOrderAndSelect(AccountDataBaseTable.class, new String[]{AccountCondition.ACCOUNT_PHONE_NUMBER_AND_YEAR, App.getAppInstance().getPhoneNumber(false, null), appointYear}, "month", asc, "month");
+        List<AccountDataBaseTable> accountDataBaseTableList = LitePalKit.getInstance().queryByWhereAndOrderAndSelect(AccountDataBaseTable.class, new String[]{AccountCondition.ACCOUNT_PHONE_NUMBER_AND_YEAR, App.getAppInstance().getPhoneNumber(), appointYear}, "month", asc, "month");
         // 按序去重
         List<String> monthList = new ArrayList<>();
         for (AccountDataBaseTable accountDataBaseTable : accountDataBaseTableList) {
@@ -71,7 +71,7 @@ public class AccountBasicKit {
      */
     public List<String> dateRemoveDuplicationWithSort(String appointYear, String appointMonth, boolean asc) {
         // 按序查询仅包含日期数据
-        List<AccountDataBaseTable> accountDataBaseTableList = LitePalKit.getInstance().queryByWhereAndOrderAndSelect(AccountDataBaseTable.class, new String[]{AccountCondition.ACCOUNT_PHONE_NUMBER_AND_YEAR_AND_MONTH, App.getAppInstance().getPhoneNumber(false, null), appointYear, appointMonth}, "date", asc, "date");
+        List<AccountDataBaseTable> accountDataBaseTableList = LitePalKit.getInstance().queryByWhereAndOrderAndSelect(AccountDataBaseTable.class, new String[]{AccountCondition.ACCOUNT_PHONE_NUMBER_AND_YEAR_AND_MONTH, App.getAppInstance().getPhoneNumber(), appointYear, appointMonth}, "date", asc, "date");
         // 按序去重
         List<String> dateStringList = new ArrayList<>();
         for (AccountDataBaseTable accountDataBaseTable : accountDataBaseTableList) {
@@ -87,7 +87,7 @@ public class AccountBasicKit {
      * @return 账目数据库表数据集合
      */
     public List<AccountDataBaseTable> getAccountDataBaseTableListByYear(String appointYear) {
-        return LitePalKit.getInstance().queryByWhere(AccountDataBaseTable.class, AccountCondition.ACCOUNT_PHONE_NUMBER_AND_YEAR, App.getAppInstance().getPhoneNumber(false, null), appointYear);
+        return LitePalKit.getInstance().queryByWhere(AccountDataBaseTable.class, AccountCondition.ACCOUNT_PHONE_NUMBER_AND_YEAR, App.getAppInstance().getPhoneNumber(), appointYear);
     }
 
     /**
@@ -98,7 +98,7 @@ public class AccountBasicKit {
      * @return 账目数据库表数据集合
      */
     public List<AccountDataBaseTable> getAccountDataBaseTableListByYearMonth(String appointYear, String appointMonth) {
-        return LitePalKit.getInstance().queryByWhere(AccountDataBaseTable.class, AccountCondition.ACCOUNT_PHONE_NUMBER_AND_YEAR_AND_MONTH, App.getAppInstance().getPhoneNumber(false, null), appointYear, appointMonth);
+        return LitePalKit.getInstance().queryByWhere(AccountDataBaseTable.class, AccountCondition.ACCOUNT_PHONE_NUMBER_AND_YEAR_AND_MONTH, App.getAppInstance().getPhoneNumber(), appointYear, appointMonth);
     }
 
     /**
@@ -108,7 +108,7 @@ public class AccountBasicKit {
      * @return 账目数据库表数据集合
      */
     public List<AccountDataBaseTable> getAccountDataBaseTableListByDate(String appointDate) {
-        return LitePalKit.getInstance().queryByWhere(AccountDataBaseTable.class, AccountCondition.ACCOUNT_PHONE_NUMBER_AND_DATE, App.getAppInstance().getPhoneNumber(false, null), appointDate);
+        return LitePalKit.getInstance().queryByWhere(AccountDataBaseTable.class, AccountCondition.ACCOUNT_PHONE_NUMBER_AND_DATE, App.getAppInstance().getPhoneNumber(), appointDate);
     }
 
     /**
