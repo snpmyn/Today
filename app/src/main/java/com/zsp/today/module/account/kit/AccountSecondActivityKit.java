@@ -82,7 +82,7 @@ public class AccountSecondActivityKit {
                 new MyMaterialAlertDialogBuilder(appCompatActivity).setTitle(com.zsp.core.R.string.hint).setMessage(R.string.wantToDeleteTheAccountOfTheDay).setPositiveButton(R.string.yes, (dialog, which) -> {
                     dialog.dismiss();
                     AccountDateListBean accountDateListBean = (AccountDateListBean) t;
-                    LitePalKit.getInstance().multiDelete(AccountDataBaseTable.class, AccountCondition.ACCOUNT_PHONE_NUMBER_AND_DATE, App.getAppInstance().getPhoneNumber(false, null), accountDateListBean.getDate());
+                    LitePalKit.getInstance().multiDelete(AccountDataBaseTable.class, AccountCondition.ACCOUNT_PHONE_NUMBER_AND_DATE, App.getAppInstance().getPhoneNumber(), accountDateListBean.getDate());
                     RecyclerViewDisplayController.deleteDynamic(accountDateListAdapter, position, accountDateListBeanList);
                     // 状态判断
                     StatusManagerKit.statusJudge(statusManager, false, accountDateListBeanList);

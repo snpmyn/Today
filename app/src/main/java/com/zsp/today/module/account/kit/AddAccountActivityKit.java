@@ -124,7 +124,7 @@ public class AddAccountActivityKit {
             textInputLayoutInputAmount.setError(appCompatActivity.getString(R.string.pleaseInputAmount));
             return;
         }
-        String[] conditions = new String[]{AccountCondition.ACCOUNT_PHONE_NUMBER_AND_DATE_AND_CATEGORY, App.getAppInstance().getPhoneNumber(false, null), nowDate, nowCategory};
+        String[] conditions = new String[]{AccountCondition.ACCOUNT_PHONE_NUMBER_AND_DATE_AND_CATEGORY, App.getAppInstance().getPhoneNumber(), nowDate, nowCategory};
         List<AccountDataBaseTable> accountDataBaseTableList = LitePalKit.getInstance().queryByWhere(AccountDataBaseTable.class, conditions);
         if (ListUtils.listIsNotEmpty(accountDataBaseTableList)) {
             AccountDataBaseTable accountDataBaseTable = accountDataBaseTableList.get(0);
@@ -132,7 +132,7 @@ public class AddAccountActivityKit {
             accountDataBaseTable.setAmount(BigDecimalUtils.add(BigDecimal.valueOf(Double.parseDouble(nowAmount)), BigDecimal.valueOf(accountDataBaseTable.getAmount())).doubleValue());
             LitePalKit.getInstance().multiUpdate(accountDataBaseTable, conditions);
             hintAndRefreshAccount(appCompatActivity);
-        } else if (LitePalKit.getInstance().singleSave(new AccountDataBaseTable(App.getAppInstance().getPhoneNumber(false, null), nowDate, nowCategory, Double.parseDouble(nowAmount)))) {
+        } else if (LitePalKit.getInstance().singleSave(new AccountDataBaseTable(App.getAppInstance().getPhoneNumber(), nowDate, nowCategory, Double.parseDouble(nowAmount)))) {
             hintAndRefreshAccount(appCompatActivity);
         }
         BackupKit.getInstance().backup(appCompatActivity, AccountDataBaseTable.class, null);
@@ -166,7 +166,7 @@ public class AddAccountActivityKit {
         if (TextUtils.equals(nowCategory, accountTransferBean.getCategory())) {
             // 场景一：修改金额。
             // 据原日期、原类目查询本地数据库。重设金额，多个更新。
-            String[] conditions = new String[]{AccountCondition.ACCOUNT_PHONE_NUMBER_AND_DATE_AND_CATEGORY, App.getAppInstance().getPhoneNumber(false, null), oldDate, nowCategory};
+            String[] conditions = new String[]{AccountCondition.ACCOUNT_PHONE_NUMBER_AND_DATE_AND_CATEGORY, App.getAppInstance().getPhoneNumber(), oldDate, nowCategory};
             List<AccountDataBaseTable> accountDataBaseTableList = LitePalKit.getInstance().queryByWhere(AccountDataBaseTable.class, conditions);
             AccountDataBaseTable accountDataBaseTable = accountDataBaseTableList.get(0);
             accountDataBaseTable.setAmount(Double.parseDouble(nowAmount));
@@ -175,16 +175,16 @@ public class AddAccountActivityKit {
         } else {
             // 场景二：修改类目、金额。
             // 删原账目。据原日期、新类目查询本地数据库。有则合并，多个更新；无则单个保存。
-            String[] oldConditions = new String[]{AccountCondition.ACCOUNT_PHONE_NUMBER_AND_DATE_AND_CATEGORY_AND_AMOUNT, App.getAppInstance().getPhoneNumber(false, null), accountTransferBean.getDate(), accountTransferBean.getCategory(), BigDecimalUtils.bigDecimalToString(BigDecimal.valueOf(accountTransferBean.getAmount()))};
+            String[] oldConditions = new String[]{AccountCondition.ACCOUNT_PHONE_NUMBER_AND_DATE_AND_CATEGORY_AND_AMOUNT, App.getAppInstance().getPhoneNumber(), accountTransferBean.getDate(), accountTransferBean.getCategory(), BigDecimalUtils.bigDecimalToString(BigDecimal.valueOf(accountTransferBean.getAmount()))};
             LitePalKit.getInstance().multiDelete(AccountDataBaseTable.class, oldConditions);
-            String[] nowConditions = new String[]{AccountCondition.ACCOUNT_PHONE_NUMBER_AND_DATE_AND_CATEGORY, App.getAppInstance().getPhoneNumber(false, null), oldDate, nowCategory};
+            String[] nowConditions = new String[]{AccountCondition.ACCOUNT_PHONE_NUMBER_AND_DATE_AND_CATEGORY, App.getAppInstance().getPhoneNumber(), oldDate, nowCategory};
             List<AccountDataBaseTable> accountDataBaseTableNowList = LitePalKit.getInstance().queryByWhere(AccountDataBaseTable.class, nowConditions);
             if (ListUtils.listIsNotEmpty(accountDataBaseTableNowList)) {
                 AccountDataBaseTable accountDataBaseTableNow = accountDataBaseTableNowList.get(0);
                 accountDataBaseTableNow.setAmount(BigDecimalUtils.add(BigDecimal.valueOf(Double.parseDouble(nowAmount)), BigDecimal.valueOf(accountDataBaseTableNow.getAmount())).doubleValue());
                 LitePalKit.getInstance().multiUpdate(accountDataBaseTableNow, nowConditions);
                 hintAndRefreshAccount(appCompatActivity);
-            } else if (LitePalKit.getInstance().singleSave(new AccountDataBaseTable(App.getAppInstance().getPhoneNumber(false, null), oldDate, nowCategory, Double.parseDouble(nowAmount)))) {
+            } else if (LitePalKit.getInstance().singleSave(new AccountDataBaseTable(App.getAppInstance().getPhoneNumber(), oldDate, nowCategory, Double.parseDouble(nowAmount)))) {
                 hintAndRefreshAccount(appCompatActivity);
             }
         }
