@@ -21,7 +21,6 @@ import com.zsp.today.module.function.database.FunctionDataBaseTable;
 import com.zsp.today.module.homepage.bean.HomePageMenuEnum;
 import com.zsp.today.module.homepage.fragment.HomePageChildFragment;
 import com.zsp.today.value.FunctionCondition;
-import com.zsp.today.value.FunctionConstant;
 import com.zsp.today.value.RxBusConstant;
 
 import org.jetbrains.annotations.NotNull;
@@ -36,7 +35,6 @@ import timber.log.Timber;
 import util.datetime.DateUtils;
 import util.glide.util.GlideUtils;
 import util.intent.IntentJump;
-import util.mmkv.MmkvKit;
 import util.rxbus.RxBus;
 import widget.adapttemplate.bean.MenuBean;
 import widget.adapttemplate.kit.MenuAdapterKit;
@@ -182,26 +180,6 @@ public class HomePageChildFragmentKit {
     }
 
     /**
-     * 预存
-     */
-    public void preStore() {
-        if (MmkvKit.defaultMmkv().decodeBool(FunctionConstant.FUNCTION_ACTIVITY_$_PRE_STORE, false)) {
-            return;
-        }
-        HomePageMenuEnum[] homePageMenuEnums = HomePageMenuEnum.values();
-        List<FunctionDataBaseTable> functionDataBaseTableList = new ArrayList<>(homePageMenuEnums.length);
-        for (HomePageMenuEnum homePageMenuEnum : homePageMenuEnums) {
-            if (!homePageMenuEnum.getMenuShow()) {
-                continue;
-            }
-            functionDataBaseTableList.add(new FunctionDataBaseTable(App.getAppInstance().getPhoneNumber(false, null), null, homePageMenuEnum.getMenuId(), homePageMenuEnum.getMenuName(), true));
-        }
-        if (LitePalKit.getInstance().multiSave(functionDataBaseTableList)) {
-            MmkvKit.defaultMmkv().encode(FunctionConstant.FUNCTION_ACTIVITY_$_PRE_STORE, true);
-        }
-    }
-
-    /**
      * 展示
      *
      * @param appCompatActivity     活动
@@ -216,7 +194,7 @@ public class HomePageChildFragmentKit {
             menuIconResIdMap.put(homePageMenuEnum.getMenuId(), homePageMenuEnum.getMenuIconResId());
         }
         // 获取功能数据库表可显数据集
-        List<FunctionDataBaseTable> functionDataBaseTableList = LitePalKit.getInstance().queryByWhere(FunctionDataBaseTable.class, FunctionCondition.FUNCTION_FUNCTION_SHOW, "1");
+        List<FunctionDataBaseTable> functionDataBaseTableList = LitePalKit.getInstance().queryByWhere(FunctionDataBaseTable.class, FunctionCondition.FUNCTION_PHONE_NUMBER_AND_FUNCTION_SHOW, App.getAppInstance().getPhoneNumber(), "1");
         // 获取菜单集
         List<MenuBean> menuBeanList = new ArrayList<>(functionDataBaseTableList.size());
         for (FunctionDataBaseTable functionDataBaseTable : functionDataBaseTableList) {
@@ -228,12 +206,7 @@ public class HomePageChildFragmentKit {
         }
         // 菜单适配器配套元件
         MenuAdapterKit menuAdapterKit = new MenuAdapterKit();
-        menuAdapterKit.display(appCompatActivity, recyclerView, menuBeanList, 3, 48, 192, false, new MenuAdapterKit.MenuAdapterKitInterface() {
-            @Override
-            public void onItemClick(View view, MenuBean menuBean) {
-                distribute(appCompatActivity, homePageChildFragment, menuBean.getMenuId());
-            }
-        });
+        menuAdapterKit.display(appCompatActivity, recyclerView, menuBeanList, 3, 48, 192, false, (view, menuBean) -> distribute(appCompatActivity, homePageChildFragment, menuBean.getMenuId()));
     }
 
     /**
