@@ -7,7 +7,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.zsp.today.module.mine.fragment.SplashAnimationDetailFragment;
 import com.zsp.today.value.SplashConstant;
 
-import lottie.LottieKit;
+import lottie.kit.LottieKit;
 import pool.value.PoolConstant;
 import util.mmkv.MmkvKit;
 
@@ -28,8 +28,7 @@ public class SplashAnimationDetailFragmentKit {
         if (null == bundle) {
             return;
         }
-        LottieKit lottieKit = new LottieKit();
-        lottieKit.useWithAsset(lottieAnimationView, bundle.getString(SplashConstant.SPLASH_ANIMATION_HOME_FRAGMENT_$_RES_NAME) + ".json", ValueAnimator.INFINITE, null);
+        LottieKit.getInstance().useWithAsset(lottieAnimationView, bundle.getString(SplashConstant.SPLASH_ANIMATION_HOME_FRAGMENT_$_RES_NAME) + ".json", ValueAnimator.INFINITE, null);
     }
 
     /**
