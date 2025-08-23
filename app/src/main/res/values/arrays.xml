@@ -1,0 +1,16 @@
+<resources>
+    <string-array name="year">
+        <item>2024</item>
+        <item>2025</item>
+        <item>2026</item>
+    </string-array>
+    <string-array name="category">
+        <item>早饭</item>
+        <item>午饭</item>
+        <item>晚饭</item>
+        <item>购物</item>
+        <item>住宿</item>
+        <item>通勤</item>
+        <item>其它</item>
+    </string-array>
+</resources>
