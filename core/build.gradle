@@ -38,6 +38,7 @@ android {
 dependencies {
     api libs.appcompat
     api libs.material
+    api libs.constraintlayout
     api libs.lifecycle.livedata.ktx
     api libs.lifecycle.viewmodel.ktx
     implementation libs.core.ktx
