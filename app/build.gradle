@@ -118,9 +118,6 @@ android {
 }
 
 dependencies {
-    implementation libs.constraintlayout
-    implementation libs.navigation.fragment
-    implementation libs.navigation.ui
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
@@ -129,10 +126,10 @@ dependencies {
     /*gson*/
     implementation libs.jxl
     /*jxl*/
-    implementation libs.work.runtime
-    /*work*/
     implementation libs.mpac
     /*MPAndroidChart*/
+    implementation libs.work.runtime
+    /*work*/
     implementation project(':core')
     /*core*/
 }
