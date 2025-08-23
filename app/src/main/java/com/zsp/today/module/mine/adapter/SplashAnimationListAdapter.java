@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import lottie.LottieKit;
+import lottie.kit.LottieKit;
 import util.list.ListUtils;
 import util.screen.ScreenUtils;
 import widget.recyclerview.listener.OnRecyclerViewOnItemClickListener;
@@ -34,7 +34,6 @@ public class SplashAnimationListAdapter extends RecyclerView.Adapter<SplashAnima
     private final Context context;
     private final int spanCount;
     private final int totalMargin;
-    private final LottieKit lottieKit;
     private List<SplashAnimationListBean> splashAnimationListBeans;
     private OnRecyclerViewOnItemClickListener onRecyclerViewOnItemClickFullScreenListener;
 
@@ -49,7 +48,6 @@ public class SplashAnimationListAdapter extends RecyclerView.Adapter<SplashAnima
         this.context = context;
         this.spanCount = spanCount;
         this.totalMargin = totalMargin;
-        this.lottieKit = new LottieKit();
         this.splashAnimationListBeans = new ArrayList<>();
     }
 
@@ -77,7 +75,7 @@ public class SplashAnimationListAdapter extends RecyclerView.Adapter<SplashAnima
         holder.itemView.setTag(position);
         SplashAnimationListBean splashAnimationListBean = splashAnimationListBeans.get(position);
         // 动画
-        lottieKit.useWithAsset(holder.splashAnimationListItemLav, splashAnimationListBean.getResName() + ".json", ValueAnimator.INFINITE, null);
+        LottieKit.getInstance().useWithAsset(holder.splashAnimationListItemLav, splashAnimationListBean.getResName() + ".json", ValueAnimator.INFINITE, null);
         // 全屏
         holder.splashAnimationListItemIb.setOnClickListener(v -> onRecyclerViewOnItemClickFullScreenListener.onItemClick(v, holder.getAdapterPosition(), splashAnimationListBean));
     }
