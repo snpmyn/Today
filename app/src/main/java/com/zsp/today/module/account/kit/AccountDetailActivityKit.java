@@ -1,6 +1,5 @@
 package com.zsp.today.module.account.kit;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.InsetDrawable;
 import android.util.TypedValue;
@@ -11,7 +10,6 @@ import android.widget.FrameLayout;
 import androidx.annotation.MenuRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,6 +28,7 @@ import com.zsp.today.value.AccountConstant;
 import com.zsp.today.value.RxBusConstant;
 import com.zsp.today.widget.mpandroidchart.piechart.HalfPieChartKit;
 
+import widget.popupmenu.PopupMenuKit;
 import widget.status.kit.StatusManagerKit;
 
 import java.math.BigDecimal;
@@ -113,7 +112,7 @@ public class AccountDetailActivityKit {
     }
 
     /**
-     * PopupMenu
+     * 弹出式菜单
      *
      * @param appCompatActivity     活动
      * @param view                  视图
@@ -124,19 +123,14 @@ public class AccountDetailActivityKit {
      * @param accountDetailBean     账目详情
      * @param statusManager         状态管理器
      */
-    @SuppressLint("RestrictedApi")
     private void popupMenu(AppCompatActivity appCompatActivity, View view, @MenuRes int menuResId, AccountDetailAdapter accountDetailAdapter, List<AccountDetailBean> accountDetailBeanList, int position, AccountDetailBean accountDetailBean, StatusManager statusManager) {
-        PopupMenu popupMenu = new PopupMenu(appCompatActivity, view);
-        // Inflating the Popup using xml file.
-        popupMenu.getMenuInflater().inflate(menuResId, popupMenu.getMenu());
-        // There is no public API to make icons show on menus.
-        // IF you need the icons to show this works however it's discouraged to rely on library only APIs since they might disappear in future versions.
-        if (popupMenu.getMenu() instanceof MenuBuilder) {
-            MenuBuilder menuBuilder = (MenuBuilder) popupMenu.getMenu();
-            // noinspection RestrictedApi
-            menuBuilder.setOptionalIconsVisible(true);
-            // noinspection RestrictedApi
-            for (MenuItem menuItem : menuBuilder.getVisibleItems()) {
+        PopupMenuKit.getInstance().popupMenu(appCompatActivity, view, menuResId, new PopupMenuKit.PopupMenuKitListener() {
+            /**
+             * 菜单条目
+             * @param menuItem 菜单条目
+             */
+            @Override
+            public void menuItem(MenuItem menuItem) {
                 if (null != menuItem.getIcon()) {
                     if (menuItem.getItemId() == R.id.accountDetailActivityPopupMenuModify) {
                         menuItem.getIcon().setTint(appCompatActivity.getColor(com.zsp.core.R.color.color_FFBA57));
@@ -147,18 +141,23 @@ public class AccountDetailActivityKit {
                     menuItem.setIcon(new InsetDrawable(menuItem.getIcon(), iconMarginPx, 0, iconMarginPx, 0));
                 }
             }
-        }
-        popupMenu.setOnMenuItemClickListener(item -> {
-            if (item.getItemId() == R.id.accountDetailActivityPopupMenuModify) {
-                popupMenu.dismiss();
-                modifyAccount(appCompatActivity, accountDetailBean);
-            } else if (item.getItemId() == R.id.accountDetailActivityPopupMenuDelete) {
-                popupMenu.dismiss();
-                deleteAccount(appCompatActivity, accountDetailAdapter, accountDetailBeanList, position, accountDetailBean, statusManager);
+
+            /**
+             * 菜单条目短点
+             * @param popupMenu 弹出式菜单
+             * @param menuItem  菜单条目
+             */
+            @Override
+            public void onMenuItemClick(PopupMenu popupMenu, MenuItem menuItem) {
+                if (menuItem.getItemId() == R.id.accountDetailActivityPopupMenuModify) {
+                    popupMenu.dismiss();
+                    modifyAccount(appCompatActivity, accountDetailBean);
+                } else if (menuItem.getItemId() == R.id.accountDetailActivityPopupMenuDelete) {
+                    popupMenu.dismiss();
+                    deleteAccount(appCompatActivity, accountDetailAdapter, accountDetailBeanList, position, accountDetailBean, statusManager);
+                }
             }
-            return true;
         });
-        popupMenu.show();
     }
 
     /**
