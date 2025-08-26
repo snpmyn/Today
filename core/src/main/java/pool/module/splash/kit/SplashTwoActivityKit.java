@@ -1,7 +1,6 @@
 package pool.module.splash.kit;
 
 import android.animation.ValueAnimator;
-import android.os.Handler;
 import android.text.TextUtils;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,8 +8,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.airbnb.lottie.LottieAnimationView;
 import com.zsp.core.R;
 
-import lottie.LottieKit;
+import lottie.kit.LottieKit;
 import pool.value.PoolConstant;
+import util.handler.HandlerKit;
 import util.mmkv.MmkvKit;
 
 /**
@@ -32,11 +32,9 @@ public class SplashTwoActivityKit {
         if (MmkvKit.defaultMmkv().decodeBool(PoolConstant.SPLASH_$_USE_DEFAULT_ANIMATION) || TextUtils.isEmpty(assetName)) {
             assetName = "lottie_animation_splash_default";
         }
-        LottieKit lottieKit = new LottieKit();
-        lottieKit.useWithAsset(lottieAnimationView, assetName + ".json", ValueAnimator.INFINITE, null);
-        new Handler(appCompatActivity.getMainLooper()).postDelayed(() -> {
-            LottieKit lottieKitInner = new LottieKit();
-            lottieKitInner.cancelAnimation(lottieAnimationView);
+        LottieKit.getInstance().useWithAsset(lottieAnimationView, assetName + ".json", ValueAnimator.INFINITE, null);
+        HandlerKit.getInstance().postDelayed(() -> {
+            LottieKit.getInstance().endAnimation(lottieAnimationView);
             splashActivityKit.execute(appCompatActivity);
         }, Long.parseLong(appCompatActivity.getString(R.string.PoolSplashDuration)));
     }
