@@ -1,7 +1,6 @@
 package pool.module.splash;
 
 import android.animation.Animator;
-import android.os.Handler;
 import android.view.KeyEvent;
 import android.widget.TextView;
 
@@ -12,6 +11,7 @@ import com.zsp.core.R;
 import pool.base.BasePoolActivity;
 import pool.module.splash.kit.SplashActivityKit;
 import util.animation.AnimationManager;
+import util.handler.HandlerKit;
 import util.screen.ScreenUtils;
 
 /**
@@ -83,7 +83,7 @@ public class SplashActivity extends BasePoolActivity {
 
             @Override
             public void onAnimationEnd(@NonNull Animator animation) {
-                new Handler(getMainLooper()).postDelayed(() -> splashActivityKit.execute(SplashActivity.this), 500);
+                HandlerKit.getInstance().postDelayed(() -> splashActivityKit.execute(SplashActivity.this), 500);
             }
 
             @Override
