@@ -15,6 +15,8 @@ public class HandlerKit extends Handler {
     }
 
     /**
+     * constructor
+     * <p>
      * Use the provided {@link Looper} instead of the default one.
      */
     public HandlerKit() {
