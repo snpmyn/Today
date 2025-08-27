@@ -13,7 +13,6 @@ public class HandlerKit extends Handler {
         return InstanceHolder.INSTANCE;
     }
 
-
     /**
      * constructor
      * <p>
