@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".module.account.AccountAnalysisActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -14,7 +15,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/account_analysis_activity_menu"
         app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
-        app:title="@string/accountAnalysis" />
+        app:title="@string/accountAnalysis"
+        app:titleTextColor="@color/white" />
 
     <LinearLayout
         android:layout_width="match_parent"

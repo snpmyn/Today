@@ -5,6 +5,7 @@
     android:id="@+id/accountDetailActivityRl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".module.account.AccountDetailActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
