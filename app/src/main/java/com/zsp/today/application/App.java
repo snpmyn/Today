@@ -16,11 +16,12 @@ import java.util.List;
 import fragmentation.configure.FragmentationInitConfig;
 import litepal.configure.LitePalInitConfigure;
 import litepal.kit.LitePalKit;
+import lottie.configure.LottieInitConfig;
 import pool.application.BasePoolApp;
 import pool.module.login.LoginActivity;
 import pool.module.splash.kit.SplashActivityKit;
 import timber.log.Timber;
-import widget.crash.CrashManagerInitConfigure;
+import widget.crash.CrashManager;
 import widget.status.manager.StatusManager;
 import widget.tbs.configure.TbsInitConfigure;
 
@@ -108,13 +109,15 @@ public class App extends BasePoolApp {
      */
     protected void initConfiguration() {
         // 崩溃管理器
-        CrashManagerInitConfigure.getInstance(this, Folder.CRASH);
-        // LitePal
-        LitePalInitConfigure.initLitePal(this);
-        // Fragmentation
-        FragmentationInitConfig.initFragmentation(debug());
-        // TBS
+        CrashManager.getInstance(this, Folder.CRASH);
+        // TBS 初始化配置
         TbsInitConfigure.initTbs();
+        // LitePal 初始化配置
+        LitePalInitConfigure.initLitePal(this);
+        // Fragmentation 初始化配置
+        FragmentationInitConfig.initFragmentation(debug());
+        // Lottie 初始化配置
+        LottieInitConfig.initLottie(this, Folder.LOTTIE_NETWORK_CACHE, true, false);
         // 应用配套元件
         AppKit appKit = new AppKit();
         // 闪屏页监听
