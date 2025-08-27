@@ -17,6 +17,10 @@ import java.io.File;
  */
 public class Folder {
     /**
+     * Lottie 网络缓存
+     */
+    public static String LOTTIE_NETWORK_CACHE = "LottieNetworkCache";
+    /**
      * 崩溃
      */
     public static String CRASH = getExternalFilesDir("today/crash").getAbsolutePath();
