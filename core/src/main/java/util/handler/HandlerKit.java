@@ -2,7 +2,6 @@ package util.handler;
 
 import android.os.Handler;
 import android.os.Looper;
-
 /**
  * Created on 2025/8/25.
  *
