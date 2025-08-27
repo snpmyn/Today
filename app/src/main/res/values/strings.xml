@@ -33,6 +33,7 @@
     <string name="startAnimation">启动动画</string>
     <string name="chooseCategory">选择类目</string>
     <string name="restoreDefault">恢复默认</string>
+    <string name="restoreAccount">恢复账目</string>
     <string name="dangerousNotice">险情通知</string>
     <string name="accountAnalysis">账目分析</string>
     <string name="poolSplashContent">TODAY</string>
@@ -47,6 +48,7 @@
     <string name="waitForImplementation">等待实现</string>
     <string name="pleaseChooseCategory">请选择类目</string>
     <string name="noYearDataAvailable">暂无年份数据</string>
+    <string name="restoreHomePageMenu">恢复主页菜单</string>
     <string name="inputDangerousNotice">输入险情通知</string>
     <string name="accountHasBeenRestored">账目已恢复</string>
     <string name="rememberToKeepAccount">记得记账哦！</string>
@@ -56,6 +58,7 @@
     <string name="enterIntoAccountSuccessful">入账成功</string>
     <string name="wantToDeleteThisAccount">要删除这条账目吗？</string>
     <string name="homePageMenuHasBeenRestored">主页菜单已恢复</string>
+    <string name="homePageMenuHasBeenPreStored">主页菜单已预存</string>
     <string name="emergencyContactPhoneNumber">紧急联系人手机号</string>
     <string name="noYearAnalysisDataAvailable">暂无年度分析数据</string>
     <string name="noMonthAnalysisDataAvailable">暂无月度分析数据</string>
@@ -64,21 +67,6 @@
     <string name="inputEmergencyContactPhoneNumber">输入紧急联系人手机号</string>
     <string name="receiveNotificationAreBasedOnThePermission">接收通知需要该权限</string>
     <string name="needToInputPhoneNumberToLoginAgainAfterLogOut">退出后需输入手机号重新登录</string>
-    <!-- string-array -->
-    <string-array name="year">
-        <item>2024</item>
-        <item>2025</item>
-        <item>2026</item>
-    </string-array>
-    <string-array name="category">
-        <item>早饭</item>
-        <item>午饭</item>
-        <item>晚饭</item>
-        <item>购物</item>
-        <item>住宿</item>
-        <item>通勤</item>
-        <item>其它</item>
-    </string-array>
     <!--widget - TabLayout-->
     <string name="tabLayoutTitleOne">TabOne</string>
     <string name="tabLayoutTitleTwo">TabTwo</string>
