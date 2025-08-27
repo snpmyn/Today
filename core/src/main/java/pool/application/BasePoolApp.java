@@ -219,25 +219,43 @@ public abstract class BasePoolApp extends Application implements MMKVHandler, MM
         Timber.i("[content changed] %s", mmapID);
     }
 
+    /**
+     * @param s s
+     * @return MMKVRecoverStrategic
+     */
     @Override
-    public MMKVRecoverStrategic onMMKVCRCCheckFail(String mmapID) {
+    public MMKVRecoverStrategic onMMKVCRCCheckFail(String s) {
         return MMKVRecoverStrategic.OnErrorRecover;
     }
 
+    /**
+     * @param s s
+     * @return MMKVRecoverStrategic
+     */
     @Override
-    public MMKVRecoverStrategic onMMKVFileLengthError(String mmapID) {
+    public MMKVRecoverStrategic onMMKVFileLengthError(String s) {
         return MMKVRecoverStrategic.OnErrorRecover;
     }
 
+    /**
+     * @return boolean
+     */
     @Override
     public boolean wantLogRedirecting() {
         return true;
     }
 
+    /**
+     * @param mmkvLogLevel mmkvLogLevel
+     * @param s            s
+     * @param i            i
+     * @param s1           s1
+     * @param s2           s2
+     */
     @Override
-    public void mmkvLog(@NonNull MMKVLogLevel level, String file, int line, String function, String message) {
-        String log = ("< " + file + " : " + line + " :: " + function + " > " + message);
-        switch (level) {
+    public void mmkvLog(@NonNull MMKVLogLevel mmkvLogLevel, String s, int i, String s1, String s2) {
+        String log = ("< " + s + " : " + i + " :: " + s1 + " > " + s2);
+        switch (mmkvLogLevel) {
             case LevelDebug:
                 Timber.d("[redirect logging MMKV] %s", log);
                 break;
@@ -254,5 +272,13 @@ public abstract class BasePoolApp extends Application implements MMKVHandler, MM
             default:
                 break;
         }
+    }
+
+    /**
+     * @return long
+     */
+    @Override
+    public long getNativeLogHandler() {
+        return 0;
     }
 }
