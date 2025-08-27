@@ -2,6 +2,7 @@ package util.handler;
 
 import android.os.Handler;
 import android.os.Looper;
+
 /**
  * Created on 2025/8/25.
  *
@@ -12,7 +13,6 @@ public class HandlerKit extends Handler {
     public static HandlerKit getInstance() {
         return InstanceHolder.INSTANCE;
     }
-
 
     /**
      * constructor
