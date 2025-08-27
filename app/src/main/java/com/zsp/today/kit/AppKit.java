@@ -6,14 +6,14 @@ import com.zsp.today.MainActivity;
 import com.zsp.today.application.App;
 import com.zsp.today.module.login.UserDataBaseTable;
 
-import java.lang.ref.WeakReference;
+import java.lang.ref.SoftReference;
 
 import litepal.kit.LitePalKit;
 import pool.module.login.LoginActivity;
 import pool.value.PoolConstant;
 import util.intent.IntentJump;
 import util.mmkv.MmkvKit;
-import widget.dialog.bocdialog.kit.DialogKit;
+import widget.dialog.bocdialog.kit.BocDialogKit;
 
 /**
  * Created on 2021/9/22
@@ -42,8 +42,8 @@ public class AppKit {
      * @param phoneNumber       手机号
      */
     public void login(AppCompatActivity appCompatActivity, String phoneNumber) {
-        WeakReference<AppCompatActivity> weakReference = new WeakReference<>(appCompatActivity);
-        DialogKit.getInstance(appCompatActivity).commonLoading(weakReference.get().getString(com.zsp.core.R.string.login), null);
+        SoftReference<AppCompatActivity> softReference = new SoftReference<>(appCompatActivity);
+        BocDialogKit.getInstance(appCompatActivity).bocCommonLoading(softReference.get().getString(com.zsp.core.R.string.login), null);
         localSave(appCompatActivity, phoneNumber);
     }
 
@@ -57,10 +57,10 @@ public class AppKit {
         UserDataBaseTable userDataBaseTable = new UserDataBaseTable(phoneNumber, null);
         if (LitePalKit.getInstance().singleSave(userDataBaseTable)) {
             MmkvKit.defaultMmkv().encode(PoolConstant.LOGIN_$_PHONE_NUMBER, phoneNumber);
-            DialogKit.getInstance(appCompatActivity).end();
+            BocDialogKit.getInstance(appCompatActivity).end();
             IntentJump.getInstance().jump(null, appCompatActivity, true, MainActivity.class);
         } else {
-            DialogKit.getInstance(appCompatActivity).end();
+            BocDialogKit.getInstance(appCompatActivity).end();
         }
     }
 }
