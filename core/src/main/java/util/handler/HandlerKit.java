@@ -13,7 +13,6 @@ public class HandlerKit extends Handler {
     public static HandlerKit getInstance() {
         return InstanceHolder.INSTANCE;
     }
-
     /**
      * constructor
      * <p>
