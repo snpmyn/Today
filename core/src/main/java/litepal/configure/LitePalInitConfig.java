@@ -10,7 +10,7 @@ import litepal.LitePal;
  * @author 郑少鹏
  * @desc LitePal 初始化配置
  */
-public class LitePalInitConfigure {
+public class LitePalInitConfig {
     /**
      * 初始化 LitePal
      *
