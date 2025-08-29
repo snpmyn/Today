@@ -13,6 +13,7 @@ import com.zsp.today.value.SplashConstant;
 
 import org.jetbrains.annotations.NotNull;
 
+import lottie.kit.LottieKit;
 import pool.base.BasePoolFragment;
 
 /**
@@ -162,6 +163,7 @@ public class SplashAnimationDetailFragment extends BasePoolFragment implements V
      */
     @Override
     public boolean onBackPressedSupport() {
+        LottieKit.getInstance().endAnimation(splashAnimationDetailFragmentLav);
         pop();
         return true;
     }
