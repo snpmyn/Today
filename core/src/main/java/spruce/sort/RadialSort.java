@@ -24,7 +24,7 @@ public class RadialSort extends DistancedSort {
     public RadialSort(long interObjectDelay, boolean reversed, Position position) {
         super(interObjectDelay, reversed);
         if (position == null) {
-            throw new NullPointerException("Position can't be null and must be a valid type");
+            throw new NullPointerException("Position can't be null and must be a valid type.");
         }
         this.position = position;
     }

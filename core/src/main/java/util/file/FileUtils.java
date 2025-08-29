@@ -1058,7 +1058,7 @@ public class FileUtils {
      *
      * @param context  上下文
      * @param fileName 文件名
-     * @return 文件
+     * @return 缓存文件
      * @throws IOException IOException
      */
     @NonNull

@@ -26,7 +26,7 @@ public class CorneredSort extends DistancedSort {
     public CorneredSort(long interObjectDelay, boolean reversed, Corner corner) {
         super(interObjectDelay, reversed);
         if (corner == null) {
-            throw new NullPointerException("Corner can't be null and must be a valid type");
+            throw new NullPointerException("Corner can't be null and must be a valid type.");
         }
         this.interObjectDelay = interObjectDelay;
         this.corner = corner;
@@ -80,7 +80,7 @@ public class CorneredSort extends DistancedSort {
                 distancePoint = new PointF(parent.getWidth(), parent.getHeight());
                 break;
             default:
-                throw new AssertionError("Must be a valid Corner argument type");
+                throw new AssertionError("Must be a valid Corner argument type.");
         }
         return distancePoint;
     }

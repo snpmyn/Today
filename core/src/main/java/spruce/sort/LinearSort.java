@@ -24,7 +24,7 @@ public class LinearSort extends DistancedSort {
     public LinearSort(long interObjectDelay, boolean reversed, Direction direction) {
         super(interObjectDelay, reversed);
         if (direction == null) {
-            throw new NullPointerException("Direction can't be null and must be of a valid type");
+            throw new NullPointerException("Direction can't be null and must be of a valid type.");
         }
         this.direction = direction;
     }
