@@ -2,7 +2,6 @@ package fragmentation.fragmentation.debug;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -15,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import com.zsp.core.R;
 
@@ -88,13 +88,13 @@ public class DebugHierarchyViewContainer extends ScrollView {
         TextView title = new TextView(mContext);
         title.setText(R.string.fragmentationStackView);
         title.setTextSize(20);
-        title.setTextColor(Color.BLACK);
+        title.setTextColor(ContextCompat.getColor(mContext, R.color.black));
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.gravity = Gravity.CENTER_VERTICAL;
         title.setLayoutParams(layoutParams);
         mTitleLayout.addView(title);
         ImageView imageView = new ImageView(mContext);
-        imageView.setImageResource(R.drawable.fragmentation_help);
+        imageView.setImageResource(R.drawable.ic_help_black_24dp);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.leftMargin = dip2px(16);
         params.gravity = Gravity.CENTER_VERTICAL;
@@ -114,13 +114,13 @@ public class DebugHierarchyViewContainer extends ScrollView {
             final List<DebugFragmentRecord> childFragmentRecord = child.debugFragmentRecords;
             if ((null != childFragmentRecord) && (!childFragmentRecord.isEmpty())) {
                 tempHierarchy++;
-                childTvItem.setCompoundDrawablesWithIntrinsicBounds(R.drawable.fragmentation_arrow_right, 0, 0, 0);
+                childTvItem.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_small_arrow_right_black_24dp, 0, 0, 0);
                 final int finalChildHierarchy = tempHierarchy;
                 childTvItem.setOnClickListener(v -> {
                     if (null != v.getTag(R.id.fragmentationAreExpand)) {
                         boolean areExpand = (boolean) v.getTag(R.id.fragmentationAreExpand);
                         if (areExpand) {
-                            childTvItem.setCompoundDrawablesWithIntrinsicBounds(R.drawable.fragmentation_arrow_right, 0, 0, 0);
+                            childTvItem.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_small_arrow_right_black_24dp, 0, 0, 0);
                             DebugHierarchyViewContainer.this.removeView(finalChildHierarchy);
                         } else {
                             handleExpandView(childFragmentRecord, finalChildHierarchy, childTvItem);
@@ -144,7 +144,7 @@ public class DebugHierarchyViewContainer extends ScrollView {
 
     private void handleExpandView(List<DebugFragmentRecord> childFragmentRecord, int finalChildHierarchy, TextView childTvItem) {
         DebugHierarchyViewContainer.this.setView(childFragmentRecord, finalChildHierarchy, childTvItem);
-        childTvItem.setCompoundDrawablesWithIntrinsicBounds(R.drawable.fragmentation_arrow_expand, 0, 0, 0);
+        childTvItem.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_small_arrow_down_black_24dp, 0, 0, 0);
     }
 
     private void removeView(int hierarchy) {
@@ -162,7 +162,7 @@ public class DebugHierarchyViewContainer extends ScrollView {
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mItemHeight);
         textView.setLayoutParams(layoutParams);
         if (hierarchy == 0) {
-            textView.setTextColor(Color.parseColor("#333333"));
+            textView.setTextColor(ContextCompat.getColor(mContext, R.color.basic));
             textView.setTextSize(16);
         }
         textView.setGravity(Gravity.CENTER_VERTICAL);
