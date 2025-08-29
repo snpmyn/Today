@@ -7,13 +7,14 @@ import java.util.HashMap;
 
 /**
  * Created on 2021/3/25
+ * <p>
+ * TBS 内核首次使用和加载时，ART 虚拟机会转 Dex 文件为 OAT。
+ * 该过程由系统底层触发且耗时较长，易引 ANR，通 TBS 之 "dex2oat 优化方案" 解决。
  *
  * @author zsp
  * @desc TBS 初始化配置
- * TBS 内核首次使用和加载时，ART 虚拟机会转 Dex 文件为 OAT。
- * 该过程由系统底层触发且耗时较长，易引 ANR，通 TBS 之 "dex2oat 优化方案" 解决。
  */
-public class TbsInitConfigure {
+public class TbsInitConfig {
     /**
      * 初始化 TBS
      */
