@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/white_solid_r14"
     android:gravity="center"
-    android:orientation="vertical"
-    android:padding="@dimen/dp_12">
+    android:orientation="vertical">
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lottieAnimationViewDialogLav"
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        style="@style/CircularProgressIndicatorStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:scaleType="centerInside" />
+        android:indeterminate="true" />
 
     <TextView
-        android:id="@+id/lottieAnimationViewDialogTv"
+        android:id="@+id/bocCommonLoadingDialogTvHint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:layout_marginTop="@dimen/dp_12"
         android:textColor="@color/fontInput"
-        android:textSize="@dimen/sp_12"
-        android:textStyle="bold" />
+        android:textSize="@dimen/sp_13"
+        android:visibility="gone"
+        tools:text="加载中" />
 </LinearLayout>

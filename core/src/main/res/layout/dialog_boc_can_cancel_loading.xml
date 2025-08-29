@@ -8,7 +8,7 @@
     android:gravity="center">
 
     <ImageView
-        android:id="@+id/canCancelLoadingDialogIvLoading"
+        android:id="@+id/bocCanCancelLoadingDialogIvLoading"
         android:layout_width="@dimen/dp_24"
         android:layout_height="@dimen/dp_24"
         android:layout_marginEnd="@dimen/dp_12"
@@ -18,7 +18,7 @@
         app:tint="@color/basic" />
 
     <TextView
-        android:id="@+id/canCancelLoadingDialogTvHint"
+        android:id="@+id/bocCanCancelLoadingDialogTvHint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/fontInput"
@@ -26,7 +26,7 @@
         tools:text="加载中" />
 
     <ImageView
-        android:id="@+id/canCancelLoadingDialogIvClose"
+        android:id="@+id/bocCanCancelLoadingDialogIvClose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_12"

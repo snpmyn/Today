@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="@drawable/white_solid_r14"
     android:orientation="vertical">
 
     <LinearLayout
@@ -16,7 +16,7 @@
         android:paddingBottom="@dimen/dp_24">
 
         <TextView
-            android:id="@+id/rightAngleMessageDialogTvTitle"
+            android:id="@+id/bocRoundCornerMessageDialogTvTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/dp_6"
@@ -27,7 +27,7 @@
             tools:text="标题" />
 
         <TextView
-            android:id="@+id/rightAngleMessageDialogTvContent"
+            android:id="@+id/bocRoundCornerMessageDialogTvContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -49,12 +49,12 @@
         android:clipToPadding="false">
 
         <Button
-            android:id="@+id/rightAngleMessageDialogBtnLeft"
+            android:id="@+id/bocRoundCornerMessageDialogBtnLeft"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/white_basic_drawable_selector"
+            android:background="@drawable/white_basic_solid_blr14_selector"
             android:textColor="@color/basic_white_color_selector"
             android:textSize="@dimen/sp_14"
             tools:text="取消" />
@@ -65,12 +65,12 @@
             android:background="@color/gray" />
 
         <Button
-            android:id="@+id/rightAngleMessageDialogBtnRight"
+            android:id="@+id/bocRoundCornerMessageDialogBtnRight"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/white_basic_drawable_selector"
+            android:background="@drawable/white_basic_solid_brr14_selector"
             android:textColor="@color/basic_white_color_selector"
             android:textSize="@dimen/sp_14"
             tools:text="确定" />
