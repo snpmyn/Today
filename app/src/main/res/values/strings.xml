@@ -5,6 +5,7 @@
     <string name="use">使用</string>
     <string name="wait">等下</string>
     <string name="date">日期</string>
+    <string name="send">发送</string>
     <string name="renMinBi">¥</string>
     <string name="amount">金额</string>
     <string name="widget">组件</string>
@@ -17,6 +18,7 @@
     <string name="accountTwo">账单</string>
     <string name="fullScreen">全屏</string>
     <string name="threeColumn">三列</string>
+    <string name="saveConfig">保存配置</string>
     <string name="addAccount">添加账目</string>
     <string name="chooseDate">选择日期</string>
     <string name="chooseYear">选择年份</string>
