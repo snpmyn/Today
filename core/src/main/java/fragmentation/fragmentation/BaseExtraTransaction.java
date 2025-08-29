@@ -16,7 +16,7 @@ import fragmentation.fragmentation.helper.internal.TransactionRecord;
 
 /**
  * @decs: BaseExtraTransaction
- * 未与源码严谨比对。
+ * 未与源码严谨比对
  * @author: 郑少鹏
  * @date: 2019/5/20 9:41
  */
