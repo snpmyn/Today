@@ -4,9 +4,9 @@ package widget.dialog.bocdialog.lottie.bean;
  * Created on 2022/6/24
  *
  * @author zsp
- * @desc 对话框 Lottie 动画枚举
+ * @desc BOC Lottie 对话框枚举
  */
-public enum DialogLottieAnimationEnum {
+public enum BocLottieDialogEnum {
     /**
      * 点赞一
      */
@@ -70,7 +70,7 @@ public enum DialogLottieAnimationEnum {
      * @param width     宽
      * @param height    高
      */
-    DialogLottieAnimationEnum(String assetName, int width, int height) {
+    BocLottieDialogEnum(String assetName, int width, int height) {
         this.assetName = assetName;
         this.width = width;
         this.height = height;
