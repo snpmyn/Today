@@ -15,21 +15,21 @@ import com.zsp.core.R;
 
 import org.jetbrains.annotations.NotNull;
 
-import widget.dialog.bocdialog.base.BaseInstanceDialog;
-import widget.dialog.bocdialog.message.listener.OnRightAngleMessageDialogButtonClickListener;
+import widget.dialog.bocdialog.base.BaseBocInstanceDialog;
+import widget.dialog.bocdialog.message.listener.OnBocRightAngleMessageDialogClickListener;
 
 /**
  * Created on 2020-08-19
  *
  * @author zsp
- * @desc 直角消息对话框
+ * @desc BOC 直角消息对话框
  */
-public class RightAngleMessageDialog extends BaseInstanceDialog {
-    private TextView rightAngleMessageDialogTvTitle;
-    private TextView rightAngleMessageDialogTvContent;
-    private Button rightAngleMessageDialogBtnLeft;
-    private Button rightAngleMessageDialogBtnRight;
-    private OnRightAngleMessageDialogButtonClickListener onRightAngleMessageDialogLeftButtonClickListener, onRightAngleMessageDialogRightButtonClickListener;
+public class BocRightAngleMessageDialog extends BaseBocInstanceDialog {
+    private TextView bocRightAngleMessageDialogTvTitle;
+    private TextView bocRightAngleMessageDialogTvContent;
+    private Button bocRightAngleMessageDialogBtnLeft;
+    private Button bocRightAngleMessageDialogBtnRight;
+    private OnBocRightAngleMessageDialogClickListener onBocRightAngleMessageDialogLeftButtonClickListener, onBocRightAngleMessageDialogRightButtonClickListener;
 
     /**
      * constructor
@@ -37,7 +37,7 @@ public class RightAngleMessageDialog extends BaseInstanceDialog {
      * @param context        上下文
      * @param selfThemeResId 自身主题资源 ID
      */
-    private RightAngleMessageDialog(Context context, int selfThemeResId) {
+    private BocRightAngleMessageDialog(Context context, int selfThemeResId) {
         super(context, selfThemeResId);
     }
 
@@ -48,7 +48,7 @@ public class RightAngleMessageDialog extends BaseInstanceDialog {
      */
     @Override
     protected int layoutResId() {
-        return R.layout.dialog_right_angle_message;
+        return R.layout.dialog_boc_right_angle_message;
     }
 
     /**
@@ -56,10 +56,10 @@ public class RightAngleMessageDialog extends BaseInstanceDialog {
      */
     @Override
     protected void stepUi() {
-        rightAngleMessageDialogTvTitle = view.findViewById(R.id.rightAngleMessageDialogTvTitle);
-        rightAngleMessageDialogTvContent = view.findViewById(R.id.rightAngleMessageDialogTvContent);
-        rightAngleMessageDialogBtnLeft = view.findViewById(R.id.rightAngleMessageDialogBtnLeft);
-        rightAngleMessageDialogBtnRight = view.findViewById(R.id.rightAngleMessageDialogBtnRight);
+        bocRightAngleMessageDialogTvTitle = view.findViewById(R.id.bocRightAngleMessageDialogTvTitle);
+        bocRightAngleMessageDialogTvContent = view.findViewById(R.id.bocRightAngleMessageDialogTvContent);
+        bocRightAngleMessageDialogBtnLeft = view.findViewById(R.id.bocRightAngleMessageDialogBtnLeft);
+        bocRightAngleMessageDialogBtnRight = view.findViewById(R.id.bocRightAngleMessageDialogBtnRight);
     }
 
     /**
@@ -67,18 +67,18 @@ public class RightAngleMessageDialog extends BaseInstanceDialog {
      */
     @Override
     protected void setListener() {
-        rightAngleMessageDialogBtnLeft.setOnClickListener(view -> {
-            if (null == onRightAngleMessageDialogLeftButtonClickListener) {
-                handle(RightAngleMessageDialog.class);
+        bocRightAngleMessageDialogBtnLeft.setOnClickListener(view -> {
+            if (null == onBocRightAngleMessageDialogLeftButtonClickListener) {
+                handle(BocRightAngleMessageDialog.class);
             } else {
-                onRightAngleMessageDialogLeftButtonClickListener.buttonClick(view, RightAngleMessageDialog.this);
+                onBocRightAngleMessageDialogLeftButtonClickListener.buttonClick(view, BocRightAngleMessageDialog.this);
             }
         });
-        rightAngleMessageDialogBtnRight.setOnClickListener(view -> {
-            if (null == onRightAngleMessageDialogRightButtonClickListener) {
-                handle(RightAngleMessageDialog.class);
+        bocRightAngleMessageDialogBtnRight.setOnClickListener(view -> {
+            if (null == onBocRightAngleMessageDialogRightButtonClickListener) {
+                handle(BocRightAngleMessageDialog.class);
             } else {
-                onRightAngleMessageDialogRightButtonClickListener.buttonClick(view, RightAngleMessageDialog.this);
+                onBocRightAngleMessageDialogRightButtonClickListener.buttonClick(view, BocRightAngleMessageDialog.this);
             }
         });
     }
@@ -102,8 +102,8 @@ public class RightAngleMessageDialog extends BaseInstanceDialog {
         if (TextUtils.isEmpty(title)) {
             return;
         }
-        rightAngleMessageDialogTvTitle.setText(title);
-        rightAngleMessageDialogTvTitle.setVisibility(View.VISIBLE);
+        bocRightAngleMessageDialogTvTitle.setText(title);
+        bocRightAngleMessageDialogTvTitle.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -112,25 +112,23 @@ public class RightAngleMessageDialog extends BaseInstanceDialog {
      * @param content 内容
      */
     public void setContent(String content) {
-        rightAngleMessageDialogTvContent.setText(content);
+        bocRightAngleMessageDialogTvContent.setText(content);
     }
 
     /**
      * 设置内容水平居中
      */
     private void setContentHorizontalCenter() {
-        rightAngleMessageDialogTvContent.setGravity(Gravity.CENTER_HORIZONTAL);
+        bocRightAngleMessageDialogTvContent.setGravity(Gravity.CENTER_HORIZONTAL);
     }
 
     /**
      * 设置标题颜色
-     * <p>
-     * 默认 <color name="textInput">#333333</color>
      *
      * @param titleColor 标题颜色
      */
     private void setTitleColor(int titleColor) {
-        rightAngleMessageDialogTvTitle.setTextColor(titleColor);
+        bocRightAngleMessageDialogTvTitle.setTextColor(titleColor);
     }
 
     /**
@@ -141,7 +139,7 @@ public class RightAngleMessageDialog extends BaseInstanceDialog {
      * @param contentColor 内容颜色
      */
     private void setContentColor(int contentColor) {
-        rightAngleMessageDialogTvContent.setTextColor(contentColor);
+        bocRightAngleMessageDialogTvContent.setTextColor(contentColor);
     }
 
     /**
@@ -150,7 +148,7 @@ public class RightAngleMessageDialog extends BaseInstanceDialog {
      * @param leftButtonText 左按钮文本
      */
     private void setLeftButtonText(String leftButtonText) {
-        rightAngleMessageDialogBtnLeft.setText(leftButtonText);
+        bocRightAngleMessageDialogBtnLeft.setText(leftButtonText);
     }
 
     /**
@@ -159,21 +157,21 @@ public class RightAngleMessageDialog extends BaseInstanceDialog {
      * @param rightButtonText 右按钮文本
      */
     private void setRightButtonText(String rightButtonText) {
-        rightAngleMessageDialogBtnRight.setText(rightButtonText);
+        bocRightAngleMessageDialogBtnRight.setText(rightButtonText);
     }
 
     /**
      * 设置左按钮默认选中
      */
     private void setLeftButtonDefaultSelect() {
-        setButtonDefaultSelect(rightAngleMessageDialogBtnLeft);
+        setButtonDefaultSelect(bocRightAngleMessageDialogBtnLeft);
     }
 
     /**
      * 设置右按钮默认选中
      */
     private void setRightButtonDefaultSelect() {
-        setButtonDefaultSelect(rightAngleMessageDialogBtnRight);
+        setButtonDefaultSelect(bocRightAngleMessageDialogBtnRight);
     }
 
     /**
@@ -213,87 +211,87 @@ public class RightAngleMessageDialog extends BaseInstanceDialog {
     }
 
     /**
-     * 设置直角消息对话框左按钮点击监听
+     * 设置 BOC 直角消息对话框左按钮点击监听
      *
-     * @param onRightAngleMessageDialogLeftButtonClickListener 直角消息对话框左按钮点击监听
+     * @param onBocRightAngleMessageDialogLeftButtonClickListener BOC 直角消息对话框左按钮点击监听
      */
-    private void setOnRightAngleMessageDialogLeftButtonClickListener(OnRightAngleMessageDialogButtonClickListener onRightAngleMessageDialogLeftButtonClickListener) {
-        this.onRightAngleMessageDialogLeftButtonClickListener = onRightAngleMessageDialogLeftButtonClickListener;
+    private void setOnBocRightAngleMessageDialogLeftButtonClickListener(OnBocRightAngleMessageDialogClickListener onBocRightAngleMessageDialogLeftButtonClickListener) {
+        this.onBocRightAngleMessageDialogLeftButtonClickListener = onBocRightAngleMessageDialogLeftButtonClickListener;
     }
 
     /**
-     * 设置直角消息对话框右按钮点击监听
+     * 设置 BOC 直角消息对话框右按钮点击监听
      *
-     * @param onRightAngleMessageDialogRightButtonClickListener 直角消息对话框右按钮点击监听
+     * @param onBocRightAngleMessageDialogRightButtonClickListener BOC 直角消息对话框右按钮点击监听
      */
-    private void setOnRightAngleMessageDialogRightButtonClickListener(OnRightAngleMessageDialogButtonClickListener onRightAngleMessageDialogRightButtonClickListener) {
-        this.onRightAngleMessageDialogRightButtonClickListener = onRightAngleMessageDialogRightButtonClickListener;
+    private void setOnBocRightAngleMessageDialogRightButtonClickListener(OnBocRightAngleMessageDialogClickListener onBocRightAngleMessageDialogRightButtonClickListener) {
+        this.onBocRightAngleMessageDialogRightButtonClickListener = onBocRightAngleMessageDialogRightButtonClickListener;
     }
 
     public static class Builder {
-        private final RightAngleMessageDialog rightAngleMessageDialog;
+        private final BocRightAngleMessageDialog bocRightAngleMessageDialog;
 
         public Builder(Context context, int selfThemeResId) {
-            this.rightAngleMessageDialog = new RightAngleMessageDialog(context, selfThemeResId);
+            this.bocRightAngleMessageDialog = new BocRightAngleMessageDialog(context, selfThemeResId);
         }
 
         public Builder setTitle(String title) {
-            rightAngleMessageDialog.setTitle(title);
+            bocRightAngleMessageDialog.setTitle(title);
             return this;
         }
 
         public Builder setContent(String content) {
-            rightAngleMessageDialog.setContent(content);
+            bocRightAngleMessageDialog.setContent(content);
             return this;
         }
 
         public Builder setContentHorizontalCenter() {
-            rightAngleMessageDialog.setContentHorizontalCenter();
+            bocRightAngleMessageDialog.setContentHorizontalCenter();
             return this;
         }
 
         public Builder setTitleColor(int titleColor) {
-            rightAngleMessageDialog.setTitleColor(titleColor);
+            bocRightAngleMessageDialog.setTitleColor(titleColor);
             return this;
         }
 
         public Builder setContentColor(int contentColor) {
-            rightAngleMessageDialog.setContentColor(contentColor);
+            bocRightAngleMessageDialog.setContentColor(contentColor);
             return this;
         }
 
         public Builder setLeftButtonText(String leftButtonText) {
-            rightAngleMessageDialog.setLeftButtonText(leftButtonText);
+            bocRightAngleMessageDialog.setLeftButtonText(leftButtonText);
             return this;
         }
 
         public Builder setRightButtonText(String rightButtonText) {
-            rightAngleMessageDialog.setRightButtonText(rightButtonText);
+            bocRightAngleMessageDialog.setRightButtonText(rightButtonText);
             return this;
         }
 
         public Builder setLeftButtonDefaultSelect() {
-            rightAngleMessageDialog.setLeftButtonDefaultSelect();
+            bocRightAngleMessageDialog.setLeftButtonDefaultSelect();
             return this;
         }
 
         public Builder setRightButtonDefaultSelect() {
-            rightAngleMessageDialog.setRightButtonDefaultSelect();
+            bocRightAngleMessageDialog.setRightButtonDefaultSelect();
             return this;
         }
 
-        public Builder setOnRightAngleMessageDialogLeftButtonClickListener(OnRightAngleMessageDialogButtonClickListener onLeftButtonClickListener) {
-            rightAngleMessageDialog.setOnRightAngleMessageDialogLeftButtonClickListener(onLeftButtonClickListener);
+        public Builder setOnBocRightAngleMessageDialogLeftButtonClickListener(OnBocRightAngleMessageDialogClickListener onBocRightAngleMessageDialogLeftButtonClickListener) {
+            bocRightAngleMessageDialog.setOnBocRightAngleMessageDialogLeftButtonClickListener(onBocRightAngleMessageDialogLeftButtonClickListener);
             return this;
         }
 
-        public Builder setOnRightAngleMessageDialogRightButtonClickListener(OnRightAngleMessageDialogButtonClickListener onRightButtonClickListener) {
-            rightAngleMessageDialog.setOnRightAngleMessageDialogRightButtonClickListener(onRightButtonClickListener);
+        public Builder setOnBocRightAngleMessageDialogRightButtonClickListener(OnBocRightAngleMessageDialogClickListener onBocRightAngleMessageDialogRightButtonClickListener) {
+            bocRightAngleMessageDialog.setOnBocRightAngleMessageDialogRightButtonClickListener(onBocRightAngleMessageDialogRightButtonClickListener);
             return this;
         }
 
-        public RightAngleMessageDialog build() {
-            return rightAngleMessageDialog;
+        public BocRightAngleMessageDialog build() {
+            return bocRightAngleMessageDialog;
         }
     }
 }
