@@ -31,13 +31,13 @@ import util.file.FileUtils;
  * Created on 2018/5/24.
  *
  * @author 郑少鹏
- * @desc 崩溃管理器初始化配置
+ * @desc 崩溃管理器
  */
-public class CrashManagerInitConfigure implements Thread.UncaughtExceptionHandler {
+public class CrashManager implements Thread.UncaughtExceptionHandler {
     /**
      * 实例
      */
-    private static volatile CrashManagerInitConfigure instance;
+    private static volatile CrashManager instance;
     /**
      * Application
      */
@@ -64,7 +64,7 @@ public class CrashManagerInitConfigure implements Thread.UncaughtExceptionHandle
      *
      * @param application Application
      */
-    private CrashManagerInitConfigure(Application application) {
+    private CrashManager(Application application) {
         this.application = application;
         this.uncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(this);
@@ -78,9 +78,9 @@ public class CrashManagerInitConfigure implements Thread.UncaughtExceptionHandle
      */
     public static void getInstance(Application application, String path) {
         if (null == instance) {
-            synchronized (CrashManagerInitConfigure.class) {
+            synchronized (CrashManager.class) {
                 if (null == instance) {
-                    instance = new CrashManagerInitConfigure(application);
+                    instance = new CrashManager(application);
                     instance.path = path;
                 }
             }
