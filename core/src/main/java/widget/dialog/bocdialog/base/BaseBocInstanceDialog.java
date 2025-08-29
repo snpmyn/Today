@@ -13,13 +13,13 @@ import util.log.LogUtils;
  * Created on 2020-08-21
  *
  * @author zsp
- * @desc 单例对话框基类
+ * @desc BOC 单例对话框基类
  * <p>
- * 继承 {@link BaseDialog} 实现对话框，关闭时调 {@link #dismiss()}。
- * 继承 {@link BaseInstanceDialog} 实现对话框，关闭时调 {@link #handle(Class)}。
+ * 继承 {@link BaseBocDialog} 实现对话框，关闭时调 {@link #dismiss()}。
+ * 继承 {@link BaseBocInstanceDialog} 实现对话框，关闭时调 {@link #handle(Class)}。
  */
-public abstract class BaseInstanceDialog extends BaseDialog {
-    private static final List<BaseInstanceDialog> CURRENT_BASE_INSTANCE_DIALOGS = new ArrayList<>();
+public abstract class BaseBocInstanceDialog extends BaseBocDialog {
+    private static final List<BaseBocInstanceDialog> CURRENT_BASE_BOC_INSTANCE_DIALOGS = new ArrayList<>();
 
     /**
      * constructor
@@ -27,7 +27,7 @@ public abstract class BaseInstanceDialog extends BaseDialog {
      * @param context        上下文
      * @param selfThemeResId 自身主题资源 ID
      */
-    protected BaseInstanceDialog(Context context, int selfThemeResId) {
+    protected BaseBocInstanceDialog(Context context, int selfThemeResId) {
         super(context, selfThemeResId);
         handle(this.getClass());
         setCurrentDialog();
@@ -39,8 +39,8 @@ public abstract class BaseInstanceDialog extends BaseDialog {
      * @param c 类
      * @return 当前对话框
      */
-    private static @Nullable BaseInstanceDialog getCurrentDialog(Class<?> c) {
-        for (BaseInstanceDialog baseInstanceDialog : CURRENT_BASE_INSTANCE_DIALOGS) {
+    private static @Nullable BaseBocInstanceDialog getCurrentDialog(Class<?> c) {
+        for (BaseBocInstanceDialog baseInstanceDialog : CURRENT_BASE_BOC_INSTANCE_DIALOGS) {
             if (baseInstanceDialog.getClass() == c) {
                 return baseInstanceDialog;
             }
@@ -52,15 +52,15 @@ public abstract class BaseInstanceDialog extends BaseDialog {
      * 设置当前对话框
      */
     private void setCurrentDialog() {
-        BaseInstanceDialog baseInstanceDialog;
-        for (int i = 0; i < CURRENT_BASE_INSTANCE_DIALOGS.size(); i++) {
-            baseInstanceDialog = CURRENT_BASE_INSTANCE_DIALOGS.get(i);
+        BaseBocInstanceDialog baseInstanceDialog;
+        for (int i = 0; i < CURRENT_BASE_BOC_INSTANCE_DIALOGS.size(); i++) {
+            baseInstanceDialog = CURRENT_BASE_BOC_INSTANCE_DIALOGS.get(i);
             if (baseInstanceDialog.getClass() == this.getClass()) {
-                CURRENT_BASE_INSTANCE_DIALOGS.remove(baseInstanceDialog);
+                CURRENT_BASE_BOC_INSTANCE_DIALOGS.remove(baseInstanceDialog);
                 i--;
             }
         }
-        CURRENT_BASE_INSTANCE_DIALOGS.add(this);
+        CURRENT_BASE_BOC_INSTANCE_DIALOGS.add(this);
     }
 
     /**
@@ -70,12 +70,12 @@ public abstract class BaseInstanceDialog extends BaseDialog {
      */
     public void handle(Class<?> c) {
         try {
-            BaseInstanceDialog baseInstanceDialog = getCurrentDialog(c);
+            BaseBocInstanceDialog baseInstanceDialog = getCurrentDialog(c);
             if (null != baseInstanceDialog) {
                 if (baseInstanceDialog.isShowing()) {
                     baseInstanceDialog.dismiss();
                 }
-                CURRENT_BASE_INSTANCE_DIALOGS.remove(baseInstanceDialog);
+                CURRENT_BASE_BOC_INSTANCE_DIALOGS.remove(baseInstanceDialog);
             }
         } catch (Exception e) {
             LogUtils.exception(e);

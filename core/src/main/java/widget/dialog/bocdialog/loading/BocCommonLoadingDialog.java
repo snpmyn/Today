@@ -9,17 +9,17 @@ import android.widget.TextView;
 import com.zsp.core.R;
 
 import util.density.DensityUtils;
-import widget.dialog.bocdialog.base.BaseInstanceDialog;
+import widget.dialog.bocdialog.base.BaseBocInstanceDialog;
 import widget.dialog.bocdialog.loading.listener.OnBackPressedListener;
 
 /**
  * Created on 2020-08-28
  *
  * @author zsp
- * @desc 普通加载对话框
+ * @desc BOC 普通加载对话框
  */
-public class CommonLoadingDialog extends BaseInstanceDialog {
-    private TextView commonLoadingDialogTvHint;
+public class BocCommonLoadingDialog extends BaseBocInstanceDialog {
+    private TextView bocCommonLoadingDialogTvHint;
     private OnBackPressedListener onBackPressedListener;
 
     /**
@@ -28,7 +28,7 @@ public class CommonLoadingDialog extends BaseInstanceDialog {
      * @param context        上下文
      * @param selfThemeResId 自身主题资源 ID
      */
-    private CommonLoadingDialog(Context context, int selfThemeResId) {
+    private BocCommonLoadingDialog(Context context, int selfThemeResId) {
         super(context, selfThemeResId);
     }
 
@@ -39,7 +39,7 @@ public class CommonLoadingDialog extends BaseInstanceDialog {
      */
     @Override
     protected int layoutResId() {
-        return R.layout.dialog_common_loading;
+        return R.layout.dialog_boc_common_loading;
     }
 
     /**
@@ -47,7 +47,7 @@ public class CommonLoadingDialog extends BaseInstanceDialog {
      */
     @Override
     protected void stepUi() {
-        commonLoadingDialogTvHint = view.findViewById(R.id.commonLoadingDialogTvHint);
+        bocCommonLoadingDialogTvHint = view.findViewById(R.id.bocCommonLoadingDialogTvHint);
     }
 
     /**
@@ -89,8 +89,8 @@ public class CommonLoadingDialog extends BaseInstanceDialog {
         if (TextUtils.isEmpty(hint)) {
             return;
         }
-        commonLoadingDialogTvHint.setText(hint);
-        commonLoadingDialogTvHint.setVisibility(View.VISIBLE);
+        bocCommonLoadingDialogTvHint.setText(hint);
+        bocCommonLoadingDialogTvHint.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -103,24 +103,24 @@ public class CommonLoadingDialog extends BaseInstanceDialog {
     }
 
     public static class Builder {
-        private final CommonLoadingDialog commonLoadingDialog;
+        private final BocCommonLoadingDialog bocCommonLoadingDialog;
 
         public Builder(Context context, int selfThemeResId) {
-            this.commonLoadingDialog = new CommonLoadingDialog(context, selfThemeResId);
+            this.bocCommonLoadingDialog = new BocCommonLoadingDialog(context, selfThemeResId);
         }
 
         public Builder setHint(String hint) {
-            commonLoadingDialog.setHint(hint);
+            bocCommonLoadingDialog.setHint(hint);
             return this;
         }
 
         public Builder setOnBackPressedListener(OnBackPressedListener onBackPressedListener) {
-            commonLoadingDialog.setOnBackPressedListener(onBackPressedListener);
+            bocCommonLoadingDialog.setOnBackPressedListener(onBackPressedListener);
             return this;
         }
 
-        public CommonLoadingDialog build() {
-            return commonLoadingDialog;
+        public BocCommonLoadingDialog build() {
+            return bocCommonLoadingDialog;
         }
     }
 }

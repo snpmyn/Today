@@ -95,6 +95,10 @@ public class BocDialogKit {
             softReference.clear();
         }
         if (null != baseBocInstanceDialog) {
+            if (baseBocInstanceDialog instanceof BocLottieDialog) {
+                // BOC Lottie 对话框需要关动画
+                ((BocLottieDialog) baseBocInstanceDialog).end();
+            }
             if (baseBocInstanceDialog.isShowing()) {
                 baseBocInstanceDialog.dismiss();
             }

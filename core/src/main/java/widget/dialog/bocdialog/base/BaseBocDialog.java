@@ -10,14 +10,14 @@ import android.widget.LinearLayout;
 import com.zsp.core.R;
 
 /**
- * @desc: 基类
+ * @desc: BOC 对话框基类
  * <p>
- * 继承 {@link BaseDialog} 实现对话框，关闭时调 {@link #dismiss()}。
- * 继承 {@link BaseInstanceDialog} 实现对话框，关闭时调 {@link BaseInstanceDialog#handle(Class)}。
+ * 继承 {@link BaseBocDialog} 实现对话框，关闭时调 {@link #dismiss()}。
+ * 继承 {@link BaseBocInstanceDialog} 实现对话框，关闭时调 {@link BaseBocInstanceDialog#handle(Class)}。
  * @author: zsp
  * @date: 2020-08-19 16:17
  */
-public abstract class BaseDialog extends Dialog {
+public abstract class BaseBocDialog extends Dialog {
     protected Context context;
     protected View view;
 
@@ -27,10 +27,10 @@ public abstract class BaseDialog extends Dialog {
      * @param context        上下文
      * @param selfThemeResId 自身主题资源 ID
      */
-    BaseDialog(Context context, int selfThemeResId) {
+    BaseBocDialog(Context context, int selfThemeResId) {
         super(context, (selfThemeResId == 0) ? R.style.BocDialogStyle : selfThemeResId);
         this.context = context;
-        setContentView(R.layout.dialog_base);
+        setContentView(R.layout.dialog_base_boc);
         // 基类调用
         stepView();
         // 子类实现
@@ -44,7 +44,7 @@ public abstract class BaseDialog extends Dialog {
      */
     private void stepView() {
         // 内容视图
-        LinearLayout baseDialogLlContent = findViewById(R.id.baseDialogLlContent);
+        LinearLayout baseDialogLlContent = findViewById(R.id.baseBocDialogLlContent);
         view = LayoutInflater.from(context).inflate(layoutResId(), null);
         baseDialogLlContent.addView(view);
         // 根视图

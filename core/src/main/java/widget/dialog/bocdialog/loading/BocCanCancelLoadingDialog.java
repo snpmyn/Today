@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.zsp.core.R;
 
 import util.density.DensityUtils;
-import widget.dialog.bocdialog.base.BaseInstanceDialog;
+import widget.dialog.bocdialog.base.BaseBocInstanceDialog;
 import widget.dialog.bocdialog.loading.listener.OnBackPressedListener;
 import widget.dialog.bocdialog.loading.listener.OnClickToCloseListener;
 import widget.dialog.bocdialog.loading.listener.OnDialogCloseListener;
@@ -20,12 +20,12 @@ import widget.dialog.bocdialog.loading.listener.OnDialogCloseListener;
  * Created on 2020-09-01
  *
  * @author zsp
- * @desc 可取消加载对话框
+ * @desc BOC 可取消加载对话框
  */
-public class CanCancelLoadingDialog extends BaseInstanceDialog {
-    private ImageView canCancelLoadingDialogIvLoading;
-    private TextView canCancelLoadingDialogTvHint;
-    private ImageView canCancelLoadingDialogIvClose;
+public class BocCanCancelLoadingDialog extends BaseBocInstanceDialog {
+    private ImageView bocCanCancelLoadingDialogIvLoading;
+    private TextView bocCanCancelLoadingDialogTvHint;
+    private ImageView bocCanCancelLoadingDialogIvClose;
     private Animation animation;
     private OnClickToCloseListener onClickToCloseListener;
     private OnDialogCloseListener onDialogCloseListener;
@@ -37,7 +37,7 @@ public class CanCancelLoadingDialog extends BaseInstanceDialog {
      * @param context        上下文
      * @param selfThemeResId 自身主题资源 ID
      */
-    private CanCancelLoadingDialog(Context context, int selfThemeResId) {
+    private BocCanCancelLoadingDialog(Context context, int selfThemeResId) {
         super(context, selfThemeResId);
     }
 
@@ -48,7 +48,7 @@ public class CanCancelLoadingDialog extends BaseInstanceDialog {
      */
     @Override
     protected int layoutResId() {
-        return R.layout.dialog_can_cancel_loading;
+        return R.layout.dialog_boc_can_cancel_loading;
     }
 
     /**
@@ -56,9 +56,9 @@ public class CanCancelLoadingDialog extends BaseInstanceDialog {
      */
     @Override
     protected void stepUi() {
-        canCancelLoadingDialogIvLoading = view.findViewById(R.id.canCancelLoadingDialogIvLoading);
-        canCancelLoadingDialogTvHint = view.findViewById(R.id.canCancelLoadingDialogTvHint);
-        canCancelLoadingDialogIvClose = view.findViewById(R.id.canCancelLoadingDialogIvClose);
+        bocCanCancelLoadingDialogIvLoading = view.findViewById(R.id.bocCanCancelLoadingDialogIvLoading);
+        bocCanCancelLoadingDialogTvHint = view.findViewById(R.id.bocCanCancelLoadingDialogTvHint);
+        bocCanCancelLoadingDialogIvClose = view.findViewById(R.id.bocCanCancelLoadingDialogIvClose);
     }
 
     /**
@@ -66,7 +66,7 @@ public class CanCancelLoadingDialog extends BaseInstanceDialog {
      */
     @Override
     protected void setListener() {
-        canCancelLoadingDialogIvClose.setOnClickListener(view -> {
+        bocCanCancelLoadingDialogIvClose.setOnClickListener(view -> {
             if (null != onClickToCloseListener) {
                 onClickToCloseListener.clickToClose();
                 onClickToCloseListener = null;
@@ -91,13 +91,13 @@ public class CanCancelLoadingDialog extends BaseInstanceDialog {
     @Override
     public void show() {
         super.show();
-        canCancelLoadingDialogIvLoading.startAnimation(animation);
+        bocCanCancelLoadingDialogIvLoading.startAnimation(animation);
     }
 
     @Override
     public void dismiss() {
         super.dismiss();
-        canCancelLoadingDialogIvLoading.clearAnimation();
+        bocCanCancelLoadingDialogIvLoading.clearAnimation();
     }
 
     @Override
@@ -127,7 +127,7 @@ public class CanCancelLoadingDialog extends BaseInstanceDialog {
         if (TextUtils.isEmpty(hint)) {
             return;
         }
-        canCancelLoadingDialogTvHint.setText(hint);
+        bocCanCancelLoadingDialogTvHint.setText(hint);
     }
 
     /**
@@ -158,34 +158,34 @@ public class CanCancelLoadingDialog extends BaseInstanceDialog {
     }
 
     public static class Builder {
-        private final CanCancelLoadingDialog canCancelLoadingDialog;
+        private final BocCanCancelLoadingDialog bocCanCancelLoadingDialog;
 
         public Builder(Context context, int selfThemeResId) {
-            this.canCancelLoadingDialog = new CanCancelLoadingDialog(context, selfThemeResId);
+            this.bocCanCancelLoadingDialog = new BocCanCancelLoadingDialog(context, selfThemeResId);
         }
 
         public Builder setHint(String hint) {
-            canCancelLoadingDialog.setHint(hint);
+            bocCanCancelLoadingDialog.setHint(hint);
             return this;
         }
 
         public Builder setOnClickToCloseListener(OnClickToCloseListener onClickToCloseListener) {
-            canCancelLoadingDialog.setOnClickToCloseListener(onClickToCloseListener);
+            bocCanCancelLoadingDialog.setOnClickToCloseListener(onClickToCloseListener);
             return this;
         }
 
         public Builder setOnDialogCloseListener(OnDialogCloseListener onDialogCloseListener) {
-            canCancelLoadingDialog.setOnDialogCloseListener(onDialogCloseListener);
+            bocCanCancelLoadingDialog.setOnDialogCloseListener(onDialogCloseListener);
             return this;
         }
 
         public Builder setOnBackPressedListener(OnBackPressedListener onBackPressedListener) {
-            canCancelLoadingDialog.setOnBackPressedListener(onBackPressedListener);
+            bocCanCancelLoadingDialog.setOnBackPressedListener(onBackPressedListener);
             return this;
         }
 
-        public CanCancelLoadingDialog build() {
-            return canCancelLoadingDialog;
+        public BocCanCancelLoadingDialog build() {
+            return bocCanCancelLoadingDialog;
         }
     }
 }
