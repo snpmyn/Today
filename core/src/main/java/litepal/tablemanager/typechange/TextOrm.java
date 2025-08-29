@@ -8,8 +8,7 @@ package litepal.tablemanager.typechange;
  */
 public class TextOrm extends OrmChange {
     /**
-     * If the field type passed in is char or String, it will change it into
-     * text as column type.
+     * If the field type passed in is char or String, it will change it into text as column type.
      */
     @Override
     public String object2Relation(String fieldType) {

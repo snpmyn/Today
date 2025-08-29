@@ -8,8 +8,7 @@ package litepal.tablemanager.typechange;
  */
 public class NumericOrm extends OrmChange {
     /**
-     * If the field type passed in is int, long or short, it will change it into
-     * integer as column type.
+     * If the field type passed in is int, long or short, it will change it into integer as column type.
      */
     @Override
     public String object2Relation(String fieldType) {
