@@ -45,9 +45,9 @@
             android:textSize="@dimen/sp_14"
             android:textStyle="bold"
             app:cornerRadius="@dimen/dp_180"
-            app:icon="@drawable/ic_fire_color_f86c09_24dp"
+            app:icon="@drawable/ic_fire_white_24dp"
             app:iconGravity="textStart"
-            app:iconSize="@dimen/dp_24"
+            app:iconSize="@dimen/dp_18"
             app:iconTint="@color/color_F86C09"
             app:rippleColor="@color/color_F86C09" />
         <!--备用-->
@@ -67,7 +67,7 @@
             android:textStyle="bold"
             android:visibility="gone"
             app:cornerRadius="@dimen/dp_180"
-            app:icon="@drawable/ic_fire_color_f86c09_24dp"
+            app:icon="@drawable/ic_fire_white_24dp"
             app:iconGravity="textStart"
             app:iconSize="@dimen/dp_24"
             app:iconTint="@color/color_F86C09"
