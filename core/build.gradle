@@ -43,15 +43,21 @@ dependencies {
     api libs.lifecycle.viewmodel.ktx
     implementation libs.core.ktx
     /*自带*/
-    api libs.eventbus
-    api libs.timber
-    api libs.mmkv
-    api libs.relinker
-    api libs.rxjava
-    api libs.rxandroid
+    api libs.jxl
     api libs.okio
+    api libs.gson
+    api libs.mpac
+    api libs.mmkv
     api libs.glide
+    api libs.timber
+    api libs.rxjava
     api libs.lottie
+    api libs.glance
+    api libs.relinker
+    api libs.eventbus
+    api libs.rxandroid
     api libs.permissionx
+    api libs.work.runtime
+    api libs.localbroadcastmanager
     api files('libs/tbs_sdk_44286.jar')
 }
