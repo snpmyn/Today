@@ -84,6 +84,6 @@ public class KeyboardUtils {
     public static void copyText(@NonNull Context context, @NonNull String text) {
         // 剪贴板管理器
         ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-        clipboardManager.setPrimaryClip(text.trim());
+        clipboardManager.setText(text.trim());
     }
 }
