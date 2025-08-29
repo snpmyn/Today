@@ -2,29 +2,51 @@
   <dictionary name="project">
     <words>
       <w>aaeff</w>
+      <w>acmp</w>
       <w>adbe</w>
       <w>arrondis</w>
+      <w>bnca</w>
       <w>bugtags</w>
       <w>ceneric</w>
       <w>charecter</w>
+      <w>chulito</w>
       <w>circ</w>
       <w>coef</w>
       <w>coeff</w>
+      <w>contornos</w>
+      <w>cyles</w>
       <w>d'ellipse</w>
       <w>dctv</w>
+      <w>decs</w>
+      <w>dflt</w>
       <w>efab</w>
+      <w>elipse</w>
+      <w>elíptico</w>
+      <w>encrpyted</w>
       <w>exop</w>
       <w>externalstorage</w>
       <w>fafb</w>
       <w>fileprovider</w>
       <w>floatingactionbutton</w>
+      <w>forma</w>
+      <w>formas</w>
       <w>forme</w>
+      <w>gpay</w>
+      <w>grupo</w>
+      <w>hmmss</w>
       <w>interpolators</w>
+      <w>litepal</w>
+      <w>ljava</w>
       <w>lottiefiles</w>
+      <w>lpcolumn</w>
       <w>mactv</w>
+      <w>mddhhmmss</w>
+      <w>mhac</w>
       <w>mmap</w>
       <w>mmkv</w>
+      <w>msword</w>
       <w>muyang</w>
+      <w>occurances</w>
       <w>oldh</w>
       <w>oldw</w>
       <w>pingpong</w>
@@ -32,7 +54,9 @@
       <w>prettyprint</w>
       <w>raccorder</w>
       <w>rafsan</w>
+      <w>recortar</w>
       <w>rectangulaire</w>
+      <w>relleno</w>
       <w>rxbus</w>
       <w>sendto</w>
       <w>shapeable</w>
@@ -45,9 +69,22 @@
       <w>tetescope</w>
       <w>tiet</w>
       <w>timming</w>
+      <w>tracciato</w>
+      <w>transformar</w>
+      <w>trasformazione</w>
+      <w>trazado</w>
+      <w>trazados</w>
+      <w>trazo</w>
       <w>trre</w>
+      <w>ukramedia</w>
       <w>uniqued</w>
+      <w>xxxxxx</w>
       <w>yokeyword</w>
+      <w>yyyymmddhhmmss</w>
+      <w>yyyymmhh</w>
+      <w>yyyymmss</w>
+      <w>zpkil</w>
+      <w>zzzzzzzzzzzzzzz</w>
       <w>глаз</w>
       <w>голова</w>
       <w>китизалупити</w>
