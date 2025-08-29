@@ -77,7 +77,7 @@ class AnimationHandler
         fun  /* synthetic access */dispatchAnimationFrame() {
             mCurrentFrameTime = SystemClock.uptimeMillis()
             doAnimationFrame(mCurrentFrameTime)
-            if (mAnimationCallbacks.size > 0) {
+            if (mAnimationCallbacks.isNotEmpty()) {
                 scheduler.postFrameCallback(mRunnable)
             }
         }
@@ -96,7 +96,6 @@ class AnimationHandler
     /**
      * Gets the FrameCallbackScheduler in this handler.
      * Used in testing only.
-     *
      * @return The FrameCallbackScheduler in this handler
      * @hide
      */
@@ -119,8 +118,7 @@ class AnimationHandler
     }
 
     /**
-     * Removes the given callback from the list, so it will no longer be called for frame related
-     * timing.
+     * Removes the given callback from the list, so it will no longer be called for frame related timing.
      */
     fun removeCallback(callback: AnimationFrameCallback?) {
         // 确定回调非 null
@@ -145,18 +143,14 @@ class AnimationHandler
     }
 
     /**
-     * Returns whether the current thread is the same thread as the animation handler
-     * frame scheduler.
-     *
+     * Returns whether the current thread is the same thread as the animation handler frame scheduler.
      * @return true the current thread is the same thread as the animation handler frame scheduler.
      */
     val isCurrentThread: Boolean
         get() = scheduler.isCurrentThread
 
     /**
-     * Remove the callbacks from mDelayedCallbackStartTime once they have passed the initial delay
-     * so that they can start getting frame callbacks.
-     *
+     * Remove the callbacks from mDelayedCallbackStartTime once they have passed the initial delay so that they can start getting frame callbacks.
      * @return true if they have passed the initial delay or have no delay, false otherwise.
      */
     private fun isCallbackDue(callback: AnimationFrameCallback, currentTime: Long): Boolean {
@@ -195,8 +189,8 @@ class AnimationHandler
     }
 
     /**
-     * Frame provider for ICS and ICS-MR1 releases. The frame callback is achieved via posting
-     * a Runnable to the main thread Handler with a delay.
+     * Frame provider for ICS and ICS-MR1 releases.
+     * The frame callback is achieved via posting a Runnable to the main thread Handler with a delay.
      */
     @VisibleForTesting
     internal class FrameCallbackScheduler14 : FrameCallbackScheduler {
