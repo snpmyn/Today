@@ -25,6 +25,7 @@ import com.zsp.today.value.AccountConstant;
 import com.zsp.today.value.Folder;
 import com.zsp.today.widget.excel.ExcelKit;
 
+import util.list.ListUtils;
 import widget.status.kit.StatusManagerKit;
 
 import java.util.ArrayList;
@@ -174,7 +175,7 @@ public class AccountHomeActivityKit {
      */
     public void exportAccount(AppCompatActivity appCompatActivity) {
         List<AccountDataBaseTable> accountDataBaseTableList = LitePalKit.getInstance().queryByWhereAndOrderAndSelect(AccountDataBaseTable.class, new String[]{AccountCondition.ACCOUNT_PHONE_NUMBER, App.getAppInstance().getPhoneNumber()}, "date", false, "date", "category", "amount");
-        if (accountDataBaseTableList.isEmpty()) {
+        if (ListUtils.listIsEmpty(accountDataBaseTableList)) {
             ToastKit.showShort(appCompatActivity.getString(R.string.noAccountDataAvailable));
             return;
         }
