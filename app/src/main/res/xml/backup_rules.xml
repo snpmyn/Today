@@ -5,9 +5,20 @@
    Note: This file is ignored for devices older than API 31
    See https://developer.android.com/about/versions/12/backup-restore
 -->
+<!--它指定了当用户设备的系统开启自动备份功能时，您的应用中的哪些数据应该被包含在备份中，哪些数据应该被排除-->
+<!--full-backup-content 是一个 XML 元素，是根标签，表示内部包含的是关于完全备份的配置内容-->
 <full-backup-content>
-    <!--
-   <include domain="sharedpref" path="."/>
-   <exclude domain="sharedpref" path="device.xml"/>
--->
+    <!--domain (域) 属性指定了要备份的数据类型-->
+    <!--sharedpref 指的是 Shared Preferences，即应用程序的偏好设置文件，通常是一些键值对，用于保存用户设置或轻量级数据-->
+    <!--这里的点号 . 是一个通配符，代表当前域下的所有文件-->
+    <include
+        domain="sharedpref"
+        path="." />
+    <!--表示排除，即指定不需要备份的项目-->
+    <!--它用于覆盖 include 规则，实现更精细的控制-->
+    <!--domain="sharedpref": 同样，指定了要操作的数据域是 Shared Preferences-->
+    <!--path="device.xml": 指定了具体的文件名 device.xml-->
+    <!--<exclude
+        domain="sharedpref"
+        path="device.xml" />-->
 </full-backup-content>
