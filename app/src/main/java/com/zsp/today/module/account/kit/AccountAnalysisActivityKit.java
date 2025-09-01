@@ -95,6 +95,6 @@ public class AccountAnalysisActivityKit {
         }
         // 显示
         LineChartKit lineChartKit = new LineChartKit();
-        lineChartKit.execute(appCompatActivity, lineChart, appCompatActivity.getString(R.string.yuan), mode, floats, accountDateListBeanList.isEmpty(), noDataText, com.zsp.core.R.color.basic, "", values);
+        lineChartKit.execute(appCompatActivity, lineChart, appCompatActivity.getString(R.string.yuan), mode, floats, ListUtils.listIsEmpty(accountDateListBeanList), noDataText, com.zsp.core.R.color.basic, "", values);
     }
 }
