@@ -24,3 +24,5 @@ dependencyResolutionManagement {
 rootProject.name = "Today"
 include ':app'
 include ':core'
+include ':amap'
+include ':bdmap'
