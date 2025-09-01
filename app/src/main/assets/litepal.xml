@@ -38,6 +38,8 @@
         <mapping class="com.zsp.today.module.function.database.FunctionDataBaseTable" />
         <!--账目数据库表-->
         <mapping class="com.zsp.today.module.account.database.AccountDataBaseTable" />
+        <!--险情数据库表-->
+        <mapping class="com.zsp.today.module.dangerous.database.DangerousDataBaseTable" />
     </list>
 
     <!--
