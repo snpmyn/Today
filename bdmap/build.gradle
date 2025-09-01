@@ -1,0 +1,41 @@
+plugins {
+    alias(libs.plugins.android.library)
+}
+
+android {
+    namespace 'com.zsp.bdmap'
+    compileSdk rootProject.ext.compileSdk
+
+    defaultConfig {
+        minSdk rootProject.ext.minSdk
+
+        consumerProguardFiles "consumer-rules.pro"
+
+        /*设置支持的 so 库架构*/
+        /*据需选一或多平台 so 库架构*/
+        ndk {
+            abiFilters 'x86', 'x86_64', 'armeabi', 'armeabi-v7a', 'arm64-v8a'//, 'mips', 'mips64'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        pre {
+            initWith release
+        }
+    }
+    compileOptions {
+        /*源代码兼容 Java 11 (可按需设)*/
+        sourceCompatibility JavaVersion.VERSION_11
+        /*生成的字节码兼容 Java 11 (可按需设)*/
+        targetCompatibility JavaVersion.VERSION_11
+    }
+}
+
+dependencies {
+    api libs.baidumapsdk.location.all
+    /*全量定位组件*/
+}
