@@ -1,6 +1,6 @@
 package lottie.configure;
 
-import android.content.Context;
+import android.app.Application;
 
 import com.airbnb.lottie.Lottie;
 import com.airbnb.lottie.LottieConfig;
@@ -28,15 +28,15 @@ public class LottieInitConfig {
      * 启用 systrace 生成器进行调试
      * 如果您想实现自定义网络获取器级缓存策略，请完全禁用 Lottie 的网络缓存。
      *
-     * @param context               上下文
+     * @param application           应用
      * @param networkCacheFileName  网络缓存文件名
      * @param enableSystraceMarkers 允许 systrace 生成器调试
      * @param enableNetworkCache    允许网络缓存
      */
-    public static void initLottie(Context context, String networkCacheFileName, boolean enableSystraceMarkers, boolean enableNetworkCache) {
+    public static void initLottie(Application application, String networkCacheFileName, boolean enableSystraceMarkers, boolean enableNetworkCache) {
         LottieConfig lottieConfig = null;
         try {
-            lottieConfig = new LottieConfig.Builder().setNetworkCacheDir(FileUtils.createCacheFile(context, networkCacheFileName)).setEnableSystraceMarkers(enableSystraceMarkers).setEnableNetworkCache(enableNetworkCache).build();
+            lottieConfig = new LottieConfig.Builder().setNetworkCacheDir(FileUtils.createCacheFile(application, networkCacheFileName)).setEnableSystraceMarkers(enableSystraceMarkers).setEnableNetworkCache(enableNetworkCache).build();
         } catch (IOException e) {
             Timber.e(e);
         }
