@@ -22,10 +22,12 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        /*ndk {
-            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'//, 'mips', 'mips64'
-        }*/
-        resourceConfigurations += ['en', 'zh']
+        /*配置应用多语言资源，明确告诉 Gradle 构建系统只打包和处理指定的语言资源 ('en' 和 'zh') 而忽略所有其它语言资源*/
+        /*zh：宏观中文 (通常不单独使用)*/
+        /*zh-rCN：简体中文 (中国大陆) - 对应目录 values-zh-rCN*/
+        /*zh-rTW：繁体中文 (台湾) - 对应目录 values-zh-rTW*/
+        /*zh-rHK：繁体中文 (香港) - 对应目录 values-zh-rHK*/
+        resourceConfigurations += ['en', 'zh-rCN', 'zh-rTW', 'zh-rHK']
     }
 
     signingConfigs {
@@ -106,9 +108,9 @@ android {
         }
     }
     compileOptions {
-        // 源代码兼容 Java 11 (可按需设)
+        /*源代码兼容 Java 11 (可按需设)*/
         sourceCompatibility JavaVersion.VERSION_11
-        // 生成的字节码兼容 Java 11 (可按需设)
+        /*生成的字节码兼容 Java 11 (可按需设)*/
         targetCompatibility JavaVersion.VERSION_11
     }
     buildFeatures {
@@ -124,4 +126,6 @@ dependencies {
     /*自带*/
     implementation project(':core')
     /*core*/
+    implementation project(':bdmap')
+    /*BdMap*/
 }
