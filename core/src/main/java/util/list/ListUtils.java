@@ -3,6 +3,8 @@ package util.list;
 import android.content.Context;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -147,5 +149,16 @@ public class ListUtils {
             }
         }
         return saveList;
+    }
+
+    /**
+     * 拼接顿号
+     *
+     * @param inputStringList 输入集合
+     * @return 拼接顿号后字符串
+     */
+    @NonNull
+    public static String splicingEnumerationPunctuation(List<String> inputStringList) {
+        return String.join("、", inputStringList);
     }
 }
