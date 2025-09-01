@@ -3,6 +3,8 @@ package litepal.parser;
 import java.util.ArrayList;
 import java.util.List;
 
+import util.list.ListUtils;
+
 /**
  * Model for litepal.xml configuration file.
  *
@@ -65,7 +67,7 @@ public class LitePalConfig {
         if (classNames == null) {
             classNames = new ArrayList<>();
             classNames.add("litepal.model.Table_Schema");
-        } else if (classNames.isEmpty()) {
+        } else if (ListUtils.listIsEmpty(classNames)) {
             classNames.add("litepal.model.Table_Schema");
         }
         return classNames;
