@@ -28,6 +28,7 @@ import com.zsp.today.value.AccountConstant;
 import com.zsp.today.value.RxBusConstant;
 import com.zsp.today.widget.mpandroidchart.piechart.HalfPieChartKit;
 
+import util.list.ListUtils;
 import widget.popupmenu.PopupMenuKit;
 import widget.status.kit.StatusManagerKit;
 
@@ -218,6 +219,6 @@ public class AccountDetailActivityKit {
         }
         // 显示
         HalfPieChartKit halfPieChartKit = new HalfPieChartKit();
-        halfPieChartKit.execute(appCompatActivity, pieChart, date, pieEntries, appCompatActivity.getString(R.string.yuan), accountDataBaseTableList.isEmpty(), appCompatActivity.getString(R.string.noAccountDataAvailable), com.zsp.core.R.color.basic);
+        halfPieChartKit.execute(appCompatActivity, pieChart, date, pieEntries, appCompatActivity.getString(R.string.yuan), ListUtils.listIsEmpty(accountDataBaseTableList), appCompatActivity.getString(R.string.noAccountDataAvailable), com.zsp.core.R.color.basic);
     }
 }
