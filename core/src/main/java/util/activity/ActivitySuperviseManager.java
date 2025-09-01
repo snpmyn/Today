@@ -21,6 +21,7 @@ import java.util.List;
 
 import util.datetime.CurrentTimeMillisClock;
 import timber.log.Timber;
+import util.list.ListUtils;
 import widget.toast.ToastKit;
 
 /**
@@ -114,7 +115,7 @@ public class ActivitySuperviseManager {
      * @param activity Activity
      */
     private void finishActivity(Activity activity) {
-        if (ACTIVITIES.isEmpty()) {
+        if (ListUtils.listIsEmpty(ACTIVITIES)) {
             return;
         }
         if (null != activity) {
@@ -130,7 +131,7 @@ public class ActivitySuperviseManager {
      * @param cls Class<?>
      */
     public void finishActivity(Class<?> cls) {
-        if (ACTIVITIES.isEmpty()) {
+        if (ListUtils.listIsEmpty(ACTIVITIES)) {
             return;
         }
         for (Activity activity : ACTIVITIES) {
