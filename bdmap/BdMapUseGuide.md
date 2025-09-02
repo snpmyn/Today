@@ -1,8 +1,8 @@
-## settings.gradle 添加
+## settings.gradle
 
 include ':bdmap'
 
-## build.gradle 添加
+## build.gradle
 
 implementation project(':bdmap')
 /*BdMap*/
