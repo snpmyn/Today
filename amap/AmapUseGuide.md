@@ -20,6 +20,7 @@ AMapLocationClientOption.AMapLocationPurpose.Transport, true, new AmapLocationKi
 @Override
 public void locationSuccessful(AMapLocation aMapLocation, String locationInfo) {
 MmkvKit.defaultMmkv().encode(AmapConstant.AMAP_$_LOCATION, locationInfo);
+AmapLocationKit.getInstance().stop();
 }
 
             @Override
@@ -27,6 +28,9 @@ MmkvKit.defaultMmkv().encode(AmapConstant.AMAP_$_LOCATION, locationInfo);
 
             }
         });
+
+// 开始
+AmapLocationKit.getInstance().start();
 
 // 停止
 AmapLocationKit.getInstance().stop();
