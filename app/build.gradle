@@ -129,6 +129,6 @@ dependencies {
     /*core*/
     implementation project(':amap')
     /*AMap*/
-    implementation project(':bdmap')
+    /*implementation project(':bdmap')*/
     /*BdMap*/
 }
