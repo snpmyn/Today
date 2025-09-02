@@ -1,0 +1,35 @@
+plugins {
+    alias(libs.plugins.android.library)
+}
+
+android {
+    namespace 'com.zsp.amap'
+    compileSdk rootProject.ext.compileSdk
+
+    defaultConfig {
+        minSdk rootProject.ext.minSdk
+
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        pre {
+            initWith release
+        }
+    }
+    compileOptions {
+        /*源代码兼容 Java 11 (可按需设)*/
+        sourceCompatibility JavaVersion.VERSION_11
+        /*生成的字节码兼容 Java 11 (可按需设)*/
+        targetCompatibility JavaVersion.VERSION_11
+    }
+}
+
+dependencies {
+    api libs.location
+    /*定位*/
+}
