@@ -64,6 +64,7 @@
     <string name="emergencyContactPhoneNumber">紧急联系人手机号</string>
     <string name="noYearAnalysisDataAvailable">暂无年度分析数据</string>
     <string name="noMonthAnalysisDataAvailable">暂无月度分析数据</string>
+    <string name="sendSmsAreBasedOnThePermission">发送短信需要该权限</string>
     <string name="accountNotificationEnglish">account notification</string>
     <string name="wantToDeleteTheAccountOfTheDay">要删除这天的账目吗？</string>
     <string name="inputEmergencyContactPhoneNumber">输入紧急联系人手机号</string>
