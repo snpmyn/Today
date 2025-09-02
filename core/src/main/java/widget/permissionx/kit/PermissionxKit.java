@@ -1,0 +1,38 @@
+package widget.permissionx.kit;
+
+import androidx.fragment.app.FragmentActivity;
+
+import com.permissionx.guolindev.PermissionX;
+
+import java.util.List;
+
+import widget.permissionx.listener.PermissionxKitListener;
+
+/**
+ * Created on 2025/9/1.
+ *
+ * @author 郑少鹏
+ * @desc PermissionX 配套原件
+ */
+public class PermissionxKit {
+    /**
+     * 执行
+     *
+     * @param fragmentActivity                    FragmentActivity
+     * @param permissionList                      权限集
+     * @param requestReasonDialogMessageResId     请求原因对话框内容资源 ID
+     * @param forwardToSettingsDialogMessageResId 前往设置对话框内容资源 ID
+     * @param dialogPositiveTextResId             对话框积极文本资源 ID
+     * @param dialogNegativeTextResId             对话框消极文本资源 ID
+     * @param permissionxKitListener              PermissionX 配套原件监听
+     */
+    public static void execute(FragmentActivity fragmentActivity, List<String> permissionList, int requestReasonDialogMessageResId, int forwardToSettingsDialogMessageResId, int dialogPositiveTextResId, int dialogNegativeTextResId, PermissionxKitListener permissionxKitListener) {
+        PermissionX.init(fragmentActivity).permissions(permissionList).explainReasonBeforeRequest().onExplainRequestReason((scope, deniedList) -> scope.showRequestReasonDialog(deniedList, fragmentActivity.getString(requestReasonDialogMessageResId), fragmentActivity.getString(dialogPositiveTextResId), fragmentActivity.getString(dialogNegativeTextResId))).onForwardToSettings((scope, deniedList) -> scope.showForwardToSettingsDialog(deniedList, fragmentActivity.getString(forwardToSettingsDialogMessageResId), fragmentActivity.getString(dialogPositiveTextResId), fragmentActivity.getString(dialogNegativeTextResId))).request((allGranted, grantedList, deniedList) -> {
+            if (allGranted) {
+                permissionxKitListener.allGranted();
+            } else {
+                permissionxKitListener.allGrantedContrary();
+            }
+        });
+    }
+}
