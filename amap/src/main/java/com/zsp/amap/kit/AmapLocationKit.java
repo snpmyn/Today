@@ -141,6 +141,13 @@ public class AmapLocationKit {
     }
 
     /**
+     * 开始
+     */
+    public void start() {
+        aMapLocationClient.startLocation();
+    }
+
+    /**
      * 停止
      * <p>
      * 停止定位后本地定位服务不会被销毁
