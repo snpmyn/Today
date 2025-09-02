@@ -32,11 +32,13 @@
     <string name="pleaseInputPhoneNumber">请输入手机号</string>
     <string name="bySigningInYouAgree">登录即代表您同意</string>
     <string name="loadFailAndTryAgainLater">加载失败，稍后重试</string>
+    <string name="pleaseTurnOnLocationServices">请开启定位服务</string>
     <string name="userAgreementAndPrivacyPolicy">用户协议和隐私政策</string>
     <string name="pleaseInputCorrectPhoneNumber">请输入正确的手机号</string>
     <string name="networkExceptionAndTryAgainLater">网络异常，稍后重试</string>
     <string name="neverMissTheLatestNewsAnymore">再也不会错过最新消息了</string>
     <string name="serverExceptionAndTryAgainLater">服务器异常，稍后重试</string>
+    <string name="getLocationAreBasedOnThePermission">获取定位需要该权限</string>
     <string name="coreFundamentalAreBasedOnThePermission">核心功能需要该权限</string>
     <string name="youNeedToAllowNecessaryPermissionInSettingManually">你需要手动在设置中授予该权限</string>
     <string name="userAgreementAndPrivacyPolicyContent">我们非常重视您的个人信息和隐私保护。为了更好地保障您的个人权益，在您使用我们的产品前，请务必审慎阅读《用户协议》与《隐私政策》内的所有条款。如您同意以上协议内容，请点击"同意"并继续，开始使用我们的产品和服务！</string>
@@ -54,4 +56,5 @@
     <string name="bannerViewPagerIsNotUsedAsTheUnderlyingImplementationHere">此处未用 ViewPager 作底层实现</string>
     <!--format-->
     <string name="formatSeconds">%1$s 秒</string>
+    <string name="formatLocation">经度 %1$.2f，纬度 %2$.2f，精度 %3$.2f 米</string>
 </resources>
