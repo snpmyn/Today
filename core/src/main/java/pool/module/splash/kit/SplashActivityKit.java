@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
-import com.permissionx.guolindev.PermissionX;
 import com.zsp.core.R;
 
 import pool.application.BasePoolApp;
@@ -27,6 +26,8 @@ import widget.dialog.customdialog.BaseViewConvertListener;
 import widget.dialog.customdialog.CustomDialog;
 import widget.dialog.customdialog.ViewHolder;
 import widget.dialog.materialalertdialog.MyMaterialAlertDialogBuilder;
+import widget.permissionx.kit.PermissionxKit;
+import widget.permissionx.listener.PermissionxKitListener;
 
 /**
  * Created on 2021/9/16
@@ -141,10 +142,14 @@ public class SplashActivityKit {
      * @param fragmentActivity FragmentActivity
      */
     private void requestPermissions(FragmentActivity fragmentActivity) {
-        PermissionX.init(fragmentActivity).permissions(BasePoolApp.getPermissionList()).onExplainRequestReason((scope, deniedList) -> scope.showRequestReasonDialog(deniedList, fragmentActivity.getString(R.string.coreFundamentalAreBasedOnThePermission), fragmentActivity.getString(R.string.agree), fragmentActivity.getString(R.string.refuse))).onForwardToSettings((scope, deniedList) -> scope.showForwardToSettingsDialog(deniedList, fragmentActivity.getString(R.string.youNeedToAllowNecessaryPermissionInSettingManually), fragmentActivity.getString(R.string.agree), fragmentActivity.getString(R.string.refuse))).explainReasonBeforeRequest().request((allGranted, grantedList, deniedList) -> {
-            if (allGranted) {
+        PermissionxKit.execute(fragmentActivity, BasePoolApp.getPermissionList(), R.string.coreFundamentalAreBasedOnThePermission, R.string.youNeedToAllowNecessaryPermissionInSettingManually, R.string.agree, R.string.refuse, new PermissionxKitListener() {
+            @Override
+            public void allGranted() {
                 splashActivityListener.distribute((AppCompatActivity) fragmentActivity);
-            } else {
+            }
+
+            @Override
+            public void allGrantedContrary() {
                 ActivitySuperviseManager.getInstance().appExit();
             }
         });
