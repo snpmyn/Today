@@ -8,13 +8,13 @@
     android:padding="@dimen/dp_12">
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/bocLottieDialogLav"
+        android:id="@+id/bocLottieLoadingDialogLav"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="centerInside" />
 
     <TextView
-        android:id="@+id/bocLottieDialogTv"
+        android:id="@+id/bocLottieLoadingDialogTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
