@@ -51,7 +51,7 @@ android {
             // 启用代码缩减（包括 ProGuard / R8）
             minifyEnabled true
             // 确保有适当的 ProGuard 规则文件配置，因代码缩减可能会移除某些被反射调用的代码。
-            // 用于当前模块本身的编译和测试。它决定了在编译和测试这个库时，如何混淆库的代码。这些规则不会被打包到 AAR 中，也不会传递给主应用。
+            // 用于当前模块本身的编译和测试。它决定在编译和测试这个库时，如何混淆库的代码。这些规则不会被打包到 AAR 中，也不会传递给主应用。
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             // 启用资源缩减
             shrinkResources true
