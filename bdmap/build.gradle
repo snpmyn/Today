@@ -9,7 +9,7 @@ android {
     defaultConfig {
         minSdk rootProject.ext.minSdk
 
-        // 专门用于传递给主应用 (消费者)。它指定的规则是为了确保主应用在混淆时，能正确地处理这个库的代码。这些规则会被打包到 AAR 中。
+        // 专门用于传递给主应用 (消费者)。它指定的规则是确保主应用在混淆时，能正确处理这个库的代码。这些规则会被打包到 AAR 中。
         consumerProguardFiles "consumer-rules.pro"
 
         /*设置支持的 so 库架构*/
@@ -22,7 +22,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            // 用于当前模块本身的编译和测试。它决定了在编译和测试这个库时，如何混淆库的代码。这些规则不会被打包到 AAR 中，也不会传递给主应用。
+            // 用于当前模块本身的编译和测试。它决定在编译和测试这个库时，如何混淆库的代码。这些规则不会被打包到 AAR 中，也不会传递给主应用。
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         pre {
@@ -52,8 +52,8 @@ android {
 }
 
 dependencies {
+    api libs.baidumapsdk.location.all
     /*api files('libs/BaiduLBS_Android.jar')*/
     /*api fileTree(dir: 'libs', include: ['*.jar'])*/
-    api libs.baidumapsdk.location.all
     /*全量定位组件*/
 }
