@@ -43,4 +43,12 @@ public class RxBusConstant {
      * 账目详情页（刷新账目码）
      */
     public static final int ACCOUNT_DETAIL_ACTIVITY_$_REFRESH_ACCOUNT_CODE = 0x05;
+    /**
+     * 险情页（更新定位）
+     */
+    public static final String DANGEROUS_ACTIVITY_$_UPDATE_LOCATION = "DangerousActivityUpdateLocation";
+    /**
+     * 险情页（更新定位码）
+     */
+    public static final int DANGEROUS_ACTIVITY_$_UPDATE_LOCATION_CODE = 0x06;
 }
