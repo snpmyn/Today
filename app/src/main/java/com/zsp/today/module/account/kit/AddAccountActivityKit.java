@@ -29,7 +29,7 @@ import util.keyboard.KeyboardUtils;
 import util.list.ListUtils;
 import util.rxbus.RxBus;
 import widget.toast.ToastKit;
-import widget.dialog.materialalertdialog.SingleChooseMaterialAlertDialogKit;
+import widget.dialog.materialalertdialog.kit.SingleChooseMaterialAlertDialogKit;
 import widget.materialdatepicker.MaterialDatePickerKit;
 
 /**
