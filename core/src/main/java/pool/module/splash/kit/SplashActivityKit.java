@@ -25,7 +25,7 @@ import widget.dialog.customdialog.BaseDialog;
 import widget.dialog.customdialog.BaseViewConvertListener;
 import widget.dialog.customdialog.CustomDialog;
 import widget.dialog.customdialog.ViewHolder;
-import widget.dialog.materialalertdialog.MyMaterialAlertDialogBuilder;
+import widget.dialog.materialalertdialog.MaterialAlertDialogBuilderKit;
 import widget.permissionx.kit.PermissionxKit;
 import widget.permissionx.listener.PermissionxKitListener;
 
@@ -127,7 +127,7 @@ public class SplashActivityKit {
      */
     private void checkConnect(AppCompatActivity appCompatActivity) {
         if (!NetManager.areNetConnected(appCompatActivity)) {
-            new MyMaterialAlertDialogBuilder(appCompatActivity).setTitle(R.string.hint).setMessage(R.string.currentNoNetwork).setPositiveButton(R.string.continueUse, (dialog, which) -> {
+            new MaterialAlertDialogBuilderKit(appCompatActivity).setTitle(R.string.hint).setMessage(R.string.currentNoNetwork).setPositiveButton(R.string.continueUse, (dialog, which) -> {
                 dialog.dismiss();
                 requestPermissions(appCompatActivity);
             }).setCancelable(false).show();
