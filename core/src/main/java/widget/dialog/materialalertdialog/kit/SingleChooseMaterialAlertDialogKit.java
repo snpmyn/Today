@@ -1,4 +1,4 @@
-package widget.dialog.materialalertdialog;
+package widget.dialog.materialalertdialog.kit;
 
 import androidx.appcompat.app.AppCompatActivity;
 
