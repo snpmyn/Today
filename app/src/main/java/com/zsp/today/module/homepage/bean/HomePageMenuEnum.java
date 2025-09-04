@@ -1,5 +1,6 @@
 package com.zsp.today.module.homepage.bean;
 
+import com.zsp.today.BuildConfig;
 import com.zsp.today.R;
 
 /**
@@ -20,7 +21,7 @@ public enum HomePageMenuEnum {
     /**
      * 组件
      */
-    WIDGET(3, R.drawable.ic_widget_basic_24dp, "组件", true);
+    WIDGET(3, R.drawable.ic_widget_basic_24dp, "组件", BuildConfig.DEBUG);
     /**
      * 菜单 ID
      */
