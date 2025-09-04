@@ -24,7 +24,7 @@ import util.rxbus.RxBus;
 import widget.toast.ToastKit;
 import widget.adapttemplate.bean.MenuBean;
 import widget.adapttemplate.kit.MenuAdapterKit;
-import widget.dialog.materialalertdialog.MyMaterialAlertDialogBuilder;
+import widget.dialog.materialalertdialog.MaterialAlertDialogBuilderKit;
 
 /**
  * Created on 2021/2/1
@@ -109,7 +109,7 @@ public class MineChildFragmentKit {
      * @param appCompatActivity 活动
      */
     public void loginOut(AppCompatActivity appCompatActivity) {
-        new MyMaterialAlertDialogBuilder(appCompatActivity).setTitle(com.zsp.core.R.string.hint).setMessage(R.string.needToInputPhoneNumberToLoginAgainAfterLogOut).setPositiveButton(R.string.logOut, (dialog, which) -> {
+        new MaterialAlertDialogBuilderKit(appCompatActivity).setTitle(com.zsp.core.R.string.hint).setMessage(R.string.needToInputPhoneNumberToLoginAgainAfterLogOut).setPositiveButton(R.string.logOut, (dialog, which) -> {
             dialog.dismiss();
             LitePalKit.getInstance().allDelete(UserDataBaseTable.class);
             IntentJump.getInstance().jump(null, appCompatActivity, true, LoginActivity.class);
