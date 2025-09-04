@@ -72,6 +72,7 @@
             android:layout_marginTop="@dimen/dp_6"
             android:layout_marginEnd="@dimen/dp_6"
             android:contentDescription="@string/closeEverydayAnalysis"
+            android:filterTouchesWhenObscured="true"
             app:icon="@drawable/ic_close_white_24dp" />
         <!--备用-->
         <ImageButton

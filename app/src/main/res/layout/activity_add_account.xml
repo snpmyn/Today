@@ -62,7 +62,6 @@
                     android:layout_height="wrap_content"
                     android:enabled="false"
                     android:inputType="none"
-                    android:textColor="@color/fontInput"
                     android:textSize="@dimen/sp_14" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -74,7 +73,6 @@
                 android:layout_marginTop="@dimen/dp_12"
                 android:layout_marginBottom="@dimen/dp_12"
                 android:hint="@string/chooseCategory"
-                android:textColorHint="@color/fontHint"
                 app:endIconDrawable="@drawable/ic_add_basic_20dp"
                 app:endIconMode="custom"
                 app:endIconTint="@color/basic"
@@ -90,7 +88,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
-                    android:textColor="@color/fontInput"
                     android:textSize="@dimen/sp_14" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -100,7 +97,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/inputAmount"
-                android:textColorHint="@color/fontHint"
                 app:counterEnabled="true"
                 app:counterMaxLength="8"
                 app:errorEnabled="true"
@@ -119,7 +115,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
-                    android:textColor="@color/fontInput"
                     android:textSize="@dimen/sp_14" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
