@@ -14,10 +14,12 @@
     <string name="function">功能</string>
     <string name="category">类目</string>
     <string name="iKnow">我知道啦</string>
+    <string name="dangerous">险情</string>
     <string name="twoColumn">两列</string>
     <string name="accountTwo">账单</string>
     <string name="fullScreen">全屏</string>
     <string name="threeColumn">三列</string>
+    <string name="useGuide">使用指南</string>
     <string name="saveConfig">保存配置</string>
     <string name="addAccount">添加账目</string>
     <string name="chooseDate">选择日期</string>
@@ -28,7 +30,6 @@
     <string name="todayAccount">今日账目</string>
     <string name="yearAnalysis">年度分析</string>
     <string name="moreFunction">更多功能</string>
-    <string name="sendDangerous">发送险情</string>
     <string name="exportAccount">导出账单</string>
     <string name="accountDetail">账目详情</string>
     <string name="monthAnalysis">月度分析</string>
@@ -39,6 +40,7 @@
     <string name="dangerousNotice">险情通知</string>
     <string name="accountAnalysis">账目分析</string>
     <string name="poolSplashContent">TODAY</string>
+    <string name="configNoChange">配置无变化</string>
     <string name="noCacheAvailable">暂无缓存</string>
     <string name="everydayAnalysis">每日分析</string>
     <string name="modifySuccessful">修改成功</string>
@@ -51,6 +53,7 @@
     <string name="pleaseChooseCategory">请选择类目</string>
     <string name="noYearDataAvailable">暂无年份数据</string>
     <string name="restoreHomePageMenu">恢复主页菜单</string>
+    <string name="openNotificationHint">打开今日通知</string>
     <string name="inputDangerousNotice">输入险情通知</string>
     <string name="accountHasBeenRestored">账目已恢复</string>
     <string name="rememberToKeepAccount">记得记账哦！</string>
