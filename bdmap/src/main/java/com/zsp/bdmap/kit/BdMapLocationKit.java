@@ -41,8 +41,8 @@ public class BdMapLocationKit {
     public void start(Application application, boolean start, BdMapLocationKitListener bdMapLocationKitListener) {
         WeakReference<Context> weakReference = new WeakReference<>(application);
         // 百度 Android 定位 SDK 自 v9.2.9 版本增加了隐私合规接口，使用方式发生了改变， 与旧版本不兼容。
-        // 请务必确保用户同意隐私政策后调用 setAgreePrivacy 接口以进行 SDK 初始化之前的准备工作
-        // setAgreePrivacy 接口需要在 LocationClient 实例化之前调用
+        // 请务必确保用户同意隐私政策后调用 setAgreePrivacy 接口进行 SDK 初始化前准备工作
+        // setAgreePrivacy 接口需要在 LocationClient 实例化前调用
         // setAgreePrivacy 接口参数设 false 时定位功能不会实现
         // true 表示用户同意隐私合规政策
         // false 表示用户不同意隐私合规政策
