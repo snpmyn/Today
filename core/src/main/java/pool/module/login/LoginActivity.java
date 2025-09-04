@@ -3,14 +3,12 @@ package pool.module.login;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 
-import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.zsp.core.R;
 
@@ -19,6 +17,8 @@ import pool.module.login.kit.LoginActivityKit;
 import pool.module.login.kit.UserAgreementAndPrivacyPolicyActivityKit;
 import pool.module.login.listener.LoginActivityListener;
 import pool.value.PoolConstant;
+import util.animation.AnimationManager;
+import util.view.ViewUtils;
 
 /**
  * @desc: 登录页
@@ -30,9 +30,9 @@ public class LoginActivity extends BasePoolActivity implements View.OnClickListe
      * 登录页监听
      */
     private static LoginActivityListener loginActivityListener;
-    private MaterialToolbar loginActivityMt;
+    private TextView loginActivityTvLoginPageTopHint;
     private EditText loginActivityEtPleaseInputPhoneNumber;
-    private ImageView loginActivityIvPhoneNumberClear;
+    private Button loginActivityBtnPhoneNumberClear;
     private MaterialButton loginActivityMbLogin;
     private TextView loginActivityTvUserAgreement;
     private TextView loginActivityTvPrivacyPolicy;
@@ -69,9 +69,9 @@ public class LoginActivity extends BasePoolActivity implements View.OnClickListe
      */
     @Override
     protected void stepUi() {
-        loginActivityMt = findViewById(R.id.loginActivityMt);
+        loginActivityTvLoginPageTopHint = findViewById(R.id.loginActivityTvLoginPageTopHint);
         loginActivityEtPleaseInputPhoneNumber = findViewById(R.id.loginActivityEtPleaseInputPhoneNumber);
-        loginActivityIvPhoneNumberClear = findViewById(R.id.loginActivityIvPhoneNumberClear);
+        loginActivityBtnPhoneNumberClear = findViewById(R.id.loginActivityBtnPhoneNumberClear);
         loginActivityMbLogin = findViewById(R.id.loginActivityMbLogin);
         loginActivityTvUserAgreement = findViewById(R.id.loginActivityTvUserAgreement);
         loginActivityTvPrivacyPolicy = findViewById(R.id.loginActivityTvPrivacyPolicy);
@@ -93,8 +93,6 @@ public class LoginActivity extends BasePoolActivity implements View.OnClickListe
      */
     @Override
     protected void setListener() {
-        // MaterialToolbar
-        loginActivityMt.setNavigationOnClickListener(v -> finish());
         // 手机号
         loginActivityEtPleaseInputPhoneNumber.addTextChangedListener(new TextWatcher() {
             @Override
@@ -106,12 +104,10 @@ public class LoginActivity extends BasePoolActivity implements View.OnClickListe
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() != 0) {
                     loginActivityMbLogin.setEnabled(true);
-                    loginActivityMbLogin.setTextColor(ContextCompat.getColor(LoginActivity.this, R.color.fontInput));
-                    loginActivityMbLogin.setBackgroundColor(ContextCompat.getColor(LoginActivity.this, R.color.basic));
+                    ViewUtils.showView(loginActivityBtnPhoneNumberClear);
                 } else {
                     loginActivityMbLogin.setEnabled(false);
-                    loginActivityMbLogin.setTextColor(ContextCompat.getColor(LoginActivity.this, R.color.fontHint));
-                    loginActivityMbLogin.setBackgroundColor(ContextCompat.getColor(LoginActivity.this, R.color.pool_login_button_background));
+                    ViewUtils.hideView(loginActivityBtnPhoneNumberClear, View.INVISIBLE);
                 }
             }
 
@@ -121,7 +117,7 @@ public class LoginActivity extends BasePoolActivity implements View.OnClickListe
             }
         });
         // 控件
-        loginActivityIvPhoneNumberClear.setOnClickListener(this);
+        loginActivityBtnPhoneNumberClear.setOnClickListener(this);
         loginActivityMbLogin.setOnClickListener(this);
         loginActivityTvUserAgreement.setOnClickListener(this);
         loginActivityTvPrivacyPolicy.setOnClickListener(this);
@@ -130,7 +126,7 @@ public class LoginActivity extends BasePoolActivity implements View.OnClickListe
     @Override
     public void onClick(@NonNull View v) {
         int id = v.getId();
-        if (id == R.id.loginActivityIvPhoneNumberClear) {
+        if (id == R.id.loginActivityBtnPhoneNumberClear) {
             // 清手机号
             loginActivityEtPleaseInputPhoneNumber.setText("");
         } else if (id == R.id.loginActivityMbLogin) {
@@ -150,6 +146,7 @@ public class LoginActivity extends BasePoolActivity implements View.OnClickListe
      */
     @Override
     protected void startLogic() {
+        AnimationManager.alphaShow(loginActivityTvLoginPageTopHint, 1000, null);
         loginActivityKit.phoneNumberPreShow(loginActivityEtPleaseInputPhoneNumber);
     }
 
