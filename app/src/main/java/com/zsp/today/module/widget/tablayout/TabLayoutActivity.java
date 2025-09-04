@@ -51,18 +51,18 @@ public class TabLayoutActivity extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                // 选中状态效果
+                // 选中
                 viewPager2.setCurrentItem(tab.getPosition(), true);
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                // 未选中状态效果
+                // 未选中
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                // 重复点击处理
+                // 重复选中
             }
         });
         return tabLayout;
