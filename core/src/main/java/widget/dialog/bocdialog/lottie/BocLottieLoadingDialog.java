@@ -20,17 +20,17 @@ import util.view.ViewUtils;
 import widget.dialog.bocdialog.base.BaseBocInstanceDialog;
 import widget.dialog.bocdialog.loading.listener.OnBackPressedListener;
 import widget.dialog.bocdialog.lottie.bean.BocLottieDialogEnum;
-import widget.dialog.bocdialog.lottie.listener.BocLottieDialogListener;
+import widget.dialog.bocdialog.lottie.listener.BocLottieDialogAnimationEndListener;
 
 /**
  * Created on 2022/4/6
  *
  * @author zsp
- * @desc BOC Lottie 对话框
+ * @desc BOC Lottie 加载对话框
  */
-public class BocLottieDialog extends BaseBocInstanceDialog {
-    private LottieAnimationView bocLottieDialogLav;
-    private TextView bocLottieDialogTv;
+public class BocLottieLoadingDialog extends BaseBocInstanceDialog {
+    private LottieAnimationView bocLottieLoadingDialogLav;
+    private TextView bocLottieLoadingDialogTv;
     private OnBackPressedListener onBackPressedListener;
 
     /**
@@ -39,7 +39,7 @@ public class BocLottieDialog extends BaseBocInstanceDialog {
      * @param context        上下文
      * @param selfThemeResId 自身主题资源 ID
      */
-    private BocLottieDialog(Context context, int selfThemeResId) {
+    private BocLottieLoadingDialog(Context context, int selfThemeResId) {
         super(context, selfThemeResId);
     }
 
@@ -50,7 +50,7 @@ public class BocLottieDialog extends BaseBocInstanceDialog {
      */
     @Override
     protected int layoutResId() {
-        return R.layout.dialog_boc_lottie;
+        return R.layout.dialog_boc_lottie_loading;
     }
 
     /**
@@ -58,8 +58,8 @@ public class BocLottieDialog extends BaseBocInstanceDialog {
      */
     @Override
     protected void stepUi() {
-        bocLottieDialogLav = view.findViewById(R.id.bocLottieDialogLav);
-        bocLottieDialogTv = view.findViewById(R.id.bocLottieDialogTv);
+        bocLottieLoadingDialogLav = view.findViewById(R.id.bocLottieLoadingDialogLav);
+        bocLottieLoadingDialogTv = view.findViewById(R.id.bocLottieLoadingDialogTv);
     }
 
     /**
@@ -87,10 +87,10 @@ public class BocLottieDialog extends BaseBocInstanceDialog {
         int value;
         if (StringUtils.areEmpty(hint)) {
             value = 80;
-            ViewUtils.hideView(bocLottieDialogTv, View.GONE);
+            ViewUtils.hideView(bocLottieLoadingDialogTv, View.GONE);
         } else {
             value = 120;
-            bocLottieDialogTv.setText(hint);
+            bocLottieLoadingDialogTv.setText(hint);
         }
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
         layoutParams.width = DensityUtils.dipToPxByFloat(context, value);
@@ -101,28 +101,28 @@ public class BocLottieDialog extends BaseBocInstanceDialog {
     /**
      * 设置动画
      * <p>
-     * 无限次数重复时，不执行 {@link android.animation.Animator.AnimatorListener#onAnimationEnd(Animator)}，故而 {@link BocLottieDialogListener} 可空。
-     * 限定次数重复时，执行 {@link android.animation.Animator.AnimatorListener#onAnimationEnd(Animator)}，故而 {@link BocLottieDialogListener} 按需非空。
+     * 无限次数重复时，不执行 {@link android.animation.Animator.AnimatorListener#onAnimationEnd(Animator)}，故而 {@link BocLottieDialogAnimationEndListener} 可空。
+     * 限定次数重复时，执行 {@link android.animation.Animator.AnimatorListener#onAnimationEnd(Animator)}，故而 {@link BocLottieDialogAnimationEndListener} 按需非空。
      *
-     * @param bocLottieDialogEnum     BOC Lottie 对话框枚举
-     * @param repeatCount             重复数量
-     * @param bocLottieDialogListener BOC Lottie 对话框监听
+     * @param bocLottieDialogEnum                 BOC Lottie 对话框枚举
+     * @param repeatCount                         重复数量
+     * @param bocLottieDialogAnimationEndListener BOC Lottie 对话框动画结束监听
      */
-    private void setAnimation(@NonNull BocLottieDialogEnum bocLottieDialogEnum, int repeatCount, BocLottieDialogListener bocLottieDialogListener) {
+    private void setAnimation(@NonNull BocLottieDialogEnum bocLottieDialogEnum, int repeatCount, BocLottieDialogAnimationEndListener bocLottieDialogAnimationEndListener) {
         String assetName = bocLottieDialogEnum.getAssetName();
         if (TextUtils.isEmpty(assetName)) {
             return;
         }
-        ViewGroup.LayoutParams layoutParams = bocLottieDialogLav.getLayoutParams();
+        ViewGroup.LayoutParams layoutParams = bocLottieLoadingDialogLav.getLayoutParams();
         layoutParams.width = DensityUtils.dipToPxByFloat(context, bocLottieDialogEnum.getWidth());
         layoutParams.height = DensityUtils.dipToPxByFloat(context, bocLottieDialogEnum.getHeight());
-        bocLottieDialogLav.setLayoutParams(layoutParams);
+        bocLottieLoadingDialogLav.setLayoutParams(layoutParams);
         if (repeatCount == ValueAnimator.INFINITE) {
             // 无限次数重复
-            LottieKit.getInstance().useWithAsset(bocLottieDialogLav, assetName, repeatCount, null);
+            LottieKit.getInstance().useWithAsset(bocLottieLoadingDialogLav, assetName, repeatCount, null);
         } else {
             // 限定次数重复
-            LottieKit.getInstance().useWithAsset(bocLottieDialogLav, assetName, repeatCount, new Animator.AnimatorListener() {
+            LottieKit.getInstance().useWithAsset(bocLottieLoadingDialogLav, assetName, repeatCount, new Animator.AnimatorListener() {
                 @Override
                 public void onAnimationStart(@NonNull Animator animation) {
 
@@ -130,8 +130,8 @@ public class BocLottieDialog extends BaseBocInstanceDialog {
 
                 @Override
                 public void onAnimationEnd(@NonNull Animator animation) {
-                    if (null != bocLottieDialogListener) {
-                        bocLottieDialogListener.onAnimationEnd();
+                    if (null != bocLottieDialogAnimationEndListener) {
+                        bocLottieDialogAnimationEndListener.onAnimationEnd();
                     }
                 }
 
@@ -160,41 +160,56 @@ public class BocLottieDialog extends BaseBocInstanceDialog {
     /**
      * 更新
      *
-     * @param bocLottieDialogEnum     BOC Lottie 对话框枚举
-     * @param hint                    提示
-     * @param repeatCount             重复数量
-     * @param bocLottieDialogListener BOC Lottie 对话框枚举
+     * @param bocLottieDialogEnum                 BOC Lottie 对话框枚举
+     * @param hint                                提示
+     * @param repeatCount                         重复数量
+     * @param bocLottieDialogAnimationEndListener BOC Lottie 对话框枚举
      */
-    public void update(@NonNull BocLottieDialogEnum bocLottieDialogEnum, String hint, int repeatCount, BocLottieDialogListener bocLottieDialogListener) {
-        bocLottieDialogTv.setText(hint);
-        LottieKit.getInstance().endAnimation(bocLottieDialogLav);
-        setAnimation(bocLottieDialogEnum, repeatCount, bocLottieDialogListener);
+    public void update(@NonNull BocLottieDialogEnum bocLottieDialogEnum, String hint, int repeatCount, BocLottieDialogAnimationEndListener bocLottieDialogAnimationEndListener) {
+        // 设置提示
+        bocLottieLoadingDialogTv.setText(hint);
+        // 结束
+        end();
+        // 设置动画
+        setAnimation(bocLottieDialogEnum, repeatCount, bocLottieDialogAnimationEndListener);
+    }
+
+    /**
+     * 结束
+     */
+    public void end() {
+        // 移除原有动画监听
+        // 结束动画前设
+        bocLottieLoadingDialogLav.removeAllAnimatorListeners();
+        // 结束动画
+        // 移除原有动画监听后设
+        LottieKit.getInstance().endAnimation(bocLottieLoadingDialogLav);
     }
 
     public static class Builder {
-        private final BocLottieDialog bocLottieDialog;
+        private final BocLottieLoadingDialog bocLottieLoadingDialog;
 
         public Builder(Context context, int selfThemeResId) {
-            this.bocLottieDialog = new BocLottieDialog(context, selfThemeResId);
+            this.bocLottieLoadingDialog = new BocLottieLoadingDialog(context, selfThemeResId);
         }
 
         public Builder setHintAndWidthHeight(String hint) {
-            bocLottieDialog.setHintAndWidthHeight(hint);
+            bocLottieLoadingDialog.setHintAndWidthHeight(hint);
             return this;
         }
 
-        public Builder setAnimation(BocLottieDialogEnum bocLottieDialogEnum, int count, BocLottieDialogListener bocLottieDialogListener) {
-            bocLottieDialog.setAnimation(bocLottieDialogEnum, count, bocLottieDialogListener);
+        public Builder setAnimation(BocLottieDialogEnum bocLottieDialogEnum, int count, BocLottieDialogAnimationEndListener bocLottieDialogAnimationEndListener) {
+            bocLottieLoadingDialog.setAnimation(bocLottieDialogEnum, count, bocLottieDialogAnimationEndListener);
             return this;
         }
 
         public Builder setOnBackPressedListener(OnBackPressedListener onBackPressedListener) {
-            bocLottieDialog.setOnBackPressedListener(onBackPressedListener);
+            bocLottieLoadingDialog.setOnBackPressedListener(onBackPressedListener);
             return this;
         }
 
-        public BocLottieDialog build() {
-            return bocLottieDialog;
+        public BocLottieLoadingDialog build() {
+            return bocLottieLoadingDialog;
         }
     }
 
