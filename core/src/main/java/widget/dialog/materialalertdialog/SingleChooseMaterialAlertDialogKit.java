@@ -24,7 +24,7 @@ public class SingleChooseMaterialAlertDialogKit {
      */
     public void show(AppCompatActivity appCompatActivity, CharSequence[] items, SingleChooseMaterialAlertDialogKitInterface singleChooseMaterialAlertDialogKitInterface) {
         WeakReference<AppCompatActivity> weakReference = new WeakReference<>(appCompatActivity);
-        new MyMaterialAlertDialogBuilder(weakReference.get()).setItems(items, (dialog, which) -> singleChooseMaterialAlertDialogKitInterface.onItemClick((String) items[which])).show();
+        new MaterialAlertDialogBuilderKit(weakReference.get()).setItems(items, (dialog, which) -> singleChooseMaterialAlertDialogKitInterface.onItemClick((String) items[which])).show();
     }
 
     /**
