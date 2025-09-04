@@ -24,7 +24,7 @@ import util.rxbus.RxBus;
 import widget.toast.ToastKit;
 import widget.adapttemplate.bean.MenuBean;
 import widget.adapttemplate.kit.MenuAdapterKit;
-import widget.dialog.materialalertdialog.MaterialAlertDialogBuilderKit;
+import widget.dialog.materialalertdialog.kit.MaterialAlertDialogBuilderKit;
 
 /**
  * Created on 2021/2/1
