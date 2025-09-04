@@ -41,7 +41,7 @@ import util.data.BigDecimalUtils;
 import util.intent.IntentJump;
 import util.intent.IntentVerify;
 import util.rxbus.RxBus;
-import widget.dialog.materialalertdialog.MyMaterialAlertDialogBuilder;
+import widget.dialog.materialalertdialog.MaterialAlertDialogBuilderKit;
 import widget.recyclerview.configure.RecyclerViewConfigure;
 import widget.recyclerview.controller.RecyclerViewDisplayController;
 import widget.recyclerview.listener.OnRecyclerViewOnItemLongClickListener;
@@ -185,7 +185,7 @@ public class AccountDetailActivityKit {
      * @param statusManager         状态管理器
      */
     private void deleteAccount(AppCompatActivity appCompatActivity, AccountDetailAdapter accountDetailAdapter, List<AccountDetailBean> accountDetailBeanList, int position, AccountDetailBean accountDetailBean, StatusManager statusManager) {
-        new MyMaterialAlertDialogBuilder(appCompatActivity).setTitle(com.zsp.core.R.string.hint).setMessage(R.string.wantToDeleteThisAccount).setPositiveButton(R.string.yes, (dialog, which) -> {
+        new MaterialAlertDialogBuilderKit(appCompatActivity).setTitle(com.zsp.core.R.string.hint).setMessage(R.string.wantToDeleteThisAccount).setPositiveButton(R.string.yes, (dialog, which) -> {
             dialog.dismiss();
             LitePalKit.getInstance().multiDelete(AccountDataBaseTable.class, AccountCondition.ACCOUNT_PHONE_NUMBER_AND_DATE_AND_CATEGORY_AND_AMOUNT, App.getAppInstance().getPhoneNumber(), accountDetailBean.getDate(), accountDetailBean.getCategory(), BigDecimalUtils.bigDecimalToString(BigDecimal.valueOf(accountDetailBean.getAmount())));
             RecyclerViewDisplayController.deleteDynamic(accountDetailAdapter, position, accountDetailBeanList);

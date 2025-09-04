@@ -38,7 +38,7 @@ import util.intent.IntentJump;
 import widget.dialog.bottomsheetdialog.MyBottomSheetDialog;
 import widget.toast.ToastKit;
 import util.view.ViewUtils;
-import widget.dialog.materialalertdialog.MyMaterialAlertDialogBuilder;
+import widget.dialog.materialalertdialog.MaterialAlertDialogBuilderKit;
 import widget.dialog.materialalertdialog.SingleChooseMaterialAlertDialogKit;
 import widget.recyclerview.configure.RecyclerViewConfigure;
 import widget.recyclerview.controller.RecyclerViewDisplayController;
@@ -125,7 +125,7 @@ public class AccountHomeActivityKit {
         accountMonthListAdapter.setOnRecyclerViewOnItemLongClickListener(new OnRecyclerViewOnItemLongClickListener() {
             @Override
             public <T> void onItemLongClick(View view, int position, T t) {
-                new MyMaterialAlertDialogBuilder(appCompatActivity).setTitle(com.zsp.core.R.string.hint).setMessage(R.string.wantToDeleteTheAccountOfTheDay).setPositiveButton(R.string.yes, (dialog, which) -> {
+                new MaterialAlertDialogBuilderKit(appCompatActivity).setTitle(com.zsp.core.R.string.hint).setMessage(R.string.wantToDeleteTheAccountOfTheDay).setPositiveButton(R.string.yes, (dialog, which) -> {
                     dialog.dismiss();
                     AccountMonthListBean accountMonthListBean = (AccountMonthListBean) t;
                     LitePalKit.getInstance().multiDelete(AccountDataBaseTable.class, AccountCondition.ACCOUNT_PHONE_NUMBER_AND_YEAR_AND_MONTH, App.getAppInstance().getPhoneNumber(), accountMonthListBean.getYear(), accountMonthListBean.getMonth());
@@ -212,7 +212,7 @@ public class AccountHomeActivityKit {
      * @param filePath          文件路径
      */
     public void openAccount(AppCompatActivity appCompatActivity, String filePath) {
-        new MyMaterialAlertDialogBuilder(appCompatActivity).setTitle(com.zsp.core.R.string.hint).setMessage(String.format(appCompatActivity.getString(R.string.formatAccountExportSuccessful), filePath)).setPositiveButton(R.string.openAccount, (dialog, which) -> {
+        new MaterialAlertDialogBuilderKit(appCompatActivity).setTitle(com.zsp.core.R.string.hint).setMessage(String.format(appCompatActivity.getString(R.string.formatAccountExportSuccessful), filePath)).setPositiveButton(R.string.openAccount, (dialog, which) -> {
             dialog.dismiss();
             TbsKit.getInstance().startQbOrMiniQBToLoadUrl(appCompatActivity, filePath, null, s -> {
                 if (TextUtils.equals(String.valueOf(TbsEnum.OPEN_FAIL.getType()), s)) {

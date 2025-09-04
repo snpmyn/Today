@@ -28,7 +28,7 @@ import litepal.kit.LitePalKit;
 import util.intent.IntentJump;
 import util.intent.IntentVerify;
 import util.rxbus.RxBus;
-import widget.dialog.materialalertdialog.MyMaterialAlertDialogBuilder;
+import widget.dialog.materialalertdialog.MaterialAlertDialogBuilderKit;
 import widget.recyclerview.configure.RecyclerViewConfigure;
 import widget.recyclerview.controller.RecyclerViewDisplayController;
 import widget.recyclerview.listener.OnRecyclerViewOnItemClickListener;
@@ -79,7 +79,7 @@ public class AccountSecondActivityKit {
         accountDateListAdapter.setOnRecyclerViewOnItemLongClickListener(new OnRecyclerViewOnItemLongClickListener() {
             @Override
             public <T> void onItemLongClick(View view, int position, T t) {
-                new MyMaterialAlertDialogBuilder(appCompatActivity).setTitle(com.zsp.core.R.string.hint).setMessage(R.string.wantToDeleteTheAccountOfTheDay).setPositiveButton(R.string.yes, (dialog, which) -> {
+                new MaterialAlertDialogBuilderKit(appCompatActivity).setTitle(com.zsp.core.R.string.hint).setMessage(R.string.wantToDeleteTheAccountOfTheDay).setPositiveButton(R.string.yes, (dialog, which) -> {
                     dialog.dismiss();
                     AccountDateListBean accountDateListBean = (AccountDateListBean) t;
                     LitePalKit.getInstance().multiDelete(AccountDataBaseTable.class, AccountCondition.ACCOUNT_PHONE_NUMBER_AND_DATE, App.getAppInstance().getPhoneNumber(), accountDateListBean.getDate());
