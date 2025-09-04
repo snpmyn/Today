@@ -160,7 +160,7 @@ public class AmapLocationKit {
      * 销毁
      * <p>
      * 销毁定位客户端同时销毁本地定位服务
-     * 销毁定位客户端后，若重新开启定位需重新 New 一个 AMapLocationClient 对象。
+     * 销毁定位客户端后，重开定位需新 New 一个 AMapLocationClient 对象。
      */
     public void destroy() {
         aMapLocationClient.onDestroy();
