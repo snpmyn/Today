@@ -7,6 +7,8 @@
     <string name="close">关闭</string>
     <string name="retry">重试</string>
     <string name="agree">同意</string>
+    <string name="debug">调试</string>
+    <string name="ensure">确认</string>
     <string name="delete">删除</string>
     <string name="refuse">拒绝</string>
     <string name="homePage">首页</string>
