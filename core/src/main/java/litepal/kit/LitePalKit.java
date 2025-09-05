@@ -93,9 +93,10 @@ public class LitePalKit {
      * @param t   T
      * @param id  ID
      * @param <T> <T>
+     * @return The number of rows affected.
      */
-    public <T extends LitePalSupport> void singleUpdate(@NotNull T t, long id) {
-        t.update(id);
+    public <T extends LitePalSupport> int singleUpdate(@NotNull T t, long id) {
+        return t.update(id);
     }
 
     /**
@@ -104,9 +105,10 @@ public class LitePalKit {
      * @param t          T
      * @param conditions 条件
      * @param <T>        <T>
+     * @return The number of rows affected.
      */
-    public <T extends LitePalSupport> void multiUpdate(@NotNull T t, String... conditions) {
-        t.updateAll(conditions);
+    public <T extends LitePalSupport> int multiUpdate(@NotNull T t, String... conditions) {
+        return t.updateAll(conditions);
     }
 
     /**
