@@ -26,11 +26,11 @@ import widget.dialog.bocdialog.lottie.listener.BocLottieDialogAnimationEndListen
  * Created on 2022/4/6
  *
  * @author zsp
- * @desc BOC Lottie 加载对话框
+ * @desc BOC Lottie 普通对话框
  */
-public class BocLottieLoadingDialog extends BaseBocInstanceDialog {
-    private LottieAnimationView bocLottieLoadingDialogLav;
-    private TextView bocLottieLoadingDialogTv;
+public class BocLottieCommonDialog extends BaseBocInstanceDialog {
+    private LottieAnimationView bocLottieCommonDialogLav;
+    private TextView bocLottieCommonDialogTv;
     private OnBackPressedListener onBackPressedListener;
 
     /**
@@ -39,7 +39,7 @@ public class BocLottieLoadingDialog extends BaseBocInstanceDialog {
      * @param context        上下文
      * @param selfThemeResId 自身主题资源 ID
      */
-    private BocLottieLoadingDialog(Context context, int selfThemeResId) {
+    private BocLottieCommonDialog(Context context, int selfThemeResId) {
         super(context, selfThemeResId);
     }
 
@@ -50,7 +50,7 @@ public class BocLottieLoadingDialog extends BaseBocInstanceDialog {
      */
     @Override
     protected int layoutResId() {
-        return R.layout.dialog_boc_lottie_loading;
+        return R.layout.dialog_boc_lottie_common;
     }
 
     /**
@@ -58,8 +58,8 @@ public class BocLottieLoadingDialog extends BaseBocInstanceDialog {
      */
     @Override
     protected void stepUi() {
-        bocLottieLoadingDialogLav = view.findViewById(R.id.bocLottieLoadingDialogLav);
-        bocLottieLoadingDialogTv = view.findViewById(R.id.bocLottieLoadingDialogTv);
+        bocLottieCommonDialogLav = view.findViewById(R.id.bocLottieCommonDialogLav);
+        bocLottieCommonDialogTv = view.findViewById(R.id.bocLottieCommonDialogTv);
     }
 
     /**
@@ -87,10 +87,10 @@ public class BocLottieLoadingDialog extends BaseBocInstanceDialog {
         int value;
         if (StringUtils.areEmpty(hint)) {
             value = 80;
-            ViewUtils.hideView(bocLottieLoadingDialogTv, View.GONE);
+            ViewUtils.hideView(bocLottieCommonDialogTv, View.GONE);
         } else {
             value = 120;
-            bocLottieLoadingDialogTv.setText(hint);
+            bocLottieCommonDialogTv.setText(hint);
         }
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
         layoutParams.width = DensityUtils.dipToPxByFloat(context, value);
@@ -113,16 +113,16 @@ public class BocLottieLoadingDialog extends BaseBocInstanceDialog {
         if (TextUtils.isEmpty(assetName)) {
             return;
         }
-        ViewGroup.LayoutParams layoutParams = bocLottieLoadingDialogLav.getLayoutParams();
+        ViewGroup.LayoutParams layoutParams = bocLottieCommonDialogLav.getLayoutParams();
         layoutParams.width = DensityUtils.dipToPxByFloat(context, bocLottieDialogEnum.getWidth());
         layoutParams.height = DensityUtils.dipToPxByFloat(context, bocLottieDialogEnum.getHeight());
-        bocLottieLoadingDialogLav.setLayoutParams(layoutParams);
+        bocLottieCommonDialogLav.setLayoutParams(layoutParams);
         if (repeatCount == ValueAnimator.INFINITE) {
             // 无限次数重复
-            LottieKit.getInstance().useWithAsset(bocLottieLoadingDialogLav, assetName, repeatCount, null);
+            LottieKit.getInstance().useWithAsset(bocLottieCommonDialogLav, assetName, repeatCount, null);
         } else {
             // 限定次数重复
-            LottieKit.getInstance().useWithAsset(bocLottieLoadingDialogLav, assetName, repeatCount, new Animator.AnimatorListener() {
+            LottieKit.getInstance().useWithAsset(bocLottieCommonDialogLav, assetName, repeatCount, new Animator.AnimatorListener() {
                 @Override
                 public void onAnimationStart(@NonNull Animator animation) {
 
@@ -167,7 +167,7 @@ public class BocLottieLoadingDialog extends BaseBocInstanceDialog {
      */
     public void update(@NonNull BocLottieDialogEnum bocLottieDialogEnum, String hint, int repeatCount, BocLottieDialogAnimationEndListener bocLottieDialogAnimationEndListener) {
         // 设置提示
-        bocLottieLoadingDialogTv.setText(hint);
+        bocLottieCommonDialogTv.setText(hint);
         // 结束
         end();
         // 设置动画
@@ -180,36 +180,36 @@ public class BocLottieLoadingDialog extends BaseBocInstanceDialog {
     public void end() {
         // 移除原有动画监听
         // 结束动画前设
-        bocLottieLoadingDialogLav.removeAllAnimatorListeners();
+        bocLottieCommonDialogLav.removeAllAnimatorListeners();
         // 结束动画
         // 移除原有动画监听后设
-        LottieKit.getInstance().endAnimation(bocLottieLoadingDialogLav);
+        LottieKit.getInstance().endAnimation(bocLottieCommonDialogLav);
     }
 
     public static class Builder {
-        private final BocLottieLoadingDialog bocLottieLoadingDialog;
+        private final BocLottieCommonDialog bocLottieCommonDialog;
 
         public Builder(Context context, int selfThemeResId) {
-            this.bocLottieLoadingDialog = new BocLottieLoadingDialog(context, selfThemeResId);
+            this.bocLottieCommonDialog = new BocLottieCommonDialog(context, selfThemeResId);
         }
 
         public Builder setHintAndWidthHeight(String hint) {
-            bocLottieLoadingDialog.setHintAndWidthHeight(hint);
+            bocLottieCommonDialog.setHintAndWidthHeight(hint);
             return this;
         }
 
         public Builder setAnimation(BocLottieDialogEnum bocLottieDialogEnum, int count, BocLottieDialogAnimationEndListener bocLottieDialogAnimationEndListener) {
-            bocLottieLoadingDialog.setAnimation(bocLottieDialogEnum, count, bocLottieDialogAnimationEndListener);
+            bocLottieCommonDialog.setAnimation(bocLottieDialogEnum, count, bocLottieDialogAnimationEndListener);
             return this;
         }
 
         public Builder setOnBackPressedListener(OnBackPressedListener onBackPressedListener) {
-            bocLottieLoadingDialog.setOnBackPressedListener(onBackPressedListener);
+            bocLottieCommonDialog.setOnBackPressedListener(onBackPressedListener);
             return this;
         }
 
-        public BocLottieLoadingDialog build() {
-            return bocLottieLoadingDialog;
+        public BocLottieCommonDialog build() {
+            return bocLottieCommonDialog;
         }
     }
 
