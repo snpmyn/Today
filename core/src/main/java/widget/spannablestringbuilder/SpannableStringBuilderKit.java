@@ -53,6 +53,7 @@ public class SpannableStringBuilderKit extends SpannableStringBuilder {
     public SpannableStringBuilderKit(CharSequence text) {
         super(text);
     }
+
     /**
      * 设置可点击文本
      *
