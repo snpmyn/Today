@@ -27,10 +27,10 @@ import widget.textwatcher.CustomTextWatcher;
  */
 public class DangerousActivity extends BasePoolActivity implements View.OnClickListener {
     private MaterialToolbar dangerousActivityMt;
-    private TextInputLayout dangerousActivityLlTilInputDangerousNotice;
-    private TextInputEditText dangerousActivityLlTietDangerousNotice;
-    private TextInputLayout dangerousActivityLlTilInputEmergencyContactPhoneNumber;
-    private TextInputEditText dangerousActivityLlTietEmergencyContactPhoneNumber;
+    private TextInputLayout dangerousActivityTilInputDangerousNotice;
+    private TextInputEditText dangerousActivityTietDangerousNotice;
+    private TextInputLayout dangerousActivityTilInputEmergencyContactPhoneNumber;
+    private TextInputEditText dangerousActivityTietEmergencyContactPhoneNumber;
     private MaterialButton dangerousActivityMbSaveConfig;
     private MaterialButton dangerousActivityMbSend;
     /**
@@ -54,10 +54,10 @@ public class DangerousActivity extends BasePoolActivity implements View.OnClickL
     @Override
     protected void stepUi() {
         dangerousActivityMt = findViewById(R.id.dangerousActivityMt);
-        dangerousActivityLlTilInputDangerousNotice = findViewById(R.id.dangerousActivityLlTilInputDangerousNotice);
-        dangerousActivityLlTietDangerousNotice = findViewById(R.id.dangerousActivityLlTietDangerousNotice);
-        dangerousActivityLlTilInputEmergencyContactPhoneNumber = findViewById(R.id.dangerousActivityLlTilInputEmergencyContactPhoneNumber);
-        dangerousActivityLlTietEmergencyContactPhoneNumber = findViewById(R.id.dangerousActivityLlTietEmergencyContactPhoneNumber);
+        dangerousActivityTilInputDangerousNotice = findViewById(R.id.dangerousActivityTilInputDangerousNotice);
+        dangerousActivityTietDangerousNotice = findViewById(R.id.dangerousActivityTietDangerousNotice);
+        dangerousActivityTilInputEmergencyContactPhoneNumber = findViewById(R.id.dangerousActivityTilInputEmergencyContactPhoneNumber);
+        dangerousActivityTietEmergencyContactPhoneNumber = findViewById(R.id.dangerousActivityTietEmergencyContactPhoneNumber);
         dangerousActivityMbSaveConfig = findViewById(R.id.dangerousActivityMbSaveConfig);
         dangerousActivityMbSend = findViewById(R.id.dangerousActivityMbSend);
     }
@@ -78,13 +78,12 @@ public class DangerousActivity extends BasePoolActivity implements View.OnClickL
         // MaterialToolbar
         dangerousActivityMt.setNavigationOnClickListener(v -> finish());
         dangerousActivityMt.setOnMenuItemClickListener(item -> {
-            // 显示使用指南
             dangerousActivityKit.showUseGuide(DangerousActivity.this, false);
             return true;
         });
-        // EditText
-        dangerousActivityLlTietDangerousNotice.addTextChangedListener(new CustomTextWatcher(dangerousActivityLlTilInputDangerousNotice, dangerousActivityLlTietDangerousNotice));
-        dangerousActivityLlTietEmergencyContactPhoneNumber.addTextChangedListener(new CustomTextWatcher(dangerousActivityLlTilInputEmergencyContactPhoneNumber, dangerousActivityLlTietEmergencyContactPhoneNumber));
+        // TextInputEditText
+        dangerousActivityTietDangerousNotice.addTextChangedListener(new CustomTextWatcher(dangerousActivityTilInputDangerousNotice, dangerousActivityTietDangerousNotice));
+        dangerousActivityTietEmergencyContactPhoneNumber.addTextChangedListener(new CustomTextWatcher(dangerousActivityTilInputEmergencyContactPhoneNumber, dangerousActivityTietEmergencyContactPhoneNumber));
         // Button
         dangerousActivityMbSaveConfig.setOnClickListener(this);
         dangerousActivityMbSend.setOnClickListener(this);
@@ -100,7 +99,7 @@ public class DangerousActivity extends BasePoolActivity implements View.OnClickL
         // 检查发送短信权限
         dangerousActivityKit.checkSendSmsPermission(this, true);
         // 预显示
-        dangerousActivityKit.preShow(dangerousActivityLlTietDangerousNotice, dangerousActivityLlTietEmergencyContactPhoneNumber);
+        dangerousActivityKit.preShow(dangerousActivityTietDangerousNotice, dangerousActivityTietEmergencyContactPhoneNumber);
     }
 
     /**
@@ -113,10 +112,10 @@ public class DangerousActivity extends BasePoolActivity implements View.OnClickL
         int viewId = v.getId();
         if (viewId == R.id.dangerousActivityMbSaveConfig) {
             // 保存配置
-            dangerousActivityKit.saveConfigOrSend(this, false, dangerousActivityLlTilInputDangerousNotice, dangerousActivityLlTietDangerousNotice, dangerousActivityLlTilInputEmergencyContactPhoneNumber, dangerousActivityLlTietEmergencyContactPhoneNumber);
+            dangerousActivityKit.saveConfigOrSend(this, false, dangerousActivityTilInputDangerousNotice, dangerousActivityTietDangerousNotice, dangerousActivityTilInputEmergencyContactPhoneNumber, dangerousActivityTietEmergencyContactPhoneNumber);
         } else if (viewId == R.id.dangerousActivityMbSend) {
             // 发送
-            dangerousActivityKit.saveConfigOrSend(this, true, dangerousActivityLlTilInputDangerousNotice, dangerousActivityLlTietDangerousNotice, dangerousActivityLlTilInputEmergencyContactPhoneNumber, dangerousActivityLlTietEmergencyContactPhoneNumber);
+            dangerousActivityKit.saveConfigOrSend(this, true, dangerousActivityTilInputDangerousNotice, dangerousActivityTietDangerousNotice, dangerousActivityTilInputEmergencyContactPhoneNumber, dangerousActivityTietEmergencyContactPhoneNumber);
         }
     }
 
@@ -128,7 +127,7 @@ public class DangerousActivity extends BasePoolActivity implements View.OnClickL
      */
     @Override
     protected int[] hideSoftByEditViewIds() {
-        return new int[]{R.id.dangerousActivityLlTietDangerousNotice, R.id.dangerousActivityLlTietEmergencyContactPhoneNumber};
+        return new int[]{R.id.dangerousActivityTietDangerousNotice, R.id.dangerousActivityTietEmergencyContactPhoneNumber};
     }
 
     @Subscribe(thread = EventThread.MAIN_THREAD, tags = {@Tag(RxBusConstant.DANGEROUS_ACTIVITY_$_UPDATE_LOCATION)})
