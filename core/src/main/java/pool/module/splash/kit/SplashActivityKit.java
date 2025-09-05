@@ -1,10 +1,5 @@
 package pool.module.splash.kit;
 
-import android.text.SpannableStringBuilder;
-import android.text.TextPaint;
-import android.text.method.LinkMovementMethod;
-import android.text.style.ClickableSpan;
-import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -28,6 +23,7 @@ import widget.dialog.customdialog.ViewHolder;
 import widget.dialog.materialalertdialog.kit.MaterialAlertDialogBuilderKit;
 import widget.permissionx.kit.PermissionxKit;
 import widget.permissionx.listener.PermissionxKitListener;
+import widget.spannablestringbuilder.SpannableStringBuilderKit;
 
 /**
  * Created on 2021/9/16
@@ -63,35 +59,22 @@ public class SplashActivityKit {
             @Override
             public void convertView(ViewHolder holder, final BaseDialog dialog) {
                 TextView dialogUserAgreementAndPrivacyPolicyTvUserAgreementAndPrivacyPolicyContent = holder.getView(R.id.dialogUserAgreementAndPrivacyPolicyTvUserAgreementAndPrivacyPolicyContent);
-                SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(dialogUserAgreementAndPrivacyPolicyTvUserAgreementAndPrivacyPolicyContent.getText().toString());
-                spannableStringBuilder.setSpan(new ClickableSpan() {
+                // 富文本构建器配套原件
+                SpannableStringBuilderKit spannableStringBuilderKit = new SpannableStringBuilderKit(dialogUserAgreementAndPrivacyPolicyTvUserAgreementAndPrivacyPolicyContent.getText().toString());
+                spannableStringBuilderKit.setClickableSpan(ContextCompat.getColor(appCompatActivity, R.color.pool_user_agreement_and_privacy_policy_text_in_dialog), false, 50, 56, 0, new SpannableStringBuilderKit.SpannableStringBuilderKitListener() {
                     @Override
-                    public void onClick(@NonNull View widget) {
+                    public void onClick() {
                         showUserAgreementAndPrivacyPolicy(appCompatActivity, PoolConstant.USER_AGREEMENT);
                     }
-
+                });
+                spannableStringBuilderKit.setClickableSpan(ContextCompat.getColor(appCompatActivity, R.color.pool_user_agreement_and_privacy_policy_text_in_dialog), false, 57, 63, 0, new SpannableStringBuilderKit.SpannableStringBuilderKitListener() {
                     @Override
-                    public void updateDrawState(@NonNull TextPaint ds) {
-                        super.updateDrawState(ds);
-                        ds.setColor(ContextCompat.getColor(appCompatActivity, R.color.pool_user_agreement_and_privacy_policy_text_in_dialog));
-                        ds.setUnderlineText(false);
-                    }
-                }, 50, 56, 0);
-                spannableStringBuilder.setSpan(new ClickableSpan() {
-                    @Override
-                    public void onClick(@NonNull View widget) {
+                    public void onClick() {
                         showUserAgreementAndPrivacyPolicy(appCompatActivity, PoolConstant.PRIVACY_POLICY);
                     }
-
-                    @Override
-                    public void updateDrawState(@NonNull TextPaint ds) {
-                        super.updateDrawState(ds);
-                        ds.setColor(ContextCompat.getColor(appCompatActivity, R.color.pool_user_agreement_and_privacy_policy_text_in_dialog));
-                        ds.setUnderlineText(false);
-                    }
-                }, 57, 63, 0);
-                dialogUserAgreementAndPrivacyPolicyTvUserAgreementAndPrivacyPolicyContent.setMovementMethod(LinkMovementMethod.getInstance());
-                dialogUserAgreementAndPrivacyPolicyTvUserAgreementAndPrivacyPolicyContent.setText(spannableStringBuilder, TextView.BufferType.SPANNABLE);
+                });
+                // 配置可点击文本控件
+                spannableStringBuilderKit.configClickableSpanTextView(dialogUserAgreementAndPrivacyPolicyTvUserAgreementAndPrivacyPolicyContent, spannableStringBuilderKit);
                 // 不同意并退出
                 TextView dialogUserAgreementAndPrivacyPolicyTvNotAgreeAngLoginOut = holder.getView(R.id.dialogUserAgreementAndPrivacyPolicyTvNotAgreeAngLoginOut);
                 dialogUserAgreementAndPrivacyPolicyTvNotAgreeAngLoginOut.setOnClickListener(v -> {
