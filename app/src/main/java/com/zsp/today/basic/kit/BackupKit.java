@@ -1,11 +1,11 @@
-package com.zsp.today.kit;
+package com.zsp.today.basic.kit;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
 import com.zsp.today.R;
 import com.zsp.today.base.BaseDataBaseTable;
-import com.zsp.today.value.Folder;
+import com.zsp.today.basic.value.Folder;
 
 import litepal.kit.LitePalKit;
 import util.file.FileUtils;
