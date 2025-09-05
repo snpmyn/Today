@@ -4,89 +4,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context="pool.module.login.LoginActivity">
-
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/loginActivityMt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/pageBackground"
-        android:elevation="@dimen/dp_0"
-        app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/ic_arrow_back_black_transparent_10dp_18dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_0"
-        android:background="@color/pageBackground"
-        android:clipToPadding="false"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/dp_46"
-        android:paddingRight="@dimen/dp_46"
+        android:paddingHorizontal="@dimen/dp_46"
         app:layout_constraintBottom_toTopOf="@+id/loginActivityLlBottom"
-        app:layout_constraintTop_toBottomOf="@+id/loginActivityMt">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            android:id="@+id/loginActivityTvLoginPageTopHint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_90"
             android:text="@string/loginPageTopHint"
-            android:textColor="@color/fontInput"
             android:textSize="@dimen/sp_24"
             android:textStyle="bold" />
 
-        <RelativeLayout
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/loginActivityTilInputPhoneNumber"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_90"
-            android:paddingTop="@dimen/dp_8"
-            android:paddingBottom="@dimen/dp_8">
+            android:hint="@string/inputPhoneNumber"
+            app:endIconMode="clear_text"
+            app:errorEnabled="true"
+            app:errorTextColor="@color/color_EA6464"
+            app:startIconDrawable="@drawable/ic_contact_white_24dp"
+            app:startIconTint="@color/basic">
 
-            <EditText
-                android:id="@+id/loginActivityEtPleaseInputPhoneNumber"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/loginActivityTietPhoneNumber"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_toStartOf="@+id/loginActivityIvPhoneNumberClear"
-                android:background="@null"
-                android:hint="@string/pleaseInputPhoneNumber"
-                android:importantForAutofill="no"
-                android:inputType="phone"
-                android:maxLength="13"
-                android:textColor="@color/fontInput"
-                android:textColorHint="@color/fontHint"
+                android:layout_height="?actionBarSize"
+                android:inputType="numberDecimal"
                 android:textSize="@dimen/sp_16" />
-
-            <ImageView
-                android:id="@+id/loginActivityIvPhoneNumberClear"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:contentDescription="@string/deletePhoneNumber"
-                android:visibility="invisible"
-                app:srcCompat="@drawable/ic_phone_number_clear_16dp" />
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/px1"
-            android:background="@color/gray" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/loginActivityMbLogin"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_36"
-            android:insetLeft="@dimen/dp_0"
-            android:insetTop="@dimen/dp_0"
-            android:insetRight="@dimen/dp_0"
-            android:insetBottom="@dimen/dp_0"
+            android:filterTouchesWhenObscured="true"
+            android:lines="2"
             android:text="@string/login"
-            android:textColor="@color/fontHint"
+            android:textColor="@color/white"
             android:textSize="@dimen/sp_18"
-            app:backgroundTint="@color/pool_login_button_background"
-            app:cornerRadius="@dimen/dp_180"
             app:rippleColor="@color/white" />
     </LinearLayout>
 
@@ -94,17 +62,14 @@
         android:id="@+id/loginActivityLlBottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/pageBackground"
-        android:gravity="bottom|center_horizontal"
-        android:paddingTop="@dimen/dp_24"
-        android:paddingBottom="@dimen/dp_24"
+        android:gravity="center"
+        android:paddingVertical="@dimen/dp_24"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/bySigningInYouAgree"
-            android:textColor="@color/fontHint"
             android:textSize="@dimen/sp_12"
             android:textStyle="bold" />
 
@@ -121,7 +86,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/and"
-            android:textColor="@color/fontHint"
             android:textSize="@dimen/sp_12"
             android:textStyle="bold" />
 
