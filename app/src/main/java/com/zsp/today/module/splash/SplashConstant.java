@@ -1,4 +1,4 @@
-package com.zsp.today.value;
+package com.zsp.today.module.splash;
 
 /**
  * Created on 2022/6/20
