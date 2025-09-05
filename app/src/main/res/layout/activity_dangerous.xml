@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".module.dangerous.DangerousActivity">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/dangerousActivityMt"
+        style="@style/Widget.MaterialComponents.Toolbar.Primary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/dangerous_activity_menu"
+        app:navigationIcon="@drawable/ic_arrow_back_white_24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/dangerous"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_16" />
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dangerousActivityMt">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/dp_12"
+            android:paddingVertical="@dimen/dp_24">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/dangerousActivityLlTilInputDangerousNotice"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/inputDangerousNotice"
+                app:boxCornerRadiusBottomEnd="@dimen/dp_10"
+                app:boxCornerRadiusBottomStart="@dimen/dp_10"
+                app:boxCornerRadiusTopEnd="@dimen/dp_10"
+                app:boxCornerRadiusTopStart="@dimen/dp_10"
+                app:errorEnabled="true"
+                app:errorTextColor="@color/color_EA6464"
+                app:helperText="@string/dangerousNotice"
+                app:helperTextTextColor="@color/basic"
+                app:hintMaxLines="6">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/dangerousActivityLlTietDangerousNotice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:minLines="6"
+                    android:textSize="@dimen/sp_14" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/dangerousActivityLlTilInputEmergencyContactPhoneNumber"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_12"
+                android:layout_marginBottom="?actionBarSize"
+                android:hint="@string/inputEmergencyContactPhoneNumber"
+                app:counterEnabled="true"
+                app:counterMaxLength="11"
+                app:errorEnabled="true"
+                app:errorTextColor="@color/color_EA6464"
+                app:helperText="@string/emergencyContactPhoneNumber"
+                app:helperTextTextColor="@color/basic"
+                app:startIconDrawable="@drawable/ic_contact_basic_24dp"
+                app:startIconTint="@color/basic">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/dangerousActivityLlTietEmergencyContactPhoneNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:textSize="@dimen/sp_14" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <!--动态设置 overflowMode=menu 会隐藏弹出菜单中不符合当前屏幕宽度的子按钮-->
+            <!--按钮组末尾会自动添加一个图标按钮，用于在需要时切换弹出菜单-->
+            <!--此图标按钮的样式可以通过主题叠加层中的属性设置-->
+            <!--图标可以在按钮组中 materialButtonGroupOverflowButtonStyle 配置 overflowButtonIcon-->
+            <!--每个隐藏的子按钮在弹出菜单中都会以 MenuItem 表示，可设置 layout_overflowText 和 layout_overflowIcon-->
+            <!--不要使用 menu 溢出模式来切换按钮组，因为切换按钮组应该显示所有可用选项和当前选择-->
+            <com.google.android.material.button.MaterialButtonGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/dangerousActivityMbSaveConfig"
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:filterTouchesWhenObscured="true"
+                    android:lines="4"
+                    android:text="@string/saveConfig"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_14"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/dangerousActivityMbSend"
+                    android:layout_width="@dimen/dp_0"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/color_EA6464"
+                    android:filterTouchesWhenObscured="true"
+                    android:lines="4"
+                    android:text="@string/send"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_14"
+                    android:textStyle="bold"
+                    app:rippleColor="@color/white" />
+            </com.google.android.material.button.MaterialButtonGroup>
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
