@@ -5,10 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.zsp.today.application.App;
-import com.zsp.today.kit.BackupKit;
+import com.zsp.today.basic.kit.BackupKit;
 import com.zsp.today.module.function.database.FunctionDataBaseTable;
-import com.zsp.today.value.FunctionCondition;
-import com.zsp.today.value.RxBusConstant;
+import com.zsp.today.module.function.value.FunctionCondition;
+import com.zsp.today.basic.value.RxBusConstant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,9 +61,9 @@ public class FunctionActivityKit {
         functionDataBaseTableUpdate.setFunctionShow(functionBean.isFunctionShow());
         // 获取被更新对象
         List<FunctionDataBaseTable> functionDataBaseTableList = LitePalKit.getInstance().queryByWhere(FunctionDataBaseTable.class, FunctionCondition.FUNCTION_PHONE_NUMBER_AND_FUNCTION_ID, App.getAppInstance().getPhoneNumber(), String.valueOf(functionBean.getFunctionId()));
-        FunctionDataBaseTable functionDataBaseTable = functionDataBaseTableList.get(0);
+        FunctionDataBaseTable functionDataBaseTableOld = functionDataBaseTableList.get(0);
         // 单个更新
-        if (LitePalKit.getInstance().singleUpdate(functionDataBaseTableUpdate, functionDataBaseTable.getBaseObjectId()) != 0) {
+        if (LitePalKit.getInstance().singleUpdate(functionDataBaseTableUpdate, functionDataBaseTableOld.getBaseObjectId()) != 0) {
             // 备份
             BackupKit.getInstance().backup(appCompatActivity, FunctionDataBaseTable.class, null);
         }
