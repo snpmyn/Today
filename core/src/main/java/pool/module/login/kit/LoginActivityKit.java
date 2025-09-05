@@ -1,17 +1,18 @@
 package pool.module.login.kit;
 
-import android.widget.EditText;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.zsp.core.R;
+
+import java.util.Objects;
 
 import pool.module.login.listener.LoginActivityListener;
 import pool.value.PoolConstant;
 import util.mmkv.MmkvKit;
 import util.number.NumberFormatUtils;
-import widget.toast.ToastKit;
 import util.validate.RegularUtils;
 
 /**
@@ -24,29 +25,30 @@ public class LoginActivityKit {
     /**
      * 手机号预显示
      *
-     * @param editTextPleaseInputPhoneNumber 请输入手机号输入框
+     * @param textInputEditTextPhoneNumber 手机号框
      */
-    public void phoneNumberPreShow(@NonNull EditText editTextPleaseInputPhoneNumber) {
-        editTextPleaseInputPhoneNumber.setText(NumberFormatUtils.formatPhoneNumberTwo(MmkvKit.defaultMmkv().decodeString(PoolConstant.LOGIN_$_PHONE_NUMBER)));
-        editTextPleaseInputPhoneNumber.setSelection(editTextPleaseInputPhoneNumber.getText().length());
+    public void phoneNumberPreShow(@NonNull TextInputEditText textInputEditTextPhoneNumber) {
+        textInputEditTextPhoneNumber.setText(NumberFormatUtils.formatPhoneNumberTwo(MmkvKit.defaultMmkv().decodeString(PoolConstant.LOGIN_$_PHONE_NUMBER)));
+        textInputEditTextPhoneNumber.setSelection(Objects.requireNonNull(textInputEditTextPhoneNumber.getText()).length());
     }
 
     /**
      * 登录
      *
-     * @param appCompatActivity              活动
-     * @param editTextPleaseInputPhoneNumber 请输入手机号输入框
-     * @param loginActivityListener          登录页监听
+     * @param appCompatActivity               活动
+     * @param textInputLayoutInputPhoneNumber 手机号输入框
+     * @param textInputEditTextPhoneNumber    手机号框
+     * @param loginActivityListener           登录页监听
      */
-    public void login(AppCompatActivity appCompatActivity, @NonNull EditText editTextPleaseInputPhoneNumber, LoginActivityListener loginActivityListener) {
-        String phoneNumber = editTextPleaseInputPhoneNumber.getText().toString().replace(" ", "");
+    public void login(AppCompatActivity appCompatActivity, TextInputLayout textInputLayoutInputPhoneNumber, @NonNull TextInputEditText textInputEditTextPhoneNumber, LoginActivityListener loginActivityListener) {
+        String phoneNumber = Objects.requireNonNull(textInputEditTextPhoneNumber.getText()).toString().replace(" ", "");
         // 手机号（精确）
         if (RegularUtils.allMobile(phoneNumber)) {
             String formatPhoneNumber = NumberFormatUtils.formatPhoneNumberTwo(phoneNumber);
-            editTextPleaseInputPhoneNumber.setText(formatPhoneNumber);
+            textInputEditTextPhoneNumber.setText(formatPhoneNumber);
             loginActivityListener.handleWithPhoneNumber(appCompatActivity, formatPhoneNumber);
         } else {
-            ToastKit.showShort(appCompatActivity.getString(R.string.pleaseInputCorrectPhoneNumber));
+            textInputLayoutInputPhoneNumber.setError(appCompatActivity.getString(R.string.inputCorrectPhoneNumber));
         }
     }
 }

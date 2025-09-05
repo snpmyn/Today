@@ -3,13 +3,13 @@ package pool.module.login;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.zsp.core.R;
 
 import pool.base.BasePoolActivity;
@@ -18,7 +18,7 @@ import pool.module.login.kit.UserAgreementAndPrivacyPolicyActivityKit;
 import pool.module.login.listener.LoginActivityListener;
 import pool.value.PoolConstant;
 import util.animation.AnimationManager;
-import util.view.ViewUtils;
+import widget.textwatcher.CustomTextWatcher;
 
 /**
  * @desc: 登录页
@@ -26,24 +26,24 @@ import util.view.ViewUtils;
  * @date: 2021/9/17 4:31 下午
  */
 public class LoginActivity extends BasePoolActivity implements View.OnClickListener {
-    /**
-     * 登录页监听
-     */
-    private static LoginActivityListener loginActivityListener;
     private TextView loginActivityTvLoginPageTopHint;
-    private EditText loginActivityEtPleaseInputPhoneNumber;
-    private Button loginActivityBtnPhoneNumberClear;
+    private TextInputLayout loginActivityTilInputPhoneNumber;
+    private TextInputEditText loginActivityTietPhoneNumber;
     private MaterialButton loginActivityMbLogin;
     private TextView loginActivityTvUserAgreement;
     private TextView loginActivityTvPrivacyPolicy;
     /**
-     * 用户协议和隐私政策页配套元件
+     * 登录页监听
      */
-    private UserAgreementAndPrivacyPolicyActivityKit userAgreementAndPrivacyPolicyActivityKit;
+    private static LoginActivityListener loginActivityListener;
     /**
      * 登录页配套元件
      */
     private LoginActivityKit loginActivityKit;
+    /**
+     * 用户协议和隐私政策页配套元件
+     */
+    private UserAgreementAndPrivacyPolicyActivityKit userAgreementAndPrivacyPolicyActivityKit;
 
     /**
      * 设登录页监听
@@ -70,8 +70,8 @@ public class LoginActivity extends BasePoolActivity implements View.OnClickListe
     @Override
     protected void stepUi() {
         loginActivityTvLoginPageTopHint = findViewById(R.id.loginActivityTvLoginPageTopHint);
-        loginActivityEtPleaseInputPhoneNumber = findViewById(R.id.loginActivityEtPleaseInputPhoneNumber);
-        loginActivityBtnPhoneNumberClear = findViewById(R.id.loginActivityBtnPhoneNumberClear);
+        loginActivityTilInputPhoneNumber = findViewById(R.id.loginActivityTilInputPhoneNumber);
+        loginActivityTietPhoneNumber = findViewById(R.id.loginActivityTietPhoneNumber);
         loginActivityMbLogin = findViewById(R.id.loginActivityMbLogin);
         loginActivityTvUserAgreement = findViewById(R.id.loginActivityTvUserAgreement);
         loginActivityTvPrivacyPolicy = findViewById(R.id.loginActivityTvPrivacyPolicy);
@@ -93,8 +93,8 @@ public class LoginActivity extends BasePoolActivity implements View.OnClickListe
      */
     @Override
     protected void setListener() {
-        // 手机号
-        loginActivityEtPleaseInputPhoneNumber.addTextChangedListener(new TextWatcher() {
+        // TextInputEditText
+        loginActivityTietPhoneNumber.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -102,13 +102,7 @@ public class LoginActivity extends BasePoolActivity implements View.OnClickListe
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() != 0) {
-                    loginActivityMbLogin.setEnabled(true);
-                    ViewUtils.showView(loginActivityBtnPhoneNumberClear);
-                } else {
-                    loginActivityMbLogin.setEnabled(false);
-                    ViewUtils.hideView(loginActivityBtnPhoneNumberClear, View.INVISIBLE);
-                }
+                loginActivityMbLogin.setEnabled(s.length() != 0);
             }
 
             @Override
@@ -116,9 +110,10 @@ public class LoginActivity extends BasePoolActivity implements View.OnClickListe
 
             }
         });
-        // 控件
-        loginActivityBtnPhoneNumberClear.setOnClickListener(this);
+        loginActivityTietPhoneNumber.addTextChangedListener(new CustomTextWatcher(loginActivityTilInputPhoneNumber, loginActivityTietPhoneNumber));
+        // MaterialButton
         loginActivityMbLogin.setOnClickListener(this);
+        // TextView
         loginActivityTvUserAgreement.setOnClickListener(this);
         loginActivityTvPrivacyPolicy.setOnClickListener(this);
     }
@@ -126,12 +121,9 @@ public class LoginActivity extends BasePoolActivity implements View.OnClickListe
     @Override
     public void onClick(@NonNull View v) {
         int id = v.getId();
-        if (id == R.id.loginActivityBtnPhoneNumberClear) {
-            // 清手机号
-            loginActivityEtPleaseInputPhoneNumber.setText("");
-        } else if (id == R.id.loginActivityMbLogin) {
+        if (id == R.id.loginActivityMbLogin) {
             // 登录
-            loginActivityKit.login(this, loginActivityEtPleaseInputPhoneNumber, loginActivityListener);
+            loginActivityKit.login(this, loginActivityTilInputPhoneNumber, loginActivityTietPhoneNumber, loginActivityListener);
         } else if (id == R.id.loginActivityTvUserAgreement) {
             // 用户协议
             userAgreementAndPrivacyPolicyActivityKit.showUserAgreementAndPrivacyPolicy(this, PoolConstant.USER_AGREEMENT);
@@ -147,7 +139,7 @@ public class LoginActivity extends BasePoolActivity implements View.OnClickListe
     @Override
     protected void startLogic() {
         AnimationManager.alphaShow(loginActivityTvLoginPageTopHint, 1000, null);
-        loginActivityKit.phoneNumberPreShow(loginActivityEtPleaseInputPhoneNumber);
+        loginActivityKit.phoneNumberPreShow(loginActivityTietPhoneNumber);
     }
 
     /**
@@ -158,6 +150,6 @@ public class LoginActivity extends BasePoolActivity implements View.OnClickListe
      */
     @Override
     protected int[] hideSoftByEditViewIds() {
-        return new int[]{R.id.loginActivityEtPleaseInputPhoneNumber};
+        return new int[]{R.id.loginActivityTietPhoneNumber};
     }
 }
