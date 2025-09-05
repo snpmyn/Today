@@ -5,25 +5,33 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClientOption;
+import com.zsp.amap.kit.AmapLocationKit;
+import com.zsp.amap.listener.AmapLocationKitListener;
+import com.zsp.amap.value.AmapConstant;
 import com.zsp.today.BuildConfig;
 import com.zsp.today.kit.AppKit;
 import com.zsp.today.module.login.UserDataBaseTable;
 import com.zsp.today.value.Folder;
+import com.zsp.today.value.RxBusConstant;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import fragmentation.configure.FragmentationInitConfig;
-import litepal.configure.LitePalInitConfigure;
+import litepal.configure.LitePalInitConfig;
 import litepal.kit.LitePalKit;
 import lottie.configure.LottieInitConfig;
 import pool.application.BasePoolApp;
 import pool.module.login.LoginActivity;
 import pool.module.splash.kit.SplashActivityKit;
 import timber.log.Timber;
+import util.mmkv.MmkvKit;
+import util.rxbus.RxBus;
 import widget.crash.CrashManager;
 import widget.status.manager.StatusManager;
-import widget.tbs.configure.TbsInitConfigure;
+import widget.tbs.configure.TbsInitConfig;
 
 /**
  * Created on 2025/7/10.
@@ -100,7 +108,8 @@ public class App extends BasePoolApp {
     protected List<String> permissionList() {
         List<String> list = new ArrayList<>(2);
         list.add(Manifest.permission.MANAGE_EXTERNAL_STORAGE);
-        list.add(Manifest.permission.SEND_SMS);
+        list.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        /*list.add(Manifest.permission.ACCESS_BACKGROUND_LOCATION);*/
         return list;
     }
 
@@ -111,19 +120,33 @@ public class App extends BasePoolApp {
         // 崩溃管理器
         CrashManager.getInstance(this, Folder.CRASH);
         // TBS 初始化配置
-        TbsInitConfigure.initTbs();
+        TbsInitConfig.initTbs();
         // LitePal 初始化配置
-        LitePalInitConfigure.initLitePal(this);
+        LitePalInitConfig.initLitePal(this);
         // Fragmentation 初始化配置
         FragmentationInitConfig.initFragmentation(debug());
         // Lottie 初始化配置
         LottieInitConfig.initLottie(this, Folder.LOTTIE_NETWORK_CACHE, true, false);
         // 应用配套元件
         AppKit appKit = new AppKit();
-        // 闪屏页监听
+        // 闪屏页配套元件
         SplashActivityKit splashActivityKit = new SplashActivityKit();
         splashActivityKit.setSplashActivityListener(appKit::distribute);
-        // 登录页监听
+        // 登录页
         LoginActivity.setLoginActivityListener(appKit::login);
+        // 高德地图定位配套原件
+        AmapLocationKit.getInstance().start(App.getAppInstance(), AMapLocationClientOption.AMapLocationPurpose.Transport, true, new AmapLocationKitListener() {
+            @Override
+            public void locationSuccessful(AMapLocation aMapLocation, String locationInfo) {
+                MmkvKit.defaultMmkv().encode(AmapConstant.AMAP_$_LOCATION, locationInfo);
+                AmapLocationKit.getInstance().stop();
+                RxBus.get().post(RxBusConstant.DANGEROUS_ACTIVITY_$_UPDATE_LOCATION, RxBusConstant.DANGEROUS_ACTIVITY_$_UPDATE_LOCATION_CODE);
+            }
+
+            @Override
+            public void locationFail(AMapLocation aMapLocation) {
+
+            }
+        });
     }
 }
