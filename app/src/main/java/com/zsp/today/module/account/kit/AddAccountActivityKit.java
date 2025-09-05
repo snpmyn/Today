@@ -10,12 +10,12 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.zsp.today.R;
 import com.zsp.today.application.App;
-import com.zsp.today.kit.BackupKit;
+import com.zsp.today.basic.kit.BackupKit;
 import com.zsp.today.module.account.bean.AccountTransferBean;
 import com.zsp.today.module.account.database.AccountDataBaseTable;
-import com.zsp.today.value.AccountCondition;
-import com.zsp.today.value.AccountConstant;
-import com.zsp.today.value.RxBusConstant;
+import com.zsp.today.module.account.value.AccountCondition;
+import com.zsp.today.module.account.value.AccountConstant;
+import com.zsp.today.basic.value.RxBusConstant;
 
 import java.math.BigDecimal;
 import java.util.List;
