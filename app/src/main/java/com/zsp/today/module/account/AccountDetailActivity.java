@@ -13,8 +13,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.zsp.today.R;
 import com.zsp.today.module.account.bean.AccountTransferBean;
 import com.zsp.today.module.account.kit.AccountDetailActivityKit;
-import com.zsp.today.value.AccountConstant;
-import com.zsp.today.value.RxBusConstant;
+import com.zsp.today.module.account.value.AccountConstant;
+import com.zsp.today.basic.value.RxBusConstant;
 
 import pool.base.BasePoolActivity;
 import util.intent.IntentVerify;
