@@ -9,7 +9,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.button.MaterialButton;
 import com.zsp.today.R;
 import com.zsp.today.module.mine.kit.SplashAnimationDetailFragmentKit;
-import com.zsp.today.value.SplashConstant;
+import com.zsp.today.module.splash.SplashConstant;
 
 import org.jetbrains.annotations.NotNull;
 

@@ -11,7 +11,7 @@ import com.zsp.today.application.App;
 import com.zsp.today.module.login.UserDataBaseTable;
 import com.zsp.today.module.mine.fragment.MineChildFragment;
 import com.zsp.today.module.mine.fragment.SplashAnimationHomeFragment;
-import com.zsp.today.value.RxBusConstant;
+import com.zsp.today.basic.value.RxBusConstant;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.zsp.today.module.mine.fragment.SplashAnimationDetailFragment;
-import com.zsp.today.value.SplashConstant;
+import com.zsp.today.module.splash.SplashConstant;
 
 import lottie.kit.LottieKit;
 import pool.value.PoolConstant;

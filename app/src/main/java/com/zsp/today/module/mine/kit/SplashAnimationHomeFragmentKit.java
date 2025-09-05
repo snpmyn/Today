@@ -10,7 +10,7 @@ import com.zsp.today.module.mine.adapter.SplashAnimationListAdapter;
 import com.zsp.today.module.mine.bean.SplashAnimationListBean;
 import com.zsp.today.module.mine.fragment.SplashAnimationDetailFragment;
 import com.zsp.today.module.mine.fragment.SplashAnimationHomeFragment;
-import com.zsp.today.value.RxBusConstant;
+import com.zsp.today.basic.value.RxBusConstant;
 
 import widget.status.kit.StatusManagerKit;
 

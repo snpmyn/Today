@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.zsp.today.R;
 import com.zsp.today.module.mine.kit.SplashAnimationHomeFragmentKit;
-import com.zsp.today.value.RxBusConstant;
+import com.zsp.today.basic.value.RxBusConstant;
 
 import org.jetbrains.annotations.NotNull;
 
