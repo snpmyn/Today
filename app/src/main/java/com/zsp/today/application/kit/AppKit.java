@@ -1,4 +1,4 @@
-package com.zsp.today.kit;
+package com.zsp.today.application.kit;
 
 import androidx.appcompat.app.AppCompatActivity;
 
