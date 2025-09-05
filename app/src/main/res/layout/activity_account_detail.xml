@@ -62,7 +62,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_276"
             android:layout_margin="@dimen/dp_10" />
-
+        <!--style="?attr/materialIconButtonStyle"-->
         <Button
             android:id="@+id/accountDetailActivityButton"
             style="?attr/materialIconButtonFilledTonalStyle"

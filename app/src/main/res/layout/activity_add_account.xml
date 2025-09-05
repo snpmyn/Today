@@ -42,7 +42,7 @@
             android:paddingBottom="@dimen/dp_24">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/addAccountActivityLlTilChooseDate"
+                android:id="@+id/addAccountActivityTilChooseDate"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
                 app:startIconTint="@color/basic">
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    android:id="@+id/addAccountActivityLlMactvDate"
+                    android:id="@+id/addAccountActivityMactvDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false"
@@ -66,7 +66,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/addAccountActivityLlTilChooseCategory"
+                android:id="@+id/addAccountActivityTilChooseCategory"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -92,13 +92,14 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/addAccountActivityLlTilInputAmount"
+                android:id="@+id/addAccountActivityTilInputAmount"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/inputAmount"
                 app:counterEnabled="true"
                 app:counterMaxLength="8"
+                app:endIconMode="clear_text"
                 app:errorEnabled="true"
                 app:errorTextColor="@color/color_EA6464"
                 app:helperText="@string/amount"
@@ -111,7 +112,7 @@
                 app:suffixTextColor="@color/basic">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/addAccountActivityLlTietAmount"
+                    android:id="@+id/addAccountActivityTietAmount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"

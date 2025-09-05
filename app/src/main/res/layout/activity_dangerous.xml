@@ -40,7 +40,7 @@
             android:paddingVertical="@dimen/dp_24">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/dangerousActivityLlTilInputDangerousNotice"
+                android:id="@+id/dangerousActivityTilInputDangerousNotice"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -50,13 +50,10 @@
                 app:boxCornerRadiusTopEnd="@dimen/dp_10"
                 app:boxCornerRadiusTopStart="@dimen/dp_10"
                 app:errorEnabled="true"
-                app:errorTextColor="@color/color_EA6464"
-                app:helperText="@string/dangerousNotice"
-                app:helperTextTextColor="@color/basic"
-                app:hintMaxLines="6">
+                app:errorTextColor="@color/color_EA6464">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/dangerousActivityLlTietDangerousNotice"
+                    android:id="@+id/dangerousActivityTietDangerousNotice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"
@@ -65,7 +62,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/dangerousActivityLlTilInputEmergencyContactPhoneNumber"
+                android:id="@+id/dangerousActivityTilInputEmergencyContactPhoneNumber"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -74,15 +71,14 @@
                 android:hint="@string/inputEmergencyContactPhoneNumber"
                 app:counterEnabled="true"
                 app:counterMaxLength="11"
+                app:endIconMode="clear_text"
                 app:errorEnabled="true"
                 app:errorTextColor="@color/color_EA6464"
-                app:helperText="@string/emergencyContactPhoneNumber"
-                app:helperTextTextColor="@color/basic"
-                app:startIconDrawable="@drawable/ic_contact_basic_24dp"
+                app:startIconDrawable="@drawable/ic_contact_white_24dp"
                 app:startIconTint="@color/basic">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/dangerousActivityLlTietEmergencyContactPhoneNumber"
+                    android:id="@+id/dangerousActivityTietEmergencyContactPhoneNumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
