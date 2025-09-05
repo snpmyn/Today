@@ -50,11 +50,9 @@
     <string name="returnToThisYear">回到今年</string>
     <string name="updatingLocation">更新定位中</string>
     <string name="noAccountAvailable">暂无账目</string>
-    <string name="pleaseInputAmount">请输入金额</string>
     <string name="internalBackupFail">内备份失败</string>
     <string name="externalBackupFail">外备份失败</string>
     <string name="waitForImplementation">等待实现</string>
-    <string name="pleaseChooseCategory">请选择类目</string>
     <string name="noYearDataAvailable">暂无年份数据</string>
     <string name="restoreHomePageMenu">恢复主页菜单</string>
     <string name="openNotificationHint">打开今日通知</string>
@@ -71,7 +69,6 @@
     <string name="wantToDeleteThisAccount">要删除这条账目吗？</string>
     <string name="homePageMenuHasBeenRestored">主页菜单已恢复</string>
     <string name="homePageMenuHasBeenPreStored">主页菜单已预存</string>
-    <string name="emergencyContactPhoneNumber">紧急联系人手机号</string>
     <string name="noYearAnalysisDataAvailable">暂无年度分析数据</string>
     <string name="noMonthAnalysisDataAvailable">暂无月度分析数据</string>
     <string name="dangerousConfigHasBeenRestored">险情配置已恢复</string>
