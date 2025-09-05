@@ -130,8 +130,9 @@ public class AddAccountActivityKit {
             AccountDataBaseTable accountDataBaseTable = accountDataBaseTableList.get(0);
             // 合并金额
             accountDataBaseTable.setAmount(BigDecimalUtils.add(BigDecimal.valueOf(Double.parseDouble(nowAmount)), BigDecimal.valueOf(accountDataBaseTable.getAmount())).doubleValue());
-            LitePalKit.getInstance().multiUpdate(accountDataBaseTable, conditions);
-            hintAndRefreshAccount(appCompatActivity);
+            if (LitePalKit.getInstance().multiUpdate(accountDataBaseTable, conditions) != 0) {
+                hintAndRefreshAccount(appCompatActivity);
+            }
         } else if (LitePalKit.getInstance().singleSave(new AccountDataBaseTable(App.getAppInstance().getPhoneNumber(), nowDate, nowCategory, Double.parseDouble(nowAmount)))) {
             hintAndRefreshAccount(appCompatActivity);
         }
@@ -170,8 +171,9 @@ public class AddAccountActivityKit {
             List<AccountDataBaseTable> accountDataBaseTableList = LitePalKit.getInstance().queryByWhere(AccountDataBaseTable.class, conditions);
             AccountDataBaseTable accountDataBaseTable = accountDataBaseTableList.get(0);
             accountDataBaseTable.setAmount(Double.parseDouble(nowAmount));
-            LitePalKit.getInstance().multiUpdate(accountDataBaseTable, conditions);
-            hintAndRefreshAccount(appCompatActivity);
+            if (LitePalKit.getInstance().multiUpdate(accountDataBaseTable, conditions) != 0) {
+                hintAndRefreshAccount(appCompatActivity);
+            }
         } else {
             // 场景二：修改类目、金额。
             // 删原账目。据原日期、新类目查询本地数据库。有则合并，多个更新；无则单个保存。
@@ -182,8 +184,9 @@ public class AddAccountActivityKit {
             if (ListUtils.listIsNotEmpty(accountDataBaseTableNowList)) {
                 AccountDataBaseTable accountDataBaseTableNow = accountDataBaseTableNowList.get(0);
                 accountDataBaseTableNow.setAmount(BigDecimalUtils.add(BigDecimal.valueOf(Double.parseDouble(nowAmount)), BigDecimal.valueOf(accountDataBaseTableNow.getAmount())).doubleValue());
-                LitePalKit.getInstance().multiUpdate(accountDataBaseTableNow, nowConditions);
-                hintAndRefreshAccount(appCompatActivity);
+                if (LitePalKit.getInstance().multiUpdate(accountDataBaseTableNow, nowConditions) != 0) {
+                    hintAndRefreshAccount(appCompatActivity);
+                }
             } else if (LitePalKit.getInstance().singleSave(new AccountDataBaseTable(App.getAppInstance().getPhoneNumber(), oldDate, nowCategory, Double.parseDouble(nowAmount)))) {
                 hintAndRefreshAccount(appCompatActivity);
             }
