@@ -96,7 +96,7 @@ public class LocationKit {
         } else if (areNetworkEnabled) {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 10, locationListener);
         } else {
-            ToastKit.showShort(appCompatActivity.getString(R.string.pleaseTurnOnLocationServices));
+            ToastKit.showShort(appCompatActivity.getString(R.string.needTurnOnLocationServices));
         }
     }
 
