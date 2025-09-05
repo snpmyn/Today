@@ -20,8 +20,8 @@ import com.zsp.today.module.widget.WidgetFragment;
 import com.zsp.today.module.function.database.FunctionDataBaseTable;
 import com.zsp.today.module.homepage.bean.HomePageMenuEnum;
 import com.zsp.today.module.homepage.fragment.HomePageChildFragment;
-import com.zsp.today.value.FunctionCondition;
-import com.zsp.today.value.RxBusConstant;
+import com.zsp.today.module.function.value.FunctionCondition;
+import com.zsp.today.basic.value.RxBusConstant;
 
 import org.jetbrains.annotations.NotNull;
 

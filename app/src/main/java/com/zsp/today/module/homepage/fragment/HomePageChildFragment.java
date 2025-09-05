@@ -13,7 +13,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.zsp.today.R;
 import com.zsp.today.module.function.FunctionActivity;
 import com.zsp.today.module.homepage.kit.HomePageChildFragmentKit;
-import com.zsp.today.value.RxBusConstant;
+import com.zsp.today.basic.value.RxBusConstant;
 
 import org.jetbrains.annotations.NotNull;
 
