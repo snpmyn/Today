@@ -1,4 +1,4 @@
-package com.zsp.today.value;
+package com.zsp.today.module.dangerous.value;
 
 /**
  * Created on 2025/9/4.
