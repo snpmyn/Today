@@ -30,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:filterTouchesWhenObscured="true"
-        android:lines="2"
+        android:minLines="2"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_14"
         android:textStyle="bold"
