@@ -40,20 +40,22 @@ public class FunctionActivityKit {
         }
         // 功能适配器配套元件
         FunctionAdapterKit functionAdapterKit = new FunctionAdapterKit();
-        functionAdapterKit.display(appCompatActivity, recyclerView, functionBeanList, 3, 48, 192, functionBean -> {
-            // 更新
-            update(functionBean);
-            // 备份
-            BackupKit.getInstance().backup(appCompatActivity, FunctionDataBaseTable.class, null);
+        functionAdapterKit.display(appCompatActivity, recyclerView, functionBeanList, 3, 48, 192, new FunctionAdapterKit.FunctionAdapterKitInterface() {
+            @Override
+            public void onItemClick(FunctionBean functionBean) {
+                // 更新
+                update(appCompatActivity, functionBean);
+            }
         });
     }
 
     /**
      * 更新
      *
-     * @param functionBean 功能数据
+     * @param appCompatActivity 活动
+     * @param functionBean      功能数据
      */
-    private void update(@NonNull FunctionBean functionBean) {
+    private void update(AppCompatActivity appCompatActivity, @NonNull FunctionBean functionBean) {
         // 创建待更新对象
         FunctionDataBaseTable functionDataBaseTableUpdate = new FunctionDataBaseTable();
         functionDataBaseTableUpdate.setFunctionShow(functionBean.isFunctionShow());
@@ -61,7 +63,10 @@ public class FunctionActivityKit {
         List<FunctionDataBaseTable> functionDataBaseTableList = LitePalKit.getInstance().queryByWhere(FunctionDataBaseTable.class, FunctionCondition.FUNCTION_PHONE_NUMBER_AND_FUNCTION_ID, App.getAppInstance().getPhoneNumber(), String.valueOf(functionBean.getFunctionId()));
         FunctionDataBaseTable functionDataBaseTable = functionDataBaseTableList.get(0);
         // 单个更新
-        LitePalKit.getInstance().singleUpdate(functionDataBaseTableUpdate, functionDataBaseTable.getBaseObjectId());
+        if (LitePalKit.getInstance().singleUpdate(functionDataBaseTableUpdate, functionDataBaseTable.getBaseObjectId()) != 0) {
+            // 备份
+            BackupKit.getInstance().backup(appCompatActivity, FunctionDataBaseTable.class, null);
+        }
         // 刷新菜单
         RxBus.get().post(RxBusConstant.HOME_PAGE_CHILD_FRAGMENT_$_REFRESH_MENU, RxBusConstant.HOME_PAGE_CHILD_FRAGMENT_$_REFRESH_MENU_CODE);
     }
