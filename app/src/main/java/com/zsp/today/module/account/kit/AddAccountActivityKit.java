@@ -43,12 +43,12 @@ public class AddAccountActivityKit {
      * 日期和类目和金额
      *
      * @param appCompatActivity                    活动
-     * @param addAccountActivityLlTilChooseDate    日期选择框
+     * @param addAccountActivityTilChooseDate      日期选择框
      * @param materialAutoCompleteTextViewDate     日期框
      * @param materialAutoCompleteTextViewCategory 类目框
      * @param textInputEditTextAmount              金额框
      */
-    public void dateAndCategoryAndAmount(@NonNull AppCompatActivity appCompatActivity, TextInputLayout addAccountActivityLlTilChooseDate, @NonNull MaterialAutoCompleteTextView materialAutoCompleteTextViewDate, @NonNull MaterialAutoCompleteTextView materialAutoCompleteTextViewCategory, @NonNull TextInputEditText textInputEditTextAmount) {
+    public void dateAndCategoryAndAmount(@NonNull AppCompatActivity appCompatActivity, TextInputLayout addAccountActivityTilChooseDate, @NonNull MaterialAutoCompleteTextView materialAutoCompleteTextViewDate, @NonNull MaterialAutoCompleteTextView materialAutoCompleteTextViewCategory, @NonNull TextInputEditText textInputEditTextAmount) {
         AccountTransferBean accountTransferBean = (AccountTransferBean) IntentVerify.getSerializableExtra(appCompatActivity.getIntent(), AccountConstant.ACCOUNT_DETAIL_ACTIVITY_$_ACCOUNT_TRANSFER_BEAN);
         boolean flag = (null == accountTransferBean);
         // 日期
@@ -61,8 +61,8 @@ public class AddAccountActivityKit {
         textInputEditTextAmount.setText(TextUtils.equals("0", amountString) ? "" : amountString);
         // 账目详情页修改模式禁用日期选择框
         if (areFromAccountDetailActivityWithModify(appCompatActivity)) {
-            addAccountActivityLlTilChooseDate.setEnabled(false);
-            addAccountActivityLlTilChooseDate.setEndIconVisible(false);
+            addAccountActivityTilChooseDate.setEnabled(false);
+            addAccountActivityTilChooseDate.setEndIconVisible(false);
         }
     }
 
@@ -118,10 +118,10 @@ public class AddAccountActivityKit {
         String nowCategory = materialAutoCompleteTextViewCategory.getText().toString();
         String nowAmount = Objects.requireNonNull(textInputEditTextAmount.getText()).toString().trim();
         if (TextUtils.isEmpty(nowCategory)) {
-            textInputLayoutChooseCategory.setError(appCompatActivity.getString(R.string.pleaseChooseCategory));
+            textInputLayoutChooseCategory.setError(appCompatActivity.getString(R.string.chooseCategory));
             return;
         } else if (TextUtils.isEmpty(nowAmount)) {
-            textInputLayoutInputAmount.setError(appCompatActivity.getString(R.string.pleaseInputAmount));
+            textInputLayoutInputAmount.setError(appCompatActivity.getString(R.string.inputAmount));
             return;
         }
         String[] conditions = new String[]{AccountCondition.ACCOUNT_PHONE_NUMBER_AND_DATE_AND_CATEGORY, App.getAppInstance().getPhoneNumber(), nowDate, nowCategory};
@@ -156,10 +156,10 @@ public class AddAccountActivityKit {
         String nowCategory = materialAutoCompleteTextViewCategory.getText().toString();
         String nowAmount = Objects.requireNonNull(textInputEditTextAmount.getText()).toString().trim();
         if (TextUtils.isEmpty(nowCategory)) {
-            textInputLayoutChooseCategory.setError(appCompatActivity.getString(R.string.pleaseChooseCategory));
+            textInputLayoutChooseCategory.setError(appCompatActivity.getString(R.string.chooseCategory));
             return;
         } else if (TextUtils.isEmpty(nowAmount)) {
-            textInputLayoutInputAmount.setError(appCompatActivity.getString(R.string.pleaseInputAmount));
+            textInputLayoutInputAmount.setError(appCompatActivity.getString(R.string.inputAmount));
             return;
         }
         AccountTransferBean accountTransferBean = (AccountTransferBean) IntentVerify.getSerializableExtra(appCompatActivity.getIntent(), AccountConstant.ACCOUNT_DETAIL_ACTIVITY_$_ACCOUNT_TRANSFER_BEAN);

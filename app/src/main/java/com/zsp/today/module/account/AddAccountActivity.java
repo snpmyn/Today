@@ -17,12 +17,12 @@ import widget.textwatcher.CustomTextWatcher;
  */
 public class AddAccountActivity extends BasePoolActivity {
     private MaterialToolbar addAccountActivityMt;
-    private TextInputLayout addAccountActivityLlTilChooseDate;
-    private MaterialAutoCompleteTextView addAccountActivityLlMactvDate;
-    private TextInputLayout addAccountActivityLlTilChooseCategory;
+    private TextInputLayout addAccountActivityTilChooseDate;
+    private MaterialAutoCompleteTextView addAccountActivityMactvDate;
+    private TextInputLayout addAccountActivityTilChooseCategory;
     private MaterialAutoCompleteTextView addAccountActivityMactvCategory;
-    private TextInputLayout addAccountActivityLlTilInputAmount;
-    private TextInputEditText addAccountActivityLlTietAmount;
+    private TextInputLayout addAccountActivityTilInputAmount;
+    private TextInputEditText addAccountActivityTietAmount;
     /**
      * 添加账目页配套元件
      */
@@ -44,12 +44,12 @@ public class AddAccountActivity extends BasePoolActivity {
     @Override
     protected void stepUi() {
         addAccountActivityMt = findViewById(R.id.addAccountActivityMt);
-        addAccountActivityLlTilChooseDate = findViewById(R.id.addAccountActivityLlTilChooseDate);
-        addAccountActivityLlMactvDate = findViewById(R.id.addAccountActivityLlMactvDate);
-        addAccountActivityLlTilChooseCategory = findViewById(R.id.addAccountActivityLlTilChooseCategory);
+        addAccountActivityTilChooseDate = findViewById(R.id.addAccountActivityTilChooseDate);
+        addAccountActivityMactvDate = findViewById(R.id.addAccountActivityMactvDate);
+        addAccountActivityTilChooseCategory = findViewById(R.id.addAccountActivityTilChooseCategory);
         addAccountActivityMactvCategory = findViewById(R.id.addAccountActivityMactvCategory);
-        addAccountActivityLlTilInputAmount = findViewById(R.id.addAccountActivityLlTilInputAmount);
-        addAccountActivityLlTietAmount = findViewById(R.id.addAccountActivityLlTietAmount);
+        addAccountActivityTilInputAmount = findViewById(R.id.addAccountActivityTilInputAmount);
+        addAccountActivityTietAmount = findViewById(R.id.addAccountActivityTietAmount);
     }
 
     /**
@@ -69,18 +69,19 @@ public class AddAccountActivity extends BasePoolActivity {
         addAccountActivityMt.setNavigationOnClickListener(v -> finish());
         addAccountActivityMt.setOnMenuItemClickListener(item -> {
             if (addAccountActivityKit.areFromAccountHomeActivityOrAccountSecondActivity(AddAccountActivity.this) || addAccountActivityKit.areFromAccountDetailActivityWithAdd(AddAccountActivity.this)) {
-                addAccountActivityKit.addAccount(AddAccountActivity.this, addAccountActivityLlMactvDate, addAccountActivityLlTilChooseCategory, addAccountActivityMactvCategory, addAccountActivityLlTilInputAmount, addAccountActivityLlTietAmount);
+                addAccountActivityKit.addAccount(AddAccountActivity.this, addAccountActivityMactvDate, addAccountActivityTilChooseCategory, addAccountActivityMactvCategory, addAccountActivityTilInputAmount, addAccountActivityTietAmount);
             } else if (addAccountActivityKit.areFromAccountDetailActivityWithModify(AddAccountActivity.this)) {
-                addAccountActivityKit.modifyAccount(AddAccountActivity.this, addAccountActivityLlMactvDate, addAccountActivityLlTilChooseCategory, addAccountActivityMactvCategory, addAccountActivityLlTilInputAmount, addAccountActivityLlTietAmount);
+                addAccountActivityKit.modifyAccount(AddAccountActivity.this, addAccountActivityMactvDate, addAccountActivityTilChooseCategory, addAccountActivityMactvCategory, addAccountActivityTilInputAmount, addAccountActivityTietAmount);
             }
             return true;
         });
         // TextInputLayout
-        addAccountActivityLlTilChooseDate.setEndIconOnClickListener(v -> addAccountActivityKit.chooseDate(AddAccountActivity.this, addAccountActivityLlMactvDate));
-        addAccountActivityLlTilChooseCategory.setEndIconOnClickListener(v -> addAccountActivityKit.chooseCategory(AddAccountActivity.this, addAccountActivityMactvCategory));
-        // EditText
-        addAccountActivityMactvCategory.addTextChangedListener(new CustomTextWatcher(addAccountActivityLlTilChooseCategory, addAccountActivityMactvCategory));
-        addAccountActivityLlTietAmount.addTextChangedListener(new CustomTextWatcher(addAccountActivityLlTilInputAmount, addAccountActivityLlTietAmount));
+        addAccountActivityTilChooseDate.setEndIconOnClickListener(v -> addAccountActivityKit.chooseDate(AddAccountActivity.this, addAccountActivityMactvDate));
+        addAccountActivityTilChooseCategory.setEndIconOnClickListener(v -> addAccountActivityKit.chooseCategory(AddAccountActivity.this, addAccountActivityMactvCategory));
+        // MaterialAutoCompleteTextView
+        addAccountActivityMactvCategory.addTextChangedListener(new CustomTextWatcher(addAccountActivityTilChooseCategory, addAccountActivityMactvCategory));
+        // TextInputEditText
+        addAccountActivityTietAmount.addTextChangedListener(new CustomTextWatcher(addAccountActivityTilInputAmount, addAccountActivityTietAmount));
     }
 
     /**
@@ -88,7 +89,7 @@ public class AddAccountActivity extends BasePoolActivity {
      */
     @Override
     protected void startLogic() {
-        addAccountActivityKit.dateAndCategoryAndAmount(this, addAccountActivityLlTilChooseDate, addAccountActivityLlMactvDate, addAccountActivityMactvCategory, addAccountActivityLlTietAmount);
+        addAccountActivityKit.dateAndCategoryAndAmount(this, addAccountActivityTilChooseDate, addAccountActivityMactvDate, addAccountActivityMactvCategory, addAccountActivityTietAmount);
     }
 
     /**
@@ -99,6 +100,6 @@ public class AddAccountActivity extends BasePoolActivity {
      */
     @Override
     protected int[] hideSoftByEditViewIds() {
-        return new int[]{R.id.addAccountActivityMactvCategory, R.id.addAccountActivityLlTietAmount};
+        return new int[]{R.id.addAccountActivityMactvCategory, R.id.addAccountActivityTietAmount};
     }
 }
