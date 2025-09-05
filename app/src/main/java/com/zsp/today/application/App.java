@@ -11,10 +11,10 @@ import com.zsp.amap.kit.AmapLocationKit;
 import com.zsp.amap.listener.AmapLocationKitListener;
 import com.zsp.amap.value.AmapConstant;
 import com.zsp.today.BuildConfig;
-import com.zsp.today.kit.AppKit;
+import com.zsp.today.application.kit.AppKit;
 import com.zsp.today.module.login.UserDataBaseTable;
-import com.zsp.today.value.Folder;
-import com.zsp.today.value.RxBusConstant;
+import com.zsp.today.basic.value.Folder;
+import com.zsp.today.basic.value.RxBusConstant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,6 +109,7 @@ public class App extends BasePoolApp {
         List<String> list = new ArrayList<>(2);
         list.add(Manifest.permission.MANAGE_EXTERNAL_STORAGE);
         list.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        // 高德地图定位暂不申请台定位权限
         /*list.add(Manifest.permission.ACCESS_BACKGROUND_LOCATION);*/
         return list;
     }
