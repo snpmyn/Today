@@ -48,10 +48,12 @@
     <string name="everydayAnalysis">每日分析</string>
     <string name="modifySuccessful">修改成功</string>
     <string name="returnToThisYear">回到今年</string>
+    <string name="smsHasBeenSent">短信发送成功</string>
     <string name="updatingLocation">更新定位中</string>
     <string name="noAccountAvailable">暂无账目</string>
     <string name="internalBackupFail">内备份失败</string>
     <string name="externalBackupFail">外备份失败</string>
+    <string name="smsHasBeenDelivered">短信已送达</string>
     <string name="waitForImplementation">等待实现</string>
     <string name="noYearDataAvailable">暂无年份数据</string>
     <string name="restoreHomePageMenu">恢复主页菜单</string>
