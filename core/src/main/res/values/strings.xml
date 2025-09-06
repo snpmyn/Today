@@ -48,7 +48,7 @@
     <string name="fragmentationStackHelp">* - not in backStack\n☀ - visible</string>
     <!--pool-->
     <string name="poolSplashContent">POOL</string>
-    <string name="PoolSplashDuration">1500</string>
+    <string name="PoolSplashDuration">700</string>
     <string name="poolUserAgreementPath">file:///android_asset/UserAgreement.html</string>
     <string name="poolPrivacyPolicyPath">file:///android_asset/PrivacyPolicy.html</string>
     <!--banner-->
