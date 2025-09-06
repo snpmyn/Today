@@ -1,10 +1,13 @@
 [versions]
 agp = "8.12.0-alpha02"
+baidumapsdk_location_all = "9.6.5"
 junit = "4.13.2"
 junitVersion = "1.3.0"
 espressoCore = "3.7.0"
 appcompat = "1.7.1"
-material = "1.12.0"
+location = "6.5.0"
+#material = "1.12.0"
+material = "1.14.0-alpha04"
 constraintlayout = "2.2.1"
 kotlin = "2.2.10"
 coreKtx = "1.17.0"
@@ -15,22 +18,25 @@ relinker = "1.4.5"
 rxjava = "1.3.8"
 rxandroid = "1.2.1"
 okio = "3.16.0"
-glide = "5.0.0-rc01"
+glide = "5.0.3"
 lottie = "6.6.7"
 gson = "2.13.1"
 jxl = "2.6.12"
 workRuntime = "2.10.3"
 mpac = "v3.1.0"
 permissionx = "1.8.1"
-lifecycleLivedataKtx = "2.9.2"
-lifecycleViewmodelKtx = "2.9.2"
+lifecycleLivedataKtx = "2.9.3"
+lifecycleViewmodelKtx = "2.9.3"
 glance = "1.1.0"
+localbroadcastmanager = "1.1.0"
 
 [libraries]
+baidumapsdk_location_all = { module = "com.baidu.lbsyun:BaiduMapSDK_Location_All", version.ref = "baidumapsdk_location_all" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+location = { module = "com.amap.api:location", version.ref = "location" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -51,6 +57,7 @@ permissionx = { group = "com.guolindev.permissionx", name = "permissionx", versi
 lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtx" }
 lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
 glance = { group = "com.guolindev.glance", name = "glance", version.ref = "glance" }
+localbroadcastmanager = { group = "androidx.localbroadcastmanager", name = "localbroadcastmanager", version.ref = "localbroadcastmanager" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
