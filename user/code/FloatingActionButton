@@ -1,7 +1,0 @@
-<com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:fabSize="mini"
-        app:maxImageSize="@dimen/dp_18"
-        app:srcCompat="@drawable/ic_chart_white_18dp"
-        app:tint="@color/white" />

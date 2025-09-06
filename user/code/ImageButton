@@ -1,6 +1,0 @@
-<ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?selectableItemBackgroundBorderless"
-                app:srcCompat="@drawable/ic_help_feedback_color_e4d588_basic_20dp"
-                app:tint="@color/pool_user_agreement_and_privacy_policy_text" />
