@@ -154,7 +154,7 @@ public class DangerousActivityKit implements SmsKit.SmsKitSendListener, SmsKit.S
             bocLottieClickDialog = BocDialogKit.getInstance(appCompatActivity).bocLottieClickDialog(BocLottieDialogEnum.LOADING_ONE, appCompatActivity.getString(R.string.updatingLocation), appCompatActivity.getString(R.string.hurryUpSendTheLastLocation), ValueAnimator.INFINITE, null, () -> {
                 BocDialogKit.getInstance(appCompatActivity).end();
                 // 内容
-                String content = dangerousNotice + "\n" + MmkvKit.defaultMmkv().decodeString(AmapConstant.AMAP_$_LOCATION);
+                String content = dangerousNotice + MmkvKit.defaultMmkv().decodeString(AmapConstant.AMAP_$_LOCATION);
                 // 对话框提示
                 new MaterialAlertDialogBuilderKit(appCompatActivity, com.zsp.core.R.style.ThemeOverlay_Catalog_MaterialAlertDialog_Centered_FullWidthButtons).setTitle(R.string.dangerousNotice).setMessage(content).setPositiveButton(R.string.send, (dialog, which) -> {
                     dialog.dismiss();
