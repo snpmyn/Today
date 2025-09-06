@@ -14,14 +14,14 @@ import com.google.android.material.carousel.CarouselLayoutManager;
 import com.google.android.material.carousel.HeroCarouselStrategy;
 import com.zsp.today.R;
 import com.zsp.today.application.App;
+import com.zsp.today.basic.value.RxBusConstant;
 import com.zsp.today.module.account.AccountHomeActivity;
 import com.zsp.today.module.dangerous.DangerousActivity;
-import com.zsp.today.module.widget.WidgetFragment;
 import com.zsp.today.module.function.database.FunctionDataBaseTable;
+import com.zsp.today.module.function.value.FunctionCondition;
 import com.zsp.today.module.homepage.bean.HomePageMenuEnum;
 import com.zsp.today.module.homepage.fragment.HomePageChildFragment;
-import com.zsp.today.module.function.value.FunctionCondition;
-import com.zsp.today.basic.value.RxBusConstant;
+import com.zsp.today.module.widget.WidgetFragment;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -138,9 +138,7 @@ public class HomePageChildFragmentKit {
      */
     @NonNull
     private static List<Integer> getImages() {
-        List<Integer> imageList = new ArrayList<>(12);
-        imageList.add(R.drawable.banner_one);
-        imageList.add(R.drawable.banner_two);
+        List<Integer> imageList = new ArrayList<>(10);
         imageList.add(R.drawable.banner_three);
         imageList.add(R.drawable.banner_four);
         imageList.add(R.drawable.banner_five);
@@ -161,9 +159,7 @@ public class HomePageChildFragmentKit {
      */
     public void carousel(RecyclerView recyclerView) {
         // 轮播条目集
-        List<CarouselItem> carouselItemList = new ArrayList<>(12);
-        carouselItemList.add(new CarouselItem(R.drawable.banner_one));
-        carouselItemList.add(new CarouselItem(R.drawable.banner_two));
+        List<CarouselItem> carouselItemList = new ArrayList<>(10);
         carouselItemList.add(new CarouselItem(R.drawable.banner_three));
         carouselItemList.add(new CarouselItem(R.drawable.banner_four));
         carouselItemList.add(new CarouselItem(R.drawable.banner_five));
