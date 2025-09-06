@@ -62,7 +62,7 @@ public class RestoreDangerousDataBaseTableKit {
             if (ListUtils.listIsEmpty(dangerousDataBaseTables)) {
                 // 无险情数据库表文件数据
                 // 下一步
-                next(appCompatActivity, bocLottieCommonDialog, BocLottieDialogEnum.FIRST_SET_RESULT_FAIL, appCompatActivity.getString(R.string.noDangerousConfigAvailable));
+                next(appCompatActivity, bocLottieCommonDialog, BocLottieDialogEnum.EMPTY_ONE, appCompatActivity.getString(R.string.noDangerousConfigAvailable));
             } else {
                 // 有险情数据库表文件数据
                 // 转化存储恢复
@@ -78,7 +78,7 @@ public class RestoreDangerousDataBaseTableKit {
         } else {
             // 险情数据库表文件不存在
             // 下一步
-            next(appCompatActivity, bocLottieCommonDialog, BocLottieDialogEnum.FIRST_SET_RESULT_FAIL, appCompatActivity.getString(R.string.noDangerousConfigAvailable));
+            next(appCompatActivity, bocLottieCommonDialog, BocLottieDialogEnum.EMPTY_ONE, appCompatActivity.getString(R.string.noDangerousConfigAvailable));
         }
     }
 

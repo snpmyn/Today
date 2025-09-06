@@ -12,6 +12,10 @@ public enum BocLottieDialogEnum {
      */
     LIKE_ONE("lottie_animation_dialog_like_one.json", 66, 66),
     /**
+     * 空一
+     */
+    EMPTY_ONE("lottie_animation_dialog_empty_one.json", 66, 66),
+    /**
      * 加载一
      */
     LOADING_ONE("lottie_animation_dialog_loading_one.json", 66, 66),
@@ -26,27 +30,7 @@ public enum BocLottieDialogEnum {
     /**
      * 成功二
      */
-    SUCCESS_TWO("lottie_animation_dialog_success_two.json", 66, 66),
-    /**
-     * 第一套结果警告
-     */
-    FIRST_SET_RESULT_WARN("lottie_animation_dialog_first_set_result_warn.json", 56, 56),
-    /**
-     * 第一套结果失败
-     */
-    FIRST_SET_RESULT_FAIL("lottie_animation_dialog_first_set_result_fail.json", 56, 56),
-    /**
-     * 第一套结果成功
-     */
-    FIRST_SET_RESULT_SUCCESS("lottie_animation_dialog_first_set_result_success.json", 56, 56),
-    /**
-     * 第二套结果失败
-     */
-    SECOND_SET_RESULT_FAIL("lottie_animation_dialog_second_set_result_fail.json", 56, 56),
-    /**
-     * 第二套结果成功
-     */
-    SECOND_SET_RESULT_SUCCESS("lottie_animation_dialog_second_set_result_success.json", 56, 56);
+    SUCCESS_TWO("lottie_animation_dialog_success_two.json", 66, 66);
     /**
      * 资产名
      * <p>

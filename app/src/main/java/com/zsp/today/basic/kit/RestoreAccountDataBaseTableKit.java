@@ -57,7 +57,7 @@ public class RestoreAccountDataBaseTableKit {
             if (ListUtils.listIsEmpty(accountDataBaseTables)) {
                 // 无账目数据库表文件数据
                 // 下一步
-                next(appCompatActivity, bocLottieCommonDialog, BocLottieDialogEnum.FIRST_SET_RESULT_FAIL, appCompatActivity.getString(R.string.noAccountAvailable));
+                next(appCompatActivity, bocLottieCommonDialog, BocLottieDialogEnum.EMPTY_ONE, appCompatActivity.getString(R.string.noAccountAvailable));
             } else {
                 // 有账目数据库表文件数据
                 // 转化存储恢复
@@ -73,7 +73,7 @@ public class RestoreAccountDataBaseTableKit {
         } else {
             // 账目数据库表文件不存在
             // 下一步
-            next(appCompatActivity, bocLottieCommonDialog, BocLottieDialogEnum.FIRST_SET_RESULT_FAIL, appCompatActivity.getString(R.string.noAccountAvailable));
+            next(appCompatActivity, bocLottieCommonDialog, BocLottieDialogEnum.EMPTY_ONE, appCompatActivity.getString(R.string.noAccountAvailable));
         }
     }
 
