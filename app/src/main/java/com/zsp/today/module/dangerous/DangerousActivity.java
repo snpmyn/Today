@@ -9,8 +9,8 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.zsp.today.R;
-import com.zsp.today.module.dangerous.kit.DangerousActivityKit;
 import com.zsp.today.basic.value.RxBusConstant;
+import com.zsp.today.module.dangerous.kit.DangerousActivityKit;
 
 import pool.base.BasePoolActivity;
 import util.rxbus.annotation.Subscribe;
@@ -78,7 +78,7 @@ public class DangerousActivity extends BasePoolActivity implements View.OnClickL
         // MaterialToolbar
         dangerousActivityMt.setNavigationOnClickListener(v -> finish());
         dangerousActivityMt.setOnMenuItemClickListener(item -> {
-            dangerousActivityKit.showUseGuide(DangerousActivity.this, false);
+            dangerousActivityKit.showUseGuide(false);
             return true;
         });
         // TextInputEditText
@@ -97,7 +97,7 @@ public class DangerousActivity extends BasePoolActivity implements View.OnClickL
         // 开始定位
         LocationKit.getInstance().execute(this, null);
         // 检查发送短信权限
-        dangerousActivityKit.checkSendSmsPermission(this, true);
+        dangerousActivityKit.checkSendSmsPermission(true);
         // 预显示
         dangerousActivityKit.preShow(dangerousActivityTietDangerousNotice, dangerousActivityTietEmergencyContactPhoneNumber);
     }
@@ -112,10 +112,10 @@ public class DangerousActivity extends BasePoolActivity implements View.OnClickL
         int viewId = v.getId();
         if (viewId == R.id.dangerousActivityMbSaveConfig) {
             // 保存配置
-            dangerousActivityKit.saveConfigOrSend(this, false, dangerousActivityTilInputDangerousNotice, dangerousActivityTietDangerousNotice, dangerousActivityTilInputEmergencyContactPhoneNumber, dangerousActivityTietEmergencyContactPhoneNumber);
+            dangerousActivityKit.saveConfigOrSend(false, dangerousActivityTilInputDangerousNotice, dangerousActivityTietDangerousNotice, dangerousActivityTilInputEmergencyContactPhoneNumber, dangerousActivityTietEmergencyContactPhoneNumber);
         } else if (viewId == R.id.dangerousActivityMbSend) {
             // 发送
-            dangerousActivityKit.saveConfigOrSend(this, true, dangerousActivityTilInputDangerousNotice, dangerousActivityTietDangerousNotice, dangerousActivityTilInputEmergencyContactPhoneNumber, dangerousActivityTietEmergencyContactPhoneNumber);
+            dangerousActivityKit.saveConfigOrSend(true, dangerousActivityTilInputDangerousNotice, dangerousActivityTietDangerousNotice, dangerousActivityTilInputEmergencyContactPhoneNumber, dangerousActivityTietEmergencyContactPhoneNumber);
         }
     }
 
@@ -133,7 +133,7 @@ public class DangerousActivity extends BasePoolActivity implements View.OnClickL
     @Subscribe(thread = EventThread.MAIN_THREAD, tags = {@Tag(RxBusConstant.DANGEROUS_ACTIVITY_$_UPDATE_LOCATION)})
     public void accountDetailActivityRefreshAccount(Integer integer) {
         if (integer == RxBusConstant.DANGEROUS_ACTIVITY_$_UPDATE_LOCATION_CODE) {
-            dangerousActivityKit.updateLocation(this);
+            dangerousActivityKit.updateLocation();
         }
     }
 
