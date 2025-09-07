@@ -12,9 +12,9 @@ import com.zsp.amap.listener.AmapLocationKitListener;
 import com.zsp.amap.value.AmapConstant;
 import com.zsp.today.BuildConfig;
 import com.zsp.today.application.kit.AppKit;
-import com.zsp.today.module.login.UserDataBaseTable;
 import com.zsp.today.basic.value.Folder;
 import com.zsp.today.basic.value.RxBusConstant;
+import com.zsp.today.module.login.UserDataBaseTable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -139,14 +139,14 @@ public class App extends BasePoolApp {
         AmapLocationKit.getInstance().start(App.getAppInstance(), AMapLocationClientOption.AMapLocationPurpose.Transport, true, new AmapLocationKitListener() {
             @Override
             public void locationSuccessful(AMapLocation aMapLocation, String locationInfo) {
-                MmkvKit.defaultMmkv().encode(AmapConstant.AMAP_$_LOCATION, locationInfo);
+                MmkvKit.defaultMmkv().encode(AmapConstant.AMAP_$_LOCATION_INFO, locationInfo);
                 AmapLocationKit.getInstance().stop();
-                RxBus.get().post(RxBusConstant.DANGEROUS_ACTIVITY_$_UPDATE_LOCATION, RxBusConstant.DANGEROUS_ACTIVITY_$_UPDATE_LOCATION_CODE);
+                RxBus.get().post(RxBusConstant.DANGEROUS_ACTIVITY_$_UPDATE_LOCATION, RxBusConstant.DANGEROUS_ACTIVITY_$_UPDATE_LOCATION_SUCCESSFUL_CODE);
             }
 
             @Override
             public void locationFail(AMapLocation aMapLocation) {
-
+                RxBus.get().post(RxBusConstant.DANGEROUS_ACTIVITY_$_UPDATE_LOCATION, RxBusConstant.DANGEROUS_ACTIVITY_$_UPDATE_LOCATION_FAIL_CODE);
             }
         });
     }
