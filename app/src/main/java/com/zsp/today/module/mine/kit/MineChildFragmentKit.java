@@ -8,10 +8,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.zsp.today.R;
 import com.zsp.today.application.App;
+import com.zsp.today.basic.kit.RestoreKit;
+import com.zsp.today.basic.value.RxBusConstant;
 import com.zsp.today.module.login.UserDataBaseTable;
 import com.zsp.today.module.mine.fragment.MineChildFragment;
 import com.zsp.today.module.mine.fragment.SplashAnimationHomeFragment;
-import com.zsp.today.basic.value.RxBusConstant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +22,10 @@ import pool.module.login.LoginActivity;
 import util.cache.CacheManager;
 import util.intent.IntentJump;
 import util.rxbus.RxBus;
-import widget.toast.ToastKit;
 import widget.adapttemplate.bean.MenuBean;
 import widget.adapttemplate.kit.MenuAdapterKit;
 import widget.dialog.materialalertdialog.kit.MaterialAlertDialogBuilderKit;
+import widget.toast.ToastKit;
 
 /**
  * Created on 2021/2/1
@@ -36,10 +37,9 @@ public class MineChildFragmentKit {
     /**
      * 设置姓名
      *
-     * @param appCompatActivity 活动
-     * @param textViewName      姓名
+     * @param textViewName 姓名
      */
-    public void setName(@NonNull AppCompatActivity appCompatActivity, @NonNull TextView textViewName) {
+    public void setName(@NonNull TextView textViewName) {
         textViewName.setText(App.getAppInstance().getPhoneNumber());
     }
 
@@ -52,10 +52,13 @@ public class MineChildFragmentKit {
      */
     public void display(@NonNull AppCompatActivity appCompatActivity, MineChildFragment mineChildFragment, RecyclerView recyclerView) {
         // 数据
-        List<MenuBean> moduleBeanList = new ArrayList<>(2);
-        moduleBeanList.add(new MenuBean(1, R.drawable.ic_start_animation_basic_20dp, appCompatActivity.getString(R.string.startAnimation)));
-        moduleBeanList.add(new MenuBean(2, R.drawable.ic_clean_cache_basic_20dp, appCompatActivity.getString(R.string.cleanCache)));
-        moduleBeanList.add(new MenuBean(3, R.drawable.ic_log_out_basic_20dp, appCompatActivity.getString(R.string.logOut)));
+        List<MenuBean> moduleBeanList = new ArrayList<>(4);
+        moduleBeanList.add(new MenuBean(1, R.drawable.ic_start_animation_basic_24dp, appCompatActivity.getString(R.string.startAnimation)));
+        moduleBeanList.add(new MenuBean(2, R.drawable.ic_restore_basic_24dp, appCompatActivity.getString(R.string.restoreData)));
+        moduleBeanList.add(new MenuBean(3, R.drawable.ic_clean_cache_basic_24dp, appCompatActivity.getString(R.string.cleanCache)));
+        moduleBeanList.add(new MenuBean(4, R.drawable.ic_author_basic_24dp, appCompatActivity.getString(R.string.author)));
+        moduleBeanList.add(new MenuBean(5, R.drawable.ic_donation_basic_24dp, appCompatActivity.getString(R.string.donation)));
+        moduleBeanList.add(new MenuBean(6, R.drawable.ic_log_out_basic_24dp, appCompatActivity.getString(R.string.logOut)));
         // 模块适配器配套元件
         MenuAdapterKit menuAdapterKit = new MenuAdapterKit();
         menuAdapterKit.display(appCompatActivity, recyclerView, moduleBeanList, 3, 48, 192, false, (view, menuBean) -> distribute(appCompatActivity, mineChildFragment, menuBean.getMenuId()));
@@ -75,12 +78,24 @@ public class MineChildFragmentKit {
                 RxBus.get().post(RxBusConstant.MAIN_ACTIVITY_$_BOTTOM_NAVIGATION_VIEW, RxBusConstant.MAIN_ACTIVITY_$_HIDE_BOTTOM_NAVIGATION_VIEW_CODE);
                 mineChildFragment.start(SplashAnimationHomeFragment.newInstance());
                 break;
-            // 清理缓存
+            // 恢复数据
             case 2:
+                RestoreKit.getInstance().restore(appCompatActivity);
+                break;
+            // 清理缓存
+            case 3:
                 cleanCache(appCompatActivity);
                 break;
+            // 作者
+            case 4:
+                author(appCompatActivity);
+                break;
+            // 赞助
+            case 5:
+                author(appCompatActivity);
+                break;
             // 退出
-            case 3:
+            case 6:
                 loginOut(appCompatActivity);
                 break;
             default:
@@ -93,7 +108,7 @@ public class MineChildFragmentKit {
      *
      * @param appCompatActivity 活动
      */
-    public void cleanCache(AppCompatActivity appCompatActivity) {
+    private void cleanCache(AppCompatActivity appCompatActivity) {
         String totalCacheSize = CacheManager.totalCacheSize(appCompatActivity);
         if (CacheManager.STRING_ZERO_K.equals(totalCacheSize)) {
             ToastKit.showShort(appCompatActivity.getString(R.string.noCacheAvailable));
@@ -104,11 +119,20 @@ public class MineChildFragmentKit {
     }
 
     /**
+     * 作者
+     *
+     * @param appCompatActivity 活动
+     */
+    private void author(AppCompatActivity appCompatActivity) {
+        new MaterialAlertDialogBuilderKit(appCompatActivity, com.zsp.core.R.style.ThemeOverlay_Catalog_MaterialAlertDialog_Centered_FullWidthButtons).setView(R.layout.donation).show();
+    }
+
+    /**
      * 退出
      *
      * @param appCompatActivity 活动
      */
-    public void loginOut(AppCompatActivity appCompatActivity) {
+    private void loginOut(AppCompatActivity appCompatActivity) {
         new MaterialAlertDialogBuilderKit(appCompatActivity).setTitle(com.zsp.core.R.string.hint).setMessage(R.string.needToInputPhoneNumberToLoginAgainAfterLogOut).setPositiveButton(R.string.logOut, (dialog, which) -> {
             dialog.dismiss();
             LitePalKit.getInstance().allDelete(UserDataBaseTable.class);
