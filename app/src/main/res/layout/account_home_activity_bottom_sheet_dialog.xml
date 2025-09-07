@@ -7,9 +7,16 @@
     <com.google.android.material.bottomsheet.BottomSheetDragHandleView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/basic"
-        app:layout_constraintBottom_toTopOf="@+id/accountHomeActivityBottomSheetDialogLlAccountAnalysis"
+        app:layout_constraintBottom_toTopOf="@+id/accountHomeActivityMd"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/accountHomeActivityMd"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px1"
+        app:dividerInsetEnd="@dimen/dp_12"
+        app:dividerInsetStart="@dimen/dp_12"
+        app:layout_constraintBottom_toTopOf="@+id/accountHomeActivityBottomSheetDialogLlAccountAnalysis" />
 
     <LinearLayout
         android:id="@+id/accountHomeActivityBottomSheetDialogLlAccountAnalysis"
