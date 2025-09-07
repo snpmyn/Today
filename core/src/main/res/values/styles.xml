@@ -11,7 +11,7 @@
         <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
     </style>
     <!--CircularProgressIndicatorStyle-->
-    <style name="CircularProgressIndicatorStyle" parent="Widget.MaterialComponents.CircularProgressIndicator.ExtraSmall">
+    <style name="CircularProgressIndicatorStyle" parent="Widget.Material3.CircularProgressIndicator.ExtraSmall">
         <item name="materialThemeOverlay">@style/ThemeOverlay.App.CircularProgressIndicator</item>
         <item name="trackCornerRadius">@dimen/dp_8</item>
     </style>
