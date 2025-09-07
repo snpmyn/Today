@@ -39,10 +39,11 @@ public class SplashAnimationDetailFragmentKit {
     /**
      * 使用闪屏动画
      *
+     * @param appCompatActivity             活动
      * @param splashAnimationDetailFragment 闪屏动画详情碎片
      * @param bundle                        Bundle
      */
-    public void useSplashAnimation(SplashAnimationDetailFragment splashAnimationDetailFragment, Bundle bundle) {
+    public void useSplashAnimation(AppCompatActivity appCompatActivity, SplashAnimationDetailFragment splashAnimationDetailFragment, Bundle bundle) {
         if (null == bundle) {
             return;
         }
@@ -52,8 +53,6 @@ public class SplashAnimationDetailFragmentKit {
         MmkvKit.defaultMmkv().encode(PoolConstant.SPLASH_$_ANIMATION, bundle.getString(SplashConstant.SPLASH_ANIMATION_HOME_FRAGMENT_$_RES_NAME));
         splashAnimationDetailFragment.onBackPressedSupport();
         // 提示
-        AppCompatActivity appCompatActivity = (AppCompatActivity) splashAnimationDetailFragment.getActivity();
-        assert appCompatActivity != null;
         BocDialogKit.getInstance(appCompatActivity).bocLottieCommonDialogOne(BocLottieDialogEnum.SUCCESS_ONE, appCompatActivity.getString(R.string.setAnimationSuccessful), 0, () -> BocDialogKit.getInstance(appCompatActivity).end(), null);
     }
 }

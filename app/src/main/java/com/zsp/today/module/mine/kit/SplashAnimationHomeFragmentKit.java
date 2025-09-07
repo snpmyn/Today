@@ -90,11 +90,10 @@ public class SplashAnimationHomeFragmentKit {
     /**
      * 使用默认闪屏动画
      *
+     * @param appCompatActivity           活动
      * @param splashAnimationHomeFragment 闪屏动画主页碎片
      */
-    public void useDefaultSplashAnimation(@NonNull SplashAnimationHomeFragment splashAnimationHomeFragment) {
-        AppCompatActivity appCompatActivity = (AppCompatActivity) splashAnimationHomeFragment.getActivity();
-        assert appCompatActivity != null;
+    public void useDefaultSplashAnimation(AppCompatActivity appCompatActivity, SplashAnimationHomeFragment splashAnimationHomeFragment) {
         if (!MmkvKit.defaultMmkv().decodeBool(PoolConstant.SPLASH_$_USE_DEFAULT_ANIMATION)) {
             MmkvKit.defaultMmkv().encode(PoolConstant.SPLASH_$_USE_DEFAULT_ANIMATION, true);
             BocDialogKit.getInstance(appCompatActivity).bocLottieCommonDialogOne(BocLottieDialogEnum.SUCCESS_ONE, appCompatActivity.getString(R.string.restoreAnimationSuccessful), 0, () -> BocDialogKit.getInstance(appCompatActivity).end(), null);
