@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.zsp.today.R;
-import com.zsp.today.basic.value.RxBusConstant;
 import com.zsp.today.module.mine.adapter.SplashAnimationListAdapter;
 import com.zsp.today.module.mine.bean.SplashAnimationListBean;
 import com.zsp.today.module.mine.fragment.SplashAnimationDetailFragment;
@@ -18,7 +17,6 @@ import java.util.List;
 
 import pool.value.PoolConstant;
 import util.mmkv.MmkvKit;
-import util.rxbus.RxBus;
 import widget.dialog.bocdialog.kit.BocDialogKit;
 import widget.dialog.bocdialog.lottie.bean.BocLottieDialogEnum;
 import widget.recyclerview.configure.RecyclerViewConfigure;
@@ -90,17 +88,14 @@ public class SplashAnimationHomeFragmentKit {
     /**
      * 使用默认闪屏动画
      *
-     * @param appCompatActivity           活动
-     * @param splashAnimationHomeFragment 闪屏动画主页碎片
+     * @param appCompatActivity 活动
      */
-    public void useDefaultSplashAnimation(AppCompatActivity appCompatActivity, SplashAnimationHomeFragment splashAnimationHomeFragment) {
+    public void useDefaultSplashAnimation(AppCompatActivity appCompatActivity) {
         if (!MmkvKit.defaultMmkv().decodeBool(PoolConstant.SPLASH_$_USE_DEFAULT_ANIMATION)) {
             MmkvKit.defaultMmkv().encode(PoolConstant.SPLASH_$_USE_DEFAULT_ANIMATION, true);
             BocDialogKit.getInstance(appCompatActivity).bocLottieCommonDialogOne(BocLottieDialogEnum.SUCCESS_ONE, appCompatActivity.getString(R.string.restoreAnimationSuccessful), 0, () -> BocDialogKit.getInstance(appCompatActivity).end(), null);
         } else {
             BocDialogKit.getInstance(appCompatActivity).bocLottieCommonDialogOne(BocLottieDialogEnum.SUCCESS_ONE, appCompatActivity.getString(R.string.alreadyIsDefaultAnimation), 0, () -> BocDialogKit.getInstance(appCompatActivity).end(), null);
         }
-        splashAnimationHomeFragment.onBackPressedSupport();
-        RxBus.get().post(RxBusConstant.MAIN_ACTIVITY_$_BOTTOM_NAVIGATION_VIEW, RxBusConstant.MAIN_ACTIVITY_$_SHOW_BOTTOM_NAVIGATION_VIEW_CODE);
     }
 }

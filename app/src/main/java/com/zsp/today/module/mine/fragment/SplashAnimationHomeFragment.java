@@ -150,7 +150,7 @@ public class SplashAnimationHomeFragment extends BasePoolFragment {
 
     private void setListener() {
         splashAnimationHomeFragmentMt.setOnMenuItemClickListener(item -> {
-            splashAnimationHomeFragmentKit.useDefaultSplashAnimation(fragmentationSupportActivity, SplashAnimationHomeFragment.this);
+            splashAnimationHomeFragmentKit.useDefaultSplashAnimation(fragmentationSupportActivity);
             return true;
         });
     }
