@@ -19,7 +19,7 @@ AmapLocationKit.getInstance().start(App.getAppInstance(),
 AMapLocationClientOption.AMapLocationPurpose.Transport, true, new AmapLocationKitListener() {
 @Override
 public void locationSuccessful(AMapLocation aMapLocation, String locationInfo) {
-MmkvKit.defaultMmkv().encode(AmapConstant.AMAP_$_LOCATION, locationInfo);
+MmkvKit.defaultMmkv().encode(AmapConstant.AMAP_$_LOCATION_INFO, locationInfo);
 AmapLocationKit.getInstance().stop();
 }
 

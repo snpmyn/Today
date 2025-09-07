@@ -8,7 +8,7 @@ package com.zsp.amap.value;
  */
 public class AmapConstant {
     /**
-     * 高德地图定位
+     * 高德地图定位信息
      */
-    public static final String AMAP_$_LOCATION = "AmapLocation";
+    public static final String AMAP_$_LOCATION_INFO = "AmapLocationInfo";
 }
