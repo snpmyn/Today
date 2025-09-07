@@ -44,6 +44,7 @@
     <string name="smsSendFail">短信发送失败</string>
     <string name="dangerousNotice">险情通知</string>
     <string name="accountAnalysis">账目分析</string>
+    <string name="emailOne">snpmyn@126.com</string>
     <string name="poolSplashContent">TODAY</string>
     <string name="configNoChange">配置无变化</string>
     <string name="configSuccessful">配置成功</string>
@@ -54,6 +55,7 @@
     <string name="returnToThisYear">回到今年</string>
     <string name="smsDeliverFail">短信送达失败</string>
     <string name="smsHasBeenSent">短信发送成功</string>
+    <string name="emailTwo">snpmyn@gmail.com</string>
     <string name="updatingLocation">更新定位中</string>
     <string name="noAccountAvailable">暂无账目</string>
     <string name="internalBackupFail">内备份失败</string>
