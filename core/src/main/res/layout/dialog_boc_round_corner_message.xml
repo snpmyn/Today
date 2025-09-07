@@ -37,10 +37,9 @@
             tools:text="内容" />
     </LinearLayout>
 
-    <View
+    <com.google.android.material.divider.MaterialDivider
         android:layout_width="match_parent"
-        android:layout_height="@dimen/px1"
-        android:background="@color/gray" />
+        android:layout_height="@dimen/px1" />
 
     <LinearLayout
         style="?android:attr/buttonBarStyle"
@@ -59,10 +58,9 @@
             android:textSize="@dimen/sp_14"
             tools:text="取消" />
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="@dimen/px1"
-            android:layout_height="match_parent"
-            android:background="@color/gray" />
+            android:layout_height="match_parent" />
 
         <Button
             android:id="@+id/bocRoundCornerMessageDialogBtnRight"
