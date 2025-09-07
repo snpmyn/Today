@@ -31,6 +31,7 @@ import widget.dialog.bocdialog.lottie.BocLottieClickDialog;
 import widget.dialog.bocdialog.lottie.bean.BocLottieDialogEnum;
 import widget.dialog.materialalertdialog.kit.MaterialAlertDialogBuilderKit;
 import widget.dialog.materialalertdialog.kit.UseGuideMaterialAlertDialogKit;
+import widget.location.value.LocationConstant;
 import widget.permissionx.kit.PermissionxKit;
 import widget.permissionx.listener.PermissionxKitListener;
 import widget.sms.kit.SmsKit;
@@ -95,8 +96,8 @@ public class DangerousActivityKit implements SmsKit.SmsKitSendListener, SmsKit.S
             return;
         }
         UseGuideMaterialAlertDialogKit useGuideMaterialAlertDialogKit = new UseGuideMaterialAlertDialogKit();
-        useGuideMaterialAlertDialogKit.prepareData("步骤一", "☀ 险情通知 ☀\n\n令狐少侠，我现处危险中。马上帮我报警，不要回电。\n\n如上编辑即可，发送短信时自动附带你所处位置的定位信息。", "关闭", "下一步");
-        useGuideMaterialAlertDialogKit.prepareData("步骤二", "☀ 紧急联系人手机号 ☀\n\n输入令狐少侠的手机号\n\n遇险情时向令狐少侠一键发送短信", "上一步", "下一步");
+        useGuideMaterialAlertDialogKit.prepareData("步骤一", "☀ 输入险情通知 ☀\n\n令狐少侠，我现处危险中。马上帮我报警，不要回电。\n\n如上编辑即可，发送短信时自动附带你所处位置的定位信息。", "关闭", "下一步");
+        useGuideMaterialAlertDialogKit.prepareData("步骤二", "☀ 输入紧急联系人手机号 ☀\n\n输入令狐少侠的手机号\n\n遇险情时向令狐少侠一键发送短信", "上一步", "下一步");
         useGuideMaterialAlertDialogKit.prepareData("步骤三", "☀ 保存配置 ☀\n\n建议尽早配置，以备不时之需。", "上一步", "去使用");
         useGuideMaterialAlertDialogKit.show(appCompatActivity, 0, false, () -> {
             if (MmkvKit.defaultMmkv().decodeBool(DangerousConstant.DANGEROUS_ACTIVITY_$_USE_GUIDE)) {
@@ -151,10 +152,10 @@ public class DangerousActivityKit implements SmsKit.SmsKitSendListener, SmsKit.S
         }
         if (send) {
             // 对话框提示
-            bocLottieClickDialog = BocDialogKit.getInstance(appCompatActivity).bocLottieClickDialog(BocLottieDialogEnum.LOADING_ONE, appCompatActivity.getString(R.string.updatingLocation), appCompatActivity.getString(R.string.hurryUpSendTheLastLocation), ValueAnimator.INFINITE, null, () -> {
+            bocLottieClickDialog = BocDialogKit.getInstance(appCompatActivity).bocLottieClickDialog(BocLottieDialogEnum.LOADING_ONE, appCompatActivity.getString(R.string.updatingLocation), appCompatActivity.getString(R.string.hurryUpSendTheCoarseLocation), ValueAnimator.INFINITE, null, () -> {
                 BocDialogKit.getInstance(appCompatActivity).end();
                 // 内容
-                String content = dangerousNotice + MmkvKit.defaultMmkv().decodeString(AmapConstant.AMAP_$_LOCATION);
+                String content = dangerousNotice + handleLocationInfo();
                 // 对话框提示
                 new MaterialAlertDialogBuilderKit(appCompatActivity, com.zsp.core.R.style.ThemeOverlay_Catalog_MaterialAlertDialog_Centered_FullWidthButtons).setTitle(R.string.dangerousNotice).setMessage(content).setPositiveButton(R.string.send, (dialog, which) -> {
                     dialog.dismiss();
@@ -168,6 +169,58 @@ public class DangerousActivityKit implements SmsKit.SmsKitSendListener, SmsKit.S
         } else {
             // 处理配置
             handleConfig(dangerousNotice, emergencyContactPhoneNumber, true);
+        }
+    }
+
+    /**
+     * 处理定位信息
+     * <p>
+     * 场景一
+     * 更新定位未结束前发送
+     * 首先使用本地最近一次存储的高德地图定位信息，为空则改用本地最近一次存储的原生定位信息。
+     * <p>
+     * 场景二
+     * 更新定位成功后发送
+     * 使用高德地图最新定位信息
+     * <p>
+     * 场景三
+     * 更新定位失败后发送
+     * 首先使用本地最近一次存储的高德地图定位信息，为空则改用本地最近一次存储的原生定位信息。
+     *
+     * @return 定位信息
+     */
+    private String handleLocationInfo() {
+        String locationInfo;
+        locationInfo = MmkvKit.defaultMmkv().decodeString(AmapConstant.AMAP_$_LOCATION_INFO);
+        if (TextUtils.isEmpty(locationInfo)) {
+            locationInfo = MmkvKit.defaultMmkv().decodeString(LocationConstant.LOCATION_INFO);
+            if (TextUtils.isEmpty(locationInfo)) {
+                locationInfo = appCompatActivity.getString(R.string.canNotGetLocationInfo);
+            }
+        }
+        return locationInfo;
+    }
+
+    /**
+     * 发送短信
+     *
+     * @param content                     内容
+     * @param emergencyContactPhoneNumber 紧急联系人手机号
+     */
+    private void sendSms(String content, String emergencyContactPhoneNumber) {
+        // 设短信配套原件发送监听
+        smsKit.setSmsKitSendListener(this);
+        // 设短信配套原件传送监听
+        smsKit.setSmsKitDeliverListener(this);
+        // 目标地址集
+        List<String> destinationAddressList = new ArrayList<>();
+        destinationAddressList.add(emergencyContactPhoneNumber);
+        if (destinationAddressList.size() == 1) {
+            // 单发
+            smsKit.singleShot(appCompatActivity, destinationAddressList.get(0), content);
+        } else {
+            // 群发
+            smsKit.massSend(appCompatActivity, destinationAddressList, content);
         }
     }
 
@@ -213,37 +266,32 @@ public class DangerousActivityKit implements SmsKit.SmsKitSendListener, SmsKit.S
     }
 
     /**
-     * 发送短信
-     *
-     * @param content                     内容
-     * @param emergencyContactPhoneNumber 紧急联系人手机号
-     */
-    private void sendSms(String content, String emergencyContactPhoneNumber) {
-        // 设短信配套原件发送监听
-        smsKit.setSmsKitSendListener(this);
-        // 设短信配套原件传送监听
-        smsKit.setSmsKitDeliverListener(this);
-        // 目标地址集
-        List<String> destinationAddressList = new ArrayList<>();
-        destinationAddressList.add(emergencyContactPhoneNumber);
-        if (destinationAddressList.size() == 1) {
-            // 单发
-            smsKit.singleShot(appCompatActivity, destinationAddressList.get(0), content);
-        } else {
-            // 群发
-            smsKit.massSend(appCompatActivity, destinationAddressList, content);
-        }
-    }
-
-    /**
      * 更新定位
+     * <p>
+     * 场景一
+     * 更新定位未结束前发送
+     * 首先使用本地最近一次存储的高德地图定位信息，为空则改用本地最近一次存储的原生定位信息。
+     * <p>
+     * 场景二
+     * 更新定位成功后发送
+     * 使用高德地图最新定位信息
+     * <p>
+     * 场景三
+     * 更新定位失败后发送
+     * 首先使用本地最近一次存储的高德地图定位信息，为空则改用本地最近一次存储的原生定位信息。
+     *
+     * @param updateLocationSuccessful 更新定位否
      */
-    public void updateLocation() {
+    public void updateLocation(boolean updateLocationSuccessful) {
         if (BocDialogKit.getInstance(appCompatActivity).areEnd()) {
-            // 更新定位成功前已发送短信则不做处理
+            // 更新定位未结束前已发送短信则不做处理
             return;
         }
-        bocLottieClickDialog.update(BocLottieDialogEnum.SUCCESS_ONE, appCompatActivity.getString(R.string.updateLocationSuccessful), appCompatActivity.getString(R.string.sendQuickly), ValueAnimator.INFINITE, null);
+        if (updateLocationSuccessful) {
+            bocLottieClickDialog.update(BocLottieDialogEnum.SUCCESS_ONE, appCompatActivity.getString(R.string.updateLocationSuccessful), appCompatActivity.getString(R.string.sendQuickly), ValueAnimator.INFINITE, null);
+        } else {
+            bocLottieClickDialog.update(BocLottieDialogEnum.SUCCESS_ONE, appCompatActivity.getString(R.string.updateLocationFail), appCompatActivity.getString(R.string.hurryUpSendTheCoarseLocation), ValueAnimator.INFINITE, null);
+        }
     }
 
     /**
