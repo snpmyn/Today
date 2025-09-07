@@ -58,7 +58,7 @@
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="?actionBarSize"
                 android:elevation="@dimen/dp_0"
                 app:contentInsetStart="@dimen/dp_0"
                 app:layout_collapseMode="pin">
