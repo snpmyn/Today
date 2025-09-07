@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.Today" parent="Base.Theme.Today" />
+    <style name="Theme.Today" parent="Base.Theme.Today">
+        <!-- Transparent system bars for edge-to-edge. -->
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <!--浅色状态栏图标-->
+        <!--true 或 false-->
+        <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
+    </style>
     // 补充
     <!--SplashActivityStyle-->
     <style name="SplashActivityStyle" parent="Theme.Today">
@@ -9,8 +16,7 @@
         <item name="android:windowFullscreen">true</item>
     </style>
     <!--BottomNavigationViewStyle-->
-    <!--Note: The Widget.MaterialComponents.BottomNavigationView.PrimarySurface style will automatically switch between the component's primary colored style in light theme and surface colored style in dark theme.-->
-    <style name="BottomNavigationViewStyle" parent="@style/Widget.MaterialComponents.BottomNavigationView.PrimarySurface">
+    <style name="BottomNavigationViewStyle" parent="@style/Widget.Material3.BottomNavigationView.ActiveIndicator">
         <item name="itemTextAppearanceActive">
             @style/BottomNavigationViewItemTextAppearanceActiveAndInactive
         </item>
