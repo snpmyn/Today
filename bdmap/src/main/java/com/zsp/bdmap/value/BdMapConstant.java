@@ -8,7 +8,7 @@ package com.zsp.bdmap.value;
  */
 public class BdMapConstant {
     /**
-     * 百度地图定位
+     * 百度地图定位信息
      */
-    public static final String BD_MAP_$_LOCATION = "BdMapLocation";
+    public static final String BD_MAP_$_LOCATION_INFO = "BdMapLocationInfo";
 }

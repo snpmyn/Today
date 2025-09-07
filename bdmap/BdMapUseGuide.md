@@ -18,6 +18,6 @@ Manifest.permission.MANAGE_EXTERNAL_STORAGE
 BdMapLocationKit.getInstance().start(this, false, new BdMapLocationKitListener() {
 @Override
 public void onReceiveLocation(BDLocation bdLocation, String locationInfo) {
-MmkvKit.defaultMmkv().encode(BdMapConstant.BD_MAP_$_LOCATION, locationInfo);
+MmkvKit.defaultMmkv().encode(BdMapConstant.BD_MAP_$_LOCATION_INFO, locationInfo);
 }
 });
