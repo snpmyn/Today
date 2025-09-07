@@ -11,6 +11,8 @@
     <string name="widget">组件</string>
     <string name="modify">修改</string>
     <string name="logOut">退出</string>
+    <string name="author">作者</string>
+    <string name="donation">赞助</string>
     <string name="function">功能</string>
     <string name="category">类目</string>
     <string name="iKnow">我知道啦</string>
@@ -26,6 +28,7 @@
     <string name="chooseDate">选择日期</string>
     <string name="chooseYear">选择年份</string>
     <string name="cleanCache">清理缓存</string>
+    <string name="restoreData">恢复数据</string>
     <string name="inputAmount">输入金额</string>
     <string name="openAccount">打开账单</string>
     <string name="todayAccount">今日账目</string>
@@ -79,10 +82,10 @@
     <string name="noMonthAnalysisDataAvailable">暂无月度分析数据</string>
     <string name="dangerousConfigHasBeenRestored">险情配置已恢复</string>
     <string name="sendSmsAreBasedOnThePermission">发送短信需要该权限</string>
-    <string name="hurryUpSendTheCoarseLocation">来不及了\n使用粗略位置发送</string>
     <string name="accountNotificationEnglish">account notification</string>
     <string name="wantToDeleteTheAccountOfTheDay">要删除这天的账目吗？</string>
     <string name="inputEmergencyContactPhoneNumber">输入紧急联系人手机号</string>
+    <string name="hurryUpSendTheCoarseLocation">来不及了\n使用粗略位置发送</string>
     <string name="receiveNotificationAreBasedOnThePermission">接收通知需要该权限</string>
     <string name="inputCorrectEmergencyContactPhoneNumber">输入正确的紧急联系人手机号</string>
     <string name="needToInputPhoneNumberToLoginAgainAfterLogOut">退出后需输入手机号重新登录</string>
