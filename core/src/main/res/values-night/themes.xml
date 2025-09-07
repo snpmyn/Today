@@ -5,19 +5,9 @@
     <style name="Base.Theme.Today" parent="Theme.Material3Expressive.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
-        <!-- Primary brand color. -->
         <item name="colorPrimary">@color/basic</item>
         <!--页面切换动画-->
         <item name="android:windowAnimationStyle">@style/AnimationActivity</item>
-        <!--transparent system bars for edge-to-edge-->
-        <!--导航栏色-->
-        <item name="android:navigationBarColor">@android:color/transparent</item>
-        <!--transparent system bars for edge-to-edge-->
-        <!--状态栏色-->
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <!--浅色状态栏图标-->
-        <!--true 或 false-->
-        <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
     </style>
 
     <style name="Theme.Today" parent="Base.Theme.Today" />
@@ -39,8 +29,7 @@
         <item name="android:windowFullscreen">true</item>
     </style>
     <!--BottomNavigationViewStyle-->
-    <!--Note: The Widget.MaterialComponents.BottomNavigationView.PrimarySurface style will automatically switch between the component's primary colored style in light theme and surface colored style in dark theme.-->
-    <style name="BottomNavigationViewStyle" parent="@style/Widget.MaterialComponents.BottomNavigationView.PrimarySurface">
+    <style name="BottomNavigationViewStyle" parent="@style/Widget.Material3.BottomNavigationView.ActiveIndicator">
         <item name="itemTextAppearanceActive">
             @style/BottomNavigationViewItemTextAppearanceActiveAndInactive
         </item>
