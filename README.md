@@ -10,6 +10,7 @@
 ## 排查
 
 ```
+assert
 暂无引用
 <!--备用-->
 @RequiresPermission
