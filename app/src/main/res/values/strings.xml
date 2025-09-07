@@ -75,6 +75,7 @@
     <string name="enterIntoAccountSuccessful">入账成功</string>
     <string name="updateLocationSuccessful">更新定位成功</string>
     <string name="canNotGetLocationInfo">无法获取定位信息</string>
+    <string name="alreadyIsDefaultAnimation">已是默认动画</string>
     <string name="noDangerousConfigAvailable">暂无险情配置</string>
     <string name="restoreAnimationSuccessful">恢复动画成功</string>
     <string name="wantToDeleteThisAccount">要删除这条账目吗？</string>
