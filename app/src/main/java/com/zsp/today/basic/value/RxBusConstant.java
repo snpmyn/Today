@@ -48,7 +48,11 @@ public class RxBusConstant {
      */
     public static final String DANGEROUS_ACTIVITY_$_UPDATE_LOCATION = "DangerousActivityUpdateLocation";
     /**
-     * 险情页（更新定位码）
+     * 险情页（更新定位成功码）
      */
-    public static final int DANGEROUS_ACTIVITY_$_UPDATE_LOCATION_CODE = 0x06;
+    public static final int DANGEROUS_ACTIVITY_$_UPDATE_LOCATION_SUCCESSFUL_CODE = 0x06;
+    /**
+     * 险情页（更新定位失败码）
+     */
+    public static final int DANGEROUS_ACTIVITY_$_UPDATE_LOCATION_FAIL_CODE = 0x07;
 }
