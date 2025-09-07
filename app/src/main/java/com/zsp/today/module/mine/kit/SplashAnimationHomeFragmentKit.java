@@ -92,15 +92,16 @@ public class SplashAnimationHomeFragmentKit {
      *
      * @param splashAnimationHomeFragment 闪屏动画主页碎片
      */
-    public void useDefaultSplashAnimation(SplashAnimationHomeFragment splashAnimationHomeFragment) {
+    public void useDefaultSplashAnimation(@NonNull SplashAnimationHomeFragment splashAnimationHomeFragment) {
+        AppCompatActivity appCompatActivity = (AppCompatActivity) splashAnimationHomeFragment.getActivity();
+        assert appCompatActivity != null;
         if (!MmkvKit.defaultMmkv().decodeBool(PoolConstant.SPLASH_$_USE_DEFAULT_ANIMATION)) {
             MmkvKit.defaultMmkv().encode(PoolConstant.SPLASH_$_USE_DEFAULT_ANIMATION, true);
+            BocDialogKit.getInstance(appCompatActivity).bocLottieCommonDialogOne(BocLottieDialogEnum.SUCCESS_ONE, appCompatActivity.getString(R.string.restoreAnimationSuccessful), 0, () -> BocDialogKit.getInstance(appCompatActivity).end(), null);
+        } else {
+            BocDialogKit.getInstance(appCompatActivity).bocLottieCommonDialogOne(BocLottieDialogEnum.SUCCESS_ONE, appCompatActivity.getString(R.string.alreadyIsDefaultAnimation), 0, () -> BocDialogKit.getInstance(appCompatActivity).end(), null);
         }
         splashAnimationHomeFragment.onBackPressedSupport();
         RxBus.get().post(RxBusConstant.MAIN_ACTIVITY_$_BOTTOM_NAVIGATION_VIEW, RxBusConstant.MAIN_ACTIVITY_$_SHOW_BOTTOM_NAVIGATION_VIEW_CODE);
-        // 提示
-        AppCompatActivity appCompatActivity = (AppCompatActivity) splashAnimationHomeFragment.getActivity();
-        assert appCompatActivity != null;
-        BocDialogKit.getInstance(appCompatActivity).bocLottieCommonDialogOne(BocLottieDialogEnum.SUCCESS_ONE, appCompatActivity.getString(R.string.restoreAnimationSuccessful), 0, () -> BocDialogKit.getInstance(appCompatActivity).end(), null);
     }
 }
