@@ -12,7 +12,7 @@ public class RestoreKit {
     /**
      * 延时
      */
-    public long delay = 700L;
+    public long delay = 500L;
 
     public static RestoreKit getInstance() {
         return InstanceHolder.INSTANCE;
