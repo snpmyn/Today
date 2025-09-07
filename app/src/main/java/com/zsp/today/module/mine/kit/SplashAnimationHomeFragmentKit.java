@@ -6,13 +6,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.zsp.today.R;
+import com.zsp.today.basic.value.RxBusConstant;
 import com.zsp.today.module.mine.adapter.SplashAnimationListAdapter;
 import com.zsp.today.module.mine.bean.SplashAnimationListBean;
 import com.zsp.today.module.mine.fragment.SplashAnimationDetailFragment;
 import com.zsp.today.module.mine.fragment.SplashAnimationHomeFragment;
-import com.zsp.today.basic.value.RxBusConstant;
-
-import widget.status.kit.StatusManagerKit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +19,12 @@ import java.util.List;
 import pool.value.PoolConstant;
 import util.mmkv.MmkvKit;
 import util.rxbus.RxBus;
+import widget.dialog.bocdialog.kit.BocDialogKit;
+import widget.dialog.bocdialog.lottie.bean.BocLottieDialogEnum;
 import widget.recyclerview.configure.RecyclerViewConfigure;
 import widget.recyclerview.controller.RecyclerViewDisplayController;
 import widget.recyclerview.listener.OnRecyclerViewOnItemClickListener;
+import widget.status.kit.StatusManagerKit;
 import widget.status.manager.StatusManager;
 
 /**
@@ -96,5 +98,9 @@ public class SplashAnimationHomeFragmentKit {
         }
         splashAnimationHomeFragment.onBackPressedSupport();
         RxBus.get().post(RxBusConstant.MAIN_ACTIVITY_$_BOTTOM_NAVIGATION_VIEW, RxBusConstant.MAIN_ACTIVITY_$_SHOW_BOTTOM_NAVIGATION_VIEW_CODE);
+        // 提示
+        AppCompatActivity appCompatActivity = (AppCompatActivity) splashAnimationHomeFragment.getActivity();
+        assert appCompatActivity != null;
+        BocDialogKit.getInstance(appCompatActivity).bocLottieCommonDialogOne(BocLottieDialogEnum.SUCCESS_ONE, appCompatActivity.getString(R.string.restoreAnimationSuccessful), 0, () -> BocDialogKit.getInstance(appCompatActivity).end(), null);
     }
 }
