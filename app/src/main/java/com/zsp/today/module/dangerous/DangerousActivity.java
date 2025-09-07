@@ -131,9 +131,18 @@ public class DangerousActivity extends BasePoolActivity implements View.OnClickL
     }
 
     @Subscribe(thread = EventThread.MAIN_THREAD, tags = {@Tag(RxBusConstant.DANGEROUS_ACTIVITY_$_UPDATE_LOCATION)})
-    public void accountDetailActivityRefreshAccount(Integer integer) {
-        if (integer == RxBusConstant.DANGEROUS_ACTIVITY_$_UPDATE_LOCATION_CODE) {
-            dangerousActivityKit.updateLocation();
+    public void accountDetailActivityRefreshAccount(@NonNull Integer integer) {
+        switch (integer) {
+            // 更新定位成功
+            case RxBusConstant.DANGEROUS_ACTIVITY_$_UPDATE_LOCATION_SUCCESSFUL_CODE:
+                dangerousActivityKit.updateLocation(true);
+                break;
+            // 更新定位失败
+            case RxBusConstant.DANGEROUS_ACTIVITY_$_UPDATE_LOCATION_FAIL_CODE:
+                dangerousActivityKit.updateLocation(false);
+                break;
+            default:
+                break;
         }
     }
 
