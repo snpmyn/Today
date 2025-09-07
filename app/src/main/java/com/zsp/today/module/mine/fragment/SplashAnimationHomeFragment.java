@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.zsp.today.R;
-import com.zsp.today.module.mine.kit.SplashAnimationHomeFragmentKit;
 import com.zsp.today.basic.value.RxBusConstant;
+import com.zsp.today.module.mine.kit.SplashAnimationHomeFragmentKit;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -150,7 +150,7 @@ public class SplashAnimationHomeFragment extends BasePoolFragment {
 
     private void setListener() {
         splashAnimationHomeFragmentMt.setOnMenuItemClickListener(item -> {
-            splashAnimationHomeFragmentKit.useDefaultSplashAnimation(SplashAnimationHomeFragment.this);
+            splashAnimationHomeFragmentKit.useDefaultSplashAnimation(fragmentationSupportActivity, SplashAnimationHomeFragment.this);
             return true;
         });
     }
