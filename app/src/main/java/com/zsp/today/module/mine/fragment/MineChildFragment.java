@@ -15,8 +15,8 @@ import com.zsp.today.module.mine.kit.MineChildFragmentKit;
 import org.jetbrains.annotations.NotNull;
 
 import pool.base.BasePoolFragment;
-import widget.toast.ToastKit;
 import widget.appbarlayout.listener.BaseAppBarLayoutStateChangeListener;
+import widget.toast.ToastKit;
 
 /**
  * Created on 2020/12/17
@@ -148,7 +148,7 @@ public class MineChildFragment extends BasePoolFragment implements View.OnClickL
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
                 if (state == State.COLLAPSED) {
                     // 折叠
-                    mineChildFragmentKit.setName(fragmentationSupportActivity, mineChildFragmentTvNameInMaterialToolbar);
+                    mineChildFragmentKit.setName(mineChildFragmentTvNameInMaterialToolbar);
                 } else {
                     // 中间
                     mineChildFragmentTvNameInMaterialToolbar.setText("");
@@ -160,7 +160,7 @@ public class MineChildFragment extends BasePoolFragment implements View.OnClickL
 
     private void startLogic() {
         // 姓名
-        mineChildFragmentKit.setName(fragmentationSupportActivity, mineChildFragmentTvName);
+        mineChildFragmentKit.setName(mineChildFragmentTvName);
         // 展示
         mineChildFragmentKit.display(fragmentationSupportActivity, this, mineChildFragmentRv);
     }
