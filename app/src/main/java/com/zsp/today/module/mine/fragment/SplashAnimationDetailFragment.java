@@ -146,7 +146,7 @@ public class SplashAnimationDetailFragment extends BasePoolFragment implements V
     @Override
     public void onClick(@NonNull View v) {
         if (v.getId() == R.id.splashAnimationDetailFragmentMb) {
-            splashAnimationDetailFragmentKit.useSplashAnimation(this, getArguments());
+            splashAnimationDetailFragmentKit.useSplashAnimation(fragmentationSupportActivity, this, getArguments());
         }
     }
 
