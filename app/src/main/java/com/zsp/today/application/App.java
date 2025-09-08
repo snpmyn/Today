@@ -31,7 +31,6 @@ import util.mmkv.MmkvKit;
 import util.rxbus.RxBus;
 import widget.crash.CrashManager;
 import widget.status.manager.StatusManager;
-import widget.tbs.configure.TbsInitConfig;
 
 /**
  * Created on 2025/7/10.
@@ -120,8 +119,6 @@ public class App extends BasePoolApp {
     protected void initConfiguration() {
         // 崩溃管理器
         CrashManager.getInstance(this, Folder.CRASH);
-        // TBS 初始化配置
-        TbsInitConfig.initTbs();
         // LitePal 初始化配置
         LitePalInitConfig.initLitePal(this);
         // Fragmentation 初始化配置
