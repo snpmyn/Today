@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.telephony.SmsManager;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
@@ -63,7 +64,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, @NonNull Intent intent) {
         if (null != intent.getAction()) {
-            if (intent.getAction().equals(SmsKit.SMS_SEND_ACTION)) {
+            if (TextUtils.equals(intent.getAction(), SmsKit.SMS_SEND_ACTION)) {
                 switch (getResultCode()) {
                     case 0:
                     case Activity.RESULT_OK:
@@ -89,7 +90,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
                     default:
                         break;
                 }
-            } else if (intent.getAction().equals(SmsKit.SMS_DELIVER_ACTION)) {
+            } else if (TextUtils.equals(intent.getAction(), SmsKit.SMS_DELIVER_ACTION)) {
                 switch (getResultCode()) {
                     case 0:
                     case Activity.RESULT_OK:
