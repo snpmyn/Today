@@ -22,13 +22,13 @@
     <string name="fullScreen">全屏</string>
     <string name="threeColumn">三列</string>
     <string name="useGuide">使用指南</string>
+    <string name="resetData">重置数据</string>
     <string name="sendQuickly">快发送</string>
     <string name="saveConfig">保存配置</string>
     <string name="addAccount">添加账目</string>
     <string name="chooseDate">选择日期</string>
     <string name="chooseYear">选择年份</string>
     <string name="cleanCache">清理缓存</string>
-    <string name="restoreData">恢复数据</string>
     <string name="inputAmount">输入金额</string>
     <string name="openAccount">打开账单</string>
     <string name="todayAccount">今日账目</string>
