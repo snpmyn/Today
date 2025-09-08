@@ -16,7 +16,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             // 用于当前模块本身的编译和测试。它决定在编译和测试这个库时，如何混淆库的代码。这些规则不会被打包到 AAR 中，也不会传递给主应用。
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
