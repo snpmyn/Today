@@ -37,8 +37,8 @@ import util.density.DensityUtils;
 import util.keyboard.KeyboardUtils;
 import util.screen.ScreenUtils;
 import util.statusbar.StatusBarUtils;
-import widget.toast.ToastKit;
 import util.vibrator.VibratorUtils;
+import widget.toast.ToastKit;
 import widget.value.WidgetMagic;
 
 /**
@@ -515,7 +515,7 @@ public class VerticalTextView extends androidx.appcompat.widget.AppCompatTextVie
         }
         for (int i = lineIndex[0]; i < lineIndex[1]; i++) {
             String iOfChar = String.valueOf(getText().toString().charAt(i));
-            if ("\n".equals(iOfChar)) {
+            if (TextUtils.equals("\n", iOfChar)) {
                 tempY = drawPadding[1];
             } else if (areUnicodeSymbol(iOfChar)) {
                 tempY += 1.4F * getCharHeight(iOfChar, getTextPaint()) + charSpacingExtra;
