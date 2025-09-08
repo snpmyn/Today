@@ -2,6 +2,7 @@ package util.cache;
 
 import android.content.Context;
 import android.os.Environment;
+import android.text.TextUtils;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -28,7 +29,7 @@ public class CacheManager {
      */
     public static @NotNull String totalCacheSize(@NotNull Context context) {
         long cacheSize = folderSize(context.getApplicationContext().getCacheDir());
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+        if (TextUtils.equals(Environment.getExternalStorageState(), Environment.MEDIA_MOUNTED)) {
             cacheSize += folderSize(context.getApplicationContext().getExternalCacheDir());
         }
         return formatSize(cacheSize);
@@ -101,7 +102,7 @@ public class CacheManager {
      */
     public static void clearAllCache(@NotNull Context context) {
         deleteFile(context.getApplicationContext().getCacheDir());
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+        if (TextUtils.equals(Environment.getExternalStorageState(), Environment.MEDIA_MOUNTED)) {
             deleteFile(context.getApplicationContext().getExternalCacheDir());
         }
     }

@@ -92,7 +92,7 @@ public class StringUtils {
         int appointLength = appoint.length();
         // for 循环找合适范围
         for (int i = 0; i < (str.length() - appointLength); i++) {
-            if (str.substring(i, i + appointLength).equals(appoint)) {
+            if (TextUtils.equals(str.substring(i, i + appointLength), appoint)) {
                 result = str.substring(0, i);
             }
         }
@@ -112,7 +112,7 @@ public class StringUtils {
         int appointLength = appoint.length();
         // for 循环找合适范围
         for (int i = 0; i < (str.length() - appointLength); i++) {
-            if (str.substring(i, i + appointLength).equals(appoint)) {
+            if (TextUtils.equals(str.substring(i, i + appointLength), appoint)) {
                 result = str.substring(i + appointLength);
             }
         }
@@ -151,7 +151,7 @@ public class StringUtils {
             String s1 = temp.split("\\.")[0];
             String s2 = temp.split("\\.")[1];
             for (int i = s2.length(); i > 0; --i) {
-                if (!"0".equals(s2.substring(i - 1, i))) {
+                if (!TextUtils.equals("0", s2.substring(i - 1, i))) {
                     return (s1 + "." + s2.substring(0, i));
                 }
             }
