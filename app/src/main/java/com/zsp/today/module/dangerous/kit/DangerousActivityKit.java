@@ -13,7 +13,7 @@ import com.zsp.amap.kit.AmapLocationKit;
 import com.zsp.amap.value.AmapConstant;
 import com.zsp.today.R;
 import com.zsp.today.application.App;
-import com.zsp.today.basic.kit.BackupKit;
+import com.zsp.today.basic.backup.BackupKit;
 import com.zsp.today.module.dangerous.database.DangerousDataBaseTable;
 import com.zsp.today.module.dangerous.value.DangerousCondition;
 import com.zsp.today.module.dangerous.value.DangerousConstant;
@@ -154,6 +154,7 @@ public class DangerousActivityKit implements SmsKit.SmsKitSendListener, SmsKit.S
             // 对话框提示
             bocLottieClickDialog = BocDialogKit.getInstance(appCompatActivity).bocLottieClickDialog(BocLottieDialogEnum.LOADING_ONE, appCompatActivity.getString(R.string.updatingLocation), appCompatActivity.getString(R.string.hurryUpSendTheCoarseLocation), ValueAnimator.INFINITE, null, () -> {
                 BocDialogKit.getInstance(appCompatActivity).end();
+                bocLottieClickDialog = null;
                 // 内容
                 String content = dangerousNotice + handleLocationInfo();
                 // 对话框提示
@@ -177,14 +178,13 @@ public class DangerousActivityKit implements SmsKit.SmsKitSendListener, SmsKit.S
      * <p>
      * 场景一
      * 更新定位未结束前发送
-     * 首先使用本地最近一次存储的高德地图定位信息，为空则改用本地最近一次存储的原生定位信息。
      * <p>
      * 场景二
      * 更新定位成功后发送
-     * 使用高德地图最新定位信息
      * <p>
      * 场景三
      * 更新定位失败后发送
+     * 处理逻辑
      * 首先使用本地最近一次存储的高德地图定位信息，为空则改用本地最近一次存储的原生定位信息。
      *
      * @return 定位信息
@@ -269,16 +269,13 @@ public class DangerousActivityKit implements SmsKit.SmsKitSendListener, SmsKit.S
      * 更新定位
      * <p>
      * 场景一
-     * 更新定位未结束前发送
-     * 首先使用本地最近一次存储的高德地图定位信息，为空则改用本地最近一次存储的原生定位信息。
+     * 更新定位未结束
      * <p>
      * 场景二
-     * 更新定位成功后发送
-     * 使用高德地图最新定位信息
+     * 更新定位成功
      * <p>
      * 场景三
-     * 更新定位失败后发送
-     * 首先使用本地最近一次存储的高德地图定位信息，为空则改用本地最近一次存储的原生定位信息。
+     * 更新定位失败
      *
      * @param updateLocationSuccessful 更新定位否
      */
