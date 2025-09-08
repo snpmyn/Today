@@ -60,5 +60,4 @@ dependencies {
     api libs.permissionx
     api libs.work.runtime
     api libs.localbroadcastmanager
-    api files('libs/tbs_sdk_44286.jar')
 }
