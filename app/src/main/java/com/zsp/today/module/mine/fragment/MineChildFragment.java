@@ -26,7 +26,7 @@ import widget.toast.ToastKit;
  */
 public class MineChildFragment extends BasePoolFragment implements View.OnClickListener {
     private LottieAnimationView mineChildFragmentLavHeadPortrait;
-    private TextView mineChildFragmentTvName;
+    private TextView mineChildFragmentTvNickName;
     private TextView mineChildFragmentTvNameInMaterialToolbar;
     private AppBarLayout mineChildFragmentAbl;
     private RecyclerView mineChildFragmentRv;
@@ -82,7 +82,7 @@ public class MineChildFragment extends BasePoolFragment implements View.OnClickL
     @Override
     protected void stepUi(@NonNull View view) {
         mineChildFragmentLavHeadPortrait = view.findViewById(R.id.mineChildFragmentLavHeadPortrait);
-        mineChildFragmentTvName = view.findViewById(R.id.mineChildFragmentTvName);
+        mineChildFragmentTvNickName = view.findViewById(R.id.mineChildFragmentTvNickName);
         mineChildFragmentTvNameInMaterialToolbar = view.findViewById(R.id.mineChildFragmentTvNameInMaterialToolbar);
         mineChildFragmentAbl = view.findViewById(R.id.mineChildFragmentAbl);
         mineChildFragmentRv = view.findViewById(R.id.mineChildFragmentRv);
@@ -148,7 +148,7 @@ public class MineChildFragment extends BasePoolFragment implements View.OnClickL
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
                 if (state == State.COLLAPSED) {
                     // 折叠
-                    mineChildFragmentKit.setName(mineChildFragmentTvNameInMaterialToolbar);
+                    mineChildFragmentKit.setNickName(mineChildFragmentTvNameInMaterialToolbar);
                 } else {
                     // 中间
                     mineChildFragmentTvNameInMaterialToolbar.setText("");
@@ -159,8 +159,8 @@ public class MineChildFragment extends BasePoolFragment implements View.OnClickL
     }
 
     private void startLogic() {
-        // 姓名
-        mineChildFragmentKit.setName(mineChildFragmentTvName);
+        // 设置昵称
+        mineChildFragmentKit.setNickName(mineChildFragmentTvNickName);
         // 展示
         mineChildFragmentKit.display(fragmentationSupportActivity, this, mineChildFragmentRv);
     }
