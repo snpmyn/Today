@@ -1,8 +1,8 @@
 package widget.dialog.bocdialog.kit;
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.content.Context;
 
-import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
 
 import widget.dialog.bocdialog.base.BaseBocInstanceDialog;
 import widget.dialog.bocdialog.loading.BocCanCancelLoadingDialog;
@@ -23,11 +23,11 @@ import widget.dialog.bocdialog.lottie.listener.BocLottieDialogOnClickListener;
  * @desc BOC 对话框配套元件
  */
 public class BocDialogKit {
-    private static SoftReference<AppCompatActivity> softReference;
+    private static WeakReference<Context> weakReference;
     private BaseBocInstanceDialog baseBocInstanceDialog;
 
-    public static BocDialogKit getInstance(AppCompatActivity appCompatActivity) {
-        softReference = new SoftReference<>(appCompatActivity);
+    public static BocDialogKit getInstance(Context context) {
+        weakReference = new WeakReference<>(context);
         return InstanceHolder.INSTANCE;
     }
 
@@ -38,7 +38,7 @@ public class BocDialogKit {
      * @param onBackPressedListener 回退按压监听
      */
     public void bocCommonLoading(String hint, OnBackPressedListener onBackPressedListener) {
-        baseBocInstanceDialog = new BocCommonLoadingDialog.Builder(softReference.get(), 0).setHint(hint).setOnBackPressedListener(onBackPressedListener).build();
+        baseBocInstanceDialog = new BocCommonLoadingDialog.Builder(weakReference.get(), 0).setHint(hint).setOnBackPressedListener(onBackPressedListener).build();
         baseBocInstanceDialog.setCancelable(false);
         baseBocInstanceDialog.show();
     }
@@ -52,7 +52,7 @@ public class BocDialogKit {
      * @param onBackPressedListener  回退按压监听
      */
     public void bocCanCancelLoading(String hint, OnClickToCloseListener onClickToCloseListener, OnDialogCloseListener onDialogCloseListener, OnBackPressedListener onBackPressedListener) {
-        baseBocInstanceDialog = new BocCanCancelLoadingDialog.Builder(softReference.get(), 0).setHint(hint).setOnClickToCloseListener(onClickToCloseListener).setOnDialogCloseListener(onDialogCloseListener).setOnBackPressedListener(onBackPressedListener).build();
+        baseBocInstanceDialog = new BocCanCancelLoadingDialog.Builder(weakReference.get(), 0).setHint(hint).setOnClickToCloseListener(onClickToCloseListener).setOnDialogCloseListener(onDialogCloseListener).setOnBackPressedListener(onBackPressedListener).build();
         baseBocInstanceDialog.setCancelable(false);
         baseBocInstanceDialog.show();
     }
@@ -67,7 +67,7 @@ public class BocDialogKit {
      * @param onBackPressedListener               回退按压监听
      */
     public void bocLottieCommonDialogOne(BocLottieDialogEnum bocLottieDialogEnum, String hint, int repeatCount, BocLottieDialogAnimationEndListener bocLottieDialogAnimationEndListener, OnBackPressedListener onBackPressedListener) {
-        baseBocInstanceDialog = new BocLottieCommonDialog.Builder(softReference.get(), 0).setHintAndWidthHeight(hint).setAnimation(bocLottieDialogEnum, repeatCount, bocLottieDialogAnimationEndListener).setOnBackPressedListener(onBackPressedListener).build();
+        baseBocInstanceDialog = new BocLottieCommonDialog.Builder(weakReference.get(), 0).setHintAndWidthHeight(hint).setAnimation(bocLottieDialogEnum, repeatCount, bocLottieDialogAnimationEndListener).setOnBackPressedListener(onBackPressedListener).build();
         baseBocInstanceDialog.setCancelable(false);
         baseBocInstanceDialog.show();
     }
@@ -83,7 +83,7 @@ public class BocDialogKit {
      * @return BOC Lottie 普通对话框
      */
     public BocLottieCommonDialog bocLottieCommonDialogTwo(BocLottieDialogEnum bocLottieDialogEnum, String hint, int repeatCount, BocLottieDialogAnimationEndListener bocLottieDialogAnimationEndListener, OnBackPressedListener onBackPressedListener) {
-        baseBocInstanceDialog = new BocLottieCommonDialog.Builder(softReference.get(), 0).setHintAndWidthHeight(hint).setAnimation(bocLottieDialogEnum, repeatCount, bocLottieDialogAnimationEndListener).setOnBackPressedListener(onBackPressedListener).build();
+        baseBocInstanceDialog = new BocLottieCommonDialog.Builder(weakReference.get(), 0).setHintAndWidthHeight(hint).setAnimation(bocLottieDialogEnum, repeatCount, bocLottieDialogAnimationEndListener).setOnBackPressedListener(onBackPressedListener).build();
         baseBocInstanceDialog.setCancelable(false);
         baseBocInstanceDialog.show();
         return (BocLottieCommonDialog) baseBocInstanceDialog;
@@ -102,7 +102,7 @@ public class BocDialogKit {
      * @return BOC Lottie 点击对话框
      */
     public BocLottieClickDialog bocLottieClickDialog(BocLottieDialogEnum bocLottieDialogEnum, String contentHint, String clickHint, int repeatCount, BocLottieDialogAnimationEndListener bocLottieDialogAnimationEndListener, BocLottieDialogOnClickListener bocLottieDialogOnClickListener, OnBackPressedListener onBackPressedListener) {
-        baseBocInstanceDialog = new BocLottieClickDialog.Builder(softReference.get(), 0).setHint(contentHint, clickHint).setAnimation(bocLottieDialogEnum, repeatCount, bocLottieDialogAnimationEndListener).setOnClickListener(bocLottieDialogOnClickListener).setOnBackPressedListener(onBackPressedListener).build();
+        baseBocInstanceDialog = new BocLottieClickDialog.Builder(weakReference.get(), 0).setHint(contentHint, clickHint).setAnimation(bocLottieDialogEnum, repeatCount, bocLottieDialogAnimationEndListener).setOnClickListener(bocLottieDialogOnClickListener).setOnBackPressedListener(onBackPressedListener).build();
         baseBocInstanceDialog.setCancelable(false);
         baseBocInstanceDialog.show();
         return (BocLottieClickDialog) baseBocInstanceDialog;
@@ -112,18 +112,10 @@ public class BocDialogKit {
      * 结束
      */
     public void end() {
-        if (null != softReference) {
-            softReference.clear();
+        if (null != weakReference) {
+            weakReference.clear();
         }
         if (null != baseBocInstanceDialog) {
-            if (baseBocInstanceDialog instanceof BocLottieCommonDialog) {
-                // BOC Lottie 普通对话框需要关动画
-                ((BocLottieCommonDialog) baseBocInstanceDialog).end();
-            }
-            if (baseBocInstanceDialog instanceof BocLottieClickDialog) {
-                // BOC Lottie 点击对话框需要关动画
-                ((BocLottieClickDialog) baseBocInstanceDialog).end();
-            }
             if (baseBocInstanceDialog.isShowing()) {
                 baseBocInstanceDialog.dismiss();
             }
