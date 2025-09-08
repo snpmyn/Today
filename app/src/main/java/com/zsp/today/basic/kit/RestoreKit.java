@@ -2,6 +2,8 @@ package com.zsp.today.basic.kit;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import widget.dialog.bocdialog.lottie.BocLottieCommonDialog;
+
 /**
  * Created on 2024/8/14.
  *
@@ -13,6 +15,10 @@ public class RestoreKit {
      * 延时
      */
     public long delay = 500L;
+    /**
+     * BOC Lottie 普通对话框
+     */
+    public BocLottieCommonDialog bocLottieCommonDialog;
 
     public static RestoreKit getInstance() {
         return InstanceHolder.INSTANCE;
