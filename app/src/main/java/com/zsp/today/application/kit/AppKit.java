@@ -6,8 +6,6 @@ import com.zsp.today.MainActivity;
 import com.zsp.today.application.App;
 import com.zsp.today.module.login.UserDataBaseTable;
 
-import java.lang.ref.SoftReference;
-
 import litepal.kit.LitePalKit;
 import pool.module.login.LoginActivity;
 import pool.value.PoolConstant;
@@ -42,8 +40,7 @@ public class AppKit {
      * @param phoneNumber       手机号
      */
     public void login(AppCompatActivity appCompatActivity, String phoneNumber) {
-        SoftReference<AppCompatActivity> softReference = new SoftReference<>(appCompatActivity);
-        BocDialogKit.getInstance(appCompatActivity).bocCommonLoading(softReference.get().getString(com.zsp.core.R.string.login), null);
+        BocDialogKit.getInstance(appCompatActivity).bocCommonLoading(appCompatActivity.getString(com.zsp.core.R.string.login), null);
         localSave(appCompatActivity, phoneNumber);
     }
 
