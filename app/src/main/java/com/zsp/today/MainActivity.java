@@ -5,10 +5,10 @@ import android.content.Intent;
 import androidx.annotation.Nullable;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.zsp.today.basic.value.RxBusConstant;
 import com.zsp.today.kit.MainActivityKit;
 import com.zsp.today.module.homepage.HomePageFragment;
 import com.zsp.today.module.mine.MineFragment;
-import com.zsp.today.basic.value.RxBusConstant;
 
 import org.jetbrains.annotations.NotNull;
 
