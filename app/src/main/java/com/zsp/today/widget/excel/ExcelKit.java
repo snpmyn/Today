@@ -21,6 +21,7 @@ import jxl.format.Alignment;
 import jxl.format.Border;
 import jxl.format.BorderLineStyle;
 import jxl.format.Colour;
+import jxl.format.VerticalAlignment;
 import jxl.write.Label;
 import jxl.write.WritableCellFormat;
 import jxl.write.WritableFont;
@@ -50,15 +51,19 @@ public class ExcelKit {
             WritableFont writableFontTitle = new WritableFont(WritableFont.ARIAL, 14, WritableFont.BOLD);
             writableFontTitle.setColour(Colour.WHITE);
             writableCellFormatTitle = new WritableCellFormat(writableFontTitle);
-            writableCellFormatTitle.setBackground(Colour.LIGHT_BLUE);
+            writableCellFormatTitle.setWrap(true);
+            writableCellFormatTitle.setBackground(Colour.RED);
             writableCellFormatTitle.setAlignment(Alignment.CENTRE);
+            writableCellFormatTitle.setVerticalAlignment(VerticalAlignment.CENTRE);
             writableCellFormatTitle.setBorder(Border.ALL, BorderLineStyle.THIN);
             // 内容（字体、格式）
-            WritableFont writableFontContent = new WritableFont(WritableFont.ARIAL, 14, WritableFont.BOLD);
+            WritableFont writableFontContent = new WritableFont(WritableFont.ARIAL, 12, WritableFont.BOLD);
             writableFontContent.setColour(Colour.GRAY_50);
             writableCellFormatContent = new WritableCellFormat(writableFontContent);
-            writableCellFormatContent.setBackground(Colour.BLACK);
+            writableCellFormatContent.setWrap(true);
+            writableCellFormatContent.setBackground(Colour.WHITE);
             writableCellFormatContent.setAlignment(Alignment.CENTRE);
+            writableCellFormatContent.setVerticalAlignment(VerticalAlignment.CENTRE);
             writableCellFormatContent.setBorder(Border.ALL, BorderLineStyle.THIN);
         } catch (WriteException e) {
             LogUtils.exception(e);
@@ -83,7 +88,7 @@ public class ExcelKit {
                 writableSheet.addCell(new Label(i + 1, 0, titles.get(i), writableCellFormatTitle));
             }
             // 头行高
-            writableSheet.setRowView(0, 500);
+            writableSheet.setRowView(0, 600);
             writableWorkbook.write();
         } catch (Exception e) {
             LogUtils.exception(e);
@@ -120,17 +125,17 @@ public class ExcelKit {
             writableWorkbook = Workbook.createWorkbook(file, workbook);
             WritableSheet writableSheet = writableWorkbook.getSheet(0);
             // 头列宽
-            writableSheet.setColumnView(0, 16);
+            writableSheet.setColumnView(0, 18);
             for (int i = 0; i < columnHeads.size(); i++) {
                 // 其它行高（i + 1 排除头行）
-                writableSheet.setRowView(i + 1, 500);
+                writableSheet.setRowView(i + 1, 600);
                 // 头列日期
                 writableSheet.addCell(new Label(0, i + 1, columnHeads.get(i), writableCellFormatContent));
                 // 根据去重后日期查询处理每日期下账目数据
                 List<AccountDataBaseTable> accountDataBaseTableList = LitePalKit.getInstance().queryByWhere(AccountDataBaseTable.class, AccountCondition.ACCOUNT_PHONE_NUMBER_AND_DATE, App.getAppInstance().getPhoneNumber(), columnHeads.get(i));
                 for (int j = 0; j < accountDataBaseTableList.size(); j++) {
                     // 其它列宽（j + 1 排除头列）
-                    writableSheet.setColumnView(j + 1, 12);
+                    writableSheet.setColumnView(j + 1, 14);
                     // 每行账目
                     AccountDataBaseTable accountDataBaseTable = accountDataBaseTableList.get(j);
                     // 其它列金额
