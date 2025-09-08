@@ -168,22 +168,14 @@ public class BocLottieCommonDialog extends BaseBocInstanceDialog {
     public void update(@NonNull BocLottieDialogEnum bocLottieDialogEnum, String hint, int repeatCount, BocLottieDialogAnimationEndListener bocLottieDialogAnimationEndListener) {
         // 设置提示
         bocLottieCommonDialogTv.setText(hint);
-        // 结束
-        end();
-        // 设置动画
-        setAnimation(bocLottieDialogEnum, repeatCount, bocLottieDialogAnimationEndListener);
-    }
-
-    /**
-     * 结束
-     */
-    public void end() {
         // 移除原有动画监听
         // 结束动画前设
         bocLottieCommonDialogLav.removeAllAnimatorListeners();
         // 结束动画
         // 移除原有动画监听后设
         LottieKit.getInstance().endAnimation(bocLottieCommonDialogLav);
+        // 设置动画
+        setAnimation(bocLottieDialogEnum, repeatCount, bocLottieDialogAnimationEndListener);
     }
 
     public static class Builder {

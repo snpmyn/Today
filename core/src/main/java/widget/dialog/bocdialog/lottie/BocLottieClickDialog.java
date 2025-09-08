@@ -178,22 +178,14 @@ public class BocLottieClickDialog extends BaseBocInstanceDialog {
         bocLottieClickDialogTv.setText(contentHint);
         // 点击提示
         bocLottieClickDialogMb.setText(clickHint);
-        // 结束
-        end();
-        // 设置动画
-        setAnimation(bocLottieDialogEnum, repeatCount, bocLottieDialogAnimationEndListener);
-    }
-
-    /**
-     * 结束
-     */
-    public void end() {
         // 移除原有动画监听
         // 结束动画前设
         bocLottieClickDialogLav.removeAllAnimatorListeners();
         // 结束动画
         // 移除原有动画监听后设
         LottieKit.getInstance().endAnimation(bocLottieClickDialogLav);
+        // 设置动画
+        setAnimation(bocLottieDialogEnum, repeatCount, bocLottieDialogAnimationEndListener);
     }
 
     public static class Builder {
