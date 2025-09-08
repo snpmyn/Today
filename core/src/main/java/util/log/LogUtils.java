@@ -1,5 +1,7 @@
 package util.log;
 
+import android.text.TextUtils;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.io.PrintWriter;
@@ -175,7 +177,8 @@ public class LogUtils {
         boolean start = false;
         for (int index = 0; index < stackTraceElements.length; index++) {
             if (!start && (index < stackTraceElements.length - 1)) {
-                if (stackTraceElements[index].getClassName().equals(LogUtils.class.getName()) && !stackTraceElements[index + 1].getClassName().equals(LogUtils.class.getName())) {
+                boolean flag = TextUtils.equals(stackTraceElements[index].getClassName(), LogUtils.class.getName()) && !TextUtils.equals(stackTraceElements[index + 1].getClassName(), LogUtils.class.getName());
+                if (flag) {
                     start = true;
                 }
             }
