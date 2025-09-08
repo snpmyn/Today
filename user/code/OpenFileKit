@@ -1,0 +1,14 @@
+通过 File 打开本地文件
+File file = new File(Environment.getExternalStorageDirectory(), "example.pdf");
+OpenFileUtils.openFile(this, file);
+
+通过 Uri 打开 (适配 Android 10+ SAF / Scoped Storage)
+比如你用 Storage Access Framework (ACTION_OPEN_DOCUMENT) 选择了一个文件，返回的 Uri 可以直接打开。
+@Override
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    if (requestCode == 100 && resultCode == RESULT_OK) {
+        Uri uri = data.getData();
+        OpenFileUtils.openUri(this, uri, getContentResolver().getType(uri));
+    }
+}
