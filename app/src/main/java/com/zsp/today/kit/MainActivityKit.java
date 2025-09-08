@@ -9,7 +9,7 @@ import androidx.work.WorkManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.permissionx.guolindev.PermissionX;
 import com.zsp.today.R;
-import com.zsp.today.basic.kit.RestoreKit;
+import com.zsp.today.basic.restore.kit.RestoreKit;
 import com.zsp.today.basic.worker.AccountNotificationWorker;
 
 import java.util.List;
