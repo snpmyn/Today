@@ -56,7 +56,7 @@ android {
             // 启用资源缩减
             shrinkResources true
             // 调试
-            /*debuggable true*/
+            debuggable false
             signingConfig signingConfigs.release
             buildConfigField "String", "DOMAIN_NAME", '"http://xxx.com"'
             manifestPlaceholders = [app_name: "今日"]
