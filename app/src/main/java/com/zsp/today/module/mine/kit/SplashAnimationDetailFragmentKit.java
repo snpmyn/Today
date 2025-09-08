@@ -47,9 +47,6 @@ public class SplashAnimationDetailFragmentKit {
         if (null == bundle) {
             return;
         }
-        if (MmkvKit.defaultMmkv().decodeBool(PoolConstant.SPLASH_$_USE_DEFAULT_ANIMATION)) {
-            MmkvKit.defaultMmkv().encode(PoolConstant.SPLASH_$_USE_DEFAULT_ANIMATION, false);
-        }
         MmkvKit.defaultMmkv().encode(PoolConstant.SPLASH_$_ANIMATION, bundle.getString(SplashConstant.SPLASH_ANIMATION_HOME_FRAGMENT_$_RES_NAME));
         splashAnimationDetailFragment.onBackPressedSupport();
         // 提示

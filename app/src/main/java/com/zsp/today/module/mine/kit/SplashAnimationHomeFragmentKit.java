@@ -1,5 +1,6 @@
 package com.zsp.today.module.mine.kit;
 
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -91,11 +92,11 @@ public class SplashAnimationHomeFragmentKit {
      * @param appCompatActivity 活动
      */
     public void useDefaultSplashAnimation(AppCompatActivity appCompatActivity) {
-        if (!MmkvKit.defaultMmkv().decodeBool(PoolConstant.SPLASH_$_USE_DEFAULT_ANIMATION)) {
-            MmkvKit.defaultMmkv().encode(PoolConstant.SPLASH_$_USE_DEFAULT_ANIMATION, true);
-            BocDialogKit.getInstance(appCompatActivity).bocLottieCommonDialogOne(BocLottieDialogEnum.SUCCESS_ONE, appCompatActivity.getString(R.string.restoreAnimationSuccessful), 0, () -> BocDialogKit.getInstance(appCompatActivity).end(), null);
-        } else {
+        if (TextUtils.equals(MmkvKit.defaultMmkv().decodeString(PoolConstant.SPLASH_$_ANIMATION), "lottie_animation_splash_default")) {
             BocDialogKit.getInstance(appCompatActivity).bocLottieCommonDialogOne(BocLottieDialogEnum.SUCCESS_ONE, appCompatActivity.getString(R.string.alreadyIsDefaultAnimation), 0, () -> BocDialogKit.getInstance(appCompatActivity).end(), null);
+        } else {
+            MmkvKit.defaultMmkv().encode(PoolConstant.SPLASH_$_ANIMATION, "lottie_animation_splash_default");
+            BocDialogKit.getInstance(appCompatActivity).bocLottieCommonDialogOne(BocLottieDialogEnum.SUCCESS_ONE, appCompatActivity.getString(R.string.restoreAnimationSuccessful), 0, () -> BocDialogKit.getInstance(appCompatActivity).end(), null);
         }
     }
 }
