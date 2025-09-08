@@ -46,7 +46,7 @@
                 </RelativeLayout>
 
                 <TextView
-                    android:id="@+id/mineChildFragmentTvName"
+                    android:id="@+id/mineChildFragmentTvNickName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_10"
