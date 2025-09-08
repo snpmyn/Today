@@ -12,7 +12,8 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.zsp.today.R;
 import com.zsp.today.application.App;
-import com.zsp.today.basic.kit.BackupKit;
+import com.zsp.today.basic.backup.BackupKit;
+import com.zsp.today.basic.value.Folder;
 import com.zsp.today.module.account.AccountAnalysisActivity;
 import com.zsp.today.module.account.AccountHomeActivity;
 import com.zsp.today.module.account.AccountSecondActivity;
@@ -22,32 +23,30 @@ import com.zsp.today.module.account.bean.AccountTransferBean;
 import com.zsp.today.module.account.database.AccountDataBaseTable;
 import com.zsp.today.module.account.value.AccountCondition;
 import com.zsp.today.module.account.value.AccountConstant;
-import com.zsp.today.basic.value.Folder;
 import com.zsp.today.widget.excel.ExcelKit;
 
-import util.list.ListUtils;
-import widget.status.kit.StatusManagerKit;
-
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import litepal.kit.LitePalKit;
 import util.data.StringUtils;
 import util.datetime.DateUtils;
+import util.file.OpenFileKit;
 import util.intent.IntentJump;
-import widget.dialog.bottomsheetdialog.MyBottomSheetDialog;
-import widget.toast.ToastKit;
+import util.list.ListUtils;
 import util.view.ViewUtils;
+import widget.dialog.bottomsheetdialog.MyBottomSheetDialog;
 import widget.dialog.materialalertdialog.kit.MaterialAlertDialogBuilderKit;
 import widget.dialog.materialalertdialog.kit.SingleChooseMaterialAlertDialogKit;
 import widget.recyclerview.configure.RecyclerViewConfigure;
 import widget.recyclerview.controller.RecyclerViewDisplayController;
 import widget.recyclerview.listener.OnRecyclerViewOnItemClickListener;
 import widget.recyclerview.listener.OnRecyclerViewOnItemLongClickListener;
+import widget.status.kit.StatusManagerKit;
 import widget.status.manager.StatusManager;
-import widget.tbs.kit.TbsKit;
-import widget.tbs.value.TbsEnum;
 import widget.textview.DrawableCenterTextView;
+import widget.toast.ToastKit;
 import widget.transition.kit.TransitionKit;
 
 /**
@@ -214,11 +213,7 @@ public class AccountHomeActivityKit {
     public void openAccount(AppCompatActivity appCompatActivity, String filePath) {
         new MaterialAlertDialogBuilderKit(appCompatActivity).setTitle(com.zsp.core.R.string.hint).setMessage(String.format(appCompatActivity.getString(R.string.formatAccountExportSuccessful), filePath)).setPositiveButton(R.string.openAccount, (dialog, which) -> {
             dialog.dismiss();
-            TbsKit.getInstance().startQbOrMiniQBToLoadUrl(appCompatActivity, filePath, null, s -> {
-                if (TextUtils.equals(String.valueOf(TbsEnum.OPEN_FAIL.getType()), s)) {
-                    ToastKit.showShort(TbsEnum.OPEN_FAIL.getHint());
-                }
-            });
-        }).setNegativeButton(R.string.iKnow, (dialog, which) -> dialog.dismiss()).show();
+            OpenFileKit.openFile(appCompatActivity, new File(filePath));
+        }).setNegativeButton(R.string.iKnow, (dialog, which) -> dialog.dismiss()).setCancelable(false).show();
     }
 }
