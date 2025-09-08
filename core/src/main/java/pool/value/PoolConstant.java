@@ -20,10 +20,6 @@ public class PoolConstant {
      */
     public static final String PRIVACY_POLICY = "PrivacyPolicy";
     /**
-     * 闪屏（使用默认动画）
-     */
-    public static final String SPLASH_$_USE_DEFAULT_ANIMATION = "SplashUseDefaultAnimation";
-    /**
      * 闪屏（动画）
      */
     public static final String SPLASH_$_ANIMATION = "SplashAnimation";
