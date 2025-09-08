@@ -5,10 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.zsp.today.application.App;
-import com.zsp.today.basic.kit.BackupKit;
+import com.zsp.today.basic.backup.BackupKit;
+import com.zsp.today.basic.value.RxBusConstant;
 import com.zsp.today.module.function.database.FunctionDataBaseTable;
 import com.zsp.today.module.function.value.FunctionCondition;
-import com.zsp.today.basic.value.RxBusConstant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,12 +40,9 @@ public class FunctionActivityKit {
         }
         // 功能适配器配套元件
         FunctionAdapterKit functionAdapterKit = new FunctionAdapterKit();
-        functionAdapterKit.display(appCompatActivity, recyclerView, functionBeanList, 3, 48, 192, new FunctionAdapterKit.FunctionAdapterKitInterface() {
-            @Override
-            public void onItemClick(FunctionBean functionBean) {
-                // 更新
-                update(appCompatActivity, functionBean);
-            }
+        functionAdapterKit.display(appCompatActivity, recyclerView, functionBeanList, 3, 48, 192, functionBean -> {
+            // 更新
+            update(appCompatActivity, functionBean);
         });
     }
 
