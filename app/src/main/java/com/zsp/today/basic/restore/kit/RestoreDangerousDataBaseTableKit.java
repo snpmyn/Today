@@ -9,6 +9,7 @@ import com.google.gson.reflect.TypeToken;
 import com.zsp.today.R;
 import com.zsp.today.basic.restore.value.RestoreConstant;
 import com.zsp.today.basic.value.Folder;
+import com.zsp.today.basic.value.PublicConstant;
 import com.zsp.today.module.dangerous.database.DangerousDataBaseTable;
 
 import java.io.File;
@@ -43,10 +44,10 @@ public class RestoreDangerousDataBaseTableKit {
     public void restoreDangerousDataBaseTable(AppCompatActivity appCompatActivity) {
         if (MmkvKit.defaultMmkv().decodeBool(RestoreConstant.RESTORE_$_DANGEROUS_DATA_BASE_TABLE)) {
             if (null != RestoreKit.getInstance().bocLottieCommonDialog) {
-                // 结束
-                BocDialogKit.getInstance(appCompatActivity).end();
                 // 置空
                 RestoreKit.getInstance().bocLottieCommonDialog = null;
+                // 结束
+                BocDialogKit.getInstance(appCompatActivity).end();
             }
             return;
         }
@@ -94,11 +95,11 @@ public class RestoreDangerousDataBaseTableKit {
      */
     private void next(AppCompatActivity appCompatActivity, BocLottieDialogEnum bocLottieDialogEnum, String hint) {
         MmkvKit.defaultMmkv().encode(RestoreConstant.RESTORE_$_DANGEROUS_DATA_BASE_TABLE, true);
-        TimerKit.getInstance().execute(appCompatActivity, RestoreKit.getInstance().delay, () -> RestoreKit.getInstance().bocLottieCommonDialog.update(bocLottieDialogEnum, hint, 0, () -> {
-            // 结束
-            BocDialogKit.getInstance(appCompatActivity).end();
+        TimerKit.getInstance().execute(appCompatActivity, PublicConstant.DELAY_DURATION, () -> RestoreKit.getInstance().bocLottieCommonDialog.update(bocLottieDialogEnum, hint, 0, () -> {
             // 置空
             RestoreKit.getInstance().bocLottieCommonDialog = null;
+            // 结束
+            BocDialogKit.getInstance(appCompatActivity).end();
         }));
     }
 
