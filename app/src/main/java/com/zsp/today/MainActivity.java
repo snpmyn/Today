@@ -5,6 +5,8 @@ import android.content.Intent;
 import androidx.annotation.Nullable;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.zsp.today.basic.service.PeriodicService;
+import com.zsp.today.basic.service.PeriodicServiceConnection;
 import com.zsp.today.basic.value.RxBusConstant;
 import com.zsp.today.kit.MainActivityKit;
 import com.zsp.today.module.homepage.HomePageFragment;
@@ -15,10 +17,12 @@ import org.jetbrains.annotations.NotNull;
 import pool.base.BasePoolActivity;
 import pool.base.BasePoolFragment;
 import timber.log.Timber;
+import util.log.LogUtils;
 import util.rxbus.annotation.Subscribe;
 import util.rxbus.annotation.Tag;
 import util.rxbus.thread.EventThread;
 import widget.notification.kit.NotificationKit;
+import widget.service.kit.ServiceKit;
 
 /**
  * @decs: 主页
@@ -39,6 +43,10 @@ public class MainActivity extends BasePoolActivity implements BasePoolFragment.O
      * 主页配套元件
      */
     private MainActivityKit mainActivityKit;
+    /**
+     * 周期服务连接
+     */
+    private PeriodicServiceConnection periodicServiceConnection;
 
     /**
      * 布局资源 ID
@@ -64,7 +72,15 @@ public class MainActivity extends BasePoolActivity implements BasePoolFragment.O
      */
     @Override
     protected void initConfiguration() {
+        // 主页配套元件
         mainActivityKit = new MainActivityKit();
+        // 周期服务连接
+        periodicServiceConnection = new PeriodicServiceConnection(new PeriodicServiceConnection.PeriodicServiceConnectionListener() {
+            @Override
+            public void execute(int count) {
+                LogUtils.d(getClass().getSimpleName(), String.valueOf(count));
+            }
+        });
     }
 
     /**
@@ -92,6 +108,8 @@ public class MainActivity extends BasePoolActivity implements BasePoolFragment.O
         fragmentShow();
         // 执行
         mainActivityKit.execute(this);
+        // 开始
+        ServiceKit.getInstance().start(this, periodicServiceConnection, PeriodicService.class);
     }
 
     /**
@@ -177,5 +195,12 @@ public class MainActivity extends BasePoolActivity implements BasePoolFragment.O
         if ((resultCode == RESULT_CANCELED) && (requestCode == NotificationKit.NOTIFICATION_KIT_REQUEST_CODE)) {
             mainActivityKit.execute(this);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // 结束
+        ServiceKit.getInstance().end(this, periodicServiceConnection);
     }
 }
