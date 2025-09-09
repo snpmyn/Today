@@ -23,21 +23,16 @@ import widget.sms.broadcastreceiver.SmsBroadcastReceiver;
  */
 public class SmsKit implements SmsBroadcastReceiver.SmsBroadcastReceiverSendListener, SmsBroadcastReceiver.SmsBroadcastReceiverDeliverListener {
     /**
-     * 短信广播发送/传送接收器
+     * 短信广播发送 / 传送接收器
      */
     private SmsBroadcastReceiver smsSendBroadcastReceiver, smsDeliverBroadcastReceiver;
-    /**
-     * 意图
-     */
-    private final PendingIntent smsSendPendingIntent;
-    private final PendingIntent smsDeliverPendingIntent;
     /**
      * 滤值
      */
     public static String SMS_SEND_ACTION = "SMS_SEND_ACTION";
     public static String SMS_DELIVER_ACTION = "SMS_DELIVER_ACTION";
     /**
-     * 短信配套原件发送/传送监听
+     * 短信配套原件发送 / 传送监听
      */
     private SmsKitSendListener smsKitSendListener;
     private SmsKitDeliverListener smsKitDeliverListener;
@@ -52,11 +47,6 @@ public class SmsKit implements SmsBroadcastReceiver.SmsBroadcastReceiverSendList
         registerReceiver(context);
         // 设监听
         setListener();
-        // 意图
-        Intent smsSendIntent = new Intent(SMS_SEND_ACTION);
-        smsSendPendingIntent = PendingIntent.getBroadcast(context, 0, smsSendIntent, PendingIntent.FLAG_IMMUTABLE);
-        Intent smsDeliverIntent = new Intent(SMS_DELIVER_ACTION);
-        smsDeliverPendingIntent = PendingIntent.getBroadcast(context, 0, smsDeliverIntent, PendingIntent.FLAG_IMMUTABLE);
     }
 
     /**
@@ -67,12 +57,10 @@ public class SmsKit implements SmsBroadcastReceiver.SmsBroadcastReceiverSendList
     private void registerReceiver(Context context) {
         // 发送
         smsSendBroadcastReceiver = new SmsBroadcastReceiver();
-        IntentFilter intentFilter = new IntentFilter(SMS_SEND_ACTION);
-        LocalBroadcastManager.getInstance(context).registerReceiver(smsSendBroadcastReceiver, intentFilter);
+        LocalBroadcastManager.getInstance(context).registerReceiver(smsSendBroadcastReceiver, new IntentFilter(SMS_SEND_ACTION));
         // 传送
         smsDeliverBroadcastReceiver = new SmsBroadcastReceiver();
-        intentFilter = new IntentFilter(SMS_DELIVER_ACTION);
-        LocalBroadcastManager.getInstance(context).registerReceiver(smsDeliverBroadcastReceiver, intentFilter);
+        LocalBroadcastManager.getInstance(context).registerReceiver(smsDeliverBroadcastReceiver, new IntentFilter(SMS_DELIVER_ACTION));
     }
 
     /**
@@ -111,8 +99,8 @@ public class SmsKit implements SmsBroadcastReceiver.SmsBroadcastReceiverSendList
      * <p>
      * sentIntents (发送状态 PendingIntent 列表)
      * 一个 ArrayList<PendingIntent>
-     * 列表中的每一个 PendingIntent 都会在对应的短信部分发送尝试完成后被触发（广播或启动活动/服务）
-     * 你可以通过它来监听每条分割短信的发送状态（成功/失败）
+     * 列表中的每一个 PendingIntent 都会在对应的短信部分发送尝试完成后被触发（广播或启动活动 / 服务）
+     * 你可以通过它来监听每条分割短信的发送状态（成功 / 失败）
      * <p>
      * deliveryIntents (送达回执 PendingIntent 列表)
      * 一个 ArrayList<PendingIntent>
@@ -124,14 +112,15 @@ public class SmsKit implements SmsBroadcastReceiver.SmsBroadcastReceiverSendList
      */
     public void singleShot(Context context, String destinationAddress, String content) {
         // 发送短信广播发送接收器
-        Intent smsSendIntent = new Intent(SMS_SEND_ACTION);
-        LocalBroadcastManager.getInstance(context).sendBroadcast(smsSendIntent);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(SMS_SEND_ACTION));
         // 发送短信广播传送接收器
-        Intent smsDeliverIntent = new Intent(SMS_DELIVER_ACTION);
-        LocalBroadcastManager.getInstance(context).sendBroadcast(smsDeliverIntent);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(SMS_DELIVER_ACTION));
         // 短信管理器
         SmsManager smsManager = SmsManager.getDefault();
         ArrayList<String> divideMessageContent = smsManager.divideMessage(content);
+        // 意图
+        PendingIntent smsSendPendingIntent = PendingIntent.getBroadcast(context, 0, new Intent(SMS_SEND_ACTION), PendingIntent.FLAG_IMMUTABLE);
+        PendingIntent smsDeliverPendingIntent = PendingIntent.getBroadcast(context, 0, new Intent(SMS_DELIVER_ACTION), PendingIntent.FLAG_IMMUTABLE);
         try {
             if (divideMessageContent.size() == 1) {
                 smsManager.sendTextMessage(destinationAddress, null, divideMessageContent.get(0), smsSendPendingIntent, smsDeliverPendingIntent);
