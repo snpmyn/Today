@@ -11,6 +11,7 @@ import com.zsp.today.application.App;
 import com.zsp.today.basic.backup.BackupKit;
 import com.zsp.today.basic.restore.value.RestoreConstant;
 import com.zsp.today.basic.value.Folder;
+import com.zsp.today.basic.value.PublicConstant;
 import com.zsp.today.basic.value.RxBusConstant;
 import com.zsp.today.module.function.database.FunctionDataBaseTable;
 import com.zsp.today.module.homepage.bean.HomePageMenuEnum;
@@ -116,7 +117,7 @@ public class RestoreFunctionDataBaseTableKit {
      */
     private void next(AppCompatActivity appCompatActivity, String hint) {
         MmkvKit.defaultMmkv().encode(RestoreConstant.RESTORE_$_FUNCTION_DATA_BASE_TABLE, true);
-        TimerKit.getInstance().execute(appCompatActivity, RestoreKit.getInstance().delay, () -> RestoreKit.getInstance().bocLottieCommonDialog.update(BocLottieDialogEnum.SUCCESS_ONE, hint, 0, () -> {
+        TimerKit.getInstance().execute(appCompatActivity, PublicConstant.DELAY_DURATION, () -> RestoreKit.getInstance().bocLottieCommonDialog.update(BocLottieDialogEnum.SUCCESS_ONE, hint, 0, () -> {
             // 刷新菜单
             RxBus.get().post(RxBusConstant.HOME_PAGE_CHILD_FRAGMENT_$_REFRESH_MENU, RxBusConstant.HOME_PAGE_CHILD_FRAGMENT_$_REFRESH_MENU_CODE);
             // 恢复险情数据库表
