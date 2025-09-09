@@ -12,10 +12,6 @@ import widget.dialog.bocdialog.lottie.BocLottieCommonDialog;
  */
 public class RestoreKit {
     /**
-     * 延时
-     */
-    public long delay = 500L;
-    /**
      * BOC Lottie 普通对话框
      */
     public BocLottieCommonDialog bocLottieCommonDialog;
