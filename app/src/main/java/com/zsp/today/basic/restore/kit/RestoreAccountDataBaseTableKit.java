@@ -9,6 +9,7 @@ import com.google.gson.reflect.TypeToken;
 import com.zsp.today.R;
 import com.zsp.today.basic.restore.value.RestoreConstant;
 import com.zsp.today.basic.value.Folder;
+import com.zsp.today.basic.value.PublicConstant;
 import com.zsp.today.module.account.database.AccountDataBaseTable;
 
 import java.io.File;
@@ -86,7 +87,7 @@ public class RestoreAccountDataBaseTableKit {
      */
     private void next(AppCompatActivity appCompatActivity, BocLottieDialogEnum bocLottieDialogEnum, String hint) {
         MmkvKit.defaultMmkv().encode(RestoreConstant.RESTORE_$_ACCOUNT_DATA_BASE_TABLE, true);
-        TimerKit.getInstance().execute(appCompatActivity, RestoreKit.getInstance().delay, () -> RestoreKit.getInstance().bocLottieCommonDialog.update(bocLottieDialogEnum, hint, 0, () -> {
+        TimerKit.getInstance().execute(appCompatActivity, PublicConstant.DELAY_DURATION, () -> RestoreKit.getInstance().bocLottieCommonDialog.update(bocLottieDialogEnum, hint, 0, () -> {
             // 预存或恢复功能数据库表
             RestoreFunctionDataBaseTableKit.getInstance().preStoreOrRestoreFunctionDataBaseTable(appCompatActivity);
         }));
