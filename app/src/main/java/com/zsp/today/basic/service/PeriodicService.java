@@ -6,7 +6,6 @@ import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 
-import com.zsp.today.BuildConfig;
 import com.zsp.today.MainActivity;
 import com.zsp.today.R;
 
@@ -33,8 +32,8 @@ public class PeriodicService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        NotificationHelper.getInstance(this).createNotificationChannel(BuildConfig.APPLICATION_ID, getString(R.string.periodicNotificationChinese), getString(R.string.periodicNotificationEnglish));
-        startForeground(1, NotificationHelper.getInstance(this).createNotification(this, BuildConfig.APPLICATION_ID, getString(R.string.serviceIsRunning), getString(R.string.inPeriodicOperation), R.drawable.ic_add_basic_20dp, MainActivity.class));
+        NotificationHelper.getInstance(this).createNotificationChannel(getClass().getSimpleName(), getString(R.string.periodicNotificationChinese), getString(R.string.periodicNotificationEnglish));
+        startForeground(1, NotificationHelper.getInstance(this).createNotification(this, getClass().getSimpleName(), getString(R.string.serviceIsRunning), getString(R.string.inPeriodicOperation), R.drawable.ic_notification_white_56dp, MainActivity.class));
         handler = new Handler();
         handler.post(updateTask);
     }

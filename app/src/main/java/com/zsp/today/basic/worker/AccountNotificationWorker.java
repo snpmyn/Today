@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
-import com.zsp.today.BuildConfig;
 import com.zsp.today.MainActivity;
 import com.zsp.today.R;
 
@@ -33,8 +32,8 @@ public class AccountNotificationWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        NotificationHelper.getInstance(context).createNotificationChannel(BuildConfig.APPLICATION_ID, context.getString(R.string.accountNotificationChinese), context.getString(R.string.accountNotificationEnglish));
-        NotificationHelper.getInstance(context).notify(NotificationHelper.getInstance(context).createNotification(context, BuildConfig.APPLICATION_ID, context.getString(R.string.todayAccount), context.getString(R.string.rememberToKeepAccount), R.drawable.ic_notification_white_56dp, MainActivity.class));
+        NotificationHelper.getInstance(context).createNotificationChannel(getClass().getSimpleName(), context.getString(R.string.accountNotificationChinese), context.getString(R.string.accountNotificationEnglish));
+        NotificationHelper.getInstance(context).notify(NotificationHelper.getInstance(context).createNotification(context, getClass().getSimpleName(), context.getString(R.string.todayAccount), context.getString(R.string.rememberToKeepAccount), R.drawable.ic_notification_white_56dp, MainActivity.class));
         return Result.success();
     }
 }
