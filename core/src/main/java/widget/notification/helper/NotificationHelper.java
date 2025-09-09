@@ -32,16 +32,15 @@ public class NotificationHelper {
      * 创建通知渠道
      * <p>
      * Android 8.0+ 需要
-     * <p>
-     * Android 通知渠道通过 channelId 唯一标识
-     * 如果写了两个渠道，但用同一 ID，则后面创建的会覆盖前面的，系统里只显示一个通知类别。
-     * <p>
-     * 创建渠道后不可修改或覆盖
-     * 一旦渠道创建，name 和 description 基本不可修改 (除非卸载重装 App)。
-     * 如果调试时改了名字，但 ID 没变，则系统仍然只显示旧的。
-     * 调试时，可先卸载 App 再安装，避免渠道信息被缓存。
      *
      * @param channelId          渠道 ID
+     *                           Android 通知渠道通过 channelId 唯一标识
+     *                           如果写了两个渠道，但用同一 ID，则后面创建的会覆盖前面的，系统里只显示一个通知类别。
+     *                           <p>
+     *                           创建渠道后不可修改或覆盖
+     *                           一旦渠道创建，name 和 description 基本不可修改 (除非卸载重装 App)。
+     *                           如果调试时改了名字，但 ID 没变，则系统仍然只显示旧的。
+     *                           调试时，可先卸载 App 再安装，避免渠道信息被缓存。
      * @param channelName        渠道名
      * @param channelDescription 渠道描述
      */
@@ -61,6 +60,13 @@ public class NotificationHelper {
      *
      * @param context   上下文
      * @param channelId 渠道 ID
+     *                  Android 通知渠道通过 channelId 唯一标识
+     *                  如果写了两个渠道，但用同一 ID，则后面创建的会覆盖前面的，系统里只显示一个通知类别。
+     *                  <p>
+     *                  创建渠道后不可修改或覆盖
+     *                  一旦渠道创建，name 和 description 基本不可修改 (除非卸载重装 App)。
+     *                  如果调试时改了名字，但 ID 没变，则系统仍然只显示旧的。
+     *                  调试时，可先卸载 App 再安装，避免渠道信息被缓存。
      * @param title     标题
      * @param content   内容
      * @param icon      图标
