@@ -31,6 +31,7 @@ import widget.dialog.bocdialog.lottie.BocLottieClickDialog;
 import widget.dialog.bocdialog.lottie.bean.BocLottieDialogEnum;
 import widget.dialog.materialalertdialog.kit.MaterialAlertDialogBuilderKit;
 import widget.dialog.materialalertdialog.kit.UseGuideMaterialAlertDialogKit;
+import widget.dialog.materialalertdialog.listener.UseGuideMaterialAlertDialogKitListener;
 import widget.location.value.LocationConstant;
 import widget.permissionx.kit.PermissionxKit;
 import widget.permissionx.listener.PermissionxKitListener;
@@ -99,11 +100,19 @@ public class DangerousActivityKit implements SmsKit.SmsKitSendListener, SmsKit.S
         useGuideMaterialAlertDialogKit.prepareData("步骤一", "☀ 输入险情通知 ☀\n\n令狐少侠，我现处危险中。马上帮我报警，不要回电。\n\n如上编辑即可，发送短信时自动附带你所处位置的定位信息。", "关闭", "下一步");
         useGuideMaterialAlertDialogKit.prepareData("步骤二", "☀ 输入紧急联系人手机号 ☀\n\n输入令狐少侠的手机号\n\n遇险情时向令狐少侠一键发送短信", "上一步", "下一步");
         useGuideMaterialAlertDialogKit.prepareData("步骤三", "☀ 保存配置 ☀\n\n建议尽早配置，以备不时之需。", "上一步", "去使用");
-        useGuideMaterialAlertDialogKit.show(appCompatActivity, 0, false, () -> {
-            if (MmkvKit.defaultMmkv().decodeBool(DangerousConstant.DANGEROUS_ACTIVITY_$_USE_GUIDE)) {
-                return;
+        useGuideMaterialAlertDialogKit.show(appCompatActivity, 0, false, new UseGuideMaterialAlertDialogKitListener() {
+            @Override
+            public void start() {
+
             }
-            MmkvKit.defaultMmkv().encode(DangerousConstant.DANGEROUS_ACTIVITY_$_USE_GUIDE, true);
+
+            @Override
+            public void end() {
+                if (MmkvKit.defaultMmkv().decodeBool(DangerousConstant.DANGEROUS_ACTIVITY_$_USE_GUIDE)) {
+                    return;
+                }
+                MmkvKit.defaultMmkv().encode(DangerousConstant.DANGEROUS_ACTIVITY_$_USE_GUIDE, true);
+            }
         });
     }
 
@@ -153,8 +162,8 @@ public class DangerousActivityKit implements SmsKit.SmsKitSendListener, SmsKit.S
         if (send) {
             // 对话框提示
             bocLottieClickDialog = BocDialogKit.getInstance(appCompatActivity).bocLottieClickDialog(BocLottieDialogEnum.LOADING_ONE, appCompatActivity.getString(R.string.updatingLocation), appCompatActivity.getString(R.string.hurryUpSendTheCoarseLocation), ValueAnimator.INFINITE, null, () -> {
-                BocDialogKit.getInstance(appCompatActivity).end();
                 bocLottieClickDialog = null;
+                BocDialogKit.getInstance(appCompatActivity).end();
                 // 内容
                 String content = dangerousNotice + handleLocationInfo();
                 // 对话框提示
