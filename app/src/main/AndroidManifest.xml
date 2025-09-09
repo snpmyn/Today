@@ -28,6 +28,9 @@
     <uses-permission
         android:name="android.permission.SEND_SMS"
         tools:ignore="SmsAndCallLogPolicy" />
+    <!--从 Android 9 (API 28) 开始，Google 要求开发者在启动前台服务时，必须指定前台服务类型 (foregroundServiceType)-->
+    <!--前台服务声明 foregroundServiceType="dataSync" 时清单文件必须添加权限-->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
 
     <application
         android:name=".application.App"
@@ -64,6 +67,11 @@
             </intent-filter>
         </activity>
 
+        <service
+            android:name=".basic.service.PeriodicService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
