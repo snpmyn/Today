@@ -59,12 +59,15 @@
       <w>mhac</w>
       <w>mmap</w>
       <w>mmkv</w>
+      <w>msvideo</w>
       <w>msword</w>
       <w>mtrl</w>
       <w>muyang</w>
       <w>occurances</w>
+      <w>officedocument</w>
       <w>oldh</w>
       <w>oldw</w>
+      <w>openxmlformats</w>
       <w>permissionx</w>
       <w>pingpong</w>
       <w>poped</w>
@@ -82,6 +85,7 @@
       <w>smsto</w>
       <w>snackbar</w>
       <w>sommets</w>
+      <w>spreadsheetml</w>
       <w>tablayout</w>
       <w>tetescope</w>
       <w>tiet</w>
@@ -96,6 +100,7 @@
       <w>ukramedia</w>
       <w>uniqued</w>
       <w>uykio</w>
+      <w>wordprocessingml</w>
       <w>xxxxxx</w>
       <w>yokeyword</w>
       <w>yyyymmddhhmmss</w>
