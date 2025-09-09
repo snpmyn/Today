@@ -8,7 +8,12 @@ package widget.dialog.materialalertdialog.listener;
  */
 public interface UseGuideMaterialAlertDialogKitListener {
     /**
-     * 关闭或去使用
+     * 开始
      */
-    void closeOrGoToUse();
+    void start();
+
+    /**
+     * 结束
+     */
+    void end();
 }

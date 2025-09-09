@@ -57,17 +57,17 @@ public class UseGuideMaterialAlertDialogKit {
             if (index < (useGuideContentList.size() - 1)) {
                 show(appCompatActivity, index + 1, cancelable, useGuideMaterialAlertDialogKitListener);
             }
-            // 去使用
-            boolean goToUse = (null != useGuideMaterialAlertDialogKitListener) && (index == (useGuideContentList.size() - 1));
-            if (goToUse) {
-                useGuideMaterialAlertDialogKitListener.closeOrGoToUse();
+            // 结束
+            boolean end = (null != useGuideMaterialAlertDialogKitListener) && (index == (useGuideContentList.size() - 1));
+            if (end) {
+                useGuideMaterialAlertDialogKitListener.end();
             }
         }).setNegativeButton(useGuideNegativeButtonText, (dialog, which) -> {
             dialog.dismiss();
-            // 关闭
-            boolean close = (null != useGuideMaterialAlertDialogKitListener) && (index == 0);
-            if (close) {
-                useGuideMaterialAlertDialogKitListener.closeOrGoToUse();
+            // 开始
+            boolean start = (null != useGuideMaterialAlertDialogKitListener) && (index == 0);
+            if (start) {
+                useGuideMaterialAlertDialogKitListener.start();
             }
             // 上一步
             boolean flag = (index > 0) && (index < useGuideContentList.size());
