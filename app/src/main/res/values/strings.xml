@@ -24,6 +24,7 @@
     <string name="useGuide">使用指南</string>
     <string name="resetData">重置数据</string>
     <string name="sendQuickly">快发送</string>
+    <string name="deleteData">删除数据</string>
     <string name="saveConfig">保存配置</string>
     <string name="addAccount">添加账目</string>
     <string name="chooseDate">选择日期</string>
@@ -56,9 +57,12 @@
     <string name="smsDeliverFail">短信送达失败</string>
     <string name="smsHasBeenSent">短信发送成功</string>
     <string name="updatingLocation">更新定位中</string>
+    <string name="serviceIsRunning">服务运行中</string>
     <string name="noAccountAvailable">暂无账目</string>
+    <string name="dataHasBeenDeleted">数据已删除</string>
     <string name="internalBackupFail">内备份失败</string>
     <string name="externalBackupFail">外备份失败</string>
+    <string name="inPeriodicOperation">周期运行中</string>
     <string name="smsHasBeenDelivered">短信已送达</string>
     <string name="waitForImplementation">等待实现</string>
     <string name="updateLocationFail">更新定位失败</string>
@@ -74,6 +78,7 @@
     <string name="noAccountDataAvailable">暂无账单数据</string>
     <string name="accountNotificationChinese">账目通知</string>
     <string name="enterIntoAccountSuccessful">入账成功</string>
+    <string name="periodicNotificationChinese">周期通知</string>
     <string name="updateLocationSuccessful">更新定位成功</string>
     <string name="canNotGetLocationInfo">无法获取定位信息</string>
     <string name="alreadyIsDefaultAnimation">已是默认动画</string>
@@ -88,6 +93,7 @@
     <string name="sendSmsAreBasedOnThePermission">发送短信需要该权限</string>
     <string name="accountNotificationEnglish">account notification</string>
     <string name="wantToDeleteTheAccountOfTheDay">要删除这天的账目吗？</string>
+    <string name="periodicNotificationEnglish">periodic notification</string>
     <string name="inputEmergencyContactPhoneNumber">输入紧急联系人手机号</string>
     <string name="hurryUpSendTheCoarseLocation">来不及了\n使用粗略位置发送</string>
     <string name="receiveNotificationAreBasedOnThePermission">接收通知需要该权限</string>
