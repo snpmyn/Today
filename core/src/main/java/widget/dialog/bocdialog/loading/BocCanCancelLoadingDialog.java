@@ -82,7 +82,7 @@ public class BocCanCancelLoadingDialog extends BaseBocInstanceDialog {
     protected void initData() {
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
         layoutParams.width = DensityUtils.dipToPxByFloat(context, 146);
-        layoutParams.height = DensityUtils.dipToPxByFloat(context, 46);
+        layoutParams.height = DensityUtils.dipToPxByFloat(context, 66);
         view.setLayoutParams(layoutParams);
         // 动画
         animation = AnimationUtils.loadAnimation(context, R.anim.boc_dialog_can_cancel_loading);
