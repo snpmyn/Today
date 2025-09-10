@@ -76,7 +76,7 @@ public class MineChildFragmentKit {
         moduleBeanList.add(new MenuBean(2, R.drawable.ic_reset_basic_24dp, appCompatActivity.getString(R.string.resetData)));
         moduleBeanList.add(new MenuBean(3, R.drawable.ic_clean_cache_basic_24dp, appCompatActivity.getString(R.string.cleanCache)));
         moduleBeanList.add(new MenuBean(4, R.drawable.ic_author_basic_24dp, appCompatActivity.getString(R.string.author)));
-        moduleBeanList.add(new MenuBean(5, R.drawable.ic_donation_basic_24dp, appCompatActivity.getString(R.string.donation)));
+        moduleBeanList.add(new MenuBean(5, R.drawable.ic_donate_basic_24dp, appCompatActivity.getString(R.string.donate)));
         moduleBeanList.add(new MenuBean(6, R.drawable.ic_log_out_basic_24dp, appCompatActivity.getString(R.string.logOut)));
         // 模块适配器配套元件
         MenuAdapterKit menuAdapterKit = new MenuAdapterKit();
@@ -129,8 +129,8 @@ public class MineChildFragmentKit {
      */
     private void resetData(AppCompatActivity appCompatActivity) {
         UseGuideMaterialAlertDialogKit useGuideMaterialAlertDialogKit = new UseGuideMaterialAlertDialogKit();
-        useGuideMaterialAlertDialogKit.prepareData("步骤一", "☀ 删除数据 ☀\n\n删除账目数据\n删除险情数据\n删除主页菜单数据", "等下", "下一步");
-        useGuideMaterialAlertDialogKit.prepareData("步骤二", "☀ 恢复数据 ☀\n\nDocuments 文件夹下数据备份文件\n\n恢复账目数据\n恢复险情数据\n恢复主页菜单数据", "上一步", "去重置");
+        useGuideMaterialAlertDialogKit.prepareData("步骤一", "☀ 删除数据 ☀\n\n删除账目数据\n删除险情配置数据\n删除主页菜单数据", "等下", "下一步");
+        useGuideMaterialAlertDialogKit.prepareData("步骤二", "☀ 恢复数据 ☀\n\nDocuments 文件夹下数据备份文件\n\n恢复账目数据\n恢复险情配置数据\n恢复主页菜单数据", "上一步", "去重置");
         useGuideMaterialAlertDialogKit.show(appCompatActivity, 0, false, new UseGuideMaterialAlertDialogKitListener() {
             @Override
             public void start() {
@@ -179,7 +179,7 @@ public class MineChildFragmentKit {
      * @param appCompatActivity 活动
      */
     private void author(AppCompatActivity appCompatActivity) {
-        new MaterialAlertDialogBuilderKit(appCompatActivity, com.zsp.core.R.style.ThemeOverlay_Catalog_MaterialAlertDialog_Centered_FullWidthButtons).setView(R.layout.donation).show();
+        new MaterialAlertDialogBuilderKit(appCompatActivity, com.zsp.core.R.style.ThemeOverlay_Catalog_MaterialAlertDialog_Centered_FullWidthButtons).setView(R.layout.donate).show();
     }
 
     /**
