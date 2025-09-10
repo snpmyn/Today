@@ -3,8 +3,6 @@ package com.zsp.today.module.account;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import androidx.core.content.ContextCompat;
-
 import com.github.mikephil.charting.charts.LineChart;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.zsp.today.R;
@@ -13,7 +11,6 @@ import com.zsp.today.module.account.kit.AccountAnalysisActivityKit;
 import org.jetbrains.annotations.NotNull;
 
 import pool.base.BasePoolActivity;
-import widget.materialtoolbar.MaterialToolbarKit;
 import widget.menu.MenuItemKit;
 
 /**
@@ -57,7 +54,6 @@ public class AccountAnalysisActivity extends BasePoolActivity {
      */
     @Override
     protected void initConfiguration() {
-        MaterialToolbarKit.getInstance().setMenuOverflowIconTintColor(accountAnalysisActivityMt, ContextCompat.getColor(this, com.zsp.core.R.color.white));
         accountAnalysisActivityKit = new AccountAnalysisActivityKit();
     }
 
