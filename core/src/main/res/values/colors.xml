@@ -3,19 +3,12 @@
     <color name="basic">#FF4E80F5</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <!--common-->
+    <!--font-->
     <color name="fontHint">#993C3C43</color>
     <color name="fontInput">#FF202323</color>
-    <!--navigation-->
-    <color name="bottomNavigationViewMenuDrawableSelf">#9EA5B8</color>
-    <!--widget-->
-    <color name="widget_notification_enable_dialog_fragment_background">#FF6AAEFF</color>
-    <!--pool-->
-    <color name="pool_user_agreement_and_privacy_policy_text">#FFFF9502</color>
-    <color name="pool_user_agreement_and_privacy_policy_text_in_dialog">#FF91B2F5</color>
-    <color name="pool_user_agreement_and_privacy_policy_agree_button_text">#FFFF9502</color>
-    <!--Customize your theme here.-->
+    <!--customize your theme here-->
+    <color name="color_9EA5B8">#9EA5B8</color>
     <color name="color_EA6464">#FFEA6464</color>
     <color name="color_F86C09">#FFF86C09</color>
-    <color name="color_FFBA57">#FFFFBA57</color>
+    <color name="color_FF6AAEFF">#FF6AAEFF</color>
 </resources>
