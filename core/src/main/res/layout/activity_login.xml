@@ -70,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/bySigningInYouAgree"
-            android:textSize="@dimen/sp_14"
+            android:textSize="@dimen/sp_12"
             android:textStyle="bold" />
 
         <TextView
@@ -79,14 +79,14 @@
             android:layout_height="wrap_content"
             android:text="@string/userAgreement"
             android:textColor="@color/pool_user_agreement_and_privacy_policy_text"
-            android:textSize="@dimen/sp_14"
+            android:textSize="@dimen/sp_12"
             android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/and"
-            android:textSize="@dimen/sp_14"
+            android:textSize="@dimen/sp_12"
             android:textStyle="bold" />
 
         <TextView
@@ -95,7 +95,7 @@
             android:layout_height="wrap_content"
             android:text="@string/privacyPolicy"
             android:textColor="@color/pool_user_agreement_and_privacy_policy_text"
-            android:textSize="@dimen/sp_14"
+            android:textSize="@dimen/sp_12"
             android:textStyle="bold" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
