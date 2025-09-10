@@ -61,8 +61,8 @@ public class SplashActivityKit {
                 TextView dialogUserAgreementAndPrivacyPolicyTvUserAgreementAndPrivacyPolicyContent = holder.getView(R.id.dialogUserAgreementAndPrivacyPolicyTvUserAgreementAndPrivacyPolicyContent);
                 // 富文本构建器配套原件
                 SpannableStringBuilderKit spannableStringBuilderKit = new SpannableStringBuilderKit(dialogUserAgreementAndPrivacyPolicyTvUserAgreementAndPrivacyPolicyContent.getText().toString());
-                spannableStringBuilderKit.setClickableSpan(ContextCompat.getColor(appCompatActivity, R.color.pool_user_agreement_and_privacy_policy_text_in_dialog), false, 46, 52, 0, () -> showUserAgreementAndPrivacyPolicy(appCompatActivity, PoolConstant.USER_AGREEMENT));
-                spannableStringBuilderKit.setClickableSpan(ContextCompat.getColor(appCompatActivity, R.color.pool_user_agreement_and_privacy_policy_text_in_dialog), false, 53, 59, 0, () -> showUserAgreementAndPrivacyPolicy(appCompatActivity, PoolConstant.PRIVACY_POLICY));
+                spannableStringBuilderKit.setClickableSpan(ContextCompat.getColor(appCompatActivity, R.color.color_FF6AAEFF), false, 46, 52, 0, () -> showUserAgreementAndPrivacyPolicy(appCompatActivity, PoolConstant.USER_AGREEMENT));
+                spannableStringBuilderKit.setClickableSpan(ContextCompat.getColor(appCompatActivity, R.color.color_FF6AAEFF), false, 53, 59, 0, () -> showUserAgreementAndPrivacyPolicy(appCompatActivity, PoolConstant.PRIVACY_POLICY));
                 // 配置可点击文本控件
                 spannableStringBuilderKit.configClickableSpanTextView(dialogUserAgreementAndPrivacyPolicyTvUserAgreementAndPrivacyPolicyContent, spannableStringBuilderKit);
                 // 不同意并退出
