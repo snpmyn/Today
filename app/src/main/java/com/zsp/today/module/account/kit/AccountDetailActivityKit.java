@@ -133,7 +133,7 @@ public class AccountDetailActivityKit {
             public void menuItem(MenuItem menuItem) {
                 if (null != menuItem.getIcon()) {
                     if (menuItem.getItemId() == R.id.accountDetailActivityPopupMenuModify) {
-                        menuItem.getIcon().setTint(appCompatActivity.getColor(com.zsp.core.R.color.color_FFBA57));
+                        menuItem.getIcon().setTint(appCompatActivity.getColor(com.zsp.core.R.color.color_F86C09));
                     } else if (menuItem.getItemId() == R.id.accountDetailActivityPopupMenuDelete) {
                         menuItem.getIcon().setTint(appCompatActivity.getColor(com.zsp.core.R.color.color_EA6464));
                     }
