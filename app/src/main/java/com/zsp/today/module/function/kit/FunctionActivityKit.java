@@ -63,8 +63,8 @@ public class FunctionActivityKit {
         if (LitePalKit.getInstance().singleUpdate(functionDataBaseTableUpdate, functionDataBaseTableOld.getBaseObjectId()) != 0) {
             // 备份
             BackupKit.getInstance().backup(appCompatActivity, FunctionDataBaseTable.class, null);
+            // 刷新菜单
+            RxBus.get().post(RxBusConstant.HOME_PAGE_CHILD_FRAGMENT_$_REFRESH_MENU, RxBusConstant.HOME_PAGE_CHILD_FRAGMENT_$_REFRESH_MENU_CODE);
         }
-        // 刷新菜单
-        RxBus.get().post(RxBusConstant.HOME_PAGE_CHILD_FRAGMENT_$_REFRESH_MENU, RxBusConstant.HOME_PAGE_CHILD_FRAGMENT_$_REFRESH_MENU_CODE);
     }
 }
