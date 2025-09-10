@@ -123,8 +123,8 @@ public class HalfPieChartKit {
         pieData.setValueFormatter(new PercentFormatter(pieChart));
         // 指引线
         /*pieDataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);*/
-        /*pieDataSet.setValueLineColor(ContextCompat.getColor(context, R.color.fontHint));*/
-        /*pieDataSet.setValueTextColor(ContextCompat.getColor(context, R.color.fontInput));*/
+        /*pieDataSet.setValueLineColor(ContextCompat.getColor(context, com.zsp.core.R.color.color_F86C09));*/
+        /*pieDataSet.setValueTextColor(ContextCompat.getColor(context, com.zsp.core.R.color.color_F86C09));*/
         pieChart.setData(pieData);
     }
 
