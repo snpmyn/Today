@@ -42,7 +42,10 @@
             android:layout_margin="@dimen/dp_12"
             android:layout_weight="1"
             app:cardElevation="@dimen/dp_0"
-            app:contentPadding="@dimen/dp_12">
+            app:contentPaddingBottom="@dimen/dp_24"
+            app:contentPaddingLeft="@dimen/dp_12"
+            app:contentPaddingRight="@dimen/dp_12"
+            app:contentPaddingTop="@dimen/dp_14">
 
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/accountAnalysisActivityLcMonthAnalysis"
