@@ -67,7 +67,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/agree"
-            android:textColor="@color/pool_user_agreement_and_privacy_policy_agree_button_text"
+            android:textColor="@color/color_F86C09"
             android:textSize="@dimen/sp_14" />
     </LinearLayout>
 </LinearLayout>

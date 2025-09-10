@@ -8,7 +8,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_180"
-        android:background="@color/widget_notification_enable_dialog_fragment_background">
+        android:background="@color/color_FF6AAEFF">
 
         <com.airbnb.lottie.LottieAnimationView
             android:layout_width="match_parent"
