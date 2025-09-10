@@ -6,7 +6,6 @@
     <!--common-->
     <color name="fontHint">#993C3C43</color>
     <color name="fontInput">#FF202323</color>
-    <color name="transparent">#00000000</color>
     <!--navigation-->
     <color name="bottomNavigationViewMenuDrawableSelf">#9EA5B8</color>
     <!--widget-->
