@@ -14,7 +14,8 @@
         <com.google.android.material.divider.MaterialDivider
             android:id="@+id/accountDetailItemMd"
             android:layout_width="@dimen/dp_12"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            app:dividerColor="@color/basic" />
 
         <TextView
             android:id="@+id/accountDetailItemTvCategory"
