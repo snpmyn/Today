@@ -7,20 +7,14 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/functionActivityMt"
-        style="@style/Widget.MaterialComponents.Toolbar.Primary"
+        style="@style/Widget.MaterialComponents.Toolbar.Surface"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/ic_arrow_back_white_24dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/function"
-            android:textColor="@color/white"
-            android:textSize="@dimen/sp_16" />
-    </com.google.android.material.appbar.MaterialToolbar>
+        app:navigationIcon="@drawable/ic_arrow_back_ccn_24dp"
+        app:title="@string/function"
+        app:titleCentered="true"
+        app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/functionActivityRv"
