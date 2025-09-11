@@ -46,7 +46,7 @@ public class CarouselKit {
         // RecyclerView
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setLayoutManager(carouselLayoutManager);
-        recyclerView.setBackgroundResource(debug ? R.drawable.coloroutline_stroke_dash_r6 : 0);
+        recyclerView.setBackgroundResource(debug ? R.drawable.co_stroke_dash_r6 : 0);
         // 轮播吸附辅助器
         CarouselSnapHelper carouselSnapHelper = new CarouselSnapHelper(!snap);
         carouselSnapHelper.attachToRecyclerView(recyclerView);
