@@ -25,7 +25,8 @@
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dp_16" />
+                    android:layout_height="@dimen/dp_16"
+                    android:visibility="gone" />
 
                 <widget.kotlin.banner.view.BannerView
                     android:id="@+id/homePageChildFragmentBv"
@@ -45,7 +46,7 @@
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="@dimen/dp_8"
                         app:CrossBarIndicatorBackgroundColor="@color/white"
-                        app:CrossBarIndicatorForegroundColor="@color/basic"
+                        app:CrossBarIndicatorForegroundColor="?attr/colorPrimary"
                         app:CrossBarIndicatorHeight="@dimen/dp_2"
                         app:CrossBarIndicatorSpace="@dimen/dp_4"
                         app:CrossBarIndicatorWidth="@dimen/dp_24" />
@@ -61,14 +62,12 @@
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/homePageChildFragmentMt"
-                style="@style/Widget.MaterialComponents.Toolbar.Primary"
+                style="@style/Widget.MaterialComponents.Toolbar.Surface"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
-                android:elevation="@dimen/dp_0"
                 app:layout_collapseMode="pin"
                 app:menu="@menu/home_page_child_fragment_menu"
-                app:subtitleTextColor="@color/white"
-                app:titleTextColor="@color/white" />
+                app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
