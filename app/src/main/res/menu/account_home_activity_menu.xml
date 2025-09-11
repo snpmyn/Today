@@ -4,19 +4,19 @@
     <item
         android:id="@+id/accountHomeActivityMenuChooseYear"
         android:contentDescription="@string/chooseYear"
-        android:icon="@drawable/ic_date_range_white_24dp"
+        android:icon="@drawable/ic_date_range_ccn_24dp"
         android:title="@string/chooseYear"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/accountHomeActivityMenuAddAccount"
         android:contentDescription="@string/addAccount"
-        android:icon="@drawable/ic_add_white_24dp"
+        android:icon="@drawable/ic_add_ccn_24dp"
         android:title="@string/addAccount"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/accountHomeActivityMenuMoreFunction"
         android:contentDescription="@string/moreFunction"
-        android:icon="@drawable/ic_more_white_24dp"
+        android:icon="@drawable/ic_more_ccn_24dp"
         android:title="@string/moreFunction"
         app:showAsAction="ifRoom" />
 </menu>
