@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardElevation="@dimen/dp_0"
-    app:strokeColor="@color/basic"
+    app:strokeColor="?attr/colorControlNormal"
     app:strokeWidth="@dimen/dp_1">
 
     <RelativeLayout
@@ -25,6 +25,6 @@
             android:layout_margin="@dimen/dp_12"
             android:background="?selectableItemBackgroundBorderless"
             android:contentDescription="@string/fullScreen"
-            app:srcCompat="@drawable/ic_full_screen_basic_20dp" />
+            app:srcCompat="@drawable/ic_full_screen_ccn_20dp" />
     </RelativeLayout>
 </com.google.android.material.card.MaterialCardView>
