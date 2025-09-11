@@ -71,7 +71,7 @@ public class LineChartKit implements OnChartValueSelectedListener {
         WeakReference<Context> weakReference = new WeakReference<>(context);
         this.lineChart = lineChart;
         // Sets the background color for this view.
-        /*lineChart.setBackgroundColor(Color.WHITE);*/
+        /*lineChart.setBackgroundColor(com.zsp.core.R.color.white);*/
         // Set this to true if this component should be enabled (should be drawn), false if not. If disabled, nothing of this component will be drawn.
         // Default: true
         /*lineChart.getDescription().setEnabled(true);*/
@@ -132,7 +132,7 @@ public class LineChartKit implements OnChartValueSelectedListener {
         legend.setTextSize(12.0F);
         // Sets the text color to use for the labels.
         // Make sure to use getResources().getColor(...) when using a color from the resources.
-        legend.setTextColor(ContextCompat.getColor(weakReference.get(), com.zsp.core.R.color.color_F86C09));
+        legend.setTextColor(ContextCompat.getColor(weakReference.get(), com.zsp.core.R.color.color_FFF86C09));
         // Sets the orientation of the legend.
         /*legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);*/
         // Sets the vertical alignment of the legend.
@@ -286,12 +286,12 @@ public class LineChartKit implements OnChartValueSelectedListener {
             lineDataSet.setCircleRadius(2.0F);
             // Sets the one and ONLY color that should be used for this DataSet.
             // Internally, this recreates the colors array and adds the specified color.
-            lineDataSet.setCircleColor(ContextCompat.getColor(weakReference.get(), com.zsp.core.R.color.color_F86C09));
+            lineDataSet.setCircleColor(ContextCompat.getColor(weakReference.get(), com.zsp.core.R.color.color_FFF86C09));
             // Set this to true to allow drawing a hole in each data circle.
             /*lineDataSet.setDrawCircleHole(true);*/
             // Sets the one and ONLY color that should be used for this DataSet.
             // Internally, this recreates the colors array and adds the specified color.
-            lineDataSet.setColor(ContextCompat.getColor(weakReference.get(), com.zsp.core.R.color.color_F86C09));
+            lineDataSet.setColor(ContextCompat.getColor(weakReference.get(), com.zsp.core.R.color.color_FFF86C09));
             // Sets the color that is used for drawing the highlight indicators.
             // Do not forget to resolve the color using getResources().getColor(...) or Color.rgb(...).
             lineDataSet.setHighLightColor(ContextCompat.getColor(weakReference.get(), com.zsp.core.R.color.basic));
@@ -299,12 +299,12 @@ public class LineChartKit implements OnChartValueSelectedListener {
             lineDataSet.setFillAlpha(100);
             // Sets the color that is used for filling the area below the line.
             // Resets an eventually set "fillDrawable".
-            lineDataSet.setFillColor(ContextCompat.getColor(weakReference.get(), com.zsp.core.R.color.color_F86C09));
+            lineDataSet.setFillColor(ContextCompat.getColor(weakReference.get(), com.zsp.core.R.color.color_FFF86C09));
             // Enables / disables the horizontal highlight-indicator. If disabled, the indicator is not drawn.
             /*lineDataSet.setDrawHorizontalHighlightIndicator(true);*/
             // Sets the color that is used for drawing the highlight indicators.
             // Do not forget to resolve the color using getResources().getColor(...) or Color.rgb(...).
-            lineDataSet.setHighLightColor(ContextCompat.getColor(weakReference.get(), com.zsp.core.R.color.color_F86C09));
+            lineDataSet.setHighLightColor(ContextCompat.getColor(weakReference.get(), com.zsp.core.R.color.color_FFF86C09));
             // Sets value formatter.
             lineDataSet.setValueFormatter(new FloatValueFormatter());
             // Sets a custom IFillFormatter to the chart that handles the position of the filled-line for each DataSet.
@@ -315,7 +315,7 @@ public class LineChartKit implements OnChartValueSelectedListener {
             // Enables / disables drawing values (value-text) for all DataSets this data object contains.
             lineDataNew.setDrawValues(true);
             // Sets the color of the value-text (color in which the value-labels are drawn) for all DataSets this data object contains.
-            lineDataNew.setValueTextColor(ContextCompat.getColor(weakReference.get(), com.zsp.core.R.color.color_F86C09));
+            lineDataNew.setValueTextColor(ContextCompat.getColor(weakReference.get(), com.zsp.core.R.color.color_FFF86C09));
             // Sets the Typeface for all value-labels for all DataSets this data object contains.
             lineDataNew.setValueTypeface(Typeface.DEFAULT_BOLD);
             // Sets the size (in dp) of the value-text for all DataSets this data object contains.
