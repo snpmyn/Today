@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:cardElevation="@dimen/dp_0"
-    app:rippleColor="@color/basic">
+    app:rippleColor="?attr/colorPrimary">
 
     <TextView
         android:id="@+id/menuItemTv"

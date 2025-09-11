@@ -4,24 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/white_solid_r14"
     android:gravity="center">
 
     <ImageView
         android:id="@+id/bocCanCancelLoadingDialogIvLoading"
         android:layout_width="@dimen/dp_24"
         android:layout_height="@dimen/dp_24"
-        android:layout_marginEnd="@dimen/dp_12"
         android:contentDescription="@string/progressBar"
         android:scaleType="centerInside"
         android:src="@drawable/boc_dialog_can_cancel_loading"
-        app:tint="@color/basic" />
+        app:tint="?attr/colorPrimary" />
 
     <TextView
         android:id="@+id/bocCanCancelLoadingDialogTvHint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/fontInput"
+        android:layout_marginHorizontal="@dimen/dp_12"
+        android:textColor="@color/color_FF202323"
         android:textSize="@dimen/sp_13"
         tools:text="加载中" />
 
@@ -29,7 +28,6 @@
         android:id="@+id/bocCanCancelLoadingDialogIvClose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_12"
         android:contentDescription="@string/close"
-        app:srcCompat="@drawable/ic_close_font_input_20dp" />
+        app:srcCompat="@drawable/ic_close_cnn_20dp" />
 </LinearLayout>

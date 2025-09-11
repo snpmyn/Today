@@ -20,7 +20,6 @@
         android:layout_marginTop="@dimen/dp_12"
         android:layout_marginBottom="@dimen/dp_12"
         android:text="@string/networkAnomaly"
-        android:textColor="@color/fontHint"
         android:textSize="@dimen/sp_10" />
 
     <com.google.android.material.button.MaterialButton
@@ -31,6 +30,6 @@
         android:filterTouchesWhenObscured="true"
         android:text="@string/checkSetting"
         android:textSize="@dimen/sp_10"
-        app:strokeColor="@color/basic"
+        app:strokeColor="?attr/colorPrimary"
         app:strokeWidth="@dimen/px1" />
 </LinearLayout>

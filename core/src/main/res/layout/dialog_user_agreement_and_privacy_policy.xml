@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/white_solid_r10"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
@@ -12,7 +11,7 @@
         android:paddingTop="@dimen/dp_20"
         android:paddingBottom="@dimen/dp_16"
         android:text="@string/userAgreementAndPrivacyPolicy"
-        android:textColor="@color/fontInput"
+        android:textColor="@color/color_FF202323"
         android:textSize="@dimen/sp_16" />
 
     <ScrollView
@@ -33,7 +32,7 @@
                 android:paddingLeft="@dimen/dp_26"
                 android:paddingRight="@dimen/dp_26"
                 android:text="@string/userAgreementAndPrivacyPolicyContent"
-                android:textColor="@color/fontInput"
+                android:textColor="@color/color_FF202323"
                 android:textSize="@dimen/sp_13" />
         </LinearLayout>
     </ScrollView>
@@ -53,7 +52,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/notAgreeAngLoginOut"
-            android:textColor="@color/fontInput"
+            android:textColor="@color/color_FF202323"
             android:textSize="@dimen/sp_14" />
 
         <com.google.android.material.divider.MaterialDivider
@@ -67,7 +66,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="@string/agree"
-            android:textColor="@color/color_F86C09"
+            android:textColor="@color/color_FFF86C09"
             android:textSize="@dimen/sp_14" />
     </LinearLayout>
 </LinearLayout>
