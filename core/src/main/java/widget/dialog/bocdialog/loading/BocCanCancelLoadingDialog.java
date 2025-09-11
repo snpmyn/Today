@@ -2,7 +2,6 @@ package widget.dialog.bocdialog.loading;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -11,6 +10,7 @@ import android.widget.TextView;
 import com.zsp.core.R;
 
 import util.density.DensityUtils;
+import util.layoutparams.LayoutParamsUtils;
 import widget.dialog.bocdialog.base.BaseBocInstanceDialog;
 import widget.dialog.bocdialog.loading.listener.OnBackPressedListener;
 import widget.dialog.bocdialog.loading.listener.OnClickToCloseListener;
@@ -80,10 +80,8 @@ public class BocCanCancelLoadingDialog extends BaseBocInstanceDialog {
      */
     @Override
     protected void initData() {
-        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-        layoutParams.width = DensityUtils.dipToPxByFloat(context, 146);
-        layoutParams.height = DensityUtils.dipToPxByFloat(context, 66);
-        view.setLayoutParams(layoutParams);
+        LayoutParamsUtils.setViewLayoutParams(view, false, 0, true, DensityUtils.dipToPxByFloat(context, 66));
+        LayoutParamsUtils.setWindowManagerLayoutParams(getWindow(), true, DensityUtils.dipToPxByFloat(context, 146), false, 0);
         // 动画
         animation = AnimationUtils.loadAnimation(context, R.anim.boc_dialog_can_cancel_loading);
     }
