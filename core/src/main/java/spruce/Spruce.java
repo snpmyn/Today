@@ -88,7 +88,7 @@ public class Spruce {
                     // seeking the animation to first frame
                     animation.getAnimationProperty().setValue(childView.getView(), animation.mValue);
                 } else if (animatorChild instanceof SpruceDynamics<?>) {
-                    //TODO: Handling this in the future.
+                    // TODO: Handling this in the future.
                     Timber.d("Handling this in the future.");
                 }
             }
