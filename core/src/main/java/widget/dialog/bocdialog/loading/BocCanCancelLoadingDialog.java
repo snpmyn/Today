@@ -80,7 +80,9 @@ public class BocCanCancelLoadingDialog extends BaseBocInstanceDialog {
      */
     @Override
     protected void initData() {
+        // 设置视图布局参数
         LayoutParamsUtils.setViewLayoutParams(view, false, 0, true, DensityUtils.dipToPxByFloat(context, 66));
+        // 设置窗口管理器布局参数
         LayoutParamsUtils.setWindowManagerLayoutParams(getWindow(), true, DensityUtils.dipToPxByFloat(context, 146), false, 0);
         // 动画
         animation = AnimationUtils.loadAnimation(context, R.anim.boc_dialog_can_cancel_loading);

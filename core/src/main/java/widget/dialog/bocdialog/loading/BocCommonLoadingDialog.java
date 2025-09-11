@@ -63,7 +63,9 @@ public class BocCommonLoadingDialog extends BaseBocInstanceDialog {
      */
     @Override
     protected void initData() {
+        // 设置视图布局参数
         LayoutParamsUtils.setViewLayoutParams(view, false, 0, true, DensityUtils.dipToPxByFloat(context, 80));
+        // 设置窗口管理器布局参数
         LayoutParamsUtils.setWindowManagerLayoutParams(getWindow(), true, DensityUtils.dipToPxByFloat(context, 80), false, 0);
     }
 

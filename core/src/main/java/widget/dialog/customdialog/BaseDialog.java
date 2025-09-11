@@ -142,7 +142,7 @@ public abstract class BaseDialog extends DialogFragment {
             Window window = getDialog().getWindow();
             if (null != window) {
                 WindowManager.LayoutParams layoutParams = window.getAttributes();
-                // 调节灰色背景透明度 [0-1]（默 0.5F）
+                // 调节灰色背景透明度 [0-1] (默 0.5F)
                 layoutParams.dimAmount = dimAmount;
                 // 底部显
                 if (showBottom) {

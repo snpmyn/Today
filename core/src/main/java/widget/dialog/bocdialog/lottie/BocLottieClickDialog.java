@@ -17,6 +17,7 @@ import com.zsp.core.R;
 import lottie.kit.LottieKit;
 import util.data.StringUtils;
 import util.density.DensityUtils;
+import util.layoutparams.LayoutParamsUtils;
 import util.screen.ScreenUtils;
 import util.view.ViewUtils;
 import widget.dialog.bocdialog.base.BaseBocInstanceDialog;
@@ -62,10 +63,8 @@ public class BocLottieClickDialog extends BaseBocInstanceDialog {
      */
     @Override
     protected void stepUi() {
-        // 视图
-        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-        layoutParams.width = (int) (ScreenUtils.screenWidth(getContext()) * 0.7);
-        view.setLayoutParams(layoutParams);
+        // 设置窗口管理器布局参数
+        LayoutParamsUtils.setWindowManagerLayoutParams(getWindow(), true, (int) (ScreenUtils.screenWidth(getContext()) * 0.7), true, ViewGroup.LayoutParams.WRAP_CONTENT);
         // 控件
         bocLottieClickDialogLav = view.findViewById(R.id.bocLottieClickDialogLav);
         bocLottieClickDialogTv = view.findViewById(R.id.bocLottieClickDialogTv);

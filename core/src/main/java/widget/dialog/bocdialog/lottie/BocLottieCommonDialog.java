@@ -16,6 +16,7 @@ import com.zsp.core.R;
 import lottie.kit.LottieKit;
 import util.data.StringUtils;
 import util.density.DensityUtils;
+import util.layoutparams.LayoutParamsUtils;
 import util.view.ViewUtils;
 import widget.dialog.bocdialog.base.BaseBocInstanceDialog;
 import widget.dialog.bocdialog.loading.listener.OnBackPressedListener;
@@ -92,10 +93,8 @@ public class BocLottieCommonDialog extends BaseBocInstanceDialog {
             value = 120;
             bocLottieCommonDialogTv.setText(hint);
         }
-        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-        layoutParams.width = DensityUtils.dipToPxByFloat(context, value);
-        layoutParams.height = DensityUtils.dipToPxByFloat(context, value);
-        view.setLayoutParams(layoutParams);
+        // 设置窗口管理器布局参数
+        LayoutParamsUtils.setWindowManagerLayoutParams(getWindow(), true, DensityUtils.dipToPxByFloat(context, value), true, DensityUtils.dipToPxByFloat(context, value));
     }
 
     /**
