@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.zsp.today.R;
 import com.zsp.today.application.App;
 import com.zsp.today.basic.restore.kit.RestoreKit;
@@ -56,10 +57,17 @@ public class MineChildFragmentKit {
     /**
      * 设置昵称
      *
-     * @param textViewName 姓名
+     * @param textViewNickName 昵称
+     * @param materialToolbar  MaterialToolbar
+     * @param init             初始化否
      */
-    public void setNickName(@NonNull TextView textViewName) {
-        textViewName.setText(App.getAppInstance().getPhoneNumber());
+    public void setNickName(TextView textViewNickName, MaterialToolbar materialToolbar, boolean init) {
+        String nickName = App.getAppInstance().getPhoneNumber();
+        if (init) {
+            textViewNickName.setText(nickName);
+        } else {
+            materialToolbar.setTitle(nickName);
+        }
     }
 
     /**
