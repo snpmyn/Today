@@ -9,21 +9,15 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/addAccountActivityMt"
-        style="@style/Widget.MaterialComponents.Toolbar.Primary"
+        style="@style/Widget.MaterialComponents.Toolbar.Surface"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/add_account_activity_menu"
-        app:navigationIcon="@drawable/ic_arrow_back_white_24dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/addAccount"
-            android:textColor="@color/white"
-            android:textSize="@dimen/sp_16" />
-    </com.google.android.material.appbar.MaterialToolbar>
+        app:navigationIcon="@drawable/ic_arrow_back_ccn_24dp"
+        app:title="@string/addAccount"
+        app:titleCentered="true"
+        app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -47,14 +41,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/chooseDate"
-                android:textColorHint="@color/basic"
-                app:endIconDrawable="@drawable/ic_add_basic_20dp"
+                android:textColorHint="?attr/colorPrimary"
+                app:endIconDrawable="@drawable/ic_add_ccn_20dp"
                 app:endIconMode="custom"
-                app:endIconTint="@color/basic"
                 app:helperText="@string/date"
-                app:helperTextTextColor="@color/basic"
-                app:startIconDrawable="@drawable/ic_calendar_today_basic_24dp"
-                app:startIconTint="@color/basic">
+                app:startIconDrawable="@drawable/ic_calendar_today_ccn_24dp"
+                app:startIconTint="?attr/colorPrimary">
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/addAccountActivityMactvDate"
@@ -73,15 +65,13 @@
                 android:layout_marginTop="@dimen/dp_12"
                 android:layout_marginBottom="@dimen/dp_12"
                 android:hint="@string/chooseCategory"
-                app:endIconDrawable="@drawable/ic_add_basic_20dp"
+                app:endIconDrawable="@drawable/ic_add_ccn_20dp"
                 app:endIconMode="custom"
-                app:endIconTint="@color/basic"
                 app:errorEnabled="true"
-                app:errorTextColor="@color/color_EA6464"
+                app:errorTextColor="@color/color_FFEA6464"
                 app:helperText="@string/category"
-                app:helperTextTextColor="@color/basic"
-                app:startIconDrawable="@drawable/ic_category_basic_24dp"
-                app:startIconTint="@color/basic">
+                app:startIconDrawable="@drawable/ic_category_ccn_24dp"
+                app:startIconTint="?attr/colorPrimary">
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/addAccountActivityMactvCategory"
@@ -101,15 +91,12 @@
                 app:counterMaxLength="8"
                 app:endIconMode="clear_text"
                 app:errorEnabled="true"
-                app:errorTextColor="@color/color_EA6464"
+                app:errorTextColor="@color/color_FFEA6464"
                 app:helperText="@string/amount"
-                app:helperTextTextColor="@color/basic"
                 app:prefixText="@string/renMinBi"
-                app:prefixTextColor="@color/basic"
-                app:startIconDrawable="@drawable/ic_wallet_basic_24dp"
-                app:startIconTint="@color/basic"
-                app:suffixText="@string/yuan"
-                app:suffixTextColor="@color/basic">
+                app:startIconDrawable="@drawable/ic_wallet_ccn_24dp"
+                app:startIconTint="?attr/colorPrimary"
+                app:suffixText="@string/yuan">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/addAccountActivityTietAmount"

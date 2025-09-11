@@ -9,11 +9,11 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/accountHomeActivityMt"
-        style="@style/Widget.MaterialComponents.Toolbar.Primary"
+        style="@style/Widget.MaterialComponents.Toolbar.Surface"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:menu="@menu/account_home_activity_menu"
-        app:titleTextColor="@color/white" />
+        app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/accountHomeActivityRv"
@@ -33,10 +33,8 @@
         android:layout_marginEnd="@dimen/dp_24"
         android:layout_marginBottom="@dimen/dp_24"
         android:text="@string/returnToThisYear"
-        android:textColor="@color/white"
         android:visibility="gone"
-        app:icon="@drawable/ic_arrow_right_white_20dp"
+        app:icon="@drawable/ic_arrow_right_ccn_20dp"
         app:iconPadding="@dimen/dp_6"
-        app:iconSize="@dimen/dp_20"
-        app:iconTint="@color/white" />
+        app:iconSize="@dimen/dp_20" />
 </RelativeLayout>
