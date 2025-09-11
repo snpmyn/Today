@@ -6,8 +6,8 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.RelativeLayout
+import androidx.core.content.ContextCompat
 import com.zsp.core.R
-import widget.kotlin.util.DensityUtils
 import widget.kotlin.banner.IBannerView
 import widget.kotlin.banner.IBannerViewInstance
 import widget.kotlin.banner.IIndicator
@@ -16,6 +16,7 @@ import widget.kotlin.banner.IPagerViewInstance
 import widget.kotlin.banner.OnPageChangeListener
 import widget.kotlin.banner.createPaint
 import widget.kotlin.banner.factory.PagerViewFactory
+import widget.kotlin.util.DensityUtils
 import kotlin.properties.Delegates
 
 /**
@@ -80,7 +81,7 @@ class BannerView @JvmOverloads constructor(
     /**
      * 全局画笔
      */
-    private val mPaint = createPaint(color = Color.WHITE)
+    private val mPaint = createPaint(color = ContextCompat.getColor(context, R.color.white))
 
     /**
      * 全局 Path
@@ -257,7 +258,13 @@ class BannerView @JvmOverloads constructor(
                         bvImpl.onBindView(this, 0)
                         bvImpl.onPageSelected(0)
                     }
-                } ?: View(context).apply { setBackgroundColor(Color.WHITE) }
+                } ?: View(context).apply {
+                    setBackgroundColor(
+                        ContextCompat.getColor(
+                            context, R.color.white
+                        )
+                    )
+                }
                 val lp = LayoutParams(getItemViewWidth(), mViewHeight.toInt()).apply {
                     addRule(getItemViewAlign())
                 }
