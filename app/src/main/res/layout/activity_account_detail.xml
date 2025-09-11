@@ -10,20 +10,14 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/accountDetailActivityMt"
-        style="@style/Widget.MaterialComponents.Toolbar.Primary"
+        style="@style/Widget.MaterialComponents.Toolbar.Surface"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:menu="@menu/account_detail_activity_menu"
-        app:navigationIcon="@drawable/ic_arrow_back_white_24dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/accountDetail"
-            android:textColor="@color/white"
-            android:textSize="@dimen/sp_16" />
-    </com.google.android.material.appbar.MaterialToolbar>
+        app:navigationIcon="@drawable/ic_arrow_back_ccn_24dp"
+        app:title="@string/accountDetail"
+        app:titleCentered="true"
+        app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/accountDetailActivityRv"
@@ -43,8 +37,7 @@
         android:contentDescription="@string/everydayAnalysis"
         app:fabSize="auto"
         app:maxImageSize="@dimen/dp_24"
-        app:srcCompat="@drawable/ic_graph_white_24dp"
-        app:tint="@color/white" />
+        app:srcCompat="@drawable/ic_graph_ccn_24dp" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/accountDetailActivityMcv"
@@ -62,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_276"
             android:layout_margin="@dimen/dp_10" />
-        <!--style="?attr/materialIconButtonStyle"-->
+
         <Button
             android:id="@+id/accountDetailActivityButton"
             style="?attr/materialIconButtonFilledTonalStyle"
@@ -73,17 +66,6 @@
             android:layout_marginEnd="@dimen/dp_6"
             android:contentDescription="@string/closeEverydayAnalysis"
             android:filterTouchesWhenObscured="true"
-            app:icon="@drawable/ic_close_white_24dp" />
-        <!--备用-->
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|end"
-            android:layout_marginTop="@dimen/dp_12"
-            android:layout_marginEnd="@dimen/dp_12"
-            android:background="?selectableItemBackgroundBorderless"
-            android:contentDescription="@string/closeEverydayAnalysis"
-            android:visibility="gone"
-            app:srcCompat="@drawable/ic_close_basic_24dp" />
+            app:icon="@drawable/ic_close_ccn_24dp" />
     </com.google.android.material.card.MaterialCardView>
 </RelativeLayout>
