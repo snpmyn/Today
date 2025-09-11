@@ -6,18 +6,17 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/splashAnimationDetailFragmentMt"
-        style="@style/Widget.MaterialComponents.Toolbar.Primary"
+        style="@style/Widget.MaterialComponents.Toolbar.Surface"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="@dimen/dp_0"
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/startAnimation"
-        app:titleTextColor="@color/white" />
+        app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"
-        android:background="@color/basic"
+        android:background="?attr/colorPrimary"
         android:padding="@dimen/dp_36"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/splashAnimationDetailFragmentMt">
@@ -41,36 +40,14 @@
             android:insetRight="@dimen/dp_0"
             android:insetBottom="@dimen/dp_0"
             android:text="@string/use"
-            android:textColor="@color/color_F86C09"
+            android:textColor="@color/color_FFF86C09"
             android:textSize="@dimen/sp_14"
             android:textStyle="bold"
             app:cornerRadius="@dimen/dp_180"
-            app:icon="@drawable/ic_fire_white_24dp"
+            app:icon="@drawable/ic_fire_ccn_24dp"
             app:iconGravity="textStart"
             app:iconSize="@dimen/dp_18"
-            app:iconTint="@color/color_F86C09"
-            app:rippleColor="@color/color_F86C09" />
-        <!--备用-->
-        <com.google.android.material.button.MaterialButton
-            style="@style/Widget.Material3.Button.TextButton.Icon"
-            android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:layout_alignParentBottom="true"
-            android:filterTouchesWhenObscured="true"
-            android:insetLeft="@dimen/dp_0"
-            android:insetTop="@dimen/dp_0"
-            android:insetRight="@dimen/dp_0"
-            android:insetBottom="@dimen/dp_0"
-            android:text="@string/use"
-            android:textColor="@color/color_F86C09"
-            android:textSize="@dimen/sp_14"
-            android:textStyle="bold"
-            android:visibility="gone"
-            app:cornerRadius="@dimen/dp_180"
-            app:icon="@drawable/ic_fire_white_24dp"
-            app:iconGravity="textStart"
-            app:iconSize="@dimen/dp_24"
-            app:iconTint="@color/color_F86C09"
-            app:rippleColor="@color/color_F86C09" />
+            app:iconTint="@color/color_FFF86C09"
+            app:rippleColor="@color/color_FFF86C09" />
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
