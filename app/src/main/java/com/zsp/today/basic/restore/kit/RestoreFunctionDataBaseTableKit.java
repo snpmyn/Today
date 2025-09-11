@@ -18,7 +18,9 @@ import com.zsp.today.module.homepage.bean.HomePageMenuEnum;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import litepal.kit.LitePalKit;
 import util.file.FileUtils;
@@ -70,10 +72,31 @@ public class RestoreFunctionDataBaseTableKit {
                 preStoreFunctionDataBaseTable(appCompatActivity);
             } else {
                 // 有功能数据库表文件数据
-                // 转化存储恢复
                 List<FunctionDataBaseTable> functionDataBaseTableList = new ArrayList<>(functionDataBaseTables.size());
+                // 第一步
+                // 将功能数据库表文件数据转化存储至 Map 集合
+                // 方便使用 Map 集合快速查询
+                Map<String, FunctionDataBaseTable> functionDataBaseTableMap = new HashMap<>(functionDataBaseTables.size());
                 for (FunctionDataBaseTable functionDataBaseTable : functionDataBaseTables) {
-                    functionDataBaseTableList.add(new FunctionDataBaseTable(functionDataBaseTable.getPhoneNumber(), functionDataBaseTable.getDate(), functionDataBaseTable.getFunctionId(), functionDataBaseTable.getFunctionName(), functionDataBaseTable.getFunctionShow()));
+                    functionDataBaseTableMap.put(functionDataBaseTable.getFunctionName(), functionDataBaseTable);
+                }
+                // 第二步
+                // 获取主页菜单枚举数据
+                // 随着 APP 迭代变迁，主页菜单枚举数据可能增加，也可能减少。但无论增加还是减少，都以主页菜单枚举数据为前提基准。
+                HomePageMenuEnum[] homePageMenuEnums = HomePageMenuEnum.values();
+                for (HomePageMenuEnum homePageMenuEnum : homePageMenuEnums) {
+                    // 第三步
+                    // 以主页菜单枚举数据为前提基准
+                    // 举例，如迭代后新版本有三个主页菜单，首先将三个主页菜单依次取出，然后去 Map 集合查询。
+                    // 如果查询为空，则表明这个主页菜单在本地已备份的功能数据库表文件中不存在，是新增的。单纯新建并添加至功能数据库表集合中。
+                    // 如果查询非空，则表明这个主页菜单是从本地已备份的功能数据库表文件恢复过来的，是已有的，menuShow 属性可能已经过设置。复制新建并添加至功能数据库表集合中。
+                    // 还有一种情况，迭代后新版本减少了主页菜单。此时不用担心，因整个处理过程是以主页菜单枚举数据为前提基准，减少的主页菜单自然不做处理，不会造成数据污染。
+                    FunctionDataBaseTable functionDataBaseTable = functionDataBaseTableMap.get(homePageMenuEnum.getMenuName());
+                    if (null == functionDataBaseTable) {
+                        functionDataBaseTableList.add(new FunctionDataBaseTable(App.getAppInstance().getPhoneNumber(), null, homePageMenuEnum.getMenuId(), homePageMenuEnum.getMenuName(), true));
+                    } else {
+                        functionDataBaseTableList.add(new FunctionDataBaseTable(functionDataBaseTable.getPhoneNumber(), functionDataBaseTable.getDate(), functionDataBaseTable.getFunctionId(), functionDataBaseTable.getFunctionName(), functionDataBaseTable.getFunctionShow()));
+                    }
                 }
                 if (LitePalKit.getInstance().multiSave(functionDataBaseTableList)) {
                     // 下一步
