@@ -9,21 +9,15 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/dangerousActivityMt"
-        style="@style/Widget.MaterialComponents.Toolbar.Primary"
+        style="@style/Widget.MaterialComponents.Toolbar.Surface"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/dangerous_activity_menu"
-        app:navigationIcon="@drawable/ic_arrow_back_white_24dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/dangerous"
-            android:textColor="@color/white"
-            android:textSize="@dimen/sp_16" />
-    </com.google.android.material.appbar.MaterialToolbar>
+        app:navigationIcon="@drawable/ic_arrow_back_ccn_24dp"
+        app:title="@string/dangerous"
+        app:titleCentered="true"
+        app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -50,7 +44,7 @@
                 app:boxCornerRadiusTopEnd="@dimen/dp_10"
                 app:boxCornerRadiusTopStart="@dimen/dp_10"
                 app:errorEnabled="true"
-                app:errorTextColor="@color/color_EA6464">
+                app:errorTextColor="@color/color_FFEA6464">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/dangerousActivityTietDangerousNotice"
@@ -73,9 +67,9 @@
                 app:counterMaxLength="11"
                 app:endIconMode="clear_text"
                 app:errorEnabled="true"
-                app:errorTextColor="@color/color_EA6464"
-                app:startIconDrawable="@drawable/ic_contact_white_24dp"
-                app:startIconTint="@color/basic">
+                app:errorTextColor="@color/color_FFEA6464"
+                app:startIconDrawable="@drawable/ic_contact_cnn_24dp"
+                app:startIconTint="?attr/colorPrimary">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/dangerousActivityTietEmergencyContactPhoneNumber"
@@ -111,7 +105,7 @@
                     android:layout_width="@dimen/dp_0"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/color_EA6464"
+                    android:backgroundTint="@color/color_FFEA6464"
                     android:filterTouchesWhenObscured="true"
                     android:lines="4"
                     android:text="@string/send"
