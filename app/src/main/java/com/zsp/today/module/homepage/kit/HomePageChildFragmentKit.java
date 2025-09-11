@@ -19,6 +19,7 @@ import com.zsp.today.module.account.AccountHomeActivity;
 import com.zsp.today.module.dangerous.DangerousActivity;
 import com.zsp.today.module.function.database.FunctionDataBaseTable;
 import com.zsp.today.module.function.value.FunctionCondition;
+import com.zsp.today.module.heartbox.HeartBoxActivity;
 import com.zsp.today.module.homepage.bean.HomePageMenuEnum;
 import com.zsp.today.module.homepage.fragment.HomePageChildFragment;
 import com.zsp.today.module.widget.WidgetFragment;
@@ -184,25 +185,40 @@ public class HomePageChildFragmentKit {
      */
     public void display(AppCompatActivity appCompatActivity, HomePageChildFragment homePageChildFragment, RecyclerView recyclerView) {
         // 获取主页菜单图标资源 ID 集
-        HomePageMenuEnum[] homePageMenuEnums = HomePageMenuEnum.values();
-        Map<Integer, Integer> menuIconResIdMap = new HashMap<>(homePageMenuEnums.length);
-        for (HomePageMenuEnum homePageMenuEnum : homePageMenuEnums) {
-            menuIconResIdMap.put(homePageMenuEnum.getMenuId(), homePageMenuEnum.getMenuIconResId());
-        }
+        Map<String, Integer> homePageMenuIconResIdMap = getHomePageMenuIconResIdMap();
         // 获取功能数据库表可显数据集
         List<FunctionDataBaseTable> functionDataBaseTableList = LitePalKit.getInstance().queryByWhere(FunctionDataBaseTable.class, FunctionCondition.FUNCTION_PHONE_NUMBER_AND_FUNCTION_SHOW, App.getAppInstance().getPhoneNumber(), "1");
         // 获取菜单集
         List<MenuBean> menuBeanList = new ArrayList<>(functionDataBaseTableList.size());
         for (FunctionDataBaseTable functionDataBaseTable : functionDataBaseTableList) {
-            int menuId = functionDataBaseTable.getFunctionId();
-            Integer menuIconResId = menuIconResIdMap.get(menuId);
+            String menuName = functionDataBaseTable.getFunctionName();
+            Integer menuIconResId = homePageMenuIconResIdMap.get(menuName);
             if (null != menuIconResId) {
-                menuBeanList.add(new MenuBean(menuId, menuIconResId, functionDataBaseTable.getFunctionName()));
+                menuBeanList.add(new MenuBean(functionDataBaseTable.getFunctionId(), menuIconResId, menuName));
             }
         }
         // 菜单适配器配套元件
         MenuAdapterKit menuAdapterKit = new MenuAdapterKit();
         menuAdapterKit.display(appCompatActivity, recyclerView, menuBeanList, 3, 48, 192, false, (view, menuBean) -> distribute(appCompatActivity, homePageChildFragment, menuBean.getMenuId()));
+    }
+
+    /**
+     * 获取主页菜单图标资源 ID 集
+     *
+     * @return 主页菜单图标资源 ID 集
+     */
+    @NonNull
+    private static Map<String, Integer> getHomePageMenuIconResIdMap() {
+        HomePageMenuEnum[] homePageMenuEnums = HomePageMenuEnum.values();
+        Map<String, Integer> menuIconResIdMap = new HashMap<>(homePageMenuEnums.length);
+        for (HomePageMenuEnum homePageMenuEnum : homePageMenuEnums) {
+            // 用 menuName 和 menuIconResId
+            // 因在 HomePageMenuEnum 变迁过程中，menuName 和 menuIconResId 可最大程度保持一一对应，而 menuId 顺序可能被打乱。
+            // 场景：APP 原有三个主页菜单，某天新增了一个主页菜单。然而在没卸载的情况下重装了 APP，此时因 menuId 顺序可能已被打乱，从而导致 menuName 和 menuIconResId 显示不匹配。
+            // 上述场景一般不会出现，且不允许出现。
+            menuIconResIdMap.put(homePageMenuEnum.getMenuName(), homePageMenuEnum.getMenuIconResId());
+        }
+        return menuIconResIdMap;
     }
 
     /**
@@ -222,8 +238,12 @@ public class HomePageChildFragmentKit {
             case 2:
                 IntentJump.getInstance().jump(null, appCompatActivity, false, DangerousActivity.class);
                 break;
-            // 组件
+            // 心盒
             case 3:
+                IntentJump.getInstance().jump(null, appCompatActivity, false, HeartBoxActivity.class);
+                break;
+            // 组件
+            case 4:
                 RxBus.get().post(RxBusConstant.MAIN_ACTIVITY_$_BOTTOM_NAVIGATION_VIEW, RxBusConstant.MAIN_ACTIVITY_$_HIDE_BOTTOM_NAVIGATION_VIEW_CODE);
                 homePageChildFragment.start(WidgetFragment.newInstance());
                 break;
