@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.AppBarLayout;
@@ -23,8 +22,10 @@ import util.rxbus.RxBus;
 import util.rxbus.annotation.Subscribe;
 import util.rxbus.annotation.Tag;
 import util.rxbus.thread.EventThread;
+import util.typeface.TypefaceUtils;
 import widget.appbarlayout.listener.BaseAppBarLayoutStateChangeListener;
 import widget.kotlin.banner.view.BannerView;
+import widget.materialtoolbar.MaterialToolbarKit;
 
 /**
  * Created on 2020/12/17
@@ -149,7 +150,9 @@ public class HomePageChildFragment extends BasePoolFragment {
     }
 
     private void initConfiguration() {
+        MaterialToolbarKit.getInstance().setMenuItemColor(fragmentationSupportActivity, homePageChildFragmentMt, com.zsp.core.R.color.basic);
         homePageChildFragmentKit = new HomePageChildFragmentKit();
+        homePageChildFragmentKit.initTitle(homePageChildFragmentCtl, homePageChildFragmentMt, getString(R.string.app_name));
     }
 
     private void setListener() {
@@ -162,9 +165,13 @@ public class HomePageChildFragment extends BasePoolFragment {
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
                 if (state == State.COLLAPSED) {
                     // 折叠
+                    homePageChildFragmentCtl.setTitleEnabled(true);
+                    homePageChildFragmentCtl.setCollapsedTitleTextSize(56.0F);
+                    homePageChildFragmentCtl.setCollapsedTitleTypeface(TypefaceUtils.sansBold(fragmentationSupportActivity));
                     homePageChildFragmentKit.showTitle(HomePageChildFragment.this, homePageChildFragmentCtl);
-                    homePageChildFragmentCtl.setCollapsedTitleTextColor(ContextCompat.getColor(fragmentationSupportActivity, com.zsp.core.R.color.white));
-                    homePageChildFragmentCtl.setCollapsedTitleTextSize(66.0F);
+                } else if (state == State.EXPANDED) {
+                    // 展开
+                    homePageChildFragmentKit.initTitle(homePageChildFragmentCtl, homePageChildFragmentMt, getString(R.string.app_name));
                 } else {
                     // 中间
                     homePageChildFragmentCtl.setTitle("");

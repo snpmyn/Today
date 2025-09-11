@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.carousel.CarouselLayoutManager;
 import com.google.android.material.carousel.HeroCarouselStrategy;
 import com.zsp.today.R;
@@ -51,6 +52,20 @@ import widget.kotlin.banner.view.BannerView;
  * @desc 首页子碎片配套元件
  */
 public class HomePageChildFragmentKit {
+    /**
+     * 初始化标题
+     *
+     * @param collapsingToolbarLayout CollapsingToolbarLayout
+     * @param materialToolbar         MaterialToolbar
+     * @param title                   标题
+     */
+    public void initTitle(@NonNull CollapsingToolbarLayout collapsingToolbarLayout, @NonNull MaterialToolbar materialToolbar, String title) {
+        // 禁用 CollapsingToolbarLayout 展开标题
+        collapsingToolbarLayout.setTitleEnabled(false);
+        // 设置 MaterialToolbar 标题
+        materialToolbar.setTitle(title);
+    }
+
     /**
      * 显示标题
      *
