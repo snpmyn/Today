@@ -15,7 +15,7 @@
             android:id="@+id/accountDetailItemMd"
             android:layout_width="@dimen/dp_12"
             android:layout_height="match_parent"
-            app:dividerColor="@color/basic" />
+            app:dividerColor="?attr/colorPrimary" />
 
         <TextView
             android:id="@+id/accountDetailItemTvCategory"
