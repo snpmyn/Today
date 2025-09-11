@@ -92,7 +92,7 @@ public class NotificationEnableDialogFragment extends DialogFragment {
         if (null == getContext()) {
             return;
         }
-        window.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.white_solid_r10));
+        window.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.white_solid_r12));
         // 下次再说
         MaterialButton fragmentNotificationEnableDialogMbTalkAboutItNext = mView.findViewById(R.id.fragmentNotificationEnableDialogMbTalkAboutItNext);
         fragmentNotificationEnableDialogMbTalkAboutItNext.setOnClickListener(v -> {
