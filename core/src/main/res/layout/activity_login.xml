@@ -33,9 +33,9 @@
             android:hint="@string/inputPhoneNumber"
             app:endIconMode="clear_text"
             app:errorEnabled="true"
-            app:errorTextColor="@color/color_EA6464"
-            app:startIconDrawable="@drawable/ic_contact_white_24dp"
-            app:startIconTint="@color/basic">
+            app:errorTextColor="@color/color_FFEA6464"
+            app:startIconDrawable="@drawable/ic_contact_cnn_24dp"
+            app:startIconTint="?attr/colorPrimary">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/loginActivityTietPhoneNumber"
@@ -78,7 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/userAgreement"
-            android:textColor="@color/color_F86C09"
+            android:textColor="@color/color_FFF86C09"
             android:textSize="@dimen/sp_12"
             android:textStyle="bold" />
 
@@ -94,7 +94,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/privacyPolicy"
-            android:textColor="@color/color_F86C09"
+            android:textColor="@color/color_FFF86C09"
             android:textSize="@dimen/sp_12"
             android:textStyle="bold" />
     </LinearLayout>
