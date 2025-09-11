@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.zsp.today.R;
 import com.zsp.today.module.mine.kit.MineChildFragmentKit;
 
@@ -27,7 +28,7 @@ import widget.toast.ToastKit;
 public class MineChildFragment extends BasePoolFragment implements View.OnClickListener {
     private LottieAnimationView mineChildFragmentLavHeadPortrait;
     private TextView mineChildFragmentTvNickName;
-    private TextView mineChildFragmentTvNameInMaterialToolbar;
+    private MaterialToolbar mineChildFragmentMt;
     private AppBarLayout mineChildFragmentAbl;
     private RecyclerView mineChildFragmentRv;
     /**
@@ -83,7 +84,7 @@ public class MineChildFragment extends BasePoolFragment implements View.OnClickL
     protected void stepUi(@NonNull View view) {
         mineChildFragmentLavHeadPortrait = view.findViewById(R.id.mineChildFragmentLavHeadPortrait);
         mineChildFragmentTvNickName = view.findViewById(R.id.mineChildFragmentTvNickName);
-        mineChildFragmentTvNameInMaterialToolbar = view.findViewById(R.id.mineChildFragmentTvNameInMaterialToolbar);
+        mineChildFragmentMt = view.findViewById(R.id.mineChildFragmentMt);
         mineChildFragmentAbl = view.findViewById(R.id.mineChildFragmentAbl);
         mineChildFragmentRv = view.findViewById(R.id.mineChildFragmentRv);
     }
@@ -148,10 +149,10 @@ public class MineChildFragment extends BasePoolFragment implements View.OnClickL
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
                 if (state == State.COLLAPSED) {
                     // 折叠
-                    mineChildFragmentKit.setNickName(mineChildFragmentTvNameInMaterialToolbar);
+                    mineChildFragmentKit.setNickName(mineChildFragmentTvNickName, mineChildFragmentMt, false);
                 } else {
                     // 中间
-                    mineChildFragmentTvNameInMaterialToolbar.setText("");
+                    mineChildFragmentMt.setTitle("");
                 }
             }
         });
@@ -160,7 +161,7 @@ public class MineChildFragment extends BasePoolFragment implements View.OnClickL
 
     private void startLogic() {
         // 设置昵称
-        mineChildFragmentKit.setNickName(mineChildFragmentTvNickName);
+        mineChildFragmentKit.setNickName(mineChildFragmentTvNickName, mineChildFragmentMt, true);
         // 展示
         mineChildFragmentKit.display(fragmentationSupportActivity, this, mineChildFragmentRv);
     }
