@@ -4,11 +4,11 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.zsp.core.R;
 
 import org.jetbrains.annotations.NotNull;
@@ -28,15 +28,15 @@ public class UserAgreementAndPrivacyPolicyActivityKit {
     /**
      * 设置标题
      *
-     * @param webView  TextView
-     * @param textView WebView
+     * @param webView         TextView
+     * @param materialToolbar MaterialToolbar
      */
-    public void setTitle(@NotNull WebView webView, TextView textView) {
+    public void setTitle(@NotNull WebView webView, MaterialToolbar materialToolbar) {
         WebChromeClient webChromeClient = new WebChromeClient() {
             @Override
             public void onReceivedTitle(WebView view, String title) {
                 super.onReceivedTitle(view, title);
-                textView.setText(title);
+                materialToolbar.setTitle(title);
             }
         };
         webView.setWebChromeClient(webChromeClient);

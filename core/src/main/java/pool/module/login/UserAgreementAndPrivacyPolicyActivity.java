@@ -1,7 +1,6 @@
 package pool.module.login;
 
 import android.webkit.WebView;
-import android.widget.TextView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.zsp.core.R;
@@ -16,7 +15,6 @@ import pool.module.login.kit.UserAgreementAndPrivacyPolicyActivityKit;
  */
 public class UserAgreementAndPrivacyPolicyActivity extends BasePoolActivity {
     MaterialToolbar userAgreementAndPrivacyPolicyActivityMt;
-    TextView userAgreementAndPrivacyPolicyActivityTv;
     WebView userAgreementAndPrivacyPolicyActivityWv;
     /**
      * 用户协议和隐私政策页配套元件
@@ -39,7 +37,6 @@ public class UserAgreementAndPrivacyPolicyActivity extends BasePoolActivity {
     @Override
     protected void stepUi() {
         userAgreementAndPrivacyPolicyActivityMt = findViewById(R.id.userAgreementAndPrivacyPolicyActivityMt);
-        userAgreementAndPrivacyPolicyActivityTv = findViewById(R.id.userAgreementAndPrivacyPolicyActivityTv);
         userAgreementAndPrivacyPolicyActivityWv = findViewById(R.id.userAgreementAndPrivacyPolicyActivityWv);
     }
 
@@ -64,7 +61,7 @@ public class UserAgreementAndPrivacyPolicyActivity extends BasePoolActivity {
      */
     @Override
     protected void startLogic() {
-        userAgreementAndPrivacyPolicyActivityKit.setTitle(userAgreementAndPrivacyPolicyActivityWv, userAgreementAndPrivacyPolicyActivityTv);
+        userAgreementAndPrivacyPolicyActivityKit.setTitle(userAgreementAndPrivacyPolicyActivityWv, userAgreementAndPrivacyPolicyActivityMt);
         userAgreementAndPrivacyPolicyActivityKit.showUserAgreementOrPrivacyPolicy(this, userAgreementAndPrivacyPolicyActivityWv);
     }
 }
