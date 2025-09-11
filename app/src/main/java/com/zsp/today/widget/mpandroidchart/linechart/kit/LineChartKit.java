@@ -71,7 +71,7 @@ public class LineChartKit implements OnChartValueSelectedListener {
         WeakReference<Context> weakReference = new WeakReference<>(context);
         this.lineChart = lineChart;
         // Sets the background color for this view.
-        /*lineChart.setBackgroundColor(com.zsp.core.R.color.white);*/
+        /*lineChart.setBackgroundColor(ContextCompat.getColor(context, com.zsp.core.R.color.white));*/
         // Set this to true if this component should be enabled (should be drawn), false if not. If disabled, nothing of this component will be drawn.
         // Default: true
         /*lineChart.getDescription().setEnabled(true);*/
