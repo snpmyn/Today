@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="basic">#FF4E80F5</color>
-    <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <!--font-->
-    <color name="fontHint">#993C3C43</color>
-    <color name="fontInput">#FF202323</color>
     <!--customize your theme here-->
     <color name="color_9EA5B8">#9EA5B8</color>
-    <color name="color_EA6464">#FFEA6464</color>
-    <color name="color_F86C09">#FFF86C09</color>
+    <color name="color_FF202323">#FF202323</color>
+    <color name="color_FFEA6464">#FFEA6464</color>
+    <color name="color_FFF86C09">#FFF86C09</color>
     <color name="color_FF6AAEFF">#FF6AAEFF</color>
 </resources>

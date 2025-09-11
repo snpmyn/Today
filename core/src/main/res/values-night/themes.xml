@@ -28,18 +28,5 @@
         <item name="android:windowBackground">@drawable/preview_window</item>
         <item name="android:windowFullscreen">true</item>
     </style>
-    <!--BottomNavigationViewStyle-->
-    <style name="BottomNavigationViewStyle" parent="@style/Widget.Material3.BottomNavigationView.ActiveIndicator">
-        <item name="itemTextAppearanceActive">
-            @style/BottomNavigationViewItemTextAppearanceActiveAndInactive
-        </item>
-        <item name="itemTextAppearanceInactive">
-            @style/BottomNavigationViewItemTextAppearanceActiveAndInactive
-        </item>
-    </style>
-
-    <style name="BottomNavigationViewItemTextAppearanceActiveAndInactive" parent="@style/TextAppearance.AppCompat">
-        <item name="android:textSize">@dimen/sp_10</item>
-    </style>
     // 补充
 </resources>

@@ -3,29 +3,30 @@
     <!--BocDialogStyle-->
     <style name="BocDialogStyle" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:windowIsTranslucent">false</item>
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
         <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowBackground">@drawable/white_solid_r12</item>
         <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
     </style>
     <!--CircularProgressIndicatorStyle-->
     <style name="CircularProgressIndicatorStyle" parent="Widget.Material3.CircularProgressIndicator.ExtraSmall">
-        <item name="materialThemeOverlay">@style/ThemeOverlay.App.CircularProgressIndicator</item>
         <item name="trackCornerRadius">@dimen/dp_8</item>
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.CircularProgressIndicator</item>
     </style>
 
     <style name="ThemeOverlay.App.CircularProgressIndicator" parent="">
-        <item name="colorPrimary">@color/basic</item>
+        <item name="colorPrimary">?attr/colorPrimary</item>
     </style>
     <!--CustomDialogStyle-->
     <style name="CustomDialogStyle" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
         <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:colorBackgroundCacheHint">@null</item>
-        <item name="android:windowSoftInputMode">adjustPan</item>
         <item name="android:windowIsFloating">true</item>
+        <item name="android:windowSoftInputMode">adjustPan</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowBackground">@drawable/white_solid_r12</item>
     </style>
 
     <style name="DefaultAnimation" parent="android:Animation">
@@ -34,14 +35,14 @@
     </style>
     <!--a theme overlay for Material3Expressive Alert Dialog panels with a center aligned title text and icon-->
     <style name="ThemeOverlay.Material3Expressive.MaterialAlertDialog.Centered">
-        <item name="materialAlertDialogTitlePanelStyle">
-            @style/MaterialAlertDialog.Material3Expressive.Title.Panel.CenterStacked
-        </item>
         <item name="materialAlertDialogTitleIconStyle">
             @style/MaterialAlertDialog.Material3.Title.Icon.CenterStacked
         </item>
         <item name="materialAlertDialogTitleTextStyle">
             @style/MaterialAlertDialog.Material3Expressive.Title.Text.CenterStacked
+        </item>
+        <item name="materialAlertDialogTitlePanelStyle">
+            @style/MaterialAlertDialog.Material3Expressive.Title.Panel.CenterStacked
         </item>
     </style>
     <!--a theme overlay for dialogs with buttons that span the width of the dialog-->
@@ -78,8 +79,8 @@
     </style>
 
     <style name="Widget.Catalog.Button.TextButton.Dialog.FullWidth" parent="Widget.Material3Expressive.Button.TextButton.Dialog">
-        <item name="android:layout_width">@dimen/dp_0</item>
-        <item name="android:layout_weight">1</item>
         <item name="android:maxWidth">@null</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">@dimen/dp_0</item>
     </style>
 </resources>
