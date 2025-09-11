@@ -9,6 +9,7 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/accountAnalysisActivityMt"
+        style="@style/Widget.MaterialComponents.Toolbar.Surface"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
@@ -30,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/dp_12"
-            android:textColor="@color/basic"
+            android:textColor="?attr/colorPrimary"
             android:textSize="@dimen/sp_14"
             android:textStyle="bold"
             tools:text="月度分析" />
