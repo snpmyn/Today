@@ -84,7 +84,7 @@ public class DangerousActivity extends BasePoolActivity implements View.OnClickL
         // TextInputEditText
         dangerousActivityTietDangerousNotice.addTextChangedListener(new CustomTextWatcher(dangerousActivityTilInputDangerousNotice, dangerousActivityTietDangerousNotice));
         dangerousActivityTietEmergencyContactPhoneNumber.addTextChangedListener(new CustomTextWatcher(dangerousActivityTilInputEmergencyContactPhoneNumber, dangerousActivityTietEmergencyContactPhoneNumber));
-        // Button
+        // MaterialButton
         dangerousActivityMbSaveConfig.setOnClickListener(this);
         dangerousActivityMbSend.setOnClickListener(this);
     }
