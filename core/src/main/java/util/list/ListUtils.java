@@ -50,6 +50,29 @@ public class ListUtils {
     }
 
     /**
+     * 合并集合
+     * <p>
+     * 合并任意数量集合成一个新的集合
+     *
+     * @param lists 任意数量集合
+     * @param <T>   元素类型
+     * @return 合并后新集合
+     */
+    @NonNull
+    @SafeVarargs
+    public static <T> List<T> mergeLists(List<T>... lists) {
+        List<T> result = new ArrayList<>();
+        if (null != lists) {
+            for (List<T> list : lists) {
+                if (null != list) {
+                    result.addAll(list);
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
      * 按序去重
      *
      * @param inputStringList 输入集合
