@@ -7,9 +7,10 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/splashAnimationHomeFragmentMt"
-        style="@style/Widget.MaterialComponents.Toolbar.Surface"
+        style="@style/Widget.Material3.Toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?actionBarSize"
+        android:background="?attr/colorSurface"
         app:menu="@menu/splash_animation_home_fragment_menu"
         app:title="@string/startAnimation"
         app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized" />
