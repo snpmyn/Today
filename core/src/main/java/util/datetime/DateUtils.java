@@ -61,7 +61,7 @@ public class DateUtils {
      * @return String
      */
     public static @NotNull String getCurrentTimeYearMonth() {
-        return getCurrentTime(DateFormatUtils.DATE_FORMAT_TWO);
+        return getCurrentTime(DateFormatUtils.DATE_YEAR_MONTH);
     }
 
     /**
@@ -70,7 +70,7 @@ public class DateUtils {
      * @return String
      */
     public static @NotNull String getCurrentTimeYearMonthDay() {
-        return getCurrentTime(DateFormatUtils.DATE_FORMAT_THREE);
+        return getCurrentTime(DateFormatUtils.DATE_YEAR_MONTH_DATE);
     }
 
     /**
@@ -79,7 +79,7 @@ public class DateUtils {
      * @return String
      */
     public static @NotNull String getCurrentTimeYearMonthDayHourMinute() {
-        return getCurrentTime(DateFormatUtils.DATE_FORMAT_FIVE);
+        return getCurrentTime(DateFormatUtils.DATE_YEAR_MONTH_DATE_HOUR_MINUTE);
     }
 
     /**
@@ -87,8 +87,17 @@ public class DateUtils {
      *
      * @return String
      */
-    public static @NotNull String getCurrentTimeYearMonthDayHourMinuteSecond() {
-        return getCurrentTime(DateFormatUtils.DATE_FORMAT_SIX);
+    public static @NotNull String getCurrentTimeYearMonthDayHourMinuteSecondOne() {
+        return getCurrentTime(DateFormatUtils.DATE_YEAR_MONTH_DATE_HOUR_MINUTE_SECOND_ONE);
+    }
+
+    /**
+     * 当前时（yyyy-MM-dd-HH-mm-ss）
+     *
+     * @return String
+     */
+    public static @NotNull String getCurrentTimeYearMonthDayHourMinuteSecondTwo() {
+        return getCurrentTime(DateFormatUtils.DATE_YEAR_MONTH_DATE_HOUR_MINUTE_SECOND_Two);
     }
 
     /**
@@ -181,7 +190,7 @@ public class DateUtils {
      * @return Date
      */
     public static Date getCurrentDate() {
-        return getCurrentDate(DateFormatUtils.DATE_FORMAT_SIX);
+        return getCurrentDate(DateFormatUtils.DATE_YEAR_MONTH_DATE_HOUR_MINUTE_SECOND_ONE);
     }
 
     /**
@@ -410,10 +419,10 @@ public class DateUtils {
         if ((null == value) || value.isEmpty()) {
             return null;
         }
-        SimpleDateFormat simpleDateFormat = DateFormatUtils.getFormat(DateFormatUtils.DATE_FORMAT_SIX);
+        SimpleDateFormat simpleDateFormat = DateFormatUtils.getFormat(DateFormatUtils.DATE_YEAR_MONTH_DATE_HOUR_MINUTE_SECOND_ONE);
         Date date = null;
         try {
-            value = DateFormatUtils.formatDate(value, DateFormatUtils.DATE_FORMAT_SIX);
+            value = DateFormatUtils.formatDate(value, DateFormatUtils.DATE_YEAR_MONTH_DATE_HOUR_MINUTE_SECOND_ONE);
             date = simpleDateFormat.parse(value);
         } catch (Exception e) {
             Timber.e(e);
@@ -468,7 +477,7 @@ public class DateUtils {
         if (null == value) {
             return null;
         }
-        SimpleDateFormat simpleDateFormat = DateFormatUtils.getFormat(DateFormatUtils.DATE_FORMAT_SIX);
+        SimpleDateFormat simpleDateFormat = DateFormatUtils.getFormat(DateFormatUtils.DATE_YEAR_MONTH_DATE_HOUR_MINUTE_SECOND_ONE);
         return simpleDateFormat.format(value);
     }
 
@@ -548,7 +557,7 @@ public class DateUtils {
      * @return String
      */
     private static String getCurrentWeek(Date value) {
-        Calendar calendar = getCalendar(value, DateFormatUtils.DATE_FORMAT_THREE);
+        Calendar calendar = getCalendar(value, DateFormatUtils.DATE_YEAR_MONTH_DATE);
         int weekIndex = Math.max(calendar.get(Calendar.DAY_OF_WEEK) - 1, 0);
         return WEEKS[weekIndex];
     }
@@ -560,7 +569,7 @@ public class DateUtils {
      * @return String
      */
     public static String getCurrentWeek(String value) {
-        Date date = stringToDate(value, DateFormatUtils.DATE_FORMAT_THREE);
+        Date date = stringToDate(value, DateFormatUtils.DATE_YEAR_MONTH_DATE);
         return getCurrentWeek(date);
     }
 
@@ -672,7 +681,7 @@ public class DateUtils {
     public static int compareTime(String oldTime, String newTime, int type) {
         // newTime 空默当前时
         if ((null == newTime) || newTime.isEmpty()) {
-            newTime = getCurrentTimeYearMonthDayHourMinuteSecond();
+            newTime = getCurrentTimeYearMonthDayHourMinuteSecondOne();
         }
         SimpleDateFormat simpleDateFormat = DateFormatUtils.getFormat("");
         int value = 0;
@@ -856,9 +865,9 @@ public class DateUtils {
         long seconds = 0;
         // newTime 空默当前时
         if ((null == newTime) || newTime.isEmpty()) {
-            newTime = getCurrentTimeYearMonthDayHourMinuteSecond();
+            newTime = getCurrentTimeYearMonthDayHourMinuteSecondOne();
         }
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DateFormatUtils.DATE_FORMAT_FIVE, Locale.US);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DateFormatUtils.DATE_YEAR_MONTH_DATE_HOUR_MINUTE, Locale.US);
         try {
             long oldConversionResult = Objects.requireNonNull(simpleDateFormat.parse(oldTime), "must not be null").getTime();
             long newConversionResult = Objects.requireNonNull(simpleDateFormat.parse(newTime), "must not be null").getTime();

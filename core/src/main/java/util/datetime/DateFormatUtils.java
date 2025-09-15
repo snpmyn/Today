@@ -57,19 +57,23 @@ public class DateFormatUtils {
     /**
      * yyyy-MM
      */
-    static final String DATE_FORMAT_TWO = "yyyy-MM";
+    static final String DATE_YEAR_MONTH = "yyyy-MM";
     /**
      * yyyy-MM-dd
      */
-    static final String DATE_FORMAT_THREE = "yyyy-MM-dd";
+    static final String DATE_YEAR_MONTH_DATE = "yyyy-MM-dd";
     /**
      * yyyy-MM-dd hh:mm
      */
-    static final String DATE_FORMAT_FIVE = "yyyy-MM-dd HH:mm";
+    static final String DATE_YEAR_MONTH_DATE_HOUR_MINUTE = "yyyy-MM-dd HH:mm";
     /**
      * yyyy-MM-dd hh:mm:ss
      */
-    static final String DATE_FORMAT_SIX = "yyyy-MM-dd HH:mm:ss";
+    static final String DATE_YEAR_MONTH_DATE_HOUR_MINUTE_SECOND_ONE = "yyyy-MM-dd HH:mm:ss";
+    /**
+     * yyyy-MM-dd-HH-mm-ss
+     */
+    static final String DATE_YEAR_MONTH_DATE_HOUR_MINUTE_SECOND_Two = "yyyy-MM-dd-HH-mm-ss";
 
     /**
      * 格式转换
@@ -182,7 +186,7 @@ public class DateFormatUtils {
      * @return formatDate
      */
     static @NotNull String formatDate(String value) {
-        return getFormat(DATE_FORMAT_SIX).format(DateUtils.stringToDate(value, DATE_FORMAT_SIX));
+        return getFormat(DATE_YEAR_MONTH_DATE_HOUR_MINUTE_SECOND_ONE).format(DateUtils.stringToDate(value, DATE_YEAR_MONTH_DATE_HOUR_MINUTE_SECOND_ONE));
     }
 
     /**
@@ -204,7 +208,7 @@ public class DateFormatUtils {
     @Contract("_ -> new")
     static @NotNull SimpleDateFormat getFormat(String format) {
         if ((null == format) || format.isEmpty()) {
-            format = DATE_FORMAT_FIVE;
+            format = DATE_YEAR_MONTH_DATE_HOUR_MINUTE;
         }
         return new SimpleDateFormat(format, Locale.CHINA);
     }
