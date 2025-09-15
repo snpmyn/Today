@@ -8,9 +8,6 @@ import java.io.File;
 
 /**
  * Created on 2018/11/14.
- * <p>
- * 外部存储目录备份绝对路径
- * Environment.getExternalStorageDirectory().getAbsolutePath() + "/today/backup/";
  *
  * @author 郑少鹏
  * @desc 文件夹

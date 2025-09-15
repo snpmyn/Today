@@ -7,12 +7,10 @@ import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.permissionx.guolindev.PermissionX;
 import com.zsp.today.R;
 import com.zsp.today.basic.restore.kit.RestoreKit;
 import com.zsp.today.basic.worker.AccountNotificationWorker;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import util.animation.AnimationManager;
@@ -20,6 +18,7 @@ import util.view.ViewUtils;
 import widget.notification.fragment.NotificationEnableDialogFragment;
 import widget.notification.kit.NotificationKit;
 import widget.notification.listener.NotificationEnableDialogOnClickListener;
+import widget.permissionx.kit.PermissionKit;
 import widget.permissionx.kit.PermissionxKit;
 import widget.permissionx.listener.PermissionxKitListener;
 
@@ -45,7 +44,7 @@ public class MainActivityKit {
      * @param appCompatActivity 活动
      */
     private void checkPostNotificationsPermission(AppCompatActivity appCompatActivity) {
-        PermissionxKit.execute(appCompatActivity, List.of(PermissionX.permission.POST_NOTIFICATIONS), R.string.receiveNotificationAreBasedOnThePermission, com.zsp.core.R.string.youNeedToAllowNecessaryPermissionInSettingManually, com.zsp.core.R.string.agree, com.zsp.core.R.string.refuse, new PermissionxKitListener() {
+        PermissionxKit.execute(appCompatActivity, PermissionKit.notification(), R.string.receiveNotificationAreBasedOnThePermission, com.zsp.core.R.string.youNeedToAllowNecessaryPermissionInSettingManually, com.zsp.core.R.string.agree, com.zsp.core.R.string.refuse, new PermissionxKitListener() {
             @Override
             public void allGranted() {
                 accountNotification(appCompatActivity);
