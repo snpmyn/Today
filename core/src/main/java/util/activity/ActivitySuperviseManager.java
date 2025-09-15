@@ -8,7 +8,6 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import android.view.Gravity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,8 +18,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import util.datetime.CurrentTimeMillisClock;
 import timber.log.Timber;
+import util.datetime.CurrentTimeMillisClock;
 import util.list.ListUtils;
 import widget.toast.ToastKit;
 
@@ -161,7 +160,7 @@ public class ActivitySuperviseManager {
             appExit();
         } else {
             touchDownTime = CurrentTimeMillisClock.getInstance().now();
-            ToastKit.showShortWithGravity(exitHint, Gravity.CENTER);
+            ToastKit.showShort(exitHint);
         }
     }
 
