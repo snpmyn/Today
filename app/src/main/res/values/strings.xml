@@ -6,13 +6,16 @@
     <string name="wait">等下</string>
     <string name="date">日期</string>
     <string name="send">发送</string>
+    <string name="pause">暂停</string>
     <string name="renMinBi">¥</string>
+    <string name="resume">恢复</string>
     <string name="amount">金额</string>
     <string name="widget">组件</string>
     <string name="modify">修改</string>
     <string name="logOut">退出</string>
     <string name="author">作者</string>
     <string name="donate">赞助</string>
+    <string name="cancel">取消</string>
     <string name="heartBox">心盒</string>
     <string name="function">功能</string>
     <string name="category">类目</string>
@@ -23,6 +26,7 @@
     <string name="fullScreen">全屏</string>
     <string name="threeColumn">三列</string>
     <string name="useGuide">使用指南</string>
+    <string name="playFail">播放失败</string>
     <string name="resetData">重置数据</string>
     <string name="sendQuickly">快发送</string>
     <string name="deleteData">删除数据</string>
@@ -96,6 +100,7 @@
     <string name="wantToDeleteTheAccountOfTheDay">要删除这天的账目吗？</string>
     <string name="periodicNotificationEnglish">periodic notification</string>
     <string name="inputEmergencyContactPhoneNumber">输入紧急联系人手机号</string>
+    <string name="recordAudioAreBasedOnThePermission">录制音频需要该权限</string>
     <string name="hurryUpSendTheCoarseLocation">来不及了\n使用粗略位置发送</string>
     <string name="receiveNotificationAreBasedOnThePermission">接收通知需要该权限</string>
     <string name="inputCorrectEmergencyContactPhoneNumber">输入正确的紧急联系人手机号</string>
