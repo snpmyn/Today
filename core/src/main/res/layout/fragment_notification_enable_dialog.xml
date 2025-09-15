@@ -55,6 +55,10 @@
                 android:layout_height="?actionBarSize"
                 android:layout_centerInParent="true"
                 android:filterTouchesWhenObscured="true"
+                android:insetLeft="@dimen/dp_0"
+                android:insetTop="@dimen/dp_0"
+                android:insetRight="@dimen/dp_0"
+                android:insetBottom="@dimen/dp_0"
                 android:text="@string/talkAboutItNext"
                 android:textColor="@color/color_FF202323"
                 android:textSize="@dimen/sp_13" />
@@ -72,6 +76,10 @@
                 android:layout_height="?actionBarSize"
                 android:layout_centerInParent="true"
                 android:filterTouchesWhenObscured="true"
+                android:insetLeft="@dimen/dp_0"
+                android:insetTop="@dimen/dp_0"
+                android:insetRight="@dimen/dp_0"
+                android:insetBottom="@dimen/dp_0"
                 android:text="@string/goToOpen"
                 android:textSize="@dimen/sp_13" />
         </RelativeLayout>
