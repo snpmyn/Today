@@ -12,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.ref.WeakReference;
 
+import util.datetime.CurrentTimeMillisClock;
 import util.value.UtilMagic;
 
 /**
@@ -102,12 +103,12 @@ public class ViewUtils {
     public static void doubleClickCheck(@NotNull View view, final OnDoubleClickListener onDoubleClickListener) {
         view.setOnClickListener(view1 -> {
             if (alreadyClick) {
-                if (((System.currentTimeMillis() - clickTime) < UtilMagic.INT_TWO_HUNDRED) && (null != onDoubleClickListener)) {
+                if (((CurrentTimeMillisClock.getInstance().now() - clickTime) < UtilMagic.INT_TWO_HUNDRED) && (null != onDoubleClickListener)) {
                     onDoubleClickListener.onDoubleClick();
                 }
                 alreadyClick = false;
             } else {
-                clickTime = System.currentTimeMillis();
+                clickTime = CurrentTimeMillisClock.getInstance().now();
                 alreadyClick = true;
             }
         });
