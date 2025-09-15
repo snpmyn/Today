@@ -13,19 +13,19 @@ public enum HomePageMenuEnum {
     /**
      * 账目
      */
-    ACCOUNT(1, R.drawable.ic_account_ccn_24dp, "账目", true),
+    ACCOUNT(1, R.drawable.ic_account_cos_24dp, "账目", true),
     /**
      * 险情
      */
-    DANGEROUS(2, R.drawable.ic_dangerous_ccn_24dp, "险情", true),
+    DANGEROUS(2, R.drawable.ic_dangerous_cos_24dp, "险情", true),
     /**
      * 心盒
      */
-    HEART_BOX(3, R.drawable.ic_heart_box_ccn_24dp, "心盒", true),
+    HEART_BOX(3, R.drawable.ic_heart_box_cos_24dp, "心盒", true),
     /**
      * 组件
      */
-    WIDGET(4, R.drawable.ic_widget_ccn_24dp, "组件", BuildConfig.DEBUG);
+    WIDGET(4, R.drawable.ic_widget_cos_24dp, "组件", BuildConfig.DEBUG);
     /**
      * 菜单 ID
      */
