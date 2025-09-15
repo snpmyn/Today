@@ -14,17 +14,14 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.reflect.Field;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
 import pool.application.BasePoolApp;
 import timber.log.Timber;
 import util.activity.ActivitySuperviseManager;
+import util.datetime.DateUtils;
 import util.file.FileUtils;
 
 /**
@@ -50,10 +47,6 @@ public class CrashManager implements Thread.UncaughtExceptionHandler {
      * 存设备信息和异常信息
      */
     private final Map<String, String> information = new HashMap<>();
-    /**
-     * 格式化日期（日志文件名部分）
-     */
-    private final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.CHINA);
     /**
      * 路径
      */
@@ -180,7 +173,7 @@ public class CrashManager implements Thread.UncaughtExceptionHandler {
         String result = writer.toString();
         stringBuilder.append(result);
         try {
-            String fileName = ("crash-" + dateFormat.format(new Date()) + ".log");
+            String fileName = ("crash-" + DateUtils.getCurrentTimeYearMonthDayHourMinuteSecondTwo() + ".log");
             FileUtils.saveStringAsFile(BasePoolApp.getBasePoolAppInstance(), stringBuilder.toString(), path, fileName);
         } catch (Exception e) {
             Timber.e(e);
