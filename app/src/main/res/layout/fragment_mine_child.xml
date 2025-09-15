@@ -56,10 +56,11 @@
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/mineChildFragmentMt"
+                style="@style/Widget.Material3.Toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
-                app:contentInsetStart="@dimen/dp_0"
                 app:layout_collapseMode="pin"
+                app:title="@string/saveConfig"
                 app:titleCentered="true"
                 app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
