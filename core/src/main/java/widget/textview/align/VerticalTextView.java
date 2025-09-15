@@ -1,6 +1,5 @@
 package widget.textview.align;
 
-import static android.Manifest.permission.VIBRATE;
 import static android.view.MotionEvent.ACTION_MOVE;
 
 import android.annotation.SuppressLint;
@@ -23,7 +22,6 @@ import android.view.WindowManager;
 import android.widget.PopupWindow;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresPermission;
 
 import com.zsp.core.R;
 
@@ -393,8 +391,7 @@ public class VerticalTextView extends androidx.appcompat.widget.AppCompatTextVie
         return new int[]{textWidth, textHeight};
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    @RequiresPermission(VIBRATE)
+    @SuppressLint({"ClickableViewAccessibility", "MissingPermission"})
     @Override
     public boolean onTouchEvent(@NonNull MotionEvent event) {
         int action = event.getAction();
