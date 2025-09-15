@@ -12,13 +12,9 @@ import androidx.core.app.ActivityCompat;
 
 import com.zsp.core.R;
 
-import java.util.List;
-
 import util.mmkv.MmkvKit;
 import widget.location.listener.LocationKitListener;
 import widget.location.value.LocationConstant;
-import widget.permissionx.kit.PermissionxKit;
-import widget.permissionx.listener.PermissionxKitListener;
 import widget.toast.ToastKit;
 
 /**
@@ -48,17 +44,7 @@ public class LocationKit {
      * @param locationKitListener 定位配套原件监听
      */
     public void execute(AppCompatActivity appCompatActivity, LocationKitListener locationKitListener) {
-        PermissionxKit.execute(appCompatActivity, List.of(Manifest.permission.ACCESS_FINE_LOCATION), R.string.getLocationAreBasedOnThePermission, R.string.youNeedToAllowNecessaryPermissionInSettingManually, R.string.agree, R.string.refuse, new PermissionxKitListener() {
-            @Override
-            public void allGranted() {
-                startLocation(appCompatActivity, locationKitListener);
-            }
-
-            @Override
-            public void allGrantedContrary() {
-
-            }
-        });
+        startLocation(appCompatActivity, locationKitListener);
     }
 
     /**
