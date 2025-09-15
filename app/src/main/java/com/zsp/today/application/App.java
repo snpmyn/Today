@@ -1,9 +1,5 @@
 package com.zsp.today.application;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClientOption;
 import com.zsp.amap.kit.AmapLocationKit;
@@ -102,7 +98,6 @@ public class App extends BasePoolApp {
      *
      * @return 权限集
      */
-    @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     protected List<String> permissionList() {
         return ListUtils.mergeLists(PermissionKit.storage(), PermissionKit.location());
