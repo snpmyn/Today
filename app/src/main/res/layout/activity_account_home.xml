@@ -9,9 +9,10 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/accountHomeActivityMt"
-        style="@style/Widget.MaterialComponents.Toolbar.Surface"
+        style="@style/Widget.Material3.Toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?actionBarSize"
+        android:background="?attr/colorSurface"
         app:menu="@menu/account_home_activity_menu"
         app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized" />
 
