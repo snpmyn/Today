@@ -9,9 +9,10 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/addAccountActivityMt"
-        style="@style/Widget.MaterialComponents.Toolbar.Surface"
+        style="@style/Widget.Material3.Toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?actionBarSize"
+        android:background="?attr/colorSurface"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/add_account_activity_menu"
         app:navigationIcon="@drawable/ic_arrow_back_ccn_24dp"
