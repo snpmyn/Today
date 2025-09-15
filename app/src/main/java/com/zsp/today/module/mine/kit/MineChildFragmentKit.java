@@ -137,8 +137,8 @@ public class MineChildFragmentKit {
      */
     private void resetData(AppCompatActivity appCompatActivity) {
         UseGuideMaterialAlertDialogKit useGuideMaterialAlertDialogKit = new UseGuideMaterialAlertDialogKit();
-        useGuideMaterialAlertDialogKit.prepareData("步骤一", "☀ 删除数据 ☀\n\n删除账目数据\n删除险情配置数据\n删除主页菜单数据", "等下", "下一步");
-        useGuideMaterialAlertDialogKit.prepareData("步骤二", "☀ 恢复数据 ☀\n\nDocuments 文件夹下数据备份文件\n\n恢复账目数据\n恢复险情配置数据\n恢复主页菜单数据", "上一步", "去重置");
+        useGuideMaterialAlertDialogKit.prepareData("步骤一", "\uD83D\uDD25 删除数据 \uD83D\uDD25\n\n删除账目数据\n删除险情配置数据\n删除主页菜单数据", "等下", "下一步");
+        useGuideMaterialAlertDialogKit.prepareData("步骤二", "\uD83D\uDD25 恢复数据 \uD83D\uDD25\n\nDocuments 文件夹下数据备份文件\n\n恢复账目数据\n恢复险情配置数据\n恢复主页菜单数据", "上一步", "去重置");
         useGuideMaterialAlertDialogKit.show(appCompatActivity, 0, false, new UseGuideMaterialAlertDialogKitListener() {
             @Override
             public void start() {
