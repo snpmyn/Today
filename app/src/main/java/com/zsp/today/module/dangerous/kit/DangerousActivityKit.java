@@ -1,6 +1,5 @@
 package com.zsp.today.module.dangerous.kit;
 
-import android.Manifest;
 import android.animation.ValueAnimator;
 import android.text.TextUtils;
 
@@ -33,6 +32,7 @@ import widget.dialog.materialalertdialog.kit.MaterialAlertDialogBuilderKit;
 import widget.dialog.materialalertdialog.kit.UseGuideMaterialAlertDialogKit;
 import widget.dialog.materialalertdialog.listener.UseGuideMaterialAlertDialogKitListener;
 import widget.location.value.LocationConstant;
+import widget.permissionx.kit.PermissionKit;
 import widget.permissionx.kit.PermissionxKit;
 import widget.permissionx.listener.PermissionxKitListener;
 import widget.sms.kit.SmsKit;
@@ -74,7 +74,7 @@ public class DangerousActivityKit implements SmsKit.SmsKitSendListener, SmsKit.S
      * @param showUseGuideAfterJustEnterPage 是否是刚进入页面后显示使用指南
      */
     public void checkSendSmsPermission(boolean showUseGuideAfterJustEnterPage) {
-        PermissionxKit.execute(appCompatActivity, List.of(Manifest.permission.SEND_SMS), R.string.sendSmsAreBasedOnThePermission, com.zsp.core.R.string.youNeedToAllowNecessaryPermissionInSettingManually, com.zsp.core.R.string.agree, com.zsp.core.R.string.refuse, new PermissionxKitListener() {
+        PermissionxKit.execute(appCompatActivity, PermissionKit.sms(), R.string.sendSmsAreBasedOnThePermission, com.zsp.core.R.string.youNeedToAllowNecessaryPermissionInSettingManually, com.zsp.core.R.string.agree, com.zsp.core.R.string.refuse, new PermissionxKitListener() {
             @Override
             public void allGranted() {
                 showUseGuide(showUseGuideAfterJustEnterPage);
@@ -193,6 +193,7 @@ public class DangerousActivityKit implements SmsKit.SmsKitSendListener, SmsKit.S
      * <p>
      * 场景三
      * 更新定位失败后发送
+     * <p>
      * 处理逻辑
      * 首先使用本地最近一次存储的高德地图定位信息，为空则改用本地最近一次存储的原生定位信息。
      *
