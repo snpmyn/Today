@@ -1,7 +1,5 @@
 package widget.textview.align;
 
-import static android.Manifest.permission.VIBRATE;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -23,7 +21,6 @@ import android.view.WindowManager;
 import android.widget.PopupWindow;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresPermission;
 import androidx.appcompat.widget.AppCompatEditText;
 
 import com.zsp.core.R;
@@ -35,9 +32,9 @@ import util.density.DensityUtils;
 import util.keyboard.KeyboardUtils;
 import util.screen.ScreenUtils;
 import util.statusbar.StatusBarUtils;
-import widget.toast.ToastKit;
 import util.validate.CheckOutUtils;
 import util.vibrator.VibratorUtils;
+import widget.toast.ToastKit;
 import widget.value.WidgetMagic;
 
 /**
@@ -233,7 +230,6 @@ public class LeftAndRightAlignTextView extends AppCompatEditText {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    @RequiresPermission(VIBRATE)
     @Override
     public boolean onTouchEvent(@NonNull MotionEvent event) {
         Layout layout = getLayout();
