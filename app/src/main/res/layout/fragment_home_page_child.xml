@@ -65,9 +65,10 @@
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/homePageChildFragmentMt"
-                style="@style/Widget.MaterialComponents.Toolbar.Surface"
+                style="@style/Widget.Material3.Toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
+                android:background="?attr/colorSurface"
                 app:layout_collapseMode="pin"
                 app:menu="@menu/home_page_child_fragment_menu"
                 app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized" />
