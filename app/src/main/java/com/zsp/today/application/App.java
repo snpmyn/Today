@@ -1,6 +1,5 @@
 package com.zsp.today.application;
 
-import android.Manifest;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
@@ -16,7 +15,6 @@ import com.zsp.today.basic.value.Folder;
 import com.zsp.today.basic.value.RxBusConstant;
 import com.zsp.today.module.login.UserDataBaseTable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import fragmentation.configure.FragmentationInitConfig;
@@ -27,9 +25,11 @@ import pool.application.BasePoolApp;
 import pool.module.login.LoginActivity;
 import pool.module.splash.kit.SplashActivityKit;
 import timber.log.Timber;
+import util.list.ListUtils;
 import util.mmkv.MmkvKit;
 import util.rxbus.RxBus;
 import widget.crash.CrashManager;
+import widget.permissionx.kit.PermissionKit;
 import widget.status.manager.StatusManager;
 
 /**
@@ -105,12 +105,7 @@ public class App extends BasePoolApp {
     @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     protected List<String> permissionList() {
-        List<String> list = new ArrayList<>(2);
-        list.add(Manifest.permission.MANAGE_EXTERNAL_STORAGE);
-        list.add(Manifest.permission.ACCESS_FINE_LOCATION);
-        // 高德地图定位暂不申请台定位权限
-        /*list.add(Manifest.permission.ACCESS_BACKGROUND_LOCATION);*/
-        return list;
+        return ListUtils.mergeLists(PermissionKit.storage(), PermissionKit.location());
     }
 
     /**
