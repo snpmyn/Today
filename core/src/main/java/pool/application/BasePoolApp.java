@@ -15,11 +15,11 @@ import com.zsp.core.R;
 
 import java.util.List;
 
+import timber.log.Timber;
 import util.activity.ActivitySuperviseManager;
 import util.listener.AppListener;
 import util.log.LogUtils;
 import util.mmkv.MmkvInitConfigure;
-import timber.log.Timber;
 import widget.status.manager.StatusManager;
 
 /**
