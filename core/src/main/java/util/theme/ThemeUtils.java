@@ -1,0 +1,84 @@
+package util.theme;
+
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
+
+import androidx.annotation.AttrRes;
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+
+import com.google.android.material.color.MaterialColors;
+
+/**
+ * Created on 2025/9/11.
+ *
+ * @author 郑少鹏
+ * @desc 主题工具类
+ * <p>
+ * 暂无引用
+ */
+public class ThemeUtils {
+    /**
+     * 从 attr 资源 ID 获取颜色
+     *
+     * @param context   上下文
+     * @param attrResId attr 资源 ID
+     * @return 颜色
+     */
+    @ColorInt
+    public static int getColorFromAttrResIdWithMaterialColors(@NonNull Context context, @AttrRes int attrResId) {
+        return MaterialColors.getColor(context, attrResId, 0);
+    }
+
+    /**
+     * 从 attr 资源 ID 获取颜色
+     *
+     * @param context   上下文
+     * @param attrResId attr 资源 ID
+     * @return 颜色
+     */
+    @ColorInt
+    public static int getColorFromAttrResIdWithTypedArray(@NonNull Context context, @AttrRes int attrResId) {
+        TypedArray typedArray = context.obtainStyledAttributes(new int[]{attrResId});
+        try {
+            return typedArray.getColor(0, 0);
+        } finally {
+            typedArray.recycle();
+        }
+    }
+
+    /**
+     * 从 attr 资源 ID 获取位图
+     *
+     * @param context   上下文
+     * @param attrResId attr 资源 ID
+     * @return 位图
+     */
+    public static Drawable getDrawableFromAttrResId(@NonNull Context context, @AttrRes int attrResId) {
+        int[] attrs = new int[]{attrResId};
+        TypedArray typedArray = context.obtainStyledAttributes(attrs);
+        try {
+            return typedArray.getDrawable(0);
+        } finally {
+            typedArray.recycle();
+        }
+    }
+
+    /**
+     * 从 attr 资源 ID 获取资源 ID
+     *
+     * @param context   上下文
+     * @param attrResId attr 资源 ID
+     * @return 资源 ID
+     */
+    public static int getResourceIdFromAttrResId(@NonNull Context context, @AttrRes int attrResId) {
+        int[] attrs = new int[]{attrResId};
+        TypedArray typedArray = context.obtainStyledAttributes(attrs);
+        try {
+            return typedArray.getResourceId(0, 0);
+        } finally {
+            typedArray.recycle();
+        }
+    }
+}
