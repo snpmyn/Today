@@ -18,6 +18,7 @@ import com.zsp.core.R;
 
 import java.util.Objects;
 
+import util.datetime.CurrentTimeMillisClock;
 import util.density.DensityUtils;
 import util.screen.ScreenUtils;
 
@@ -219,7 +220,7 @@ public abstract class BaseDialog extends DialogFragment {
     }
 
     public BaseDialog show(FragmentManager manager) {
-        super.show(manager, String.valueOf(System.currentTimeMillis()));
+        super.show(manager, String.valueOf(CurrentTimeMillisClock.getInstance().now()));
         return this;
     }
 }
