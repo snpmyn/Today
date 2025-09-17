@@ -31,6 +31,7 @@ import widget.dialog.bocdialog.lottie.bean.BocLottieDialogEnum;
 import widget.dialog.materialalertdialog.kit.MaterialAlertDialogBuilderKit;
 import widget.dialog.materialalertdialog.kit.UseGuideMaterialAlertDialogKit;
 import widget.dialog.materialalertdialog.listener.UseGuideMaterialAlertDialogKitListener;
+import widget.emoji.MoodEmojiKit;
 import widget.location.value.LocationConstant;
 import widget.permissionx.kit.PermissionKit;
 import widget.permissionx.kit.PermissionxKit;
@@ -121,9 +122,9 @@ public class DangerousActivityKit implements SmsKit.SmsKitSendListener, SmsKit.S
     @NonNull
     private static UseGuideMaterialAlertDialogKit getUseGuideMaterialAlertDialogKit() {
         UseGuideMaterialAlertDialogKit useGuideMaterialAlertDialogKit = new UseGuideMaterialAlertDialogKit();
-        useGuideMaterialAlertDialogKit.prepareData("步骤一", "\uD83D\uDD25 输入险情通知 \uD83D\uDD25\n\n令狐少侠，我现处危险中。马上帮我报警，不要回电。\n\n如上编辑即可，发送短信时自动附带你所处位置的定位信息。", "关闭", "下一步");
-        useGuideMaterialAlertDialogKit.prepareData("步骤二", "\uD83D\uDD25 输入紧急联系人手机号 \uD83D\uDD25\n\n输入令狐少侠的手机号\n\n遇险情时向令狐少侠一键发送短信", "上一步", "下一步");
-        useGuideMaterialAlertDialogKit.prepareData("步骤三", "\uD83D\uDD25 保存配置 \uD83D\uDD25\n\n建议尽早配置，以备不时之需。", "上一步", "去使用");
+        useGuideMaterialAlertDialogKit.prepareData("步骤一", MoodEmojiKit.Mood.FIRE.getEmoji() + " 输入险情通知 " + MoodEmojiKit.Mood.FIRE.getEmoji() + "\n\n令狐少侠，我现处危险中。马上帮我报警，不要回电。\n\n如上编辑即可，发送短信时自动附带你所处位置的定位信息。", "关闭", "下一步");
+        useGuideMaterialAlertDialogKit.prepareData("步骤二", MoodEmojiKit.Mood.FIRE.getEmoji() + " 输入紧急联系人手机号 " + MoodEmojiKit.Mood.FIRE.getEmoji() + "\n\n输入令狐少侠的手机号\n\n遇险情时向令狐少侠一键发送短信", "上一步", "下一步");
+        useGuideMaterialAlertDialogKit.prepareData("步骤三", MoodEmojiKit.Mood.FIRE.getEmoji() + " 保存配置 " + MoodEmojiKit.Mood.FIRE.getEmoji() + "\n\n建议尽早配置，以备不时之需。", "上一步", "去使用");
         return useGuideMaterialAlertDialogKit;
     }
 
