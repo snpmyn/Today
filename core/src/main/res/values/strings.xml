@@ -15,9 +15,12 @@
     <string name="noData">暂无数据</string>
     <string name="goToOpen">去打开</string>
     <string name="carousel">轮播图</string>
+    <string name="zeroSecond">0 秒</string>
+    <string name="playFail">播放失败</string>
     <string name="progressBar">进度条</string>
     <string name="selectDate">选择日期</string>
     <string name="continueUse">继续使用</string>
+    <string name="unknownDate">未知日期</string>
     <string name="checkSetting">检查设置</string>
     <string name="fileNotExit">文件不存在</string>
     <string name="privacyPolicy">隐私政策</string>
@@ -28,14 +31,19 @@
     <string name="talkAboutItNext">下次再说</string>
     <string name="loginPageTopHint">点滴记忆</string>
     <string name="inputPhoneNumber">输入手机号</string>
+    <string name="deleteAudioFail">音频删除失败</string>
     <string name="currentNoNetwork">当前无网络连接</string>
     <string name="notAgreeAngLoginOut">不同意并退出</string>
     <string name="dataStatusIsAbnormal">数据状态异常</string>
     <string name="openNotificationHint">打开通知提示</string>
+    <string name="canNotStartRecording">无法开始录音</string>
+    <string name="canNotPauseRecording">无法暂停录音</string>
+    <string name="canNotResumeRecording">无法恢复录音</string>
     <string name="bySigningInYouAgree">登录即代表您同意</string>
     <string name="inputCorrectPhoneNumber">输入正确的手机号</string>
     <string name="needTurnOnLocationServices">需开启定位服务</string>
     <string name="loadFailAndTryAgainLater">加载失败，稍后重试</string>
+    <string name="volumeMonitoringIsUnavailable">音量监听不可用</string>
     <string name="userAgreementAndPrivacyPolicy">用户协议和隐私政策</string>
     <string name="networkExceptionAndTryAgainLater">网络异常，稍后重试</string>
     <string name="neverMissTheLatestNewsAnymore">再也不会错过最新消息了</string>
@@ -46,7 +54,7 @@
     <string name="userAgreementAndPrivacyPolicyContent">我非常重视你的个人信息和隐私保护。为更好地保障你的个人权益，在你使用我的产品前，务必审慎阅读《用户协议》与《隐私政策》内的所有条款内容。如你同意以上条款，点击"同意"并继续，开始使用我的产品和服务！</string>
     <!--fragmentation-->
     <string name="fragmentationStackView">栈视图 (StackView)</string>
-    <string name="fragmentationStackHelp">* - not in backStack\n☀ - visible</string>
+    <string name="fragmentationStackHelp">* - 不在回退栈\n🔥 - 可见</string>
     <!--pool-->
     <string name="poolSplashContent">POOL</string>
     <string name="PoolSplashDuration">1000</string>
