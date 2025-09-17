@@ -27,10 +27,8 @@
     <string name="twoColumn">两列</string>
     <string name="accountTwo">账单</string>
     <string name="fullScreen">全屏</string>
-    <string name="zeroSecond">0 秒</string>
     <string name="threeColumn">三列</string>
     <string name="useGuide">使用指南</string>
-    <string name="playFail">播放失败</string>
     <string name="resetData">重置数据</string>
     <string name="sendQuickly">快发送</string>
     <string name="deleteData">删除数据</string>
@@ -42,7 +40,6 @@
     <string name="recentVoice">最近心声</string>
     <string name="inputAmount">输入金额</string>
     <string name="openAccount">打开账单</string>
-    <string name="unknownDate">未知日期</string>
     <string name="dateDuration">日期时长</string>
     <string name="todayAccount">今日账目</string>
     <string name="yearAnalysis">年度分析</string>
@@ -71,7 +68,6 @@
     <string name="updatingLocation">更新定位中</string>
     <string name="serviceIsRunning">服务运行中</string>
     <string name="noAccountAvailable">暂无账目</string>
-    <string name="deleteAudioFail">音频删除失败</string>
     <string name="dataHasBeenDeleted">数据已删除</string>
     <string name="internalBackupFail">内备份失败</string>
     <string name="externalBackupFail">外备份失败</string>
@@ -81,14 +77,11 @@
     <string name="updateLocationFail">更新定位失败</string>
     <string name="noYearDataAvailable">暂无年份数据</string>
     <string name="restoreHomePageMenu">恢复主页菜单</string>
-    <string name="canNotStartRecording">无法开始录音</string>
-    <string name="canNotPauseRecording">无法暂停录音</string>
     <string name="openNotificationHint">打开今日通知</string>
     <string name="inputDangerousNotice">输入险情通知</string>
     <string name="accountHasBeenRestored">账目已恢复</string>
     <string name="rememberToKeepAccount">记得记账哦！</string>
     <string name="closeEverydayAnalysis">关闭每日分析</string>
-    <string name="canNotResumeRecording">无法恢复录音</string>
     <string name="setAnimationSuccessful">设置动画成功</string>
     <string name="restoreDangerousConfig">恢复险情配置</string>
     <string name="noAccountDataAvailable">暂无账单数据</string>
@@ -104,7 +97,6 @@
     <string name="homePageMenuHasBeenRestored">主页菜单已恢复</string>
     <string name="homePageMenuHasBeenPreStored">主页菜单已预存</string>
     <string name="noYearAnalysisDataAvailable">暂无年度分析数据</string>
-    <string name="volumeMonitoringIsUnavailable">音量监听不可用</string>
     <string name="noMonthAnalysisDataAvailable">暂无月度分析数据</string>
     <string name="dangerousConfigHasBeenRestored">险情配置已恢复</string>
     <string name="sendSmsAreBasedOnThePermission">发送短信需要该权限</string>
