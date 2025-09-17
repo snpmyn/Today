@@ -33,6 +33,7 @@ import fragmentation.fragmentation.Fragmentation;
 import fragmentation.fragmentation.ISupportFragment;
 import fragmentation.value.FragmentationMagic;
 import timber.log.Timber;
+import widget.emoji.MoodEmojiKit;
 
 /**
  * @decs: DebugStackDelegate
@@ -220,7 +221,7 @@ public class DebugStackDelegate implements SensorEventListener {
                 }
             }
             if ((fragment instanceof ISupportFragment) && ((ISupportFragment) fragment).isSupportVisible()) {
-                name = span(name, " \uD83D\uDD25");
+                name = span(name, " " + MoodEmojiKit.Mood.FIRE.getEmoji());
             }
             fragmentRecords.add(new DebugFragmentRecord(name, getChildFragmentRecords(fragment)));
         }

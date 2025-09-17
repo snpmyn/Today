@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -21,6 +20,9 @@ import com.zsp.core.R;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+
+import widget.emoji.MoodEmojiKit;
+import widget.toast.ToastKit;
 
 /**
  * @decs: DebugHierarchyViewContainer
@@ -98,7 +100,7 @@ public class DebugHierarchyViewContainer extends ScrollView {
         params.leftMargin = dip2px(16);
         params.gravity = Gravity.CENTER_VERTICAL;
         imageView.setLayoutParams(params);
-        mTitleLayout.setOnClickListener(v -> Toast.makeText(mContext, R.string.fragmentationStackHelp, Toast.LENGTH_LONG).show());
+        mTitleLayout.setOnClickListener(v -> ToastKit.showShort(String.format(mContext.getString(R.string.fragmentationStackHelp), MoodEmojiKit.Mood.FIRE.getEmoji())));
         mTitleLayout.addView(imageView);
         return mTitleLayout;
     }
