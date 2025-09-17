@@ -40,6 +40,7 @@ import widget.dialog.bocdialog.lottie.bean.BocLottieDialogEnum;
 import widget.dialog.materialalertdialog.kit.MaterialAlertDialogBuilderKit;
 import widget.dialog.materialalertdialog.kit.UseGuideMaterialAlertDialogKit;
 import widget.dialog.materialalertdialog.listener.UseGuideMaterialAlertDialogKitListener;
+import widget.emoji.MoodEmojiKit;
 import widget.toast.ToastKit;
 
 /**
@@ -136,9 +137,7 @@ public class MineChildFragmentKit {
      * @param appCompatActivity 活动
      */
     private void resetData(AppCompatActivity appCompatActivity) {
-        UseGuideMaterialAlertDialogKit useGuideMaterialAlertDialogKit = new UseGuideMaterialAlertDialogKit();
-        useGuideMaterialAlertDialogKit.prepareData("步骤一", "\uD83D\uDCC2 删除数据 \uD83D\uDCC2\n\n删除账目数据\n删除险情配置数据\n删除主页菜单数据", "等下", "下一步");
-        useGuideMaterialAlertDialogKit.prepareData("步骤二", "\uD83D\uDCC2 恢复数据 \uD83D\uDCC2\n\nDocuments 文件夹下数据备份文件\n\n恢复账目数据\n恢复险情配置数据\n恢复主页菜单数据", "上一步", "去重置");
+        UseGuideMaterialAlertDialogKit useGuideMaterialAlertDialogKit = getUseGuideMaterialAlertDialogKit();
         useGuideMaterialAlertDialogKit.show(appCompatActivity, 0, false, new UseGuideMaterialAlertDialogKitListener() {
             @Override
             public void start() {
@@ -164,6 +163,19 @@ public class MineChildFragmentKit {
                 }));
             }
         });
+    }
+
+    /**
+     * 获取使用指南材料对话框配套元件
+     *
+     * @return 使用指南材料对话框配套元件
+     */
+    @NonNull
+    private static UseGuideMaterialAlertDialogKit getUseGuideMaterialAlertDialogKit() {
+        UseGuideMaterialAlertDialogKit useGuideMaterialAlertDialogKit = new UseGuideMaterialAlertDialogKit();
+        useGuideMaterialAlertDialogKit.prepareData("步骤一", MoodEmojiKit.Mood.FOLDER.getEmoji() + " 删除数据 " + MoodEmojiKit.Mood.FOLDER.getEmoji() + "\n\n删除账目数据\n删除险情配置数据\n删除主页菜单数据", "等下", "下一步");
+        useGuideMaterialAlertDialogKit.prepareData("步骤二", MoodEmojiKit.Mood.FOLDER.getEmoji() + " 恢复数据 " + MoodEmojiKit.Mood.FOLDER.getEmoji() + "\n\nDocuments 文件夹下数据备份文件\n\n恢复账目数据\n恢复险情配置数据\n恢复主页菜单数据", "上一步", "去重置");
+        return useGuideMaterialAlertDialogKit;
     }
 
     /**
