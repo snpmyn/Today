@@ -220,7 +220,7 @@ public class DebugStackDelegate implements SensorEventListener {
                 }
             }
             if ((fragment instanceof ISupportFragment) && ((ISupportFragment) fragment).isSupportVisible()) {
-                name = span(name, " ☀");
+                name = span(name, " \uD83D\uDD25");
             }
             fragmentRecords.add(new DebugFragmentRecord(name, getChildFragmentRecords(fragment)));
         }
