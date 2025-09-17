@@ -80,12 +80,12 @@ public class MineChildFragmentKit {
     public void display(@NonNull AppCompatActivity appCompatActivity, MineChildFragment mineChildFragment, RecyclerView recyclerView) {
         // 数据
         List<MenuBean> moduleBeanList = new ArrayList<>(4);
-        moduleBeanList.add(new MenuBean(1, R.drawable.ic_start_animation_ccn_24dp, appCompatActivity.getString(R.string.startAnimation)));
-        moduleBeanList.add(new MenuBean(2, R.drawable.ic_reset_ccn_24dp, appCompatActivity.getString(R.string.resetData)));
-        moduleBeanList.add(new MenuBean(3, R.drawable.ic_clean_cache_ccn_24dp, appCompatActivity.getString(R.string.cleanCache)));
-        moduleBeanList.add(new MenuBean(4, R.drawable.ic_author_ccn_24dp, appCompatActivity.getString(R.string.author)));
-        moduleBeanList.add(new MenuBean(5, R.drawable.ic_donate_ccn_24dp, appCompatActivity.getString(R.string.donate)));
-        moduleBeanList.add(new MenuBean(6, R.drawable.ic_log_out_ccn_24dp, appCompatActivity.getString(R.string.logOut)));
+        moduleBeanList.add(new MenuBean(1, R.drawable.ic_start_animation_cos_24dp, appCompatActivity.getString(R.string.startAnimation)));
+        moduleBeanList.add(new MenuBean(2, R.drawable.ic_reset_cos_24dp, appCompatActivity.getString(R.string.resetData)));
+        moduleBeanList.add(new MenuBean(3, R.drawable.ic_clean_cache_cos_24dp, appCompatActivity.getString(R.string.cleanCache)));
+        moduleBeanList.add(new MenuBean(4, R.drawable.ic_author_cos_24dp, appCompatActivity.getString(R.string.author)));
+        moduleBeanList.add(new MenuBean(5, R.drawable.ic_donate_cos_24dp, appCompatActivity.getString(R.string.donate)));
+        moduleBeanList.add(new MenuBean(6, R.drawable.ic_log_out_cos_24dp, appCompatActivity.getString(R.string.logOut)));
         // 模块适配器配套元件
         MenuAdapterKit menuAdapterKit = new MenuAdapterKit();
         menuAdapterKit.display(appCompatActivity, recyclerView, moduleBeanList, 3, 48, 192, false, (view, menuBean) -> distribute(appCompatActivity, mineChildFragment, menuBean.getMenuId()));
