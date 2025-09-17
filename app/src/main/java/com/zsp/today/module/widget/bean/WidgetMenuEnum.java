@@ -14,19 +14,19 @@ public enum WidgetMenuEnum {
      * <p>
      * 标签布局
      */
-    TAB_LAYOUT(1, R.drawable.ic_widget_ccn_24dp, "TabLayout", true),
+    TAB_LAYOUT(1, R.drawable.ic_widget_cos_24dp, "TabLayout", true),
     /**
      * CardView
      * <p>
      * 卡片视图
      */
-    CARD_VIEW(2, R.drawable.ic_widget_ccn_24dp, "CardView", true),
+    CARD_VIEW(2, R.drawable.ic_widget_cos_24dp, "CardView", true),
     /**
      * SearchView
      * <p>
      * 搜索视图
      */
-    SEARCH_VIEW(2, R.drawable.ic_widget_ccn_24dp, "SearchView", true);
+    SEARCH_VIEW(2, R.drawable.ic_widget_cos_24dp, "SearchView", true);
     /**
      * 菜单 ID
      */
