@@ -45,7 +45,7 @@
             android:textSize="@dimen/sp_14"
             android:textStyle="bold"
             app:cornerRadius="@dimen/dp_180"
-            app:icon="@drawable/ic_fire_ccn_24dp"
+            app:icon="@drawable/ic_fire_cos_24dp"
             app:iconGravity="textStart"
             app:iconSize="@dimen/dp_18"
             app:iconTint="@color/color_FFF86C09"

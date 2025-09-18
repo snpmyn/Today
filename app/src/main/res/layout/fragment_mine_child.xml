@@ -32,7 +32,7 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/ccn_solid_circle">
+                    android:background="@drawable/cos_solid_circle">
 
                     <com.airbnb.lottie.LottieAnimationView
                         android:id="@+id/mineChildFragmentLavHeadPortrait"
