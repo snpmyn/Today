@@ -34,7 +34,7 @@
             app:endIconMode="clear_text"
             app:errorEnabled="true"
             app:errorTextColor="@color/color_FFEA6464"
-            app:startIconDrawable="@drawable/ic_contact_cnn_24dp"
+            app:startIconDrawable="@drawable/ic_contact_cos_24dp"
             app:startIconTint="?attr/colorPrimary">
 
             <com.google.android.material.textfield.TextInputEditText
