@@ -37,6 +37,7 @@ import widget.adapttemplate.kit.MenuAdapterKit;
 import widget.dialog.bocdialog.kit.BocDialogKit;
 import widget.dialog.bocdialog.lottie.BocLottieCommonDialog;
 import widget.dialog.bocdialog.lottie.bean.BocLottieDialogEnum;
+import widget.dialog.materialalertdialog.kit.DebugMaterialAlertDialogKit;
 import widget.dialog.materialalertdialog.kit.MaterialAlertDialogBuilderKit;
 import widget.dialog.materialalertdialog.kit.UseGuideMaterialAlertDialogKit;
 import widget.dialog.materialalertdialog.listener.UseGuideMaterialAlertDialogKitListener;
@@ -190,6 +191,7 @@ public class MineChildFragmentKit {
         } else {
             CacheManager.clearAllCache(appCompatActivity);
             ToastKit.showShort(String.format(appCompatActivity.getString(R.string.formatCleanCacheSuccessful), totalCacheSize));
+            DebugMaterialAlertDialogKit.getInstance().show(appCompatActivity, String.format(appCompatActivity.getString(R.string.formatCleanCacheSuccessful), totalCacheSize), true);
         }
     }
 
