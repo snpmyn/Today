@@ -15,7 +15,7 @@
         android:background="?attr/colorSurface"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/account_analysis_activity_menu"
-        app:navigationIcon="@drawable/ic_arrow_back_ccn_24dp"
+        app:navigationIcon="@drawable/ic_arrow_back_cos_24dp"
         app:title="@string/accountAnalysis"
         app:titleCentered="true"
         app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized" />

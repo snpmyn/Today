@@ -33,21 +33,23 @@
             android:layout_width="@dimen/dp_0"
             android:layout_height="?actionBarSize"
             android:layout_weight="1"
-            android:drawableTop="@drawable/ic_account_analysis_ccn_20dp"
+            android:drawableTop="@drawable/ic_account_analysis_cos_20dp"
             android:drawablePadding="@dimen/dp_10"
             android:gravity="center_horizontal"
             android:text="@string/accountAnalysis"
-            android:textSize="@dimen/sp_14" />
+            android:textSize="@dimen/sp_14"
+            android:textStyle="bold" />
 
         <widget.textview.DrawableCenterTextView
             android:id="@+id/accountHomeActivityBottomSheetDialogDctvExportAccount"
             android:layout_width="@dimen/dp_0"
             android:layout_height="?actionBarSize"
             android:layout_weight="1"
-            android:drawableTop="@drawable/ic_export_account_ccn_20dp"
+            android:drawableTop="@drawable/ic_export_account_cos_20dp"
             android:drawablePadding="@dimen/dp_10"
             android:gravity="center_horizontal"
             android:text="@string/exportAccount"
-            android:textSize="@dimen/sp_14" />
+            android:textSize="@dimen/sp_14"
+            android:textStyle="bold" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
