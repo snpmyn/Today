@@ -1,5 +1,7 @@
 package util.datetime;
 
+import android.text.TextUtils;
+
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -74,6 +76,10 @@ public class DateFormatUtils {
      * yyyy-MM-dd-HH-mm-ss
      */
     static final String DATE_YEAR_MONTH_DATE_HOUR_MINUTE_SECOND_Two = "yyyy-MM-dd-HH-mm-ss";
+    /**
+     * yyyy-MMdd-HH-mm-ss
+     */
+    static final String DATE_YEAR_MONTH_DATE_HOUR_MINUTE_SECOND_Three = "yyyy-MMdd-HH-mm-ss";
 
     /**
      * 格式转换
@@ -207,7 +213,7 @@ public class DateFormatUtils {
      */
     @Contract("_ -> new")
     static @NotNull SimpleDateFormat getFormat(String format) {
-        if ((null == format) || format.isEmpty()) {
+        if ((null == format) || TextUtils.isEmpty(format)) {
             format = DATE_YEAR_MONTH_DATE_HOUR_MINUTE;
         }
         return new SimpleDateFormat(format, Locale.CHINA);

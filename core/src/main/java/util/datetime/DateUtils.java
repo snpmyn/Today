@@ -101,6 +101,15 @@ public class DateUtils {
     }
 
     /**
+     * 当前时（yyyy-MMdd-HH-mm-ss）
+     *
+     * @return String
+     */
+    public static @NotNull String getCurrentTimeYearMonthDayHourMinuteSecondThree() {
+        return getCurrentTime(DateFormatUtils.DATE_YEAR_MONTH_DATE_HOUR_MINUTE_SECOND_Three);
+    }
+
+    /**
      * 指定格式当前时（为空格式为 yyyy-mm-dd HH:mm:ss）
      *
      * @param format 格式
