@@ -48,6 +48,7 @@
     <string name="exportAccount">导出账单</string>
     <string name="accountDetail">账目详情</string>
     <string name="monthAnalysis">月度分析</string>
+    <string name="noVoiceYet">还没有心声哦</string>
     <string name="startAnimation">启动动画</string>
     <string name="chooseCategory">选择类目</string>
     <string name="restoreDefault">恢复默认</string>
@@ -80,6 +81,7 @@
     <string name="openNotificationHint">打开今日通知</string>
     <string name="inputDangerousNotice">输入险情通知</string>
     <string name="accountHasBeenRestored">账目已恢复</string>
+    <string name="aLittleMoreSpace">" 又多了一点空间"</string>
     <string name="rememberToKeepAccount">记得记账哦！</string>
     <string name="closeEverydayAnalysis">关闭每日分析</string>
     <string name="setAnimationSuccessful">设置动画成功</string>
