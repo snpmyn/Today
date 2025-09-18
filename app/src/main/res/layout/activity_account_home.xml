@@ -35,7 +35,7 @@
         android:layout_marginBottom="@dimen/dp_24"
         android:text="@string/returnToThisYear"
         android:visibility="gone"
-        app:icon="@drawable/ic_arrow_right_ccn_20dp"
+        app:icon="@drawable/ic_arrow_right_cos_20dp"
         app:iconPadding="@dimen/dp_6"
         app:iconSize="@dimen/dp_20" />
 </RelativeLayout>

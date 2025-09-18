@@ -15,7 +15,7 @@
         android:background="?attr/colorSurface"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/dangerous_activity_menu"
-        app:navigationIcon="@drawable/ic_arrow_back_ccn_24dp"
+        app:navigationIcon="@drawable/ic_arrow_back_cos_24dp"
         app:title="@string/dangerous"
         app:titleCentered="true"
         app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized" />
@@ -69,7 +69,7 @@
                 app:endIconMode="clear_text"
                 app:errorEnabled="true"
                 app:errorTextColor="@color/color_FFEA6464"
-                app:startIconDrawable="@drawable/ic_contact_cnn_24dp"
+                app:startIconDrawable="@drawable/ic_contact_cos_24dp"
                 app:startIconTint="?attr/colorPrimary">
 
                 <com.google.android.material.textfield.TextInputEditText

@@ -15,7 +15,7 @@
         android:background="?attr/colorSurface"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/add_account_activity_menu"
-        app:navigationIcon="@drawable/ic_arrow_back_ccn_24dp"
+        app:navigationIcon="@drawable/ic_arrow_back_cos_24dp"
         app:title="@string/addAccount"
         app:titleCentered="true"
         app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized" />
@@ -43,10 +43,10 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/chooseDate"
                 android:textColorHint="?attr/colorPrimary"
-                app:endIconDrawable="@drawable/ic_add_ccn_20dp"
+                app:endIconDrawable="@drawable/ic_add_cos_20dp"
                 app:endIconMode="custom"
                 app:helperText="@string/date"
-                app:startIconDrawable="@drawable/ic_calendar_today_ccn_24dp"
+                app:startIconDrawable="@drawable/ic_calendar_today_cos_24dp"
                 app:startIconTint="?attr/colorPrimary">
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
@@ -66,12 +66,12 @@
                 android:layout_marginTop="@dimen/dp_12"
                 android:layout_marginBottom="@dimen/dp_12"
                 android:hint="@string/chooseCategory"
-                app:endIconDrawable="@drawable/ic_add_ccn_20dp"
+                app:endIconDrawable="@drawable/ic_add_cos_20dp"
                 app:endIconMode="custom"
                 app:errorEnabled="true"
                 app:errorTextColor="@color/color_FFEA6464"
                 app:helperText="@string/category"
-                app:startIconDrawable="@drawable/ic_category_ccn_24dp"
+                app:startIconDrawable="@drawable/ic_category_cos_24dp"
                 app:startIconTint="?attr/colorPrimary">
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
@@ -95,7 +95,7 @@
                 app:errorTextColor="@color/color_FFEA6464"
                 app:helperText="@string/amount"
                 app:prefixText="@string/renMinBi"
-                app:startIconDrawable="@drawable/ic_wallet_ccn_24dp"
+                app:startIconDrawable="@drawable/ic_wallet_cos_24dp"
                 app:startIconTint="?attr/colorPrimary"
                 app:suffixText="@string/yuan">
 
