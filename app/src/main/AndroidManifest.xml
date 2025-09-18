@@ -2,33 +2,24 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- 声明本应用程序可能会使用到电话相关的硬件功能 -->
-    <!-- 但该功能不是应用程序运行所绝对必需的 -->
+    <!--声明应用可能用到电话相关的硬件功能-->
+    <!--但该功能非应用运行必需-->
     <uses-feature
         android:name="android.hardware.telephony"
         android:required="false" />
 
-    <!-- AllFilesAccessPolicy: 这条规则会检查应用是否声明了 MANAGE_EXTERNAL_STORAGE 权限 -->
-    <!-- 拥有此权限的应用可以绕过 Android 10 (API 29) 及更高版本中引入的分区存储 (Scoped Storage) 限制，访问整个外部存储 -->
-    <!-- Google 认为这是一种非常危险的权限，通常只允许文件管理器、备份和恢复等少数特定类型的应用使用 -->
-    <!-- 如果你的应用不是这类应用却声明了此权限，Lint 会发出强烈警告 -->
-    <!-- ScopedStorage: 这条规则会检查你的代码是否使用了在分区存储环境下已被弃用 (deprecated) 或不再推荐使用的 API (例如直接使用外部存储路径访问文件，而不是通过 MediaStore 或 Storage Access Framework) -->
-    <!-- 如果你的代码中存在这类用法，Lint 会发出警告，提示你的应用可能在新版 Android 上无法正常工作 -->
-    <uses-permission
-        android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
-        tools:ignore="AllFilesAccessPolicy,ScopedStorage" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <!-- SmsAndCallLogPolicy: 这条检查规则是专门针对应用声明与短信 (SMS) 和通话记录 (Call Log) 相关的权限时提出的 -->
-    <!-- 根据 Google Play 的政策，如果您的应用以 Android 10 (API 级别 29) 或更高版本为目标平台，并且不是设备的默认短信或默认电话应用，则它将无法访问这些敏感数据 -->
-    <!-- 声明了相关权限但不符合豁免条件时，Lint 会抛出这个错误 -->
-    <!-- 目的：让 Android Studio 不要显示 SmsAndCallLogPolicy 这个特定的编译错误或警告 -->
-    <!-- 性质：这是一个抑制警告的手段，并不能解决根本问题。它只是让错误提示消失 -->
-    <!-- 风险：即使使用了这个属性，如果您的应用不符合 Google Play 的政策（即不是默认应用），您仍然无法在真实设备上成功获取到短信或通话记录。这个属性只是瞒过了开发工具的检查 -->
-    <!-- 建议：在使用此属性之前，请务必确认您的应用是否真的需要并且有资格使用这些权限。如果不符合，应该从清单中移除这些权限，而不是简单地忽略警告 -->
     <uses-permission
         android:name="android.permission.SEND_SMS"
         tools:ignore="SmsAndCallLogPolicy" />
-    <!--从 Android 9 (API 28) 开始，Google 要求开发者在启动前台服务时，必须指定前台服务类型 (foregroundServiceType)-->
+    <uses-permission
+        android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+        tools:ignore="AllFilesAccessPolicy,ScopedStorage" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!--Android 9 (API 28) 开始，Google 要求开发者在启动前台服务时，必须指定前台服务类型-->
     <!--前台服务声明 foregroundServiceType="dataSync" 时清单文件必须添加权限-->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
 
@@ -45,6 +36,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Today"
         tools:targetApi="29">
+        <activity android:name=".module.heartbox.HeartBoxActivity" />
         <activity android:name=".module.dangerous.DangerousActivity" />
         <activity android:name=".module.widget.tablayout.TabLayoutActivity" />
         <activity android:name=".module.function.FunctionActivity" />
