@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.zsp.today.BuildConfig;
 import com.zsp.today.R;
 import com.zsp.today.application.App;
 import com.zsp.today.basic.restore.kit.RestoreKit;
@@ -191,7 +192,7 @@ public class MineChildFragmentKit {
         } else {
             CacheManager.clearAllCache(appCompatActivity);
             ToastKit.showShort(String.format(appCompatActivity.getString(R.string.formatCleanCacheSuccessful), totalCacheSize));
-            DebugMaterialAlertDialogKit.getInstance().show(appCompatActivity, String.format(appCompatActivity.getString(R.string.formatCleanCacheSuccessful), totalCacheSize), true);
+            DebugMaterialAlertDialogKit.getInstance().show(appCompatActivity, String.format(appCompatActivity.getString(R.string.formatCleanCacheSuccessful), totalCacheSize), BuildConfig.DEBUG);
         }
     }
 
