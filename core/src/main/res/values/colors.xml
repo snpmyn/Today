@@ -8,4 +8,9 @@
     <color name="color_FFEA6464">#FFEA6464</color>
     <color name="color_FFF86C09">#FFF86C09</color>
     <color name="color_FF6AAEFF">#FF6AAEFF</color>
+    <integer-array name="color_loading_indicator">
+        <item>@color/color_FFF86C09</item>
+        <item>@color/color_FF6AAEFF</item>
+        <item>@color/color_FFEA6464</item>
+    </integer-array>
 </resources>
