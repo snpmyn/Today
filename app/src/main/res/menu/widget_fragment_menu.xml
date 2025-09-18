@@ -4,13 +4,13 @@
     <item
         android:id="@+id/widgetFragmentTwoColumn"
         android:contentDescription="@string/twoColumn"
-        android:icon="@drawable/ic_two_column_ccn_24dp"
+        android:icon="@drawable/ic_two_column_cos_24dp"
         android:title="@string/twoColumn"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/widgetFragmentThreeColumn"
         android:contentDescription="@string/threeColumn"
-        android:icon="@drawable/ic_three_column_ccn_24dp"
+        android:icon="@drawable/ic_three_column_cos_24dp"
         android:title="@string/threeColumn"
         app:showAsAction="ifRoom" />
 </menu>

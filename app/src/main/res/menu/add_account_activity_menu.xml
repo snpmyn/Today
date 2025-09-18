@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:contentDescription="@string/addAccount"
-        android:icon="@drawable/ic_send_ccn_24dp"
+        android:icon="@drawable/ic_send_cos_24dp"
         android:title="@string/addAccount"
         app:showAsAction="always" />
 </menu>

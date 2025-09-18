@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:contentDescription="@string/restoreDefault"
-        android:icon="@drawable/ic_restore_default_ccn_24dp"
+        android:icon="@drawable/ic_restore_default_cos_24dp"
         android:title="@string/restoreDefault"
         app:showAsAction="always" />
 </menu>

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:contentDescription="@string/useGuide"
-        android:icon="@drawable/ic_help_ccn_24dp"
+        android:icon="@drawable/ic_help_cos_24dp"
         android:title="@string/useGuide"
         app:showAsAction="always" />
 </menu>
