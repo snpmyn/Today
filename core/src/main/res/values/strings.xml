@@ -59,7 +59,7 @@
     <string name="userAgreementAndPrivacyPolicyContent">我非常重视你的个人信息和隐私保护。为更好地保障你的个人权益，在你使用我的产品前，务必审慎阅读《用户协议》与《隐私政策》内的所有条款内容。如你同意以上条款，点击"同意"并继续，开始使用我的产品和服务！</string>
     <!--fragmentation-->
     <string name="fragmentationStackView">栈视图 (StackView)</string>
-    <string name="fragmentationStackHelp">* - 不在回退栈\n%1$s - 可见</string>
+    <string name="formatFragmentationStackHelp">* - 不在回退栈\n%1$s - 可见</string>
     <!--pool-->
     <string name="poolSplashContent">POOL</string>
     <string name="PoolSplashDuration">1000</string>
