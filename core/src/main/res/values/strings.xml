@@ -63,8 +63,8 @@
     <!--pool-->
     <string name="poolSplashContent">POOL</string>
     <string name="PoolSplashDuration">1000</string>
-    <string name="poolUserAgreementPath">file:///android_asset/UserAgreement.html</string>
-    <string name="poolPrivacyPolicyPath">file:///android_asset/PrivacyPolicy.html</string>
+    <string name="poolUserAgreementPath">file:///android_asset/html/UserAgreement.html</string>
+    <string name="poolPrivacyPolicyPath">file:///android_asset/html/PrivacyPolicy.html</string>
     <!--banner-->
     <string name="bannerNeedAndOnlySetLinearLayoutManagerType">需且只能设线性布局管理器类型</string>
     <string name="bannerContextCorrespondsToTheActivityInstance">上下文对应 Activity 实例</string>
