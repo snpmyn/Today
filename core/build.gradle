@@ -57,7 +57,10 @@ dependencies {
     api libs.relinker
     api libs.eventbus
     api libs.rxandroid
+    api libs.preference
     api libs.permissionx
     api libs.work.runtime
+    /*api libs.tensorflow.lite*/
     api libs.localbroadcastmanager
+    /*api files('libs/TarsosDSP-Android-2.4.jar')*/
 }
