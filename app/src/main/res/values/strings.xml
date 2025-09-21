@@ -47,7 +47,6 @@
     <string name="exportAccount">导出账单</string>
     <string name="accountDetail">账目详情</string>
     <string name="monthAnalysis">月度分析</string>
-    <string name="noVoiceYet">还没有心声哦</string>
     <string name="aGlimmerOfHope">微光心声</string>
     <string name="startAnimation">启动动画</string>
     <string name="chooseCategory">选择类目</string>
@@ -86,7 +85,6 @@
     <string name="setAnimationSuccessful">设置动画成功</string>
     <string name="restoreDangerousConfig">恢复险情配置</string>
     <string name="noAccountDataAvailable">暂无账单数据</string>
-    <string name="beALittleMoreRelaxed">" 心轻一点啦 "</string>
     <string name="accountNotificationChinese">账目通知</string>
     <string name="enterIntoAccountSuccessful">入账成功</string>
     <string name="periodicNotificationChinese">周期通知</string>
