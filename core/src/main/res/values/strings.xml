@@ -21,6 +21,7 @@
     <string name="goToOpen">去打开</string>
     <string name="carousel">轮播图</string>
     <string name="zeroSecond">0 秒</string>
+    <string name="saveFail">保存失败</string>
     <string name="playFail">播放失败</string>
     <string name="progressBar">进度条</string>
     <string name="selectDate">选择日期</string>
@@ -53,6 +54,7 @@
     <string name="networkExceptionAndTryAgainLater">网络异常，稍后重试</string>
     <string name="neverMissTheLatestNewsAnymore">再也不会错过最新消息了</string>
     <string name="serverExceptionAndTryAgainLater">服务器异常，稍后重试</string>
+    <string name="theScreenshotHasBeenSavedToTheAlbum">截图已保存到相册</string>
     <string name="coreFundamentalAreBasedOnThePermission">核心功能需要该权限</string>
     <string name="noApplicationFoundThatCanOpenThisFile">没有找到可以打开此文件的应用</string>
     <string name="youNeedToAllowNecessaryPermissionInSettingManually">你需要手动在设置中授予该权限</string>
