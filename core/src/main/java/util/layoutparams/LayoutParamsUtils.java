@@ -28,7 +28,14 @@ public class LayoutParamsUtils {
      * @param height    高
      */
     public static void setViewLayoutParams(@NonNull View view, boolean setWidth, int width, boolean setHeight, int height) {
+        if (!setWidth && !setHeight) {
+            return;
+        }
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        if (null == layoutParams) {
+            // 为空先创默认 ViewGroup.LayoutParams
+            layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
         if (setWidth) {
             layoutParams.width = width;
         }
@@ -53,6 +60,9 @@ public class LayoutParamsUtils {
      */
     public static void setWindowManagerLayoutParams(Window window, boolean setWidth, int width, boolean setHeight, int height) {
         if (null == window) {
+            return;
+        }
+        if (!setWidth && !setHeight) {
             return;
         }
         WindowManager.LayoutParams layoutParams = window.getAttributes();
