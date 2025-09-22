@@ -371,6 +371,14 @@ public class AudioPlayKit {
                 return;
             }
             arePlayingOrPreparing = false;
+            // 播放结束时进度置为总进度
+            if (null != playProgressListener) {
+                try {
+                    playProgressListener.onProgress(mp.getDuration(), mp.getDuration());
+                } catch (Exception e) {
+                    Timber.e(e, "completion progress callback error");
+                }
+            }
             stop();
             if (null != playStateListener) {
                 playStateListener.onComplete();
