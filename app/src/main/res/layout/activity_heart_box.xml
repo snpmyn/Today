@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/heartBoxActivityMt"
+        style="@style/Widget.Material3.Toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="?attr/colorSurface"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_arrow_back_cos_24dp"
+        app:title="@string/heartBox"
+        app:titleCentered="true"
+        app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized" />
+
+    <LinearLayout
+        android:id="@+id/heartBoxActivityLl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/dp_12"
+        app:layout_constraintTop_toBottomOf="@+id/heartBoxActivityMt">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/heartBoxActivityMcvEmotionWaveView"
+            style="?attr/materialCardViewFilledStyle"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="@dimen/dp_150"
+            android:layout_marginEnd="@dimen/dp_12"
+            android:layout_weight="1">
+
+            <widget.view.EmotionWaveView
+                android:id="@+id/heartBoxActivityEwv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/heartBoxActivityMcvPaperCrushView"
+            style="?attr/materialCardViewFilledStyle"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="@dimen/dp_150"
+            android:layout_weight="1">
+
+            <com.google.android.material.loadingindicator.LoadingIndicator
+                style="@style/Widget.Material3.LoadingIndicator.Contained"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:indicatorColor="@array/color_loading_indicator" />
+
+            <widget.view.PaperCrushView
+                android:id="@+id/heartBoxActivityPcv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:layout_margin="@dimen/dp_12"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/heartBoxActivityLl">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/heartBoxActivityMcv"
+            style="?attr/materialCardViewFilledStyle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            app:contentPadding="@dimen/dp_20">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/aGlimmerOfHope"
+                        android:textColor="@color/color_FFF86C09"
+                        android:textSize="@dimen/sp_16"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/color_ff6aaeff_solid_r12"
+                        android:paddingHorizontal="@dimen/dp_10"
+                        android:paddingVertical="@dimen/dp_6"
+                        android:text="@string/recentVoice"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/sp_10"
+                        android:textStyle="bold"
+                        tools:ignore="RelativeOverlap" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_0"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    tools:ignore="InefficientWeight">
+
+                    <TextView
+                        android:id="@+id/heartBoxActivityTvDurationSize"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_14"
+                        android:textStyle="bold"
+                        tools:text="时长大小" />
+
+                    <TextView
+                        android:id="@+id/heartBoxActivityTvTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="@dimen/dp_20"
+                        android:textSize="@dimen/sp_14"
+                        android:textStyle="bold"
+                        tools:text="时间" />
+
+                    <TextView
+                        android:id="@+id/heartBoxActivityTvDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_14"
+                        android:textStyle="bold"
+                        tools:text="日期" />
+                </LinearLayout>
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/heartBoxActivityMd"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/px1"
+                    android:visibility="gone"
+                    app:dividerColor="@color/color_FFF86C09" />
+
+                <com.google.android.material.button.MaterialButtonGroup
+                    android:id="@+id/heartBoxActivityMbg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/heartBoxActivityMbListen"
+                        style="?attr/materialIconButtonFilledTonalStyle"
+                        android:layout_width="@dimen/dp_0"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:filterTouchesWhenObscured="true"
+                        android:insetLeft="@dimen/dp_0"
+                        android:insetTop="@dimen/dp_0"
+                        android:insetRight="@dimen/dp_0"
+                        android:insetBottom="@dimen/dp_0"
+                        android:text="@string/listen"
+                        android:textSize="@dimen/sp_12"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/heartBoxActivityMbRelease"
+                        style="?attr/materialIconButtonFilledTonalStyle"
+                        android:layout_width="@dimen/dp_0"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:filterTouchesWhenObscured="true"
+                        android:insetLeft="@dimen/dp_0"
+                        android:insetTop="@dimen/dp_0"
+                        android:insetRight="@dimen/dp_0"
+                        android:insetBottom="@dimen/dp_0"
+                        android:text="@string/release"
+                        android:textSize="@dimen/sp_12"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/heartBoxActivityMbLook"
+                        style="?attr/materialIconButtonFilledTonalStyle"
+                        android:layout_width="@dimen/dp_0"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:filterTouchesWhenObscured="true"
+                        android:insetLeft="@dimen/dp_0"
+                        android:insetTop="@dimen/dp_0"
+                        android:insetRight="@dimen/dp_0"
+                        android:insetBottom="@dimen/dp_0"
+                        android:text="@string/look"
+                        android:textSize="@dimen/sp_12"
+                        android:textStyle="bold" />
+                </com.google.android.material.button.MaterialButtonGroup>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_weight="0.35" />
+
+        <com.google.android.material.button.MaterialButtonGroup
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_weight="0.75"
+            android:gravity="center"
+            android:spacing="@dimen/dp_20">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/heartBoxActivityMbPauseOrResume"
+                style="?attr/materialIconButtonFilledTonalStyle"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="?actionBarSize"
+                android:layout_weight="1"
+                android:filterTouchesWhenObscured="true"
+                android:insetLeft="@dimen/dp_0"
+                android:insetTop="@dimen/dp_0"
+                android:insetRight="@dimen/dp_0"
+                android:insetBottom="@dimen/dp_0"
+                android:text="@string/pause"
+                android:textSize="@dimen/sp_14"
+                android:textStyle="bold" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/heartBoxActivityMbStartOrStop"
+                style="?attr/materialIconButtonFilledTonalStyle"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="@dimen/dp_120"
+                android:layout_weight="1.8"
+                android:checkable="true"
+                android:filterTouchesWhenObscured="true"
+                android:insetLeft="@dimen/dp_0"
+                android:insetTop="@dimen/dp_0"
+                android:insetRight="@dimen/dp_0"
+                android:insetBottom="@dimen/dp_0"
+                app:icon="@drawable/ic_mic_cos_24dp"
+                app:iconGravity="textStart"
+                app:iconSize="@dimen/dp_36" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/heartBoxActivityMbCancel"
+                style="?attr/materialIconButtonFilledTonalStyle"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="?actionBarSize"
+                android:layout_weight="1"
+                android:filterTouchesWhenObscured="true"
+                android:insetLeft="@dimen/dp_0"
+                android:insetTop="@dimen/dp_0"
+                android:insetRight="@dimen/dp_0"
+                android:insetBottom="@dimen/dp_0"
+                android:text="@string/cancel"
+                android:textSize="@dimen/sp_14"
+                android:textStyle="bold" />
+        </com.google.android.material.button.MaterialButtonGroup>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
