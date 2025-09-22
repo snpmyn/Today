@@ -19,7 +19,7 @@ public class TypefaceUtils {
      * @return Typeface
      */
     public static Typeface sansBold(@NotNull Context context) {
-        return Typeface.createFromAsset(context.getAssets(), "OpenSans-Bold.ttf");
+        return Typeface.createFromAsset(context.getAssets(), "typeface/OpenSans-Bold.ttf");
     }
 
     /**
@@ -29,7 +29,7 @@ public class TypefaceUtils {
      * @return Typeface
      */
     public static Typeface sansBoldItalic(@NotNull Context context) {
-        return Typeface.createFromAsset(context.getAssets(), "OpenSans-BoldItalic.ttf");
+        return Typeface.createFromAsset(context.getAssets(), "typeface/OpenSans-BoldItalic.ttf");
     }
 
     /**
@@ -39,7 +39,7 @@ public class TypefaceUtils {
      * @return Typeface
      */
     public static Typeface sansExtraBold(@NotNull Context context) {
-        return Typeface.createFromAsset(context.getAssets(), "OpenSans-ExtraBold.ttf");
+        return Typeface.createFromAsset(context.getAssets(), "typeface/OpenSans-ExtraBold.ttf");
     }
 
     /**
@@ -49,7 +49,7 @@ public class TypefaceUtils {
      * @return Typeface
      */
     public static Typeface sansExtraBoldItalic(@NotNull Context context) {
-        return Typeface.createFromAsset(context.getAssets(), "OpenSans-ExtraBoldItalic.ttf");
+        return Typeface.createFromAsset(context.getAssets(), "typeface/OpenSans-ExtraBoldItalic.ttf");
     }
 
     /**
@@ -59,7 +59,7 @@ public class TypefaceUtils {
      * @return Typeface
      */
     public static Typeface sansItalic(@NotNull Context context) {
-        return Typeface.createFromAsset(context.getAssets(), "OpenSans-Italic.ttf");
+        return Typeface.createFromAsset(context.getAssets(), "typeface/OpenSans-Italic.ttf");
     }
 
     /**
@@ -69,7 +69,7 @@ public class TypefaceUtils {
      * @return Typeface
      */
     public static Typeface sansLight(@NotNull Context context) {
-        return Typeface.createFromAsset(context.getAssets(), "OpenSans-Light.ttf");
+        return Typeface.createFromAsset(context.getAssets(), "typeface/OpenSans-Light.ttf");
     }
 
     /**
@@ -79,7 +79,7 @@ public class TypefaceUtils {
      * @return Typeface
      */
     public static Typeface sansLightItalic(@NotNull Context context) {
-        return Typeface.createFromAsset(context.getAssets(), "OpenSans-LightItalic.ttf");
+        return Typeface.createFromAsset(context.getAssets(), "typeface/OpenSans-LightItalic.ttf");
     }
 
     /**
@@ -89,7 +89,7 @@ public class TypefaceUtils {
      * @return Typeface
      */
     public static Typeface sansRegular(@NotNull Context context) {
-        return Typeface.createFromAsset(context.getAssets(), "OpenSans-Regular.ttf");
+        return Typeface.createFromAsset(context.getAssets(), "typeface/OpenSans-Regular.ttf");
     }
 
     /**
@@ -99,7 +99,7 @@ public class TypefaceUtils {
      * @return Typeface
      */
     public static Typeface sansSemibold(@NotNull Context context) {
-        return Typeface.createFromAsset(context.getAssets(), "OpenSans-Semibold.ttf");
+        return Typeface.createFromAsset(context.getAssets(), "typeface/OpenSans-Semibold.ttf");
     }
 
     /**
@@ -109,6 +109,6 @@ public class TypefaceUtils {
      * @return Typeface
      */
     public static Typeface sansSemiboldItalic(@NotNull Context context) {
-        return Typeface.createFromAsset(context.getAssets(), "OpenSans-SemiboldItalic.ttf");
+        return Typeface.createFromAsset(context.getAssets(), "typeface/OpenSans-SemiboldItalic.ttf");
     }
 }
