@@ -45,7 +45,7 @@ public class SplashTwoActivityKit {
     private String getAnimationAssetName() {
         String animationAssetName = MmkvKit.defaultMmkv().decodeString(PoolConstant.SPLASH_$_ANIMATION);
         if (TextUtils.isEmpty(animationAssetName)) {
-            animationAssetName = "lottie_animation_splash_default";
+            animationAssetName = "lottie/lottie_animation_splash_default";
         }
         return animationAssetName;
     }
@@ -55,7 +55,7 @@ public class SplashTwoActivityKit {
      */
     private void saveAnimationAssetName() {
         if (TextUtils.isEmpty(MmkvKit.defaultMmkv().decodeString(PoolConstant.SPLASH_$_ANIMATION))) {
-            MmkvKit.defaultMmkv().encode(PoolConstant.SPLASH_$_ANIMATION, "lottie_animation_splash_default");
+            MmkvKit.defaultMmkv().encode(PoolConstant.SPLASH_$_ANIMATION, "lottie/lottie_animation_splash_default");
         }
     }
 }
