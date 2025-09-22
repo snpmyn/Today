@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:lottie_autoPlay="true"
-            app:lottie_fileName="lottie_animation_notification_enable_dialog_fragment.json"
+            app:lottie_fileName="lottie/lottie_animation_notification_enable_dialog_fragment.json"
             app:lottie_loop="true" />
 
         <TextView
