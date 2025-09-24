@@ -75,16 +75,16 @@ public class HomePageChildFragmentKit {
     public void showTitle(HomePageChildFragment homePageFragment, CollapsingToolbarLayout collapsingToolbarLayout) {
         switch (DateUtils.getCurrentWeek(DateUtils.getCurrentTimeYearMonthDayHourMinute())) {
             case "星期一":
-                collapsingToolbarLayout.setTitle(String.format(homePageFragment.getString(R.string.formatSS), "无为而治", "清净自在"));
+                collapsingToolbarLayout.setTitle(String.format(homePageFragment.getString(R.string.formatSsWithSpace), "无为而治", "清净自在"));
                 break;
             case "星期二":
-                collapsingToolbarLayout.setTitle(String.format(homePageFragment.getString(R.string.formatSS), "福生无量", "天长地久"));
+                collapsingToolbarLayout.setTitle(String.format(homePageFragment.getString(R.string.formatSsWithSpace), "福生无量", "天长地久"));
                 break;
             case "星期三":
-                collapsingToolbarLayout.setTitle(String.format(homePageFragment.getString(R.string.formatSS), "居尘出尘", "常乐我净"));
+                collapsingToolbarLayout.setTitle(String.format(homePageFragment.getString(R.string.formatSsWithSpace), "居尘出尘", "常乐我净"));
                 break;
             case "星期四":
-                collapsingToolbarLayout.setTitle(String.format(homePageFragment.getString(R.string.formatSS), "明心见性", "得道逍遥"));
+                collapsingToolbarLayout.setTitle(String.format(homePageFragment.getString(R.string.formatSsWithSpace), "明心见性", "得道逍遥"));
                 break;
             case "星期五":
                 collapsingToolbarLayout.setTitle("福生无量");
@@ -93,7 +93,7 @@ public class HomePageChildFragmentKit {
                 collapsingToolbarLayout.setTitle("吉祥康宁");
                 break;
             case "星期日":
-                collapsingToolbarLayout.setTitle(String.format(homePageFragment.getString(R.string.formatSSS), "心逍遥", "气长清", "安若素"));
+                collapsingToolbarLayout.setTitle(String.format(homePageFragment.getString(R.string.formatSssWithSpace), "心逍遥", "气长清", "安若素"));
                 break;
             default:
                 break;
