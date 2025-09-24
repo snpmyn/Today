@@ -106,9 +106,9 @@
     <string name="wantToDeleteTheAccountOfTheDay">要删除这天的账目吗？</string>
     <string name="periodicNotificationEnglish">periodic notification</string>
     <string name="inputEmergencyContactPhoneNumber">输入紧急联系人手机号</string>
-    <string name="recordAudioAreBasedOnThePermission">录制音频需要该权限</string>
     <string name="hurryUpSendTheCoarseLocation">来不及了\n使用粗略位置发送</string>
     <string name="myHeartLittleColdAndSmile">心事微凉\u00A0\u00A0笑一笑吧</string>
+    <string name="recordReadAudioAreBasedOnThePermission">录制读取音频需要该权限</string>
     <string name="receiveNotificationAreBasedOnThePermission">接收通知需要该权限</string>
     <string name="inputCorrectEmergencyContactPhoneNumber">输入正确的紧急联系人手机号</string>
     <string name="needToInputPhoneNumberToLoginAgainAfterLogOut">退出后需输入手机号重新登录</string>
