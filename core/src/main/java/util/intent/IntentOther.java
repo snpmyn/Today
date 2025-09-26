@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import org.jetbrains.annotations.NotNull;
@@ -12,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 
 import util.value.UtilMagic;
+import widget.media.MediaFileTypeEnum;
 
 /**
  * Created on 2018/11/28.
@@ -58,19 +60,18 @@ public class IntentOther {
     }
 
     /**
-     * 装 APK
+     * 安装 APK
      *
-     * @param context 上下文
-     * @param apkPath APK 路径
+     * @param appCompatActivity 活动
+     * @param file              文件
      */
-    public static void installApk(Context context, String apkPath) {
-        File apkFile = new File(apkPath);
-        if (!apkFile.exists()) {
-            return;
-        }
+    public static void installApk(AppCompatActivity appCompatActivity, File file) {
+        Uri apkUri = FileProvider.getUriForFile(appCompatActivity, appCompatActivity.getPackageName() + ".fileprovider", file);
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.parse("file://" + apkFile), "application/vnd.android.package-archive");
-        context.startActivity(intent);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.setDataAndType(apkUri, MediaFileTypeEnum.APK.getMimeType());
+        appCompatActivity.startActivity(intent);
     }
 
     /**
