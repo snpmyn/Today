@@ -111,4 +111,14 @@ public class TypefaceUtils {
     public static Typeface sansSemiboldItalic(@NotNull Context context) {
         return Typeface.createFromAsset(context.getAssets(), "typeface/OpenSans-SemiboldItalic.ttf");
     }
+
+    /**
+     * LiuJianMaoCaoRegular
+     *
+     * @param context 上下文
+     * @return Typeface
+     */
+    public static Typeface liuJianMaoCaoRegular(@NotNull Context context) {
+        return Typeface.createFromAsset(context.getAssets(), "typeface/LiuJianMaoCao-Regular.ttf");
+    }
 }
