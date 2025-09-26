@@ -3,6 +3,8 @@ package util.datetime;
 import android.content.Context;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+
 import com.zsp.core.R;
 
 import org.jetbrains.annotations.Contract;
@@ -31,7 +33,6 @@ import util.value.UtilMagic;
  * @desc DateUtils
  */
 public class DateUtils {
-    private static final String[] WEEKS = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
     private static SimpleDateFormat simpleDateFormat = null;
 
     /**
@@ -560,26 +561,32 @@ public class DateUtils {
     }
 
     /**
-     * 当前日期星期几
+     * 获取当前周
      *
-     * @param value 日期
-     * @return String
+     * @return 当前周
      */
-    private static String getCurrentWeek(Date value) {
-        Calendar calendar = getCalendar(value, DateFormatUtils.DATE_YEAR_MONTH_DATE);
-        int weekIndex = Math.max(calendar.get(Calendar.DAY_OF_WEEK) - 1, 0);
-        return WEEKS[weekIndex];
-    }
-
-    /**
-     * 当前日期星期几
-     *
-     * @param value 日期
-     * @return String
-     */
-    public static String getCurrentWeek(String value) {
-        Date date = stringToDate(value, DateFormatUtils.DATE_YEAR_MONTH_DATE);
-        return getCurrentWeek(date);
+    @NonNull
+    public static String getCurrentWeek() {
+        Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_WEEK);
+        switch (day) {
+            case Calendar.MONDAY:
+                return "星期一";
+            case Calendar.TUESDAY:
+                return "星期二";
+            case Calendar.WEDNESDAY:
+                return "星期三";
+            case Calendar.THURSDAY:
+                return "星期四";
+            case Calendar.FRIDAY:
+                return "星期五";
+            case Calendar.SATURDAY:
+                return "星期六";
+            case Calendar.SUNDAY:
+                return "星期日";
+            default:
+                return "星期八";
+        }
     }
 
     /**
