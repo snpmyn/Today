@@ -1,10 +1,14 @@
 package com.zsp.today.application.kit;
 
+import android.os.Build;
+
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.color.DynamicColors;
 import com.zsp.today.MainActivity;
 import com.zsp.today.application.App;
 import com.zsp.today.module.login.UserDataBaseTable;
+import com.zsp.today.module.setting.kit.SharedPreferencesKit;
 
 import litepal.kit.LitePalKit;
 import pool.module.login.LoginActivity;
@@ -21,11 +25,24 @@ import widget.dialog.bocdialog.kit.BocDialogKit;
  */
 public class AppKit {
     /**
+     * 动态配色
+     * <p>
+     * Android 12+
+     */
+    public static void dynamicColor() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (SharedPreferencesKit.getInstance().dynamicColor()) {
+                DynamicColors.applyToActivitiesIfAvailable(App.getAppInstance());
+            }
+        }
+    }
+
+    /**
      * 分发
      *
      * @param appCompatActivity 活动
      */
-    public void distribute(AppCompatActivity appCompatActivity) {
+    public static void distribute(AppCompatActivity appCompatActivity) {
         if (App.getDebug()) {
             IntentJump.getInstance().jump(null, appCompatActivity, true, MainActivity.class);
             return;
@@ -39,7 +56,7 @@ public class AppKit {
      * @param appCompatActivity 活动
      * @param phoneNumber       手机号
      */
-    public void login(AppCompatActivity appCompatActivity, String phoneNumber) {
+    public static void login(AppCompatActivity appCompatActivity, String phoneNumber) {
         BocDialogKit.getInstance(appCompatActivity).bocCommonLoading(appCompatActivity.getString(com.zsp.core.R.string.login), null);
         localSave(appCompatActivity, phoneNumber);
     }
@@ -50,7 +67,7 @@ public class AppKit {
      * @param appCompatActivity 活动
      * @param phoneNumber       手机号
      */
-    private void localSave(AppCompatActivity appCompatActivity, String phoneNumber) {
+    private static void localSave(AppCompatActivity appCompatActivity, String phoneNumber) {
         UserDataBaseTable userDataBaseTable = new UserDataBaseTable(phoneNumber, null);
         if (LitePalKit.getInstance().singleSave(userDataBaseTable)) {
             MmkvKit.defaultMmkv().encode(PoolConstant.LOGIN_$_PHONE_NUMBER, phoneNumber);
