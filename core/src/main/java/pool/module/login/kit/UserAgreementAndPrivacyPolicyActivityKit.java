@@ -9,10 +9,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.appbar.MaterialToolbar;
-import com.zsp.core.R;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
+import pool.application.BasePoolApp;
 import pool.module.login.UserAgreementAndPrivacyPolicyActivity;
 import pool.value.PoolConstant;
 import util.intent.IntentJump;
@@ -45,17 +47,17 @@ public class UserAgreementAndPrivacyPolicyActivityKit {
     /**
      * 显示用户协议或隐私政策
      * <p>
-     * 用户协议路径默 file:///android_asset/UserAgreement.html。
-     * 隐私政策路径默 file:///android_asset/PrivacyPolicy.html。
+     * 用户协议路径默 file:///android_asset/html/UserAgreement.html
+     * 隐私政策路径默 file:///android_asset/html/PrivacyPolicy.html
      *
      * @param appCompatActivity 活动
      * @param webView           WebView
      */
     public void showUserAgreementOrPrivacyPolicy(@NonNull AppCompatActivity appCompatActivity, WebView webView) {
         if (TextUtils.equals(IntentVerify.getStringExtra(appCompatActivity.getIntent(), PoolConstant.USER_AGREEMENT), PoolConstant.USER_AGREEMENT)) {
-            webView.loadUrl(appCompatActivity.getString(R.string.poolUserAgreementPath));
+            webView.loadUrl(Objects.requireNonNull(BasePoolApp.getConfigMap().get(1)).get(2));
         } else if (TextUtils.equals(IntentVerify.getStringExtra(appCompatActivity.getIntent(), PoolConstant.PRIVACY_POLICY), PoolConstant.PRIVACY_POLICY)) {
-            webView.loadUrl(appCompatActivity.getString(R.string.poolPrivacyPolicyPath));
+            webView.loadUrl(Objects.requireNonNull(BasePoolApp.getConfigMap().get(1)).get(3));
         }
     }
 
