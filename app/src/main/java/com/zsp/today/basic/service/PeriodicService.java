@@ -1,5 +1,6 @@
 package com.zsp.today.basic.service;
 
+import android.app.Notification;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
@@ -8,6 +9,7 @@ import android.os.IBinder;
 
 import com.zsp.today.MainActivity;
 import com.zsp.today.R;
+import com.zsp.today.basic.notification.NotificationKit;
 
 import widget.notification.helper.NotificationHelper;
 
@@ -32,8 +34,9 @@ public class PeriodicService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        NotificationHelper.getInstance(this).createNotificationChannel(getClass().getSimpleName(), getString(R.string.periodicNotificationChinese), getString(R.string.periodicNotificationEnglish));
-        startForeground(1, NotificationHelper.getInstance(this).createNotification(this, getClass().getSimpleName(), getString(R.string.serviceIsRunning), getString(R.string.inPeriodicOperation), R.drawable.ic_notification_white_56dp, MainActivity.class));
+        NotificationHelper.getInstance(this).createNotificationChannel(NotificationKit.periodicNotificationInfo(this)[0], NotificationKit.periodicNotificationInfo(this)[1], NotificationKit.periodicNotificationInfo(this)[2]);
+        Notification notification = NotificationHelper.getInstance(this).createCommonNotification(this, NotificationKit.periodicNotificationInfo(this)[0], getString(R.string.serviceIsRunning), getString(R.string.inPeriodicOperation), R.drawable.ic_notification_white_56dp, MainActivity.class);
+        startForeground(NotificationKit.periodicNotificationId(), notification);
         handler = new Handler();
         handler.post(updateTask);
     }
