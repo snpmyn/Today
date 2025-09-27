@@ -15,7 +15,6 @@ import com.google.android.material.carousel.CarouselLayoutManager;
 import com.google.android.material.carousel.HeroCarouselStrategy;
 import com.zsp.today.R;
 import com.zsp.today.application.App;
-import com.zsp.today.basic.value.RxBusConstant;
 import com.zsp.today.module.account.AccountHomeActivity;
 import com.zsp.today.module.dangerous.DangerousActivity;
 import com.zsp.today.module.function.database.FunctionDataBaseTable;
@@ -23,7 +22,7 @@ import com.zsp.today.module.function.value.FunctionCondition;
 import com.zsp.today.module.heartbox.HeartBoxActivity;
 import com.zsp.today.module.homepage.bean.HomePageMenuEnum;
 import com.zsp.today.module.homepage.fragment.HomePageChildFragment;
-import com.zsp.today.module.widget.WidgetFragment;
+import com.zsp.today.module.zhilin.ZhiLinActivity;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -34,10 +33,8 @@ import java.util.Map;
 
 import litepal.kit.LitePalKit;
 import timber.log.Timber;
-import util.datetime.DateUtils;
 import util.glide.util.GlideUtils;
 import util.intent.IntentJump;
-import util.rxbus.RxBus;
 import widget.adapttemplate.bean.MenuBean;
 import widget.adapttemplate.kit.MenuAdapterKit;
 import widget.carousel.CarouselItem;
@@ -64,40 +61,6 @@ public class HomePageChildFragmentKit {
         collapsingToolbarLayout.setTitleEnabled(false);
         // 设置 MaterialToolbar 标题
         materialToolbar.setTitle(title);
-    }
-
-    /**
-     * 显示标题
-     *
-     * @param homePageFragment        首页子碎片
-     * @param collapsingToolbarLayout CollapsingToolbarLayout
-     */
-    public void showTitle(HomePageChildFragment homePageFragment, CollapsingToolbarLayout collapsingToolbarLayout) {
-        switch (DateUtils.getCurrentWeek(DateUtils.getCurrentTimeYearMonthDayHourMinute())) {
-            case "星期一":
-                collapsingToolbarLayout.setTitle(String.format(homePageFragment.getString(R.string.formatSsWithSpace), "无为而治", "清净自在"));
-                break;
-            case "星期二":
-                collapsingToolbarLayout.setTitle(String.format(homePageFragment.getString(R.string.formatSsWithSpace), "福生无量", "天长地久"));
-                break;
-            case "星期三":
-                collapsingToolbarLayout.setTitle(String.format(homePageFragment.getString(R.string.formatSsWithSpace), "居尘出尘", "常乐我净"));
-                break;
-            case "星期四":
-                collapsingToolbarLayout.setTitle(String.format(homePageFragment.getString(R.string.formatSsWithSpace), "明心见性", "得道逍遥"));
-                break;
-            case "星期五":
-                collapsingToolbarLayout.setTitle("福生无量");
-                break;
-            case "星期六":
-                collapsingToolbarLayout.setTitle("吉祥康宁");
-                break;
-            case "星期日":
-                collapsingToolbarLayout.setTitle(String.format(homePageFragment.getString(R.string.formatSssWithSpace), "心逍遥", "气长清", "安若素"));
-                break;
-            default:
-                break;
-        }
     }
 
     /**
@@ -154,7 +117,9 @@ public class HomePageChildFragmentKit {
      */
     @NonNull
     private static List<Integer> getImages() {
-        List<Integer> imageList = new ArrayList<>(10);
+        List<Integer> imageList = new ArrayList<>(9);
+        imageList.add(R.drawable.banner_one);
+        imageList.add(R.drawable.banner_two);
         imageList.add(R.drawable.banner_three);
         imageList.add(R.drawable.banner_four);
         imageList.add(R.drawable.banner_five);
@@ -162,43 +127,65 @@ public class HomePageChildFragmentKit {
         imageList.add(R.drawable.banner_seven);
         imageList.add(R.drawable.banner_eight);
         imageList.add(R.drawable.banner_nine);
-        imageList.add(R.drawable.banner_ten);
-        imageList.add(R.drawable.banner_eleven);
-        imageList.add(R.drawable.banner_twelve);
         return imageList;
     }
 
     /**
      * 轮播
      *
-     * @param recyclerView RecyclerView
+     * @param appCompatActivity 活动
+     * @param recyclerView      RecyclerView
      */
-    public void carousel(RecyclerView recyclerView) {
+    public void carousel(AppCompatActivity appCompatActivity, RecyclerView recyclerView) {
         // 轮播条目集
-        List<CarouselItem> carouselItemList = new ArrayList<>(10);
-        carouselItemList.add(new CarouselItem(R.drawable.banner_three));
-        carouselItemList.add(new CarouselItem(R.drawable.banner_four));
-        carouselItemList.add(new CarouselItem(R.drawable.banner_five));
-        carouselItemList.add(new CarouselItem(R.drawable.banner_six));
-        carouselItemList.add(new CarouselItem(R.drawable.banner_seven));
-        carouselItemList.add(new CarouselItem(R.drawable.banner_eight));
-        carouselItemList.add(new CarouselItem(R.drawable.banner_nine));
-        carouselItemList.add(new CarouselItem(R.drawable.banner_ten));
-        carouselItemList.add(new CarouselItem(R.drawable.banner_eleven));
-        carouselItemList.add(new CarouselItem(R.drawable.banner_twelve));
+        List<CarouselItem> carouselItemList = new ArrayList<>(9);
+        carouselItemList.add(new CarouselItem(R.drawable.banner_one, "上木居村"));
+        carouselItemList.add(new CarouselItem(R.drawable.banner_two, "火星一号公路"));
+        carouselItemList.add(new CarouselItem(R.drawable.banner_three, "那拉提河谷草原"));
+        carouselItemList.add(new CarouselItem(R.drawable.banner_four, "赛里木湖"));
+        carouselItemList.add(new CarouselItem(R.drawable.banner_five, "禾木村"));
+        carouselItemList.add(new CarouselItem(R.drawable.banner_six, "西府老街"));
+        carouselItemList.add(new CarouselItem(R.drawable.banner_seven, "贾村塬"));
+        carouselItemList.add(new CarouselItem(R.drawable.banner_eight, "金台区"));
+        carouselItemList.add(new CarouselItem(R.drawable.banner_nine, "文昌门"));
         // 轮播配套原件
         CarouselKit carouselKit = new CarouselKit();
-        carouselKit.execute(recyclerView, carouselItemList, new HeroCarouselStrategy(), false, CarouselLayoutManager.ALIGNMENT_CENTER, false);
+        carouselKit.execute(appCompatActivity, recyclerView, carouselItemList, new HeroCarouselStrategy(), false, CarouselLayoutManager.ALIGNMENT_CENTER, false);
     }
 
     /**
-     * 展示
+     * 功能数据库表
      *
      * @param appCompatActivity     活动
      * @param homePageChildFragment 首页子碎片
      * @param recyclerView          控件
      */
-    public void display(AppCompatActivity appCompatActivity, HomePageChildFragment homePageChildFragment, RecyclerView recyclerView) {
+    public void functionDataBaseTable(AppCompatActivity appCompatActivity, HomePageChildFragment homePageChildFragment, RecyclerView recyclerView) {
+        if (LitePalKit.getInstance().count(FunctionDataBaseTable.class) > 0) {
+            displayFunctionDataBaseTable(appCompatActivity, homePageChildFragment, recyclerView);
+            return;
+        }
+        HomePageMenuEnum[] homePageMenuEnums = HomePageMenuEnum.values();
+        List<FunctionDataBaseTable> functionDataBaseTableList = new ArrayList<>(homePageMenuEnums.length);
+        for (HomePageMenuEnum homePageMenuEnum : homePageMenuEnums) {
+            if (!homePageMenuEnum.getMenuShow()) {
+                continue;
+            }
+            functionDataBaseTableList.add(new FunctionDataBaseTable(App.getAppInstance().getPhoneNumber(), null, homePageMenuEnum.getMenuId(), homePageMenuEnum.getMenuName(), true));
+        }
+        if (LitePalKit.getInstance().multiSave(functionDataBaseTableList)) {
+            displayFunctionDataBaseTable(appCompatActivity, homePageChildFragment, recyclerView);
+        }
+    }
+
+    /**
+     * 展示功能数据库表
+     *
+     * @param appCompatActivity     活动
+     * @param homePageChildFragment 首页子碎片
+     * @param recyclerView          控件
+     */
+    private void displayFunctionDataBaseTable(AppCompatActivity appCompatActivity, HomePageChildFragment homePageChildFragment, RecyclerView recyclerView) {
         // 获取主页菜单图标资源 ID 集
         Map<String, Integer> homePageMenuIconResIdMap = getHomePageMenuIconResIdMap();
         // 获取功能数据库表可显数据集
@@ -257,10 +244,9 @@ public class HomePageChildFragmentKit {
             case 3:
                 IntentJump.getInstance().jump(null, appCompatActivity, false, HeartBoxActivity.class);
                 break;
-            // 组件
+            // 知林
             case 4:
-                RxBus.get().post(RxBusConstant.MAIN_ACTIVITY_$_BOTTOM_NAVIGATION_VIEW, RxBusConstant.MAIN_ACTIVITY_$_HIDE_BOTTOM_NAVIGATION_VIEW_CODE);
-                homePageChildFragment.start(WidgetFragment.newInstance());
+                IntentJump.getInstance().jump(null, appCompatActivity, false, ZhiLinActivity.class);
                 break;
             default:
                 break;
