@@ -15,9 +15,7 @@
         android:background="?attr/colorSurface"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/add_account_activity_menu"
-        app:navigationIcon="@drawable/ic_arrow_back_cos_24dp"
         app:title="@string/addAccount"
-        app:titleCentered="true"
         app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized" />
 
     <ScrollView

@@ -15,9 +15,7 @@
         android:background="?attr/colorSurface"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/dangerous_activity_menu"
-        app:navigationIcon="@drawable/ic_arrow_back_cos_24dp"
         app:title="@string/dangerous"
-        app:titleCentered="true"
         app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized" />
 
     <ScrollView
@@ -110,7 +108,7 @@
                     android:layout_width="@dimen/dp_0"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/color_FFEA6464"
+                    android:backgroundTint="@color/color_FFF86C09"
                     android:filterTouchesWhenObscured="true"
                     android:insetLeft="@dimen/dp_0"
                     android:insetTop="@dimen/dp_0"
