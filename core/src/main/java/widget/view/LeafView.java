@@ -10,6 +10,7 @@ import android.graphics.Path;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,7 @@ import util.handler.HandlerKit;
 /**
  * @decs: 叶子视图
  * @author: 郑少鹏
- * @date: 2025/9/13 17:22
+ * @date: 2025/9/23 17:46
  * @version: v 1.0
  */
 public class LeafView extends View {
@@ -47,10 +48,18 @@ public class LeafView extends View {
 
     public LeafView(Context context) {
         super(context);
+        initFocusable();
     }
 
     public LeafView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        initFocusable();
+    }
+
+    private void initFocusable() {
+        setFocusable(true);
+        setFocusableInTouchMode(true);
+        requestFocus();
     }
 
     public interface OnLeafAnimationEndListener {
@@ -83,8 +92,8 @@ public class LeafView extends View {
 
     public void configure(int leafCount, int maxLeafCount, int minDuration, int maxDuration, float swingRange) {
         this.maxLeafCount = maxLeafCount;
-        int width = (getWidth() > 0) ? getWidth() : 1080;
-        int height = (getHeight() > 0) ? getHeight() : 1920;
+        int width = getWidth() > 0 ? getWidth() : 1080;
+        int height = getHeight() > 0 ? getHeight() : 1920;
         leaves.clear();
         for (int i = 0; i < leafCount; i++) {
             Leaf leaf = createRandomLeaf(width, height, minDuration, maxDuration, swingRange);
@@ -126,7 +135,7 @@ public class LeafView extends View {
         if ((null != valueAnimator) && valueAnimator.isRunning()) {
             return;
         }
-        valueAnimator = ValueAnimator.ofFloat(0f, 1.0F);
+        valueAnimator = ValueAnimator.ofFloat(0.0F, 1.0F);
         valueAnimator.setDuration(10000);
         valueAnimator.setRepeatCount(ValueAnimator.INFINITE);
         valueAnimator.setInterpolator(new LinearInterpolator());
@@ -188,7 +197,6 @@ public class LeafView extends View {
                         try {
                             onLeafAnimationEndListener.onAnimationEnd();
                         } catch (Exception e) {
-                            // 防回调异常导致卡顿
                             Timber.e(e);
                         }
                     });
@@ -200,7 +208,30 @@ public class LeafView extends View {
         }
     }
 
+    /**
+     * 完成动画
+     * <p>
+     * 触发回调
+     */
     public void finishAnimation() {
+        stopAnimation(false);
+    }
+
+    /**
+     * 强制停止
+     * <p>
+     * 不触发回调
+     */
+    public void forceStop() {
+        stopAnimation(true);
+    }
+
+    /**
+     * 停止动画
+     *
+     * @param suppressCallback 抑制回调否
+     */
+    private void stopAnimation(boolean suppressCallback) {
         // 停止运行状态
         areRunning = false;
         // 关闭动画
@@ -222,6 +253,11 @@ public class LeafView extends View {
                     ((ViewGroup) getParent()).removeView(this);
                 }
             });
+        }
+        if (suppressCallback) {
+            onLeafAnimationEndListener = null;
+            leafExplosionListener = null;
+            preCallbackTriggered = true;
         }
     }
 
@@ -296,6 +332,31 @@ public class LeafView extends View {
         return path;
     }
 
+    @Override
+    public boolean onTouchEvent(@NonNull MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            performClick();
+        }
+        return true;
+    }
+
+    @Override
+    public boolean performClick() {
+        super.performClick();
+        return true;
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(@NonNull KeyEvent event) {
+        if ((event.getKeyCode() == KeyEvent.KEYCODE_BACK) && (event.getAction() == KeyEvent.ACTION_DOWN)) {
+            // 按返回键强制停止动画
+            // 不触发回调
+            forceStop();
+            return true;
+        }
+        return super.dispatchKeyEvent(event);
+    }
+
     private static void addToActivitySafe(Activity activity, LeafView leafView) {
         if ((null == activity) || (null == leafView)) {
             return;
@@ -344,22 +405,7 @@ public class LeafView extends View {
             triggerTime = (durationMs - explosionAdvanceMs);
         }
         new Handler(Looper.getMainLooper()).postDelayed(leafView::triggerExplosion, triggerTime);
-    }
-
-    @Override
-    public boolean onTouchEvent(@NonNull MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_UP) {
-            // 触发辅助功能点击事件
-            performClick();
-        }
-        // 拦截所有触摸事件
-        return true;
-    }
-
-    @Override
-    public boolean performClick() {
-        // 保证辅助功能正常
-        super.performClick();
-        return true;
+        // 确保返回键事件被捕获
+        leafView.requestFocus();
     }
 }
