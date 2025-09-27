@@ -151,7 +151,7 @@ public class HomePageChildFragment extends BasePoolFragment {
     }
 
     private void initConfiguration() {
-        MaterialToolbarKit.getInstance().setMenuItemColor(fragmentationSupportActivity, homePageChildFragmentMt, com.zsp.core.R.color.basic);
+        MaterialToolbarKit.getInstance().setMenuItemColor(fragmentationSupportActivity, homePageChildFragmentMt, com.zsp.core.R.color.color_06FDDB);
         homePageChildFragmentKit = new HomePageChildFragmentKit();
         homePageChildFragmentKit.initTitle(homePageChildFragmentCtl, homePageChildFragmentMt, WeeklyQuoteKit.getTodayQuote());
     }
