@@ -38,6 +38,12 @@ public class CarouselViewHolder extends RecyclerView.ViewHolder {
      */
     public void bind(@NonNull CarouselItem carouselItem) {
         Glide.with(imageView.getContext()).load(carouselItem.getDrawableResId()).centerCrop().into(imageView);
-        itemView.setOnClickListener(v -> carouselListener.onItemClick(carouselItem, getAdapterPosition()));
+        // 短点
+        itemView.setOnClickListener(v -> carouselListener.onItemClick(carouselItem, getBindingAdapterPosition()));
+        // 长点
+        itemView.setOnLongClickListener(v -> {
+            carouselListener.onItemLongClick(carouselItem, getBindingAdapterPosition());
+            return true;
+        });
     }
 }
