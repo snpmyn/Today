@@ -26,24 +26,25 @@ import widget.toast.ToastKit;
 /**
  * @decs: 音频播放配套原件
  * @author: 郑少鹏
- * @date: 2025/9/19 16:41
+ * @date: 2025/9/23 14:12
  * @version: v 1.0
  * <p>
  * 支持本地播放
- * {@link #play(Context, String, DownloadProgressListener)}
+ * {@link #play(Context, String, DownloadProgressListener, int)}
  * File file = new File(getExternalFilesDir(null), "sample.mp3");
- * AudioPlayKit.play(this, file.getAbsolutePath());
+ * AudioPlayKit.play(this, file.getAbsolutePath(), null, 0);
  * <p>
  * 支持网络播放
- * {@link #play(Context, String, DownloadProgressListener)}
+ * {@link #play(Context, String, DownloadProgressListener, int)}
  * String url = "<a href="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">...</a>";
+ * AudioPlayKit.play(this, url, null, 0);
  * <p>
  * 支持 assets 播放
- * {@link #play(Context, String, DownloadProgressListener)}
- * AudioPlayKit.play(this, "release.mp3");
+ * {@link #play(Context, String, DownloadProgressListener, int)}
+ * AudioPlayKit.play(this, "release.mp3", null, 0);
  * <p>
  * 支持 URI 播放
- * {@link #playWithUri(Context, Uri)}
+ * {@link #playWithUri(Context, Uri, int)}
  * <p>
  * 支持缓存管理
  * {@link CacheHelper#setEnableNetworkCache(boolean)}
@@ -73,11 +74,13 @@ public class AudioPlayKit {
     private static final int PROGRESS_INTERVAL = 100;
     /**
      * 是否正在播放或准备
-     * <p>
-     * 播放状态控制
      */
     private static boolean arePlayingOrPreparing = false;
     private static int currentPlayId = 0;
+    /**
+     * 是否播放完成
+     */
+    private static boolean arePlayComplete = false;
     /**
      * 播放进度回调
      */
@@ -103,9 +106,10 @@ public class AudioPlayKit {
      * @param context                  上下文
      * @param path                     路径
      * @param downloadProgressListener 下载进度监听
-     *                                 可 null
+     * @param startPositionMs          开始位置毫秒
+     *                                 传 0 表示从头开始
      */
-    public static synchronized void play(@NonNull Context context, @NonNull String path, @Nullable DownloadProgressListener downloadProgressListener) {
+    public static synchronized void play(@NonNull Context context, @NonNull String path, @Nullable DownloadProgressListener downloadProgressListener, int startPositionMs) {
         // 停止上次播放
         stop();
         mediaPlayer = new MediaPlayer();
@@ -117,7 +121,7 @@ public class AudioPlayKit {
             if (localFile.exists()) {
                 // 本地
                 mediaPlayer.setDataSource(path);
-                prepareAndPlay(context, mediaPlayer, playId);
+                prepareAndPlay(context, mediaPlayer, playId, startPositionMs);
             } else if (path.startsWith("http://") || path.startsWith("https://")) {
                 // 网络
                 CacheHelper.prepareNetworkSource(context, path, mediaPlayer, () -> {
@@ -125,13 +129,13 @@ public class AudioPlayKit {
                         return;
                     }
                     errorHandle(context);
-                }, downloadProgressListener, playId);
+                }, downloadProgressListener, playId, startPositionMs);
             } else {
                 // assets
                 AssetFileDescriptor assetFileDescriptor = context.getAssets().openFd(path);
                 mediaPlayer.setDataSource(assetFileDescriptor.getFileDescriptor(), assetFileDescriptor.getStartOffset(), assetFileDescriptor.getLength());
                 assetFileDescriptor.close();
-                prepareAndPlay(context, mediaPlayer, playId);
+                prepareAndPlay(context, mediaPlayer, playId, startPositionMs);
             }
         } catch (Exception e) {
             if (playId == currentPlayId) {
@@ -143,10 +147,12 @@ public class AudioPlayKit {
     /**
      * 通过统一资源标识符播放
      *
-     * @param context 上下文
-     * @param uri     统一资源标识符
+     * @param context         上下文
+     * @param uri             统一资源标识符
+     * @param startPositionMs 开始位置毫秒
+     *                        传 0 表示从头开始
      */
-    public static synchronized void playWithUri(@NonNull Context context, @NonNull Uri uri) {
+    public static synchronized void playWithUri(@NonNull Context context, @NonNull Uri uri, int startPositionMs) {
         stop();
         mediaPlayer = new MediaPlayer();
         arePlayingOrPreparing = true;
@@ -154,7 +160,7 @@ public class AudioPlayKit {
         final int playId = currentPlayId;
         try {
             mediaPlayer.setDataSource(context, uri);
-            prepareAndPlay(context, mediaPlayer, playId);
+            prepareAndPlay(context, mediaPlayer, playId, startPositionMs);
         } catch (Exception e) {
             if (playId == currentPlayId) errorHandle(context);
         }
@@ -219,6 +225,11 @@ public class AudioPlayKit {
             } catch (Exception ignored) {
 
             }
+            // 中断下载线程
+            if ((null != CacheHelper.currentDownloadThread) && CacheHelper.currentDownloadThread.isAlive()) {
+                CacheHelper.currentDownloadThread.interrupt();
+                CacheHelper.currentDownloadThread = null;
+            }
             release();
             arePlayingOrPreparing = false;
             if (null != playStateListener) {
@@ -244,15 +255,6 @@ public class AudioPlayKit {
     }
 
     /**
-     * 是否正在播放
-     *
-     * @return 正在播放否
-     */
-    public static boolean arePlaying() {
-        return ((null != mediaPlayer) && mediaPlayer.isPlaying());
-    }
-
-    /**
      * 指定到
      *
      * @param positionMs 位置毫秒
@@ -261,12 +263,7 @@ public class AudioPlayKit {
         if (null != mediaPlayer) {
             try {
                 int duration = mediaPlayer.getDuration();
-                if (positionMs < 0) {
-                    positionMs = 0;
-                }
-                if (positionMs > duration) {
-                    positionMs = duration;
-                }
+                positionMs = Math.max(0, Math.min(positionMs, duration));
                 mediaPlayer.seekTo(positionMs);
                 if (null != playProgressListener) {
                     playProgressListener.onProgress(mediaPlayer.getCurrentPosition(), duration);
@@ -275,6 +272,15 @@ public class AudioPlayKit {
                 Timber.e(e, "seek fail");
             }
         }
+    }
+
+    /**
+     * 是否正在播放
+     *
+     * @return 正在播放否
+     */
+    public static boolean arePlaying() {
+        return ((null != mediaPlayer) && mediaPlayer.isPlaying());
     }
 
     /**
@@ -350,31 +356,37 @@ public class AudioPlayKit {
     /**
      * 准备并播放
      *
-     * @param context     上下文
-     * @param mediaPlayer MediaPlayer
-     * @param playId      播放 ID
+     * @param context         上下文
+     * @param mp              MediaPlayer
+     * @param playId          播放 ID
+     * @param startPositionMs 开始位置毫秒
+     *                        传 0 表示从头开始
      */
-    private static void prepareAndPlay(@NonNull Context context, @NonNull MediaPlayer mediaPlayer, int playId) {
+    private static void prepareAndPlay(@NonNull Context context, @NonNull MediaPlayer mp, int playId, int startPositionMs) {
         arePlayingOrPreparing = true;
-        mediaPlayer.setOnPreparedListener(mp -> {
+        mp.setOnPreparedListener(mediaPlayer -> {
             if (playId != currentPlayId) {
                 return;
             }
-            mp.start();
+            arePlayComplete = false;
+            if (startPositionMs > 0) {
+                mediaPlayer.seekTo(startPositionMs);
+            }
+            mediaPlayer.start();
             startUpdateProgress(playId);
             if (null != playStateListener) {
                 playStateListener.onStart();
             }
         });
-        mediaPlayer.setOnCompletionListener(mp -> {
+        mp.setOnCompletionListener(mediaPlayer -> {
             if (playId != currentPlayId) {
                 return;
             }
             arePlayingOrPreparing = false;
-            // 播放结束时进度置为总进度
+            arePlayComplete = true;
             if (null != playProgressListener) {
                 try {
-                    playProgressListener.onProgress(mp.getDuration(), mp.getDuration());
+                    playProgressListener.onProgress(mediaPlayer.getDuration(), mediaPlayer.getDuration());
                 } catch (Exception e) {
                     Timber.e(e, "completion progress callback error");
                 }
@@ -384,7 +396,7 @@ public class AudioPlayKit {
                 playStateListener.onComplete();
             }
         });
-        mediaPlayer.setOnErrorListener((mp, what, extra) -> {
+        mp.setOnErrorListener((mediaPlayer, what, extra) -> {
             if (playId != currentPlayId) {
                 return true;
             }
@@ -396,7 +408,16 @@ public class AudioPlayKit {
             }
             return true;
         });
-        mediaPlayer.prepareAsync();
+        mp.prepareAsync();
+    }
+
+    /**
+     * 是否播放完成
+     *
+     * @return 播放完成否
+     */
+    public static boolean arePlayComplete() {
+        return arePlayComplete;
     }
 
     /**
@@ -437,7 +458,7 @@ public class AudioPlayKit {
         void onStop();
 
         /**
-         * 完整
+         * 完成
          */
         void onComplete();
 
@@ -481,9 +502,9 @@ public class AudioPlayKit {
      */
     public static class CacheHelper {
         /**
-         * 默认 50 MB
+         * 50 MB
          */
-        private static long MAX_NETWORK_CACHE_SIZE = (50 * 1024 * 1024);
+        private static long MAX_NETWORK_CACHE_SIZE = 50 * 1024 * 1024;
         private static boolean enableNetworkCache = true;
         private static Thread currentDownloadThread;
 
@@ -537,7 +558,7 @@ public class AudioPlayKit {
             }
             if (totalSize > MAX_NETWORK_CACHE_SIZE) {
                 Arrays.sort(files, Comparator.comparingLong(File::lastModified));
-                long sizeToFree = totalSize - MAX_NETWORK_CACHE_SIZE;
+                long sizeToFree = (totalSize - MAX_NETWORK_CACHE_SIZE);
                 for (File cacheFile : files) {
                     sizeToFree -= cacheFile.length();
                     if (!cacheFile.delete()) {
@@ -556,11 +577,13 @@ public class AudioPlayKit {
          * @param context                  上下文
          * @param url                      链接
          * @param mediaPlayer              MediaPlayer
-         * @param runnable                 Runnable
+         * @param errorRunnable            Runnable
          * @param downloadProgressListener 下载进度监听
          * @param playId                   播放 ID
+         * @param startPositionMs          开始位置毫秒
+         *                                 传 0 表示从头开始
          */
-        public static void prepareNetworkSource(@NonNull Context context, @NonNull String url, @NonNull MediaPlayer mediaPlayer, @NonNull Runnable runnable, @Nullable DownloadProgressListener downloadProgressListener, int playId) {
+        public static void prepareNetworkSource(@NonNull Context context, @NonNull String url, @NonNull MediaPlayer mediaPlayer, @NonNull Runnable errorRunnable, @Nullable DownloadProgressListener downloadProgressListener, int playId, int startPositionMs) {
             if ((null != currentDownloadThread) && currentDownloadThread.isAlive()) {
                 currentDownloadThread.interrupt();
             }
@@ -572,7 +595,7 @@ public class AudioPlayKit {
                         return;
                     }
                     mediaPlayer.setDataSource(cacheFile.getAbsolutePath());
-                    prepareAndPlay(context, mediaPlayer, playId);
+                    AudioPlayKit.prepareAndPlay(context, mediaPlayer, playId, startPositionMs);
                     if ((null != downloadProgressListener) && playId == currentPlayId) {
                         mainHandler.post(downloadProgressListener::onDownloadComplete);
                     }
@@ -592,15 +615,15 @@ public class AudioPlayKit {
                             return;
                         }
                         mediaPlayer.setDataSource(downloaded.getAbsolutePath());
-                        prepareAndPlay(context, mediaPlayer, playId);
+                        AudioPlayKit.prepareAndPlay(context, mediaPlayer, playId, startPositionMs);
                     } catch (Exception e) {
                         if (playId == currentPlayId) {
-                            mainHandler.post(runnable);
+                            mainHandler.post(errorRunnable);
                         }
                     }
                 } else {
                     if (playId == currentPlayId) {
-                        mainHandler.post(runnable);
+                        mainHandler.post(errorRunnable);
                     }
                 }
             });
@@ -634,7 +657,6 @@ public class AudioPlayKit {
                     mainHandler.post(() -> downloadProgressListener.onDownloadProgress(0));
                 }
                 inputStream = httpURLConnection.getInputStream();
-                // 确认缓存大小
                 if (enableNetworkCache) {
                     ensureNetworkCacheSize(context);
                 }
@@ -655,7 +677,7 @@ public class AudioPlayKit {
                     }
                 }
                 fileOutputStream.flush();
-                if ((null != downloadProgressListener) && (playId == currentPlayId)) {
+                if ((null != downloadProgressListener) && playId == currentPlayId) {
                     mainHandler.post(downloadProgressListener::onDownloadComplete);
                 }
                 return cacheFile;
