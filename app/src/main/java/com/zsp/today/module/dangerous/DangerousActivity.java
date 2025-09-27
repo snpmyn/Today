@@ -76,7 +76,6 @@ public class DangerousActivity extends BasePoolActivity implements View.OnClickL
     @Override
     protected void setListener() {
         // MaterialToolbar
-        dangerousActivityMt.setNavigationOnClickListener(v -> finish());
         dangerousActivityMt.setOnMenuItemClickListener(item -> {
             dangerousActivityKit.showUseGuide(false);
             return true;
