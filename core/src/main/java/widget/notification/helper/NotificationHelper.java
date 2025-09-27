@@ -12,10 +12,11 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
 /**
+ * 通知帮助者
+ * <p>
  * Created on 2025/9/9.
  *
  * @author 郑少鹏
- * @desc 通知帮助
  */
 public class NotificationHelper {
     /**
@@ -56,7 +57,7 @@ public class NotificationHelper {
     }
 
     /**
-     * 创建通知
+     * 创建普通通知
      *
      * @param context   上下文
      * @param channelId 渠道 ID
@@ -73,7 +74,7 @@ public class NotificationHelper {
      * @param cls       The component class that is to be used for the intent.
      * @return 通知
      */
-    public Notification createNotification(Context context, String channelId, String title, String content, int icon, Class<?> cls) {
+    public Notification createCommonNotification(Context context, String channelId, String title, String content, int icon, Class<?> cls) {
         // Intent
         Intent intent = new Intent(context, cls);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -84,12 +85,45 @@ public class NotificationHelper {
     }
 
     /**
-     * 提醒
+     * 创建进度通知
      *
-     * @param notification 通知
+     * @param context       上下文
+     * @param channelId     渠道 ID
+     *                      Android 通知渠道通过 channelId 唯一标识
+     *                      如果写了两个渠道，但用同一 ID，则后面创建的会覆盖前面的，系统里只显示一个通知类别。
+     *                      <p>
+     *                      创建渠道后不可修改或覆盖
+     *                      一旦渠道创建，name 和 description 基本不可修改 (除非卸载重装 App)。
+     *                      如果调试时改了名字，但 ID 没变，则系统仍然只显示旧的。
+     *                      调试时，可先卸载 App 再安装，避免渠道信息被缓存。
+     * @param title         标题
+     * @param content       内容
+     * @param icon          图标
+     * @param progress      进度
+     * @param indeterminate 不定
+     * @param ongoing       正在进行
+     * @return 通知
      */
-    public void notify(Notification notification) {
-        notificationManager.notify(1, notification);
+    public Notification createProgressNotification(Context context, String channelId, String title, String content, int icon, int progress, boolean indeterminate, boolean ongoing) {
+        return new NotificationCompat.Builder(context, channelId).setSmallIcon(icon).setContentTitle(title).setContentText(content).setProgress(100, progress, indeterminate).setOngoing(ongoing).build();
+    }
+
+    /**
+     * 唤醒
+     *
+     * @param notificationId 通知 ID
+     *                       <p>
+     *                       系统用来区分不同的通知实例
+     *                       <p>
+     *                       同一 ID
+     *                       新通知会覆盖旧通知
+     *                       <p>
+     *                       不同 ID
+     *                       系统会显示多个通知
+     * @param notification   通知
+     */
+    public void notify(int notificationId, Notification notification) {
+        notificationManager.notify(notificationId, notification);
     }
 
     private static final class InstanceHolder {
