@@ -22,11 +22,4 @@
         <item name="android:activityCloseExitAnimation">@anim/activity_slide_out_from_left_to_right
         </item>
     </style>
-    // 补充
-    <!--SplashActivityStyle-->
-    <style name="SplashActivityStyle" parent="Theme.Today">
-        <item name="android:windowBackground">@drawable/preview_window</item>
-        <item name="android:windowFullscreen">true</item>
-    </style>
-    // 补充
 </resources>
