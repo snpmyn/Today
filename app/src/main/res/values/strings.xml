@@ -55,7 +55,6 @@
     <string name="smsSendFail">短信发送失败</string>
     <string name="dangerousNotice">险情通知</string>
     <string name="accountAnalysis">账目分析</string>
-    <string name="poolSplashContent">TODAY</string>
     <string name="configNoChange">配置无变化</string>
     <string name="configSuccessful">配置成功</string>
     <string name="updateSuccessful">更新成功</string>
@@ -68,6 +67,7 @@
     <string name="updatingLocation">更新定位中</string>
     <string name="serviceIsRunning">服务运行中</string>
     <string name="noAccountAvailable">暂无账目</string>
+    <string name="applicationSetting">应用设置</string>
     <string name="dataHasBeenDeleted">数据已删除</string>
     <string name="internalBackupFail">内备份失败</string>
     <string name="externalBackupFail">外备份失败</string>
@@ -77,7 +77,6 @@
     <string name="waitForImplementation">等待实现</string>
     <string name="updateLocationFail">更新定位失败</string>
     <string name="noYearDataAvailable">暂无年份数据</string>
-    <string name="restoreHomePageMenu">恢复主页菜单</string>
     <string name="openNotificationHint">打开今日通知</string>
     <string name="inputDangerousNotice">输入险情通知</string>
     <string name="accountHasBeenRestored">账目已恢复</string>
@@ -96,8 +95,6 @@
     <string name="noDangerousConfigAvailable">暂无险情配置</string>
     <string name="restoreAnimationSuccessful">恢复动画成功</string>
     <string name="wantToDeleteThisAccount">要删除这条账目吗？</string>
-    <string name="homePageMenuHasBeenRestored">主页菜单已恢复</string>
-    <string name="homePageMenuHasBeenPreStored">主页菜单已预存</string>
     <string name="noYearAnalysisDataAvailable">暂无年度分析数据</string>
     <string name="noMonthAnalysisDataAvailable">暂无月度分析数据</string>
     <string name="dangerousConfigHasBeenRestored">险情配置已恢复</string>
@@ -120,7 +117,6 @@
     <string name="formatMonth">%1$s 月</string>
     <string name="formatSsWithSpace">%1$s %2$s</string>
     <string name="formatSsWithLineBreak">%1$s\n%2$s</string>
-    <string name="formatSssWithSpace">%1$s　%2$s　%3$s</string>
     <string name="formatCleanCacheSuccessful">已清理 %1$s</string>
     <string name="formatAccountFileName">/账单 %1$s-%2$s.xls</string>
     <string name="formatAccountExportSuccessful">账单导出成功\n%1$s</string>
