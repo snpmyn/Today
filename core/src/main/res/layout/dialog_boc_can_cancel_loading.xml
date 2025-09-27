@@ -12,7 +12,7 @@
         android:layout_height="@dimen/dp_24"
         android:contentDescription="@string/progressBar"
         android:scaleType="centerInside"
-        android:src="@drawable/boc_dialog_can_cancel_loading"
+        app:srcCompat="@drawable/boc_dialog_can_cancel_loading"
         app:tint="?attr/colorPrimary" />
 
     <TextView
