@@ -55,9 +55,9 @@ public class UserAgreementAndPrivacyPolicyActivityKit {
      */
     public void showUserAgreementOrPrivacyPolicy(@NonNull AppCompatActivity appCompatActivity, WebView webView) {
         if (TextUtils.equals(IntentVerify.getStringExtra(appCompatActivity.getIntent(), PoolConstant.USER_AGREEMENT), PoolConstant.USER_AGREEMENT)) {
-            webView.loadUrl(Objects.requireNonNull(BasePoolApp.getConfigMap().get(1)).get(2));
-        } else if (TextUtils.equals(IntentVerify.getStringExtra(appCompatActivity.getIntent(), PoolConstant.PRIVACY_POLICY), PoolConstant.PRIVACY_POLICY)) {
             webView.loadUrl(Objects.requireNonNull(BasePoolApp.getConfigMap().get(1)).get(3));
+        } else if (TextUtils.equals(IntentVerify.getStringExtra(appCompatActivity.getIntent(), PoolConstant.PRIVACY_POLICY), PoolConstant.PRIVACY_POLICY)) {
+            webView.loadUrl(Objects.requireNonNull(BasePoolApp.getConfigMap().get(1)).get(4));
         }
     }
 
