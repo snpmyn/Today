@@ -1,4 +1,4 @@
-package widget.word;
+package widget.quote;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * @decs: 舒适单词循环器
+ * @decs: 舒适短语循环器
  * @author: 郑少鹏
  * @date: 2025/9/21 21:24
  * @version: v 1.0
@@ -20,21 +20,21 @@ import java.util.Random;
  * 固定间隔更新
  * 只有一个 TextView 不断更新
  * new ComfortWordLooper(ComfortWordLooper.Mode.SINGLE_LINE, 4000, heartBoxActivityTvDate);
- * {@link ComfortWordLooper#ComfortWordLooper(Mode, int, TextView...)}
+ * {@link ComfortQuoteLooper#ComfortQuoteLooper(Mode, int, TextView...)}
  * <p>
  * 固定间隔更新
  * 一次性更新三个 TextView
  * new ComfortWordLooper(ComfortWordLooper.Mode.THREE_LINES, 4000, heartBoxActivityTvDurationSize, heartBoxActivityTvTime, heartBoxActivityTvDate);
- * {@link ComfortWordLooper#ComfortWordLooper(Mode, int, TextView...)}
+ * {@link ComfortQuoteLooper#ComfortQuoteLooper(Mode, int, TextView...)}
  * <p>
  * 每 TextView 由 scheduleNext(item) 独立调度
  * 每 MultiItem 都有一独立 Runnable task
  * 调度间隔不固定
  * 在 minInterval 和 maxInterval 间随机
  * new ComfortWordLooper(2000, 4000, heartBoxActivityTvDurationSize, heartBoxActivityTvTime, heartBoxActivityTvDate);
- * {@link ComfortWordLooper#ComfortWordLooper(int, int, TextView...)}
+ * {@link ComfortQuoteLooper#ComfortQuoteLooper(int, int, TextView...)}
  */
-public class ComfortWordLooper {
+public class ComfortQuoteLooper {
     public enum Mode {THREE_LINES, SINGLE_LINE, MULTI_RANDOM}
 
     private static class MultiItem {
@@ -51,7 +51,7 @@ public class ComfortWordLooper {
 
         void reset() {
             indexPool.clear();
-            for (int i = 0; i < ComfortWordProvider.size(); i++) {
+            for (int i = 0; i < ComfortQuoteProvider.size(); i++) {
                 indexPool.add(i);
             }
             Collections.shuffle(indexPool);
@@ -62,7 +62,7 @@ public class ComfortWordLooper {
             if (currentIndex >= indexPool.size()) {
                 reset();
             }
-            return ComfortWordProvider.getWordAt(indexPool.get(currentIndex++));
+            return ComfortQuoteProvider.getWordAt(indexPool.get(currentIndex++));
         }
     }
 
@@ -74,20 +74,20 @@ public class ComfortWordLooper {
     private final int minInterval, maxInterval, interval;
     private volatile boolean areRunning = false;
 
-    public ComfortWordLooper(Mode mode, int intervalMillis, TextView... views) {
+    public ComfortQuoteLooper(Mode mode, int intervalMillis, TextView... views) {
         if (mode == Mode.MULTI_RANDOM) {
-            throw new IllegalArgumentException("MULTI_RANDOM requires min/max constructor");
+            throw new IllegalArgumentException("MULTI_RANDOM requires min / max constructor");
         }
         this.mode = mode;
         this.interval = intervalMillis;
         this.textViews = views;
         this.minInterval = this.maxInterval = 0;
         if ((mode == Mode.SINGLE_LINE) && (views.length != 1)) {
-            throw new IllegalArgumentException("SINGLE_LINE requires 1 TextView");
+            throw new IllegalArgumentException("SINGLE_LINE requires one TextView");
         }
     }
 
-    public ComfortWordLooper(int minIntervalMillis, int maxIntervalMillis, TextView... textViews) {
+    public ComfortQuoteLooper(int minIntervalMillis, int maxIntervalMillis, TextView... textViews) {
         if ((minIntervalMillis < 0) || (maxIntervalMillis < minIntervalMillis)) {
             throw new IllegalArgumentException("invalid interval range");
         }
@@ -130,7 +130,7 @@ public class ComfortWordLooper {
             if (null != multiItem.textView) {
                 multiItem.textView.post(() -> {
                     multiItem.textView.clearAnimation();
-                    multiItem.textView.setAlpha(1f);
+                    multiItem.textView.setAlpha(1.0F);
                 });
             }
         }
@@ -139,7 +139,7 @@ public class ComfortWordLooper {
                 if (null != textView) {
                     textView.post(() -> {
                         textView.clearAnimation();
-                        textView.setAlpha(1f);
+                        textView.setAlpha(1.0F);
                     });
                 }
             }
@@ -158,12 +158,12 @@ public class ComfortWordLooper {
                 return;
             }
             if (mode == Mode.THREE_LINES) {
-                String[] words = ComfortWordProvider.getNextThree();
+                String[] words = ComfortQuoteProvider.getNextThree();
                 for (int i = 0; i < Math.min(textViews.length, words.length); i++) {
                     animateText(textViews[i], words[i]);
                 }
             } else {
-                String word = ComfortWordProvider.getNextSingle();
+                String word = ComfortQuoteProvider.getNextSingle();
                 animateText(textViews[0], word);
             }
             if (areRunning) {
