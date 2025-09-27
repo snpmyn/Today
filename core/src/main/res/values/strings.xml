@@ -4,6 +4,7 @@
     <string name="mine">我的</string>
     <string name="hint">提示</string>
     <string name="calm">平静</string>
+    <string name="reset">重置</string>
     <string name="login">登录</string>
     <string name="close">关闭</string>
     <string name="retry">重试</string>
@@ -23,14 +24,20 @@
     <string name="zeroSecond">0 秒</string>
     <string name="saveFail">保存失败</string>
     <string name="playFail">播放失败</string>
+    <string name="nowUpdate">现在更新</string>
     <string name="progressBar">进度条</string>
     <string name="selectDate">选择日期</string>
+    <string name="thenUpdate">那就更新</string>
+    <string name="noUpdateYet">先不更新</string>
     <string name="continueUse">继续使用</string>
     <string name="unknownDate">未知日期</string>
+    <string name="todayUpdate">今日更新</string>
     <string name="checkSetting">检查设置</string>
     <string name="fileNotExit">文件不存在</string>
     <string name="privacyPolicy">隐私政策</string>
     <string name="userAgreement">用户协议</string>
+    <string name="versionUpdate">版本更新</string>
+    <string name="carouselDetail">轮播详情</string>
     <string name="networkAnomaly">网络异常</string>
     <string name="copySuccessful">复制成功</string>
     <string name="exitAppHint">再按一次退出</string>
@@ -58,16 +65,12 @@
     <string name="coreFundamentalAreBasedOnThePermission">核心功能需要该权限</string>
     <string name="installApplicationAreBasedOnThePermission">安装应用需要该权限</string>
     <string name="noApplicationFoundThatCanOpenThisFile">没有找到可以打开此文件的应用</string>
+    <string name="toEnsureNormalUseThisVersionMustBeUpdated">为保证正常使用 该版本必须更新</string>
     <string name="youNeedToAllowNecessaryPermissionInSettingManually">你需要手动在设置中授予该权限</string>
     <string name="userAgreementAndPrivacyPolicyContent">我非常重视你的个人信息和隐私保护。为更好地保障你的个人权益，在你使用我的产品前，务必审慎阅读《用户协议》与《隐私政策》内的所有条款内容。如你同意以上条款，点击"同意"并继续，开始使用我的产品和服务！</string>
     <!--fragmentation-->
     <string name="fragmentationStackView">栈视图 (StackView)</string>
     <string name="formatFragmentationStackHelp">* - 不在回退栈\n%1$s - 可见</string>
-    <!--pool-->
-    <string name="poolSplashContent">POOL</string>
-    <string name="PoolSplashDuration">1000</string>
-    <string name="poolUserAgreementPath">file:///android_asset/html/UserAgreement.html</string>
-    <string name="poolPrivacyPolicyPath">file:///android_asset/html/PrivacyPolicy.html</string>
     <!--banner-->
     <string name="bannerNeedAndOnlySetLinearLayoutManagerType">需且只能设线性布局管理器类型</string>
     <string name="bannerContextCorrespondsToTheActivityInstance">上下文对应 Activity 实例</string>
