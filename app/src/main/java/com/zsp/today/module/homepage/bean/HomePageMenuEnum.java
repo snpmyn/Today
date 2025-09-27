@@ -1,7 +1,7 @@
 package com.zsp.today.module.homepage.bean;
 
-import com.zsp.today.BuildConfig;
 import com.zsp.today.R;
+import com.zsp.today.application.App;
 
 /**
  * Created on 2022/2/8
@@ -23,9 +23,9 @@ public enum HomePageMenuEnum {
      */
     HEART_BOX(3, R.drawable.ic_heart_box_cos_24dp, "心盒", true),
     /**
-     * 组件
+     * 知林
      */
-    WIDGET(4, R.drawable.ic_widget_cos_24dp, "组件", BuildConfig.DEBUG);
+    WIDGET(4, R.drawable.ic_zhi_lin_cos_24dp, "知林", App.getAppInstance().tag());
     /**
      * 菜单 ID
      */
