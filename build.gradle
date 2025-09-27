@@ -10,6 +10,9 @@ ext {
     minSdk = 24
     targetSdk = 36
 
+    minifyEnabled = false
+    shrinkResources = false
+
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
 
