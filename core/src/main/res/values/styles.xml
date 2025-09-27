@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <!--SplashActivityStyle-->
+    <style name="SplashActivityStyle" parent="Theme.Today">
+        <item name="android:windowBackground">@drawable/preview_window</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
     <!--BocDialogStyle-->
     <style name="BocDialogStyle" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
@@ -10,14 +15,13 @@
         <item name="android:windowBackground">@drawable/white_solid_r12</item>
         <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
     </style>
-    <!--CircularProgressIndicatorStyle-->
-    <style name="CircularProgressIndicatorStyle" parent="Widget.Material3.CircularProgressIndicator.ExtraSmall">
-        <item name="trackCornerRadius">@dimen/dp_8</item>
-        <item name="materialThemeOverlay">@style/ThemeOverlay.App.CircularProgressIndicator</item>
-    </style>
-
-    <style name="ThemeOverlay.App.CircularProgressIndicator" parent="">
-        <item name="colorPrimary">?attr/colorPrimary</item>
+    <!--CircularProgressIndicator-->
+    <style name="CircularProgressIndicator" parent="Widget.Material3.CircularProgressIndicator.ExtraSmall">
+        <item name="trackThickness">@dimen/dp_3</item>
+        <item name="indicatorSize">@dimen/dp_20</item>
+        <item name="indicatorInset">@dimen/dp_2</item>
+        <item name="trackCornerRadius">50%</item>
+        <item name="indicatorTrackGapSize">@dimen/dp_2</item>
     </style>
     <!--CustomDialogStyle-->
     <style name="CustomDialogStyle" parent="@android:style/Theme.Dialog">
@@ -45,8 +49,8 @@
             @style/MaterialAlertDialog.Material3Expressive.Title.Panel.CenterStacked
         </item>
     </style>
-    <!--a theme overlay for dialogs with buttons that span the width of the dialog-->
-    <style name="ThemeOverlay.Catalog.MaterialAlertDialog.FullWidthButtons" parent="ThemeOverlay.Material3Expressive.MaterialAlertDialog">
+    <!--a theme overlay for dialogs with a center aligned title text, icon and buttons that span the width of the dialog-->
+    <style name="ThemeOverlay.Catalog.MaterialAlertDialog.Centered.FullWidthButtons" parent="ThemeOverlay.Material3Expressive.MaterialAlertDialog.Centered">
         <!--mark spacer as gone when showing full width buttons-->
         <item name="materialAlertDialogButtonSpacerVisibility" tools:ignore="PrivateResource">
             @integer/mtrl_view_gone
@@ -61,8 +65,8 @@
             @style/Widget.Catalog.Button.TextButton.Dialog.FullWidth
         </item>
     </style>
-    <!--a theme overlay for dialogs with a center aligned title text, icon and buttons that span the width of the dialog-->
-    <style name="ThemeOverlay.Catalog.MaterialAlertDialog.Centered.FullWidthButtons" parent="ThemeOverlay.Material3Expressive.MaterialAlertDialog.Centered">
+    <!--a theme overlay for dialogs with buttons that span the width of the dialog-->
+    <style name="ThemeOverlay.Catalog.MaterialAlertDialog.FullWidthButtons" parent="ThemeOverlay.Material3Expressive.MaterialAlertDialog">
         <!--mark spacer as gone when showing full width buttons-->
         <item name="materialAlertDialogButtonSpacerVisibility" tools:ignore="PrivateResource">
             @integer/mtrl_view_gone
@@ -82,5 +86,12 @@
         <item name="android:maxWidth">@null</item>
         <item name="android:layout_weight">1</item>
         <item name="android:layout_width">@dimen/dp_0</item>
+    </style>
+    <!--ShapeableImageView-->
+    <style name="ShapeableImageViewBottom" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/dp_16</item>
+        <item name="cornerSizeTopLeft">@dimen/dp_0</item>
+        <item name="cornerSizeTopRight">@dimen/dp_0</item>
     </style>
 </resources>
