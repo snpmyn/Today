@@ -4,6 +4,10 @@ plugins {
 }
 
 android {
+    // 编译期用
+    // 和 APK 安装无关
+    // 可统一用一个 namespace
+    // 主要影响生成的 R 类和 BuildConfig 包名
     namespace 'com.zsp.core'
     compileSdk rootProject.ext.compileSdk
 
@@ -16,18 +20,15 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             // 用于当前模块本身的编译和测试。它决定在编译和测试这个库时，如何混淆库的代码。这些规则不会被打包到 AAR 中，也不会传递给主应用。
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-        pre {
-            initWith release
-        }
     }
     compileOptions {
-        /*源代码兼容 Java 11 (可按需设)*/
+        // 源代码兼容 Java 11 (可按需设)
         sourceCompatibility JavaVersion.VERSION_11
-        /*生成的字节码兼容 Java 11 (可按需设)*/
+        // 生成的字节码兼容 Java 11 (可按需设)
         targetCompatibility JavaVersion.VERSION_11
     }
     kotlinOptions {
@@ -45,6 +46,7 @@ dependencies {
     implementation libs.core.ktx
     /*kotlin*/
     api libs.jxl
+    api libs.ion
     api libs.okio
     api libs.gson
     api libs.mpac
