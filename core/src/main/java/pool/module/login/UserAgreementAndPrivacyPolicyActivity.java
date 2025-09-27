@@ -53,7 +53,7 @@ public class UserAgreementAndPrivacyPolicyActivity extends BasePoolActivity {
      */
     @Override
     protected void setListener() {
-        userAgreementAndPrivacyPolicyActivityMt.setNavigationOnClickListener(v -> finish());
+
     }
 
     /**
