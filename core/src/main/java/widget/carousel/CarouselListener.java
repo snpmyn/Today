@@ -14,4 +14,12 @@ public interface CarouselListener {
      * @param position     位置
      */
     void onItemClick(CarouselItem carouselItem, int position);
+
+    /**
+     * 长点
+     *
+     * @param carouselItem 轮播条目
+     * @param position     位置
+     */
+    void onItemLongClick(CarouselItem carouselItem, int position);
 }
