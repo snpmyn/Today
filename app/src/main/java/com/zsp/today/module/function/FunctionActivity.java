@@ -2,7 +2,6 @@ package com.zsp.today.module.function;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.appbar.MaterialToolbar;
 import com.zsp.today.R;
 import com.zsp.today.module.function.kit.FunctionActivityKit;
 
@@ -14,7 +13,6 @@ import pool.base.BasePoolActivity;
  * @date: 2021/12/2 4:23 下午
  */
 public class FunctionActivity extends BasePoolActivity {
-    private MaterialToolbar functionActivityMt;
     private RecyclerView functionActivityRv;
     /**
      * 功能页配套元件
@@ -36,7 +34,6 @@ public class FunctionActivity extends BasePoolActivity {
      */
     @Override
     protected void stepUi() {
-        functionActivityMt = findViewById(R.id.functionActivityMt);
         functionActivityRv = findViewById(R.id.functionActivityRv);
     }
 
@@ -53,7 +50,7 @@ public class FunctionActivity extends BasePoolActivity {
      */
     @Override
     protected void setListener() {
-        functionActivityMt.setNavigationOnClickListener(view -> finish());
+
     }
 
     /**
