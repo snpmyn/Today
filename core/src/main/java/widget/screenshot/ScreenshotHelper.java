@@ -16,7 +16,6 @@ import java.io.OutputStream;
 import timber.log.Timber;
 import util.datetime.CurrentTimeMillisClock;
 import util.handler.HandlerKit;
-import widget.media.MediaFileDirectoryEnum;
 import widget.media.MediaFileTypeEnum;
 import widget.toast.ToastKit;
 
@@ -51,25 +50,23 @@ public class ScreenshotHelper {
      * @param fileNamePrefix 文件名前缀
      */
     public static void saveBitmap(Context context, Bitmap bitmap, String fileNamePrefix) {
-        MediaFileTypeEnum mediaFileTypeEnum = MediaFileTypeEnum.WEBP;
-        MediaFileDirectoryEnum mediaFileDirectoryEnum = MediaFileDirectoryEnum.getScreenshotMediaFileDirectoryEnum(context);
-        Bitmap.CompressFormat compressFormat = Bitmap.CompressFormat.WEBP;
         if (null == bitmap) {
             return;
         }
         new Thread(() -> {
             try {
+                MediaFileTypeEnum mediaFileTypeEnum = MediaFileTypeEnum.WEBP;
                 ContentValues contentValues = new ContentValues();
                 contentValues.put(MediaStore.Images.Media.DISPLAY_NAME, fileNamePrefix + "-" + CurrentTimeMillisClock.getInstance().now() + mediaFileTypeEnum.getSuffix());
                 contentValues.put(MediaStore.Images.Media.MIME_TYPE, mediaFileTypeEnum.getMimeType());
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    contentValues.put(MediaStore.Images.Media.RELATIVE_PATH, mediaFileDirectoryEnum.getRelativePath());
+                    contentValues.put(MediaStore.Images.Media.RELATIVE_PATH, ScreenshotDirectoryKit.getAvailableScreenshotDirectory(context).getRelativePath());
                 }
                 Uri uri = context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
                 if (null != uri) {
                     OutputStream outputStream = context.getContentResolver().openOutputStream(uri);
                     if (null != outputStream) {
-                        bitmap.compress(compressFormat, 100, outputStream);
+                        bitmap.compress(Bitmap.CompressFormat.WEBP, 100, outputStream);
                         outputStream.flush();
                         outputStream.close();
                     }
