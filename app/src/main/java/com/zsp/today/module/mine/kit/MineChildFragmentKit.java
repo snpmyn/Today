@@ -16,12 +16,13 @@ import com.zsp.today.basic.restore.kit.RestoreKit;
 import com.zsp.today.basic.restore.value.RestoreConstant;
 import com.zsp.today.basic.value.PublicConstant;
 import com.zsp.today.basic.value.RxBusConstant;
+import com.zsp.today.basic.version.VersionKit;
 import com.zsp.today.module.account.database.AccountDataBaseTable;
 import com.zsp.today.module.dangerous.database.DangerousDataBaseTable;
-import com.zsp.today.module.function.database.FunctionDataBaseTable;
 import com.zsp.today.module.login.UserDataBaseTable;
 import com.zsp.today.module.mine.fragment.MineChildFragment;
 import com.zsp.today.module.mine.fragment.SplashAnimationHomeFragment;
+import com.zsp.today.module.setting.SettingActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,7 @@ import widget.dialog.materialalertdialog.kit.MaterialAlertDialogBuilderKit;
 import widget.dialog.materialalertdialog.kit.UseGuideMaterialAlertDialogKit;
 import widget.dialog.materialalertdialog.listener.UseGuideMaterialAlertDialogKitListener;
 import widget.emoji.MoodEmojiKit;
+import widget.media.audio.AudioPlayKit;
 import widget.toast.ToastKit;
 
 /**
@@ -82,13 +84,15 @@ public class MineChildFragmentKit {
      */
     public void display(@NonNull AppCompatActivity appCompatActivity, MineChildFragment mineChildFragment, RecyclerView recyclerView) {
         // 数据
-        List<MenuBean> moduleBeanList = new ArrayList<>(4);
+        List<MenuBean> moduleBeanList = new ArrayList<>(8);
         moduleBeanList.add(new MenuBean(1, R.drawable.ic_start_animation_cos_24dp, appCompatActivity.getString(R.string.startAnimation)));
         moduleBeanList.add(new MenuBean(2, R.drawable.ic_reset_cos_24dp, appCompatActivity.getString(R.string.resetData)));
         moduleBeanList.add(new MenuBean(3, R.drawable.ic_clean_cache_cos_24dp, appCompatActivity.getString(R.string.cleanCache)));
         moduleBeanList.add(new MenuBean(4, R.drawable.ic_author_cos_24dp, appCompatActivity.getString(R.string.author)));
-        moduleBeanList.add(new MenuBean(5, R.drawable.ic_donate_cos_24dp, appCompatActivity.getString(R.string.donate)));
-        moduleBeanList.add(new MenuBean(6, R.drawable.ic_log_out_cos_24dp, appCompatActivity.getString(R.string.logOut)));
+        moduleBeanList.add(new MenuBean(5, R.drawable.ic_system_update_alt_cos_24dp, appCompatActivity.getString(com.zsp.core.R.string.versionUpdate)));
+        moduleBeanList.add(new MenuBean(6, R.drawable.ic_donate_cos_24dp, appCompatActivity.getString(R.string.donate)));
+        moduleBeanList.add(new MenuBean(7, R.drawable.ic_log_out_cos_24dp, appCompatActivity.getString(R.string.logOut)));
+        moduleBeanList.add(new MenuBean(8, R.drawable.ic_settings_applications_cos_24dp, appCompatActivity.getString(R.string.applicationSetting)));
         // 模块适配器配套元件
         MenuAdapterKit menuAdapterKit = new MenuAdapterKit();
         menuAdapterKit.display(appCompatActivity, recyclerView, moduleBeanList, 3, 48, 192, false, (view, menuBean) -> distribute(appCompatActivity, mineChildFragment, menuBean.getMenuId()));
@@ -120,13 +124,21 @@ public class MineChildFragmentKit {
             case 4:
                 author(appCompatActivity);
                 break;
-            // 赞助
+            // 版本更新
             case 5:
+                VersionKit.check(appCompatActivity, true);
+                break;
+            // 赞助
+            case 6:
                 author(appCompatActivity);
                 break;
             // 退出
-            case 6:
+            case 7:
                 loginOut(appCompatActivity);
+                break;
+            // 应用设置
+            case 8:
+                IntentJump.getInstance().jumpWithAnimation(null, appCompatActivity, false, SettingActivity.class, 0, 0);
                 break;
             default:
                 break;
@@ -151,17 +163,15 @@ public class MineChildFragmentKit {
                 bocLottieCommonDialog = BocDialogKit.getInstance(appCompatActivity).bocLottieCommonDialogTwo(BocLottieDialogEnum.LOADING_ONE, appCompatActivity.getString(R.string.deleteData), ValueAnimator.INFINITE, null, null);
                 // 重置恢复常量值
                 MmkvKit.defaultMmkv().encode(RestoreConstant.RESTORE_$_ACCOUNT_DATA_BASE_TABLE, false);
-                MmkvKit.defaultMmkv().encode(RestoreConstant.RESTORE_$_FUNCTION_DATA_BASE_TABLE, false);
                 MmkvKit.defaultMmkv().encode(RestoreConstant.RESTORE_$_DANGEROUS_DATA_BASE_TABLE, false);
                 // 重置数据库
                 LitePalKit.getInstance().allDelete(AccountDataBaseTable.class);
-                LitePalKit.getInstance().allDelete(FunctionDataBaseTable.class);
                 LitePalKit.getInstance().allDelete(DangerousDataBaseTable.class);
                 TimerKit.getInstance().execute(appCompatActivity, PublicConstant.DELAY_DURATION, () -> bocLottieCommonDialog.update(BocLottieDialogEnum.SUCCESS_ONE, appCompatActivity.getString(R.string.dataHasBeenDeleted), 0, () -> {
                     bocLottieCommonDialog = null;
                     BocDialogKit.getInstance(appCompatActivity).end();
                     // 恢复
-                    RestoreKit.getInstance().restore(appCompatActivity);
+                    RestoreKit.getInstance().restore(appCompatActivity, null);
                 }));
             }
         });
@@ -175,8 +185,8 @@ public class MineChildFragmentKit {
     @NonNull
     private static UseGuideMaterialAlertDialogKit getUseGuideMaterialAlertDialogKit() {
         UseGuideMaterialAlertDialogKit useGuideMaterialAlertDialogKit = new UseGuideMaterialAlertDialogKit();
-        useGuideMaterialAlertDialogKit.prepareData("步骤一", MoodEmojiKit.Mood.FOLDER.getEmoji() + " 删除数据 " + MoodEmojiKit.Mood.FOLDER.getEmoji() + "\n\n删除账目数据\n删除险情配置数据\n删除主页菜单数据", "等下", "下一步");
-        useGuideMaterialAlertDialogKit.prepareData("步骤二", MoodEmojiKit.Mood.FOLDER.getEmoji() + " 恢复数据 " + MoodEmojiKit.Mood.FOLDER.getEmoji() + "\n\nDocuments 文件夹下数据备份文件\n\n恢复账目数据\n恢复险情配置数据\n恢复主页菜单数据", "上一步", "去重置");
+        useGuideMaterialAlertDialogKit.prepareData("步骤一", MoodEmojiKit.Mood.FOLDER.getEmoji() + " 删除数据 " + MoodEmojiKit.Mood.FOLDER.getEmoji() + "\n\n删除账目数据\n删除险情数据", "等下", "下一步");
+        useGuideMaterialAlertDialogKit.prepareData("步骤二", MoodEmojiKit.Mood.FOLDER.getEmoji() + " 恢复数据 " + MoodEmojiKit.Mood.FOLDER.getEmoji() + "\n\nDocuments 文件夹下数据备份文件\n\n恢复账目数据\n恢复险情数据", "上一步", "去重置");
         return useGuideMaterialAlertDialogKit;
     }
 
@@ -190,6 +200,7 @@ public class MineChildFragmentKit {
         if (TextUtils.equals(CacheManager.STRING_ZERO_K, totalCacheSize)) {
             ToastKit.showShort(appCompatActivity.getString(R.string.noCacheAvailable));
         } else {
+            AudioPlayKit.CacheHelper.clearCache(appCompatActivity);
             CacheManager.clearAllCache(appCompatActivity);
             ToastKit.showShort(String.format(appCompatActivity.getString(R.string.formatCleanCacheSuccessful), totalCacheSize));
             DebugMaterialAlertDialogKit.getInstance().show(appCompatActivity, String.format(appCompatActivity.getString(R.string.formatCleanCacheSuccessful), totalCacheSize), BuildConfig.DEBUG);
