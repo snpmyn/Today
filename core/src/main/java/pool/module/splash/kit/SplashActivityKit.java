@@ -1,5 +1,7 @@
 package pool.module.splash.kit;
 
+import android.animation.ValueAnimator;
+import android.text.TextUtils;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -7,13 +9,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.zsp.core.R;
 
+import java.util.Objects;
+
+import lottie.kit.LottieKit;
 import pool.application.BasePoolApp;
 import pool.module.login.kit.UserAgreementAndPrivacyPolicyActivityKit;
 import pool.module.splash.listener.SplashActivityListener;
 import pool.value.PoolConstant;
 import util.activity.ActivitySuperviseManager;
+import util.handler.HandlerKit;
 import util.mmkv.MmkvKit;
 import util.net.NetManager;
 import widget.dialog.customdialog.BaseDialog;
@@ -26,7 +33,7 @@ import widget.permissionx.listener.PermissionxKitListener;
 import widget.spannablestringbuilder.SpannableStringBuilderKit;
 
 /**
- * Created on 2021/9/16
+ * Created on 2022/5/6
  *
  * @author zsp
  * @desc 闪屏页配套元件
@@ -37,14 +44,38 @@ public class SplashActivityKit {
     /**
      * 执行
      *
+     * @param appCompatActivity   活动
+     * @param lottieAnimationView LottieAnimationView
+     * @param textView            TextView
+     */
+    public void execute(@NonNull AppCompatActivity appCompatActivity, LottieAnimationView lottieAnimationView, @NonNull TextView textView) {
+        textView.setText(Objects.requireNonNull(BasePoolApp.getConfigMap().get(1)).get(2));
+        LottieKit.getInstance().useWithAsset(lottieAnimationView, getAnimationAssetName() + ".json", ValueAnimator.INFINITE, null);
+        HandlerKit.getInstance().postDelayed(() -> {
+            LottieKit.getInstance().endAnimation(lottieAnimationView);
+            if (MmkvKit.defaultMmkv().decodeBool(PoolConstant.USER_AGREEMENT_AND_PRIVACY_POLICY)) {
+                checkConnect(appCompatActivity);
+            } else {
+                userAgreementAndPrivacyPolicy(appCompatActivity);
+            }
+            saveAnimationAssetName();
+        }, Long.parseLong(Objects.requireNonNull(BasePoolApp.getConfigMap().get(1)).get(1)));
+    }
+
+    /**
+     * 检查连接
+     *
      * @param appCompatActivity 活动
      */
-    public void execute(AppCompatActivity appCompatActivity) {
-        if (MmkvKit.defaultMmkv().decodeBool(PoolConstant.USER_AGREEMENT_AND_PRIVACY_POLICY)) {
-            checkConnect(appCompatActivity);
-        } else {
-            userAgreementAndPrivacyPolicy(appCompatActivity);
+    private void checkConnect(AppCompatActivity appCompatActivity) {
+        if (!NetManager.areNetConnected(appCompatActivity)) {
+            new MaterialAlertDialogBuilderKit(appCompatActivity).setTitle(R.string.hint).setMessage(R.string.currentNoNetwork).setPositiveButton(R.string.continueUse, (dialog, which) -> {
+                dialog.dismiss();
+                requestPermissions(appCompatActivity);
+            }).setCancelable(false).show();
+            return;
         }
+        requestPermissions(appCompatActivity);
     }
 
     /**
@@ -94,28 +125,12 @@ public class SplashActivityKit {
     }
 
     /**
-     * 检查连接
-     *
-     * @param appCompatActivity 活动
-     */
-    private void checkConnect(AppCompatActivity appCompatActivity) {
-        if (!NetManager.areNetConnected(appCompatActivity)) {
-            new MaterialAlertDialogBuilderKit(appCompatActivity).setTitle(R.string.hint).setMessage(R.string.currentNoNetwork).setPositiveButton(R.string.continueUse, (dialog, which) -> {
-                dialog.dismiss();
-                requestPermissions(appCompatActivity);
-            }).setCancelable(false).show();
-            return;
-        }
-        requestPermissions(appCompatActivity);
-    }
-
-    /**
      * 请求权限
      *
      * @param fragmentActivity FragmentActivity
      */
     private void requestPermissions(FragmentActivity fragmentActivity) {
-        PermissionxKit.execute(fragmentActivity, BasePoolApp.getPermissionList(), R.string.coreFundamentalAreBasedOnThePermission, R.string.youNeedToAllowNecessaryPermissionInSettingManually, R.string.agree, R.string.refuse, new PermissionxKitListener() {
+        PermissionxKit.execute(fragmentActivity, BasePoolApp.getConfigMap().get(2), R.string.coreFundamentalAreBasedOnThePermission, R.string.youNeedToAllowNecessaryPermissionInSettingManually, R.string.agree, R.string.refuse, new PermissionxKitListener() {
             @Override
             public void allGranted() {
                 splashActivityListener.distribute((AppCompatActivity) fragmentActivity);
@@ -126,6 +141,28 @@ public class SplashActivityKit {
                 ActivitySuperviseManager.getInstance().appExit();
             }
         });
+    }
+
+    /**
+     * 获取动画资源名
+     *
+     * @return 动画资源名
+     */
+    private String getAnimationAssetName() {
+        String animationAssetName = MmkvKit.defaultMmkv().decodeString(PoolConstant.SPLASH_$_ANIMATION);
+        if (TextUtils.isEmpty(animationAssetName)) {
+            animationAssetName = Objects.requireNonNull(BasePoolApp.getConfigMap().get(1)).get(0);
+        }
+        return animationAssetName;
+    }
+
+    /**
+     * 保存动画资源名
+     */
+    private void saveAnimationAssetName() {
+        if (TextUtils.isEmpty(MmkvKit.defaultMmkv().decodeString(PoolConstant.SPLASH_$_ANIMATION))) {
+            MmkvKit.defaultMmkv().encode(PoolConstant.SPLASH_$_ANIMATION, Objects.requireNonNull(BasePoolApp.getConfigMap().get(1)).get(0));
+        }
     }
 
     /**
