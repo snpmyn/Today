@@ -1,29 +1,23 @@
 package pool.module.splash;
 
-import android.animation.Animator;
 import android.view.KeyEvent;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-
+import com.airbnb.lottie.LottieAnimationView;
 import com.zsp.core.R;
 
 import pool.base.BasePoolActivity;
 import pool.module.splash.kit.SplashActivityKit;
-import util.animation.AnimationManager;
-import util.handler.HandlerKit;
 import util.screen.ScreenUtils;
 
 /**
  * @desc: 闪屏页
  * @author: zsp
- * @date: 2021/9/16 3:40 下午
+ * @date: 2022/4/2 11:03 上午
  */
 public class SplashActivity extends BasePoolActivity {
-    /**
-     * 控件
-     */
-    TextView splashActivityTv;
+    private LottieAnimationView splashActivityLav;
+    private TextView splashActivityTv;
     /**
      * 闪屏页配套元件
      */
@@ -45,6 +39,9 @@ public class SplashActivity extends BasePoolActivity {
     @Override
     protected void stepUi() {
         ScreenUtils.hideNavigationWithoutCanShowInScroll(this);
+        // LottieAnimationView
+        splashActivityLav = findViewById(R.id.splashActivityLav);
+        // TextView
         splashActivityTv = findViewById(R.id.splashActivityTv);
     }
 
@@ -53,6 +50,9 @@ public class SplashActivity extends BasePoolActivity {
      */
     @Override
     protected void initConfiguration() {
+        // 闪屏页配套元件
+        splashActivityKit = new SplashActivityKit();
+        // 闪屏页配套元件
         splashActivityKit = new SplashActivityKit();
     }
 
@@ -69,33 +69,7 @@ public class SplashActivity extends BasePoolActivity {
      */
     @Override
     protected void startLogic() {
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        AnimationManager.xyScaleAlphaShow(splashActivityTv, 1000, new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(@NonNull Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(@NonNull Animator animation) {
-                HandlerKit.getInstance().postDelayed(() -> splashActivityKit.execute(SplashActivity.this), 500);
-            }
-
-            @Override
-            public void onAnimationCancel(@NonNull Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(@NonNull Animator animation) {
-
-            }
-        });
+        splashActivityKit.execute(this, splashActivityLav, splashActivityTv);
     }
 
     /**
