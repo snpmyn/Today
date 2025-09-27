@@ -1,4 +1,4 @@
-package com.zsp.today.module.widget.bean;
+package com.zsp.today.module.zhilin.bean;
 
 import com.zsp.today.R;
 
@@ -6,9 +6,9 @@ import com.zsp.today.R;
  * Created on 2025/8/19.
  *
  * @author 郑少鹏
- * @desc 组件菜单枚举
+ * @desc 知林菜单枚举
  */
-public enum WidgetMenuEnum {
+public enum ZhiLinMenuEnum {
     /**
      * TabLayout
      * <p>
@@ -26,7 +26,13 @@ public enum WidgetMenuEnum {
      * <p>
      * 搜索视图
      */
-    SEARCH_VIEW(2, R.drawable.ic_widget_cos_24dp, "SearchView", true);
+    SEARCH_VIEW(3, R.drawable.ic_widget_cos_24dp, "SearchView", true),
+    /**
+     * Android
+     * <p>
+     * 安卓
+     */
+    ANDROID(4, R.drawable.ic_widget_cos_24dp, "Android", true);
     /**
      * 菜单 ID
      */
@@ -52,7 +58,7 @@ public enum WidgetMenuEnum {
      * @param menuName      菜单名称
      * @param menuShow      菜单显示
      */
-    WidgetMenuEnum(int menuId, int menuIconResId, String menuName, Boolean menuShow) {
+    ZhiLinMenuEnum(int menuId, int menuIconResId, String menuName, Boolean menuShow) {
         this.menuId = menuId;
         this.menuIconResId = menuIconResId;
         this.menuName = menuName;
