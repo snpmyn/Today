@@ -1,5 +1,6 @@
 package com.zsp.today.basic.worker;
 
+import android.app.Notification;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
@@ -8,6 +9,7 @@ import androidx.work.WorkerParameters;
 
 import com.zsp.today.MainActivity;
 import com.zsp.today.R;
+import com.zsp.today.basic.notification.NotificationKit;
 
 import widget.notification.helper.NotificationHelper;
 
@@ -17,9 +19,8 @@ import widget.notification.helper.NotificationHelper;
  * @author 郑少鹏
  * @desc 账目通知工作器
  * <p>
- * WorkManager 官方虽然称它可以保证即使在应用退出甚至手机重启情况下，之前注册的任务仍然将会得到执行。
- * 但在国产手机中是不可能的，因为系统做了改动。
- * 但在国产机上测试退出后，再进来也会执行之前的任务，这个时候可能会有重复的任务执行。
+ * WorkManager 官方虽然称它可保证即使在应用退出甚至手机重启情况下仍执行之前注册的任务
+ * 但国产手机因系统改动导致不可能
  */
 public class AccountNotificationWorker extends Worker {
     private final Context context;
@@ -32,8 +33,9 @@ public class AccountNotificationWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        NotificationHelper.getInstance(context).createNotificationChannel(getClass().getSimpleName(), context.getString(R.string.accountNotificationChinese), context.getString(R.string.accountNotificationEnglish));
-        NotificationHelper.getInstance(context).notify(NotificationHelper.getInstance(context).createNotification(context, getClass().getSimpleName(), context.getString(R.string.todayAccount), context.getString(R.string.rememberToKeepAccount), R.drawable.ic_notification_white_56dp, MainActivity.class));
+        NotificationHelper.getInstance(context).createNotificationChannel(NotificationKit.accountNotificationInfo(context)[0], NotificationKit.accountNotificationInfo(context)[1], NotificationKit.accountNotificationInfo(context)[2]);
+        Notification notification = NotificationHelper.getInstance(context).createCommonNotification(context, NotificationKit.accountNotificationInfo(context)[0], context.getString(R.string.todayAccount), context.getString(R.string.rememberToKeepAccount), R.drawable.ic_notification_white_56dp, MainActivity.class);
+        NotificationHelper.getInstance(context).notify(NotificationKit.accountNotificationId(), notification);
         return Result.success();
     }
 }
