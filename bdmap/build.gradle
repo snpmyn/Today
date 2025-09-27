@@ -3,6 +3,10 @@ plugins {
 }
 
 android {
+    // 编译期用
+    // 和 APK 安装无关
+    // 可统一用一个 namespace
+    // 主要影响生成的 R 类和 BuildConfig 包名
     namespace 'com.zsp.bdmap'
     compileSdk rootProject.ext.compileSdk
 
@@ -12,8 +16,8 @@ android {
         // 专门用于传递给主应用 (消费者)。它指定的规则是确保主应用在混淆时，能正确处理这个库的代码。这些规则会被打包到 AAR 中。
         consumerProguardFiles "consumer-rules.pro"
 
-        /*设置支持的 so 库架构*/
-        /*据需选一或多平台 so 库架构*/
+        // 设置支持的 so 库架构
+        // 据需选一或多平台 so 库架构
         ndk {
             abiFilters 'x86', 'x86_64', 'armeabi', 'armeabi-v7a', 'arm64-v8a'//, 'mips', 'mips64'
         }
@@ -21,39 +25,20 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled rootProject.ext.minifyEnabled
             // 用于当前模块本身的编译和测试。它决定在编译和测试这个库时，如何混淆库的代码。这些规则不会被打包到 AAR 中，也不会传递给主应用。
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-        pre {
-            initWith release
-        }
     }
     compileOptions {
-        /*源代码兼容 Java 11 (可按需设)*/
+        // 源代码兼容 Java 11 (可按需设)
         sourceCompatibility JavaVersion.VERSION_11
-        /*生成的字节码兼容 Java 11 (可按需设)*/
+        // 生成的字节码兼容 Java 11 (可按需设)
         targetCompatibility JavaVersion.VERSION_11
-    }
-    sourceSets {
-        main {
-            /*这行代码告诉 Android 构建系统：JNI 库文件 (.so文件) 位于项目根目录下的 libs 文件夹中*/
-            /*这样 Gradle 在打包 APK 时会自动包含该目录下的所有原生库文件*/
-            /*jniLibs.srcDir 'libs'*/
-            /*disable automatic ndk-build*/
-            /*这行代码将 JNI 源代码目录设置为空，表示禁用 Android Studio 默认的 NDK 编译流程*/
-            /*这通常用于以下情况*/
-            /*1. 使用预编译的 .so 库文件而不是从源代码构建*/
-            /*2. 使用其他构建系统 (如 CMake 或 ndk-build) 来编译 JNI 代码*/
-            /*3. 需要手动控制 NDK 构建过程*/
-            /*jni.srcDirs = []*/
-        }
     }
 }
 
 dependencies {
     api libs.baidumapsdk.location.all
-    /*api files('libs/BaiduLBS_Android.jar')*/
-    /*api fileTree(dir: 'libs', include: ['*.jar'])*/
     /*全量定位组件*/
 }
