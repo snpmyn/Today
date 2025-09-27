@@ -2,9 +2,8 @@
 <resources>
 
     <style name="Theme.Today" parent="Base.Theme.Today">
-        <!-- Transparent system bars for edge-to-edge. -->
-        <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
+        <!--窗口启动画面背景-->
+        <item name="android:windowSplashScreenBackground">?attr/colorPrimary</item>
         <!--设置状态栏文字和图标的颜色-->
         <!--true 状态栏文字和图标为深色 (适合浅色背景)-->
         <!--false 状态栏文字和图标为浅色 (适合深色背景)-->
