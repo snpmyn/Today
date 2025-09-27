@@ -1,14 +1,8 @@
 package widget.media;
 
-import android.content.Context;
-import android.os.Build;
 import android.os.Environment;
 
 import androidx.annotation.NonNull;
-
-import java.io.File;
-
-import timber.log.Timber;
 
 /**
  * @decs: 媒体文件目录枚举
@@ -128,44 +122,6 @@ public enum MediaFileDirectoryEnum {
      */
     public String getRelativePath() {
         return relativePath;
-    }
-
-    /**
-     * 获取截屏媒体文件目录枚举
-     *
-     * @param context 上下文
-     * @return 截屏媒体文件目录枚举
-     */
-    @NonNull
-    public static MediaFileDirectoryEnum getScreenshotMediaFileDirectoryEnum(@NonNull Context context) {
-        MediaFileDirectoryEnum[] screenshotMediaFileDirectoryEnums = {DIRECTORY_PICTURES_SCREENSHOTS, DIRECTORY_DCIM_SCREENSHOTS};
-        for (MediaFileDirectoryEnum mediaFileDirectoryEnum : screenshotMediaFileDirectoryEnums) {
-            File baseDir;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                // Android 10+
-                // 外部私有目录
-                // MediaStore
-                if (mediaFileDirectoryEnum == DIRECTORY_PICTURES_SCREENSHOTS) {
-                    baseDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-                } else {
-                    baseDir = context.getExternalFilesDir(Environment.DIRECTORY_DCIM);
-                }
-            } else {
-                // 外部公共目录
-                baseDir = new File(Environment.getExternalStorageDirectory(), "");
-            }
-            File file = new File(baseDir, mediaFileDirectoryEnum.getRelativePath());
-            if (!file.exists()) {
-                // 目录不存在则创建
-                if (file.mkdirs()) {
-                    Timber.d("mkdirs successful");
-                }
-            }
-            if (file.exists() && file.isDirectory() && file.canRead()) {
-                return mediaFileDirectoryEnum;
-            }
-        }
-        return screenshotMediaFileDirectoryEnums[0];
     }
 
     /**
