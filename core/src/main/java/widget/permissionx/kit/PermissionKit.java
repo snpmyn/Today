@@ -53,6 +53,21 @@ public class PermissionKit {
     }
 
     /**
+     * 安装
+     *
+     * @return 安装权限集
+     */
+    @NonNull
+    public static List<String> install() {
+        List<String> list = new ArrayList<>(1);
+        // ✅ Android 8+ (API 26+)
+        // ✅ 本仅需声明，无需动态获取。系统自动处理。
+        // ✅ 但有些厂商魔改系统后，仅第一次跳转安装提醒用户手动授权。第一次拒绝后就再也不提醒且直接拒绝该权限。
+        list.add(Manifest.permission.REQUEST_INSTALL_PACKAGES);
+        return list;
+    }
+
+    /**
      * 通知
      *
      * @return 通知权限集
