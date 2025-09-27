@@ -79,7 +79,7 @@ public class FunctionAdapter extends RecyclerView.Adapter<FunctionAdapter.ViewHo
         // 选变监听
         holder.functionItemSmFunctionShow.setOnCheckedChangeListener((buttonView, isChecked) -> functionBean.setFunctionShow(isChecked));
         // 点击监听
-        holder.functionItemSmFunctionShow.setOnClickListener(v -> onRecyclerViewOnItemClickListener.onItemClick(v, holder.getAdapterPosition(), functionBean));
+        holder.functionItemSmFunctionShow.setOnClickListener(v -> onRecyclerViewOnItemClickListener.onItemClick(v, holder.getBindingAdapterPosition(), functionBean));
     }
 
     @Override
