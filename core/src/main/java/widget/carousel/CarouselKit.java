@@ -2,6 +2,7 @@ package widget.carousel;
 
 import android.annotation.SuppressLint;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.carousel.CarouselLayoutManager;
@@ -14,6 +15,8 @@ import com.zsp.core.R;
 
 import java.util.List;
 
+import widget.dialog.materialalertdialog.kit.PictureInfoMaterialAlertDialogKit;
+
 /**
  * Created on 2025/8/10.
  *
@@ -24,26 +27,27 @@ public class CarouselKit {
     /**
      * 执行
      *
-     * @param recyclerView     RecyclerView
-     * @param carouselItemList 轮播条目集
-     * @param carouselStrategy 轮播策略
-     *                         {@link HeroCarouselStrategy}
-     *                         {@link FullScreenCarouselStrategy}
-     *                         {@link MultiBrowseCarouselStrategy}
-     *                         {@link com.google.android.material.carousel.UncontainedCarouselStrategy}
-     * @param debug            调试
-     * @param alignment        对齐
-     *                         {@link CarouselLayoutManager#ALIGNMENT_START}
-     *                         {@link CarouselLayoutManager#ALIGNMENT_CENTER}
-     * @param snap             吸附
+     * @param appCompatActivity RecyclerView
+     * @param recyclerView      RecyclerView
+     * @param carouselItemList  轮播条目集
+     * @param carouselStrategy  轮播策略
+     *                          {@link HeroCarouselStrategy}
+     *                          {@link FullScreenCarouselStrategy}
+     *                          {@link MultiBrowseCarouselStrategy}
+     *                          {@link com.google.android.material.carousel.UncontainedCarouselStrategy}
+     * @param debug             调试
+     * @param alignment         对齐
+     *                          {@link CarouselLayoutManager#ALIGNMENT_START}
+     *                          {@link CarouselLayoutManager#ALIGNMENT_CENTER}
+     * @param snap              吸附
      */
     @SuppressLint("RestrictedApi")
-    public void execute(RecyclerView recyclerView, List<CarouselItem> carouselItemList, CarouselStrategy carouselStrategy, boolean debug, int alignment, boolean snap) {
+    public void execute(AppCompatActivity appCompatActivity, RecyclerView recyclerView, List<CarouselItem> carouselItemList, CarouselStrategy carouselStrategy, boolean debug, int alignment, boolean snap) {
         // 轮播布局管理器
         CarouselLayoutManager carouselLayoutManager = new CarouselLayoutManager(carouselStrategy);
         carouselLayoutManager.setDebuggingEnabled(recyclerView, debug);
         carouselLayoutManager.setCarouselAlignment(alignment);
-        // RecyclerView
+        // 控件
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setLayoutManager(carouselLayoutManager);
         recyclerView.setBackgroundResource(debug ? R.drawable.co_stroke_dash_r6 : 0);
@@ -51,7 +55,17 @@ public class CarouselKit {
         CarouselSnapHelper carouselSnapHelper = new CarouselSnapHelper(!snap);
         carouselSnapHelper.attachToRecyclerView(recyclerView);
         // 轮播适配器
-        CarouselAdapter carouselAdapter = new CarouselAdapter((carouselItem, position) -> recyclerView.smoothScrollToPosition(position));
+        CarouselAdapter carouselAdapter = new CarouselAdapter(new CarouselListener() {
+            @Override
+            public void onItemClick(CarouselItem carouselItem, int position) {
+                recyclerView.smoothScrollToPosition(position);
+            }
+
+            @Override
+            public void onItemLongClick(CarouselItem carouselItem, int position) {
+                PictureInfoMaterialAlertDialogKit.getInstance().show(appCompatActivity, carouselItem);
+            }
+        });
         carouselAdapter.submitList(carouselItemList);
         // RecyclerView 关联适配器
         recyclerView.setAdapter(carouselAdapter);
