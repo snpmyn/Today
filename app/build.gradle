@@ -10,11 +10,16 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
+    // 编译期用
+    // 和 APK 安装无关
+    // 可统一用一个 namespace
+    // 主要影响生成的 R 类和 BuildConfig 包名
     namespace 'com.zsp.today'
     compileSdk rootProject.ext.compileSdk
 
     defaultConfig {
-        applicationId "com.zsp.today"
+        // 各渠道自己维护 applicationId
+        /*applicationId "com.zsp.today"*/
         minSdk rootProject.ext.minSdk
         targetSdk rootProject.ext.targetSdk
         versionCode 1
@@ -22,11 +27,11 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        /*配置应用多语言资源，明确告诉 Gradle 构建系统只打包和处理指定的语言资源 ('en' 和 'zh') 而忽略所有其它语言资源*/
-        /*zh：宏观中文 (通常不单独使用)*/
-        /*zh-rCN：简体中文 (中国大陆) - 对应目录 values-zh-rCN*/
-        /*zh-rTW：繁体中文 (台湾) - 对应目录 values-zh-rTW*/
-        /*zh-rHK：繁体中文 (香港) - 对应目录 values-zh-rHK*/
+        // 配置应用多语言资源，明确告诉 Gradle 构建系统只打包和处理指定的语言资源 ('en' 和 'zh') 而忽略所有其它语言资源
+        // zh：宏观中文 (通常不单独使用)
+        // zh-rCN：简体中文 (中国大陆) - 对应目录 values-zh-rCN
+        // zh-rTW：繁体中文 (台湾) - 对应目录 values-zh-rTW
+        // zh-rHK：繁体中文 (香港) - 对应目录 values-zh-rHK
         resourceConfigurations += ['en', 'zh-rCN', 'zh-rTW', 'zh-rHK']
     }
 
@@ -47,71 +52,60 @@ android {
 
     buildTypes {
         release {
-            // 启用资源缩减但未启用代码缩减会报错，需同时启用。
-            // 启用代码缩减（包括 ProGuard / R8）
-            minifyEnabled true
+            // 代码缩减和资源缩减需同时启用
+            // 代码缩减 (ProGuard / R8)
+            minifyEnabled rootProject.ext.minifyEnabled
             // 确保有适当的 ProGuard 规则文件配置，因代码缩减可能会移除某些被反射调用的代码。
             // 用于当前模块本身的编译和测试。它决定在编译和测试这个库时，如何混淆库的代码。这些规则不会被打包到 AAR 中，也不会传递给主应用。
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            // 启用资源缩减
-            shrinkResources true
+            // 资源缩减
+            shrinkResources rootProject.ext.shrinkResources
             // 调试
             debuggable false
             signingConfig signingConfigs.release
-            buildConfigField "String", "DOMAIN_NAME", '"http://xxx.com"'
-            manifestPlaceholders = [app_name: "今日"]
             versionNameSuffix "-release"
+            manifestPlaceholders = [app_name: "今日",
+                                    AMAP_KEY: "1088cc04ecd157e5709046d340d05ed2"]
         }
         debug {
             signingConfig signingConfigs.debug
-            buildConfigField "String", "DOMAIN_NAME", '"http://xxx.com"'
-            manifestPlaceholders = [app_name: "今日D"]
             versionNameSuffix "-debug"
-        }
-        // The `initWith` property allows you to copy configurations from other build types, then configure only the settings you want to change.
-        // This one copies the debug release type, and then changes the manifest placeholder and application ID.
-        pre {
-            initWith release
-            manifestPlaceholders = [app_name: "今日P"]
-            versionNameSuffix "-pre"
+            manifestPlaceholders = [app_name: "今日D",
+                                    AMAP_KEY: "27ba468b67494ca7c8092205aa23a1b6"]
         }
     }
-    // Specifies one flavor dimension.
+    // 在 Gradle 中 productFlavors 可分组管理
+    // 支持生成更多构建变体
+    // 组名即维度 (dimension)
+    // 每 productFlavor 必属某一维度
+    // 定义一维度即单层分类
+    // 定义多维度即多层组合
+    // flavorDimensions 声明顺序决定最终生成 APK 的命名顺序
     flavorDimensions += ["dimension"]
     productFlavors {
         // 开发环境
         develop {
-            buildConfigField "int", "ENVIRONMENT_TYPE", "1"
-            // Assigns this product flavor to the "version" flavor dimension.
-            // This property is optional if you are using only one dimension.
             dimension "dimension"
             versionNameSuffix "-develop"
-        }
-        // 公测环境
-        beta {
-            buildConfigField "int", "ENVIRONMENT_TYPE", "2"
-            // Assigns this product flavor to the "version" flavor dimension.
-            // This property is optional if you are using only one dimension.
-            dimension "dimension"
-            versionNameSuffix "-beta"
-            versionCode 1
-            versionName "1.0"
+            applicationId "com.zsp.today.develop"
+            buildConfigField "int", "ENVIRONMENT_TYPE", "1"
+            buildConfigField "String", "BACKUP_SUFFIX", "\"develop\""
         }
         // 生产环境
         product {
-            buildConfigField "int", "ENVIRONMENT_TYPE", "3"
-            // Assigns this product flavor to the "version" flavor dimension.
-            // This property is optional if you are using only one dimension.
-            dimension "dimension"
-            versionNameSuffix "-product"
             versionCode 1
             versionName "1.0"
+            dimension "dimension"
+            versionNameSuffix "-product"
+            applicationId "com.zsp.today.product"
+            buildConfigField "int", "ENVIRONMENT_TYPE", "2"
+            buildConfigField "String", "BACKUP_SUFFIX", "\"product\""
         }
     }
     compileOptions {
-        /*源代码兼容 Java 11 (可按需设)*/
+        // 源代码兼容 Java 11 (可按需设)
         sourceCompatibility JavaVersion.VERSION_11
-        /*生成的字节码兼容 Java 11 (可按需设)*/
+        // 生成的字节码兼容 Java 11 (可按需设)
         targetCompatibility JavaVersion.VERSION_11
     }
     buildFeatures {
