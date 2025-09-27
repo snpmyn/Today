@@ -214,6 +214,12 @@ public enum MediaFileTypeEnum {
      */
     GZ(".gz", "application/gzip"),
     /**
+     * 压缩
+     * <p>
+     * APK
+     */
+    APK(".apk", "application/vnd.android.package-archive"),
+    /**
      * 全部
      * <p>
      * ALL
