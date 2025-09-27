@@ -60,7 +60,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
                 app:layout_collapseMode="pin"
-                app:title="@string/saveConfig"
                 app:titleCentered="true"
                 app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
