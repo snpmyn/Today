@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center_vertical"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="@dimen/dp_10">
 
@@ -22,13 +21,13 @@
             android:textSize="@dimen/sp_14"
             android:textStyle="bold" />
     </com.google.android.material.card.MaterialCardView>
-
+    <!--scaleType 作用于内容而非背景-->
     <com.google.android.material.imageview.ShapeableImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:padding="@dimen/dp_10"
-        android:scaleType="centerInside"
+        android:scaleType="fitXY"
         app:shapeAppearance="?attr/shapeAppearanceMediumComponent"
         app:srcCompat="@drawable/wei_chat" />
 </LinearLayout>
