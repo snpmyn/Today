@@ -62,7 +62,6 @@ public class AccountAnalysisActivity extends BasePoolActivity {
      */
     @Override
     protected void setListener() {
-        accountAnalysisActivityMt.setNavigationOnClickListener(view -> finish());
         accountAnalysisActivityMt.setOnMenuItemClickListener(item -> {
             menuItemClickToExecute(item);
             return true;

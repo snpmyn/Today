@@ -66,7 +66,6 @@ public class AddAccountActivity extends BasePoolActivity {
     @Override
     protected void setListener() {
         // MaterialToolbar
-        addAccountActivityMt.setNavigationOnClickListener(v -> finish());
         addAccountActivityMt.setOnMenuItemClickListener(item -> {
             if (addAccountActivityKit.areFromAccountHomeActivityOrAccountSecondActivity(AddAccountActivity.this) || addAccountActivityKit.areFromAccountDetailActivityWithAdd(AddAccountActivity.this)) {
                 addAccountActivityKit.addAccount(AddAccountActivity.this, addAccountActivityMactvDate, addAccountActivityTilChooseCategory, addAccountActivityMactvCategory, addAccountActivityTilInputAmount, addAccountActivityTietAmount);

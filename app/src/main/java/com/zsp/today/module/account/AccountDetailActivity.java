@@ -11,10 +11,10 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.zsp.today.R;
+import com.zsp.today.basic.value.RxBusConstant;
 import com.zsp.today.module.account.bean.AccountTransferBean;
 import com.zsp.today.module.account.kit.AccountDetailActivityKit;
 import com.zsp.today.module.account.value.AccountConstant;
-import com.zsp.today.basic.value.RxBusConstant;
 
 import pool.base.BasePoolActivity;
 import util.intent.IntentVerify;
@@ -102,7 +102,6 @@ public class AccountDetailActivity extends BasePoolActivity {
     @Override
     protected void setListener() {
         // MaterialToolbar
-        accountDetailActivityMt.setNavigationOnClickListener(v -> finish());
         accountDetailActivityMt.setOnMenuItemClickListener(item -> {
             accountDetailActivityKit.addAccount(AccountDetailActivity.this);
             return true;
