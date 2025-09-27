@@ -8,11 +8,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.zsp.today.R;
 import com.zsp.today.basic.restore.value.RestoreConstant;
-import com.zsp.today.basic.value.Folder;
 import com.zsp.today.basic.value.PublicConstant;
 import com.zsp.today.module.dangerous.database.DangerousDataBaseTable;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +22,7 @@ import util.mmkv.MmkvKit;
 import util.timer.TimerKit;
 import widget.dialog.bocdialog.kit.BocDialogKit;
 import widget.dialog.bocdialog.lottie.bean.BocLottieDialogEnum;
+import widget.dialog.bocdialog.lottie.listener.BocLottieDialogAnimationEndListener;
 
 /**
  * Created on 2025/9/5.
@@ -39,16 +38,12 @@ public class RestoreDangerousDataBaseTableKit {
     /**
      * 恢复险情数据库表
      *
-     * @param appCompatActivity 活动
+     * @param appCompatActivity  活动
+     * @param restoreKitListener 恢复配套元件监听
      */
-    public void restoreDangerousDataBaseTable(AppCompatActivity appCompatActivity) {
+    public void restoreDangerousDataBaseTable(AppCompatActivity appCompatActivity, RestoreKit.RestoreKitListener restoreKitListener) {
         if (MmkvKit.defaultMmkv().decodeBool(RestoreConstant.RESTORE_$_DANGEROUS_DATA_BASE_TABLE)) {
-            if (null != RestoreKit.getInstance().bocLottieCommonDialog) {
-                // 置空
-                RestoreKit.getInstance().bocLottieCommonDialog = null;
-                // 结束
-                BocDialogKit.getInstance(appCompatActivity).end();
-            }
+            end(appCompatActivity, restoreKitListener);
             return;
         }
         if (null == RestoreKit.getInstance().bocLottieCommonDialog) {
@@ -56,17 +51,15 @@ public class RestoreDangerousDataBaseTableKit {
         } else {
             RestoreKit.getInstance().bocLottieCommonDialog.update(BocLottieDialogEnum.LOADING_ONE, appCompatActivity.getString(R.string.restoreDangerousConfig), ValueAnimator.INFINITE, null);
         }
-        // 险情数据库表文件地址
-        String dangerousDataBaseTableFilePath = Folder.EXTERNAL_BACKUP + File.separator + DangerousDataBaseTable.class.getSimpleName() + ".json";
-        if (FileUtils.areFileExistByPath(dangerousDataBaseTableFilePath)) {
+        if (FileUtils.areFileExistByPath(RestoreKit.getInstance().dangerousDataBaseTableFileAbsolutePath)) {
             // 险情数据库表文件存在
             // 获取并转化险情数据库表文件数据
-            List<DangerousDataBaseTable> dangerousDataBaseTables = new Gson().fromJson(JsonTransform.transformJsonFromFile(dangerousDataBaseTableFilePath), new TypeToken<List<DangerousDataBaseTable>>() {
+            List<DangerousDataBaseTable> dangerousDataBaseTables = new Gson().fromJson(JsonTransform.transformJsonFromFile(RestoreKit.getInstance().dangerousDataBaseTableFileAbsolutePath), new TypeToken<List<DangerousDataBaseTable>>() {
             }.getType());
             if (ListUtils.listIsEmpty(dangerousDataBaseTables)) {
                 // 无险情数据库表文件数据
                 // 下一步
-                next(appCompatActivity, BocLottieDialogEnum.EMPTY_ONE, appCompatActivity.getString(R.string.noDangerousConfigAvailable));
+                next(appCompatActivity, restoreKitListener, BocLottieDialogEnum.EMPTY_ONE, appCompatActivity.getString(R.string.noDangerousConfigAvailable));
             } else {
                 // 有险情数据库表文件数据
                 // 转化存储恢复
@@ -76,13 +69,13 @@ public class RestoreDangerousDataBaseTableKit {
                 }
                 if (LitePalKit.getInstance().multiSave(dangerousDataBaseTableList)) {
                     // 下一步
-                    next(appCompatActivity, BocLottieDialogEnum.SUCCESS_ONE, appCompatActivity.getString(R.string.dangerousConfigHasBeenRestored));
+                    next(appCompatActivity, restoreKitListener, BocLottieDialogEnum.SUCCESS_ONE, appCompatActivity.getString(R.string.dangerousConfigHasBeenRestored));
                 }
             }
         } else {
             // 险情数据库表文件不存在
             // 下一步
-            next(appCompatActivity, BocLottieDialogEnum.EMPTY_ONE, appCompatActivity.getString(R.string.noDangerousConfigAvailable));
+            next(appCompatActivity, restoreKitListener, BocLottieDialogEnum.EMPTY_ONE, appCompatActivity.getString(R.string.noDangerousConfigAvailable));
         }
     }
 
@@ -90,17 +83,37 @@ public class RestoreDangerousDataBaseTableKit {
      * 下一步
      *
      * @param appCompatActivity   活动
+     * @param restoreKitListener  恢复配套元件监听
      * @param bocLottieDialogEnum BOC Lottie 对话框枚举
      * @param hint                提示
      */
-    private void next(AppCompatActivity appCompatActivity, BocLottieDialogEnum bocLottieDialogEnum, String hint) {
+    private void next(AppCompatActivity appCompatActivity, RestoreKit.RestoreKitListener restoreKitListener, BocLottieDialogEnum bocLottieDialogEnum, String hint) {
         MmkvKit.defaultMmkv().encode(RestoreConstant.RESTORE_$_DANGEROUS_DATA_BASE_TABLE, true);
-        TimerKit.getInstance().execute(appCompatActivity, PublicConstant.DELAY_DURATION, () -> RestoreKit.getInstance().bocLottieCommonDialog.update(bocLottieDialogEnum, hint, 0, () -> {
-            // 置空
-            RestoreKit.getInstance().bocLottieCommonDialog = null;
-            // 结束
-            BocDialogKit.getInstance(appCompatActivity).end();
+        TimerKit.getInstance().execute(appCompatActivity, PublicConstant.DELAY_DURATION, () -> RestoreKit.getInstance().bocLottieCommonDialog.update(bocLottieDialogEnum, hint, 0, new BocLottieDialogAnimationEndListener() {
+            @Override
+            public void onAnimationEnd() {
+                end(appCompatActivity, restoreKitListener);
+            }
         }));
+    }
+
+    /**
+     * 结束
+     *
+     * @param appCompatActivity  活动
+     * @param restoreKitListener 恢复配套元件监听
+     */
+    private void end(AppCompatActivity appCompatActivity, RestoreKit.RestoreKitListener restoreKitListener) {
+        // 置空
+        if (null != RestoreKit.getInstance().bocLottieCommonDialog) {
+            RestoreKit.getInstance().bocLottieCommonDialog = null;
+        }
+        // 结束
+        BocDialogKit.getInstance(appCompatActivity).end();
+        if (null != restoreKitListener) {
+            // 结束
+            restoreKitListener.end();
+        }
     }
 
     private static final class InstanceHolder {
