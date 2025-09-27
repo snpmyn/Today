@@ -2,7 +2,6 @@ package com.zsp.today.module.heartbox;
 
 import android.widget.TextView;
 
-import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonGroup;
 import com.google.android.material.card.MaterialCardView;
@@ -25,7 +24,6 @@ import widget.view.PaperCrushView;
  * @desc 心盒页
  */
 public class HeartBoxActivity extends BasePoolActivity {
-    private MaterialToolbar heartBoxActivityMt;
     private MaterialCardView heartBoxActivityMcvEmotionWaveView;
     private EmotionWaveView heartBoxActivityEwv;
     private MaterialCardView heartBoxActivityMcvPaperCrushView;
@@ -62,8 +60,6 @@ public class HeartBoxActivity extends BasePoolActivity {
      */
     @Override
     protected void stepUi() {
-        // MaterialToolbar
-        heartBoxActivityMt = findViewById(R.id.heartBoxActivityMt);
         // MaterialCardView
         heartBoxActivityMcvEmotionWaveView = findViewById(R.id.heartBoxActivityMcvEmotionWaveView);
         // EmotionWaveView
@@ -111,8 +107,6 @@ public class HeartBoxActivity extends BasePoolActivity {
      */
     @Override
     protected void setListener() {
-        // MaterialToolbar
-        heartBoxActivityMt.setNavigationOnClickListener(v -> finish());
         // MaterialButton
         ViewAntiBruteForceClickKit.setViewAntiBruteForceClickListener(heartBoxActivityMbPauseOrResume, 200, v -> heartBoxActivityKit.pauseOrResume(HeartBoxActivity.this));
         ViewAntiBruteForceClickKit.setViewAntiBruteForceClickListener(heartBoxActivityMbStartOrStop, 200, v -> heartBoxActivityKit.startOrStop(HeartBoxActivity.this, heartBoxActivityMbPauseOrResume));
