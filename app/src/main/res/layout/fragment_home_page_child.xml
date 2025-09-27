@@ -8,14 +8,18 @@
         android:id="@+id/homePageChildFragmentAbl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <!--scrim 动画刷新导致闪烁-->
-        <!--关闭渐变动画-->
-        <!--app:scrimAnimationDuration="0"-->
+        <!--1 - scrim 动画刷新导致闪烁-->
+        <!--1 - 关闭渐变动画-->
+        <!--1 - app:scrimAnimationDuration="0"-->
+        <!--2 - 禁止滑动-->
+        <!--2 - app:layout_scrollFlags="noScroll"-->
+        <!--3 - 允许滑动-->
+        <!--3 - app:layout_scrollFlags="scroll|exitUntilCollapsed"-->
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/homePageChildFragmentCtl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:layout_scrollFlags="noScroll"
             app:scrimAnimationDuration="0">
 
             <LinearLayout
