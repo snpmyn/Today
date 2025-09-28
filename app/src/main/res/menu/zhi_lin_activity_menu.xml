@@ -2,13 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/widgetFragmentTwoColumn"
+        android:id="@+id/zhiLinActivityTwoColumn"
         android:contentDescription="@string/twoColumn"
         android:icon="@drawable/ic_two_column_cos_24dp"
         android:title="@string/twoColumn"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/widgetFragmentThreeColumn"
+        android:id="@+id/zhiLinActivityThreeColumn"
         android:contentDescription="@string/threeColumn"
         android:icon="@drawable/ic_three_column_cos_24dp"
         android:title="@string/threeColumn"
