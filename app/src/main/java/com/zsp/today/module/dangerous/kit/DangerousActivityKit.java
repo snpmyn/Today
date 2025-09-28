@@ -75,7 +75,7 @@ public class DangerousActivityKit implements SmsKit.SmsKitSendListener, SmsKit.S
      * @param showUseGuideAfterJustEnterPage 是否是刚进入页面后显示使用指南
      */
     public void checkSendSmsPermission(boolean showUseGuideAfterJustEnterPage) {
-        PermissionxKit.execute(appCompatActivity, PermissionKit.sms(), R.string.sendSmsAreBasedOnThePermission, com.zsp.core.R.string.youNeedToAllowNecessaryPermissionInSettingManually, com.zsp.core.R.string.agree, com.zsp.core.R.string.refuse, new PermissionxKitListener() {
+        PermissionxKit.execute(appCompatActivity, true, PermissionKit.sms(), R.string.sendSmsAreBasedOnThePermission, com.zsp.core.R.string.youNeedToAllowNecessaryPermissionInSettingManually, com.zsp.core.R.string.agree, com.zsp.core.R.string.refuse, new PermissionxKitListener() {
             @Override
             public void allGranted() {
                 showUseGuide(showUseGuideAfterJustEnterPage);
