@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--Android 7.0+ 直接访问文件 URI (file://) 会抛异常 (FileUriExposedException)-->
+    <!--必须用 content:// URI 共享文件-->
+    <!--FileProvider 是 Android 官方组件-->
+    <!--用来安全地将应用内部或外部文件夹里的文件通过 content:// URI 共享给其他应用 (比如相机、微信、QQ 等)-->
+    <!--paths.xml 就是 FileProvider 的路径映射表-->
+    <!--告诉系统哪些文件夹可通过 FileProvider 访问-->
     <paths>
         <external-path
             name="temp"
+            path="." />
+        <external-path
+            name="external_files"
+            path="." />
+        <files-path
+            name="internal_files"
             path="." />
     </paths>
 </resources>
