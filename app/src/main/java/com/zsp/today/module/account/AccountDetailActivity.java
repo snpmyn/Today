@@ -23,7 +23,7 @@ import util.rxbus.annotation.Tag;
 import util.rxbus.thread.EventThread;
 import util.view.ViewUtils;
 import widget.materialcontainertransform.MaterialContainerTransformKit;
-import widget.status.listener.BaseStatusListener;
+import widget.status.kit.StatusManagerKit;
 import widget.status.manager.StatusManager;
 
 /**
@@ -84,9 +84,19 @@ public class AccountDetailActivity extends BasePoolActivity {
         // 账目传输
         accountTransferBean = (AccountTransferBean) IntentVerify.getSerializableExtra(getIntent(), AccountConstant.ACCOUNT_SECOND_ACTIVITY_$_ACCOUNT_TRANSFER_BEAN);
         // 状态管理器
-        statusManager = StatusManager.generate(accountDetailActivityRv, new BaseStatusListener() {
+        statusManager = StatusManagerKit.generate(this, accountDetailActivityRv, new StatusManagerKit.StatusManagerKitListener() {
             @Override
-            public void setRetryEvent(View retryView) {
+            public void noNetwork() {
+
+            }
+
+            @Override
+            public void connectFail() {
+
+            }
+
+            @Override
+            public void loadFail() {
 
             }
         });
