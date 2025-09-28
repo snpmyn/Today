@@ -1,4 +1,4 @@
-package com.zsp.today.module.widget.tablayout;
+package com.zsp.today.module.zhilin.tablayout;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

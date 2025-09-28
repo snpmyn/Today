@@ -1,13 +1,12 @@
-package com.zsp.today.module.widget.tablayout;
+package com.zsp.today.module.zhilin.tablayout;
 
 import android.os.Bundle;
-
-import com.google.android.material.tabs.TabLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.zsp.today.R;
 import com.zsp.today.databinding.ActivityTablayoutBinding;

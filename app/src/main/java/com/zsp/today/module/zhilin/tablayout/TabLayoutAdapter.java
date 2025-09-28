@@ -1,4 +1,4 @@
-package com.zsp.today.module.widget.tablayout;
+package com.zsp.today.module.zhilin.tablayout;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
