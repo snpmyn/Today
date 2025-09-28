@@ -28,11 +28,9 @@ public enum ZhiLinMenuEnum {
      */
     SEARCH_VIEW(3, R.drawable.ic_widget_cos_24dp, "SearchView", true),
     /**
-     * Android
-     * <p>
      * 安卓
      */
-    ANDROID(4, R.drawable.ic_widget_cos_24dp, "Android", true);
+    ANDROID(4, R.drawable.ic_widget_cos_24dp, "安卓", true);
     /**
      * 菜单 ID
      */
