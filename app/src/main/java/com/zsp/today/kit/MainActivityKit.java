@@ -9,7 +9,7 @@ import androidx.work.WorkManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.zsp.today.R;
 import com.zsp.today.basic.restore.kit.RestoreKit;
-import com.zsp.today.basic.version.VersionKit;
+import com.zsp.today.basic.version.kit.VersionKit;
 import com.zsp.today.basic.worker.AccountNotificationWorker;
 
 import java.util.concurrent.TimeUnit;
@@ -45,7 +45,7 @@ public class MainActivityKit {
      * @param appCompatActivity 活动
      */
     private void checkPostNotificationsPermission(AppCompatActivity appCompatActivity) {
-        PermissionxKit.execute(appCompatActivity, PermissionKit.notification(), R.string.receiveNotificationAreBasedOnThePermission, com.zsp.core.R.string.youNeedToAllowNecessaryPermissionInSettingManually, com.zsp.core.R.string.agree, com.zsp.core.R.string.refuse, new PermissionxKitListener() {
+        PermissionxKit.execute(appCompatActivity, true, PermissionKit.notification(), R.string.receiveNotificationAreBasedOnThePermission, com.zsp.core.R.string.youNeedToAllowNecessaryPermissionInSettingManually, com.zsp.core.R.string.agree, com.zsp.core.R.string.refuse, new PermissionxKitListener() {
             @Override
             public void allGranted() {
                 accountNotification(appCompatActivity);
@@ -70,7 +70,7 @@ public class MainActivityKit {
             NotificationEnableDialogFragment notificationEnableDialogFragment = new NotificationEnableDialogFragment();
             notificationEnableDialogFragment.setNotificationEnableDialogOnClickListener(new NotificationEnableDialogOnClickListener() {
                 @Override
-                public void talkAboutItNext() {
+                public void nextTime() {
                     RestoreKit.getInstance().restore(appCompatActivity, () -> VersionKit.check(appCompatActivity, false));
                 }
 
