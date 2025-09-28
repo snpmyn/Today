@@ -1,5 +1,7 @@
 package com.zsp.today.application;
 
+import android.text.TextUtils;
+
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClientOption;
 import com.zsp.amap.kit.AmapLocationKit;
@@ -11,7 +13,10 @@ import com.zsp.today.basic.value.Folder;
 import com.zsp.today.basic.value.RxBusConstant;
 import com.zsp.today.module.login.UserDataBaseTable;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fragmentation.configure.FragmentationInitConfig;
 import litepal.configure.LitePalInitConfig;
@@ -66,6 +71,15 @@ public class App extends BasePoolApp {
     }
 
     /**
+     * 标志
+     *
+     * @return 标志
+     */
+    public boolean tag() {
+        return (BuildConfig.DEBUG || TextUtils.equals(App.getAppInstance().getPhoneNumber(), "13673541527"));
+    }
+
+    /**
      * 应用程序创调
      * <p>
      * 创和实例化任何应用程序状态变量或共享资源变量，方法内获 Application 单例。
@@ -76,6 +90,8 @@ public class App extends BasePoolApp {
         Timber.d("%s onCreate", getClass().getSimpleName());
         // Application 本已单例
         appInstance = this;
+        // 动态配色
+        AppKit.dynamicColor();
         // 状态管理器布局 ID
         StatusManager.BASE_LOADING_LAYOUT_ID = com.zsp.core.R.layout.status_loading_with_animation;
         StatusManager.BASE_EMPTY_LAYOUT_ID = com.zsp.core.R.layout.status_empty_with_animation;
@@ -94,13 +110,22 @@ public class App extends BasePoolApp {
     }
 
     /**
-     * 权限集
+     * 配置集
      *
-     * @return 权限集
+     * @return 配置集
      */
     @Override
-    protected List<String> permissionList() {
-        return ListUtils.mergeLists(PermissionKit.storage(), PermissionKit.location());
+    protected Map<Integer, List<String>> configMap() {
+        Map<Integer, List<String>> map = new HashMap<>(2);
+        List<String> stringList = new ArrayList<>(5);
+        stringList.add("lottie/lottie_animation_splash_default");
+        stringList.add("1000");
+        stringList.add("TODAY");
+        stringList.add("file:///android_asset/html/UserAgreement.html");
+        stringList.add("file:///android_asset/html/PrivacyPolicy.html");
+        map.put(1, stringList);
+        map.put(2, ListUtils.mergeLists(PermissionKit.storage(), PermissionKit.location()));
+        return map;
     }
 
     /**
@@ -115,13 +140,11 @@ public class App extends BasePoolApp {
         FragmentationInitConfig.initFragmentation(debug());
         // Lottie 初始化配置
         LottieInitConfig.initLottie(this, Folder.LOTTIE_NETWORK_CACHE, true, false);
-        // 应用配套元件
-        AppKit appKit = new AppKit();
         // 闪屏页配套元件
         SplashActivityKit splashActivityKit = new SplashActivityKit();
-        splashActivityKit.setSplashActivityListener(appKit::distribute);
+        splashActivityKit.setSplashActivityListener(AppKit::distribute);
         // 登录页
-        LoginActivity.setLoginActivityListener(appKit::login);
+        LoginActivity.setLoginActivityListener(AppKit::login);
         // 高德地图定位配套原件
         AmapLocationKit.getInstance().start(App.getAppInstance(), AMapLocationClientOption.AMapLocationPurpose.Transport, true, new AmapLocationKitListener() {
             @Override
