@@ -11,9 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.zsp.today.R;
+import com.zsp.today.basic.value.RxBusConstant;
 import com.zsp.today.module.account.kit.AccountHomeActivityKit;
 import com.zsp.today.module.account.kit.AccountMonthKit;
-import com.zsp.today.basic.value.RxBusConstant;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -24,7 +24,7 @@ import util.rxbus.annotation.Subscribe;
 import util.rxbus.annotation.Tag;
 import util.rxbus.thread.EventThread;
 import util.view.ViewUtils;
-import widget.status.listener.BaseStatusListener;
+import widget.status.kit.StatusManagerKit;
 import widget.status.manager.StatusManager;
 import widget.transition.kit.TransitionKit;
 
@@ -85,9 +85,19 @@ public class AccountHomeActivity extends BasePoolActivity implements View.OnClic
         // 指定年
         appointYear = DateUtils.getCurrentTimeYear();
         // 状态管理器
-        statusManager = StatusManager.generate(accountHomeActivityRv, new BaseStatusListener() {
+        statusManager = StatusManagerKit.generate(this, accountHomeActivityRv, new StatusManagerKit.StatusManagerKitListener() {
             @Override
-            public void setRetryEvent(View retryView) {
+            public void noNetwork() {
+
+            }
+
+            @Override
+            public void connectFail() {
+
+            }
+
+            @Override
+            public void loadFail() {
 
             }
         });
