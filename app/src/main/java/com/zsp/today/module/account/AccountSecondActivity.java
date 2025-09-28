@@ -1,17 +1,16 @@
 package com.zsp.today.module.account;
 
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.zsp.today.R;
+import com.zsp.today.basic.value.RxBusConstant;
 import com.zsp.today.module.account.bean.AccountTransferBean;
 import com.zsp.today.module.account.kit.AccountSecondActivityKit;
 import com.zsp.today.module.account.value.AccountConstant;
-import com.zsp.today.basic.value.RxBusConstant;
 
 import pool.base.BasePoolActivity;
 import util.intent.IntentJump;
@@ -19,7 +18,7 @@ import util.intent.IntentVerify;
 import util.rxbus.annotation.Subscribe;
 import util.rxbus.annotation.Tag;
 import util.rxbus.thread.EventThread;
-import widget.status.listener.BaseStatusListener;
+import widget.status.kit.StatusManagerKit;
 import widget.status.manager.StatusManager;
 import widget.transition.kit.TransitionKit;
 
@@ -74,9 +73,19 @@ public class AccountSecondActivity extends BasePoolActivity {
     @Override
     protected void initConfiguration() {
         // 状态管理器
-        statusManager = StatusManager.generate(accountSecondActivityRv, new BaseStatusListener() {
+        statusManager = StatusManagerKit.generate(this, accountSecondActivityRv, new StatusManagerKit.StatusManagerKitListener() {
             @Override
-            public void setRetryEvent(View retryView) {
+            public void noNetwork() {
+
+            }
+
+            @Override
+            public void connectFail() {
+
+            }
+
+            @Override
+            public void loadFail() {
 
             }
         });
