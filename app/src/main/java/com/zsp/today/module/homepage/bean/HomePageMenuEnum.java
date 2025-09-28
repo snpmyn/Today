@@ -25,7 +25,7 @@ public enum HomePageMenuEnum {
     /**
      * 知林
      */
-    WIDGET(4, R.drawable.ic_zhi_lin_cos_24dp, "知林", App.getAppInstance().tag());
+    ZHI_LIN(4, R.drawable.ic_zhi_lin_cos_24dp, "知林", App.getAppInstance().tag());
     /**
      * 菜单 ID
      */
