@@ -41,6 +41,7 @@
         android:theme="@style/Theme.Today"
         tools:targetApi="29">
         <activity android:name=".module.setting.SettingActivity" />
+        <activity android:name=".module.zhilin.android.AndroidActivity" />
         <activity android:name=".module.zhilin.tablayout.TabLayoutActivity" />
         <activity android:name=".module.zhilin.ZhiLinActivity" />
         <activity android:name=".module.heartbox.HeartBoxActivity" />
