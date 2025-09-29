@@ -5,35 +5,32 @@ import android.view.View;
 import widget.status.manager.StatusManager;
 
 /**
- * @decs: 状态监听
+ * @decs: 状态管理器监听
  * @author: 郑少鹏
  * @date: 2018/10/23 18:54
  */
-public abstract class BaseStatusListener {
+public abstract class StatusManagerListener {
     /**
      * 加载
      *
-     * @param loadingView loadingView
+     * @param loadingView 加载试图
      */
-    public void setLoadingEvent(View loadingView) {
-
-    }
+    public abstract void setLoadingEvent(View loadingView);
 
     /**
      * 空
      *
-     * @param emptyView emptyView
+     * @param emptyView 空视图
      */
-    public void setEmptyEvent(View emptyView) {
-
-    }
+    public abstract void setEmptyEvent(View emptyView);
 
     /**
      * 重试
      *
-     * @param retryView retryView
+     * @param statusCode 状态码
+     * @param retryView  重试视图
      */
-    public abstract void setRetryEvent(View retryView);
+    public abstract void setRetryEvent(int statusCode, View retryView);
 
     public int generateLoadingLayoutId() {
         return StatusManager.NO_LAYOUT_ID;
@@ -59,15 +56,15 @@ public abstract class BaseStatusListener {
         return null;
     }
 
-    public boolean isSetLoadingLayout() {
+    public boolean areSetLoadingLayout() {
         return ((generateLoadingLayoutId() != StatusManager.NO_LAYOUT_ID) || (null != generateLoadingLayout()));
     }
 
-    public boolean isSetEmptyLayout() {
+    public boolean areSetEmptyLayout() {
         return ((generateEmptyLayoutId() != StatusManager.NO_LAYOUT_ID) || (null != generateEmptyLayout()));
     }
 
-    public boolean isSetRetryLayout() {
+    public boolean areSetRetryLayout() {
         return ((generateRetryLayoutId() != StatusManager.NO_LAYOUT_ID) || (null != generateRetryLayout()));
     }
 }
