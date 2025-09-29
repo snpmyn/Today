@@ -3,20 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/widgetFragmentMt"
+        android:id="@+id/zhiLinActivityMt"
         style="@style/Widget.Material3.Toolbar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:background="?attr/colorSurface"
-        app:menu="@menu/widget_fragment_menu"
-        app:title="@string/widget"
+        app:menu="@menu/zhi_lin_activity_menu"
+        app:title="@string/zhiLin"
         app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/widgetFragmentRv"
+        android:id="@+id/zhiLinActivityRv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none" />
