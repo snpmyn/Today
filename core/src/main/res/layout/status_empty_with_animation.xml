@@ -9,6 +9,6 @@
         android:layout_width="@dimen/dp_96"
         android:layout_height="@dimen/dp_96"
         app:lottie_autoPlay="true"
-        app:lottie_fileName="lottie/lottie_animation_status_empty_with_animation.json"
+        app:lottie_fileName="lottie/status/lottie_animation_status_empty_with_animation.json"
         app:lottie_loop="true" />
 </LinearLayout>
