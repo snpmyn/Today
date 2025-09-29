@@ -13,6 +13,7 @@ import com.zsp.today.R;
 import com.zsp.today.basic.value.RxBusConstant;
 import com.zsp.today.module.function.FunctionActivity;
 import com.zsp.today.module.homepage.kit.HomePageChildFragmentKit;
+import com.zsp.today.module.setting.kit.SharedPreferencesKit;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -153,7 +154,7 @@ public class HomePageChildFragment extends BasePoolFragment {
     private void initConfiguration() {
         MaterialToolbarKit.getInstance().setMenuItemColor(fragmentationSupportActivity, homePageChildFragmentMt, com.zsp.core.R.color.color_06FDDB);
         homePageChildFragmentKit = new HomePageChildFragmentKit();
-        homePageChildFragmentKit.initTitle(homePageChildFragmentCtl, homePageChildFragmentMt, WeeklyQuoteKit.getTodayQuote());
+        homePageChildFragmentKit.initTitle(homePageChildFragmentCtl, homePageChildFragmentMt, WeeklyQuoteKit.getQuote(SharedPreferencesKit.getInstance().homePageQuote()));
     }
 
     private void setListener() {
@@ -169,10 +170,10 @@ public class HomePageChildFragment extends BasePoolFragment {
                     homePageChildFragmentCtl.setTitleEnabled(true);
                     homePageChildFragmentCtl.setCollapsedTitleTextSize(56.0F);
                     homePageChildFragmentCtl.setCollapsedTitleTypeface(TypefaceUtils.sansBold(fragmentationSupportActivity));
-                    homePageChildFragmentCtl.setTitle(WeeklyQuoteKit.getTodayQuote());
+                    homePageChildFragmentCtl.setTitle(WeeklyQuoteKit.getQuote(SharedPreferencesKit.getInstance().homePageQuote()));
                 } else if (state == State.EXPANDED) {
                     // 展开
-                    homePageChildFragmentKit.initTitle(homePageChildFragmentCtl, homePageChildFragmentMt, WeeklyQuoteKit.getTodayQuote());
+                    homePageChildFragmentKit.initTitle(homePageChildFragmentCtl, homePageChildFragmentMt, WeeklyQuoteKit.getQuote(SharedPreferencesKit.getInstance().homePageQuote()));
                 } else {
                     // 中间
                     homePageChildFragmentCtl.setTitle("");
@@ -184,13 +185,13 @@ public class HomePageChildFragment extends BasePoolFragment {
     private void startLogic() {
         homePageChildFragmentKit.banner(homePageChildFragmentBv);
         homePageChildFragmentKit.carousel(fragmentationSupportActivity, homePageChildFragmentRvBanner);
-        homePageChildFragmentKit.functionDataBaseTable(fragmentationSupportActivity, this, homePageChildFragmentRv);
+        homePageChildFragmentKit.functionDataBaseTable(fragmentationSupportActivity, homePageChildFragmentRv);
     }
 
     @Subscribe(thread = EventThread.MAIN_THREAD, tags = {@Tag(RxBusConstant.HOME_PAGE_CHILD_FRAGMENT_$_REFRESH_MENU)})
     public void homePageChildFragmentRefreshAccount(Integer integer) {
         if (integer == RxBusConstant.HOME_PAGE_CHILD_FRAGMENT_$_REFRESH_MENU_CODE) {
-            homePageChildFragmentKit.functionDataBaseTable(fragmentationSupportActivity, this, homePageChildFragmentRv);
+            homePageChildFragmentKit.functionDataBaseTable(fragmentationSupportActivity, homePageChildFragmentRv);
         }
     }
 
