@@ -51,4 +51,13 @@
         <attr name="verticalTextViewTextHeightLightColor" format="color" />
         <attr name="verticalTextViewShowActionMenu" format="boolean" />
     </declare-styleable>
+    <!--EmotionWaveView-->
+    <declare-styleable name="EmotionWaveView">
+        <attr name="autoInit" />
+    </declare-styleable>
+    <!--PaperCrushView-->
+    <declare-styleable name="PaperCrushView">
+        <attr name="autoInit" />
+    </declare-styleable>
+    <attr name="autoInit" format="boolean" />
 </resources>
