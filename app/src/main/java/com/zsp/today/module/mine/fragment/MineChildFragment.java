@@ -149,7 +149,7 @@ public class MineChildFragment extends BasePoolFragment implements View.OnClickL
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
                 if (state == State.COLLAPSED) {
                     // 折叠
-                    mineChildFragmentKit.setNickName(mineChildFragmentTvNickName, mineChildFragmentMt, false);
+                    mineChildFragmentKit.setNickName(fragmentationSupportActivity, mineChildFragmentTvNickName, mineChildFragmentMt, false);
                 } else {
                     // 中间
                     mineChildFragmentMt.setTitle("");
@@ -161,7 +161,7 @@ public class MineChildFragment extends BasePoolFragment implements View.OnClickL
 
     private void startLogic() {
         // 设置昵称
-        mineChildFragmentKit.setNickName(mineChildFragmentTvNickName, mineChildFragmentMt, true);
+        mineChildFragmentKit.setNickName(fragmentationSupportActivity, mineChildFragmentTvNickName, mineChildFragmentMt, true);
         // 展示
         mineChildFragmentKit.display(fragmentationSupportActivity, this, mineChildFragmentRv);
     }
