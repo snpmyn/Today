@@ -55,11 +55,11 @@ dependencies {
     api libs.timber
     api libs.rxjava
     api libs.lottie
-    api libs.glance
     api libs.relinker
     api libs.eventbus
     api libs.rxandroid
     api libs.preference
+    debugApi libs.glance
     api libs.permissionx
     api libs.work.runtime
     /*api libs.tensorflow.lite*/
