@@ -184,4 +184,25 @@ public class ListUtils {
     public static String splicingEnumerationPunctuation(List<String> inputStringList) {
         return String.join("、", inputStringList);
     }
+
+    /**
+     * 获取目标下标
+     * <p>
+     * 不存在返 -1
+     *
+     * @param list   集合
+     * @param target 目标
+     * @return 目标下标
+     */
+    public static int getTargetIndex(List<String> list, String target) {
+        if ((null == list) || listIsEmpty(list) || TextUtils.isEmpty(target)) {
+            return -1;
+        }
+        for (int i = 0; i < list.size(); i++) {
+            if (target.equals(list.get(i))) {
+                return i;
+            }
+        }
+        return -1;
+    }
 }
