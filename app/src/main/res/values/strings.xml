@@ -7,6 +7,7 @@
     <string name="date">日期</string>
     <string name="send">发送</string>
     <string name="look">看看</string>
+    <string name="voice">心声</string>
     <string name="pause">暂停</string>
     <string name="renMinBi">¥</string>
     <string name="resume">恢复</string>
@@ -17,6 +18,7 @@
     <string name="donate">赞助</string>
     <string name="cancel">取消</string>
     <string name="listen">听听</string>
+    <string name="zhiLin">知林</string>
     <string name="release">释放</string>
     <string name="heartBox">心盒</string>
     <string name="function">功能</string>
@@ -51,6 +53,7 @@
     <string name="chooseCategory">选择类目</string>
     <string name="restoreDefault">恢复默认</string>
     <string name="restoreAccount">恢复账目</string>
+    <string name="androidArticle">安卓文章</string>
     <string name="smsSendFail">短信发送失败</string>
     <string name="dangerousNotice">险情通知</string>
     <string name="accountAnalysis">账目分析</string>
