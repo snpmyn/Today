@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDK 版本</title>
+    <style>
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            margin: 0;
+            padding: 14px;
+            background-color: #f9f9f9;
+            color: #333;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        header {
+            background: #ffb347;
+            color: #fff;
+            padding: 14px;
+            text-align: center;
+            font-size: 18px;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            margin-bottom: 14px;
+        }
+        .card {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            padding: 14px;
+            margin: 12px 0;
+        }
+        .card h2 {
+            margin-top: 0;
+            color: #2980b9;
+            font-size: 16px;
+            border-left: 4px solid #4CAF50;
+            padding-left: 8px;
+        }
+        .card p {
+            margin: 6px 0;
+        }
+        .example {
+            background-color: #f0f4f8;
+            padding: 6px 8px;
+            border-radius: 6px;
+            font-family: Consolas, monospace;
+            font-size: 12px;
+            display: inline-block;
+            color: #2c3e50;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 8px;
+            font-size: 12px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 6px;
+            text-align: center;
+        }
+        th {
+            background-color: #4CAF50;
+            color: #fff;
+        }
+        tr:nth-child(even) {
+            background-color: #f7f7f7;
+        }
+        /* 版本流程 */
+        .version-flow, .flow-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 12px;
+        }
+        .version-box, .flow-step {
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 10px;
+            margin: 6px 0;
+            min-width: 160px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        .min-box, .flow-min { background-color: #e67e22; }
+        .target-box, .flow-target { background-color: #2980b9; }
+        .compile-box, .flow-compile { background-color: #27ae60; }
+        .arrow, .flow-arrow {
+            width: 2px;
+            height: 18px;
+            background-color: #555;
+        }
+        p.center {
+            text-align: center;
+            margin-top: 8px;
+            font-size: 12px;
+            color: #555;
+        }
+        /* 深色模式 */
+        @media (prefers-color-scheme: dark) {
+            body { background-color: #1e1e1e; color: #ddd; }
+            .card { background: #2b2b2b; border: 1px solid #444; box-shadow: none; }
+            .card h2 { color: #4FC3F7; border-left-color: #81C784; }
+            .example { background: #333; color: #eee; }
+            table { border-color: #555; }
+            th { background: #388E3C; }
+            tr:nth-child(even) { background: #333; }
+            .arrow, .flow-arrow { background: #888; }
+            p.center { color: #aaa; }
+        }
+    </style>
+</head>
+<body>
+
+<header>Android SDK 版本说明</header>
+
+<div class="card">
+    <h2>1. compileSdkVersion</h2>
+    <p>编译应用时使用的 SDK 版本，决定可用 API，仅影响编译，不影响安装。</p>
+    <p class="example">compileSdkVersion 34 // 使用 Android 14 编译</p>
+</div>
+
+<div class="card">
+    <h2>2. minSdkVersion</h2>
+    <p>应用可安装的最低系统版本（API 级别）。低于此版本的设备无法安装。</p>
+    <p class="example">minSdkVersion 24 // Android 7.0 及以上可安装</p>
+</div>
+
+<div class="card">
+    <h2>3. targetSdkVersion</h2>
+    <p>声明应用针对哪个版本测试过，系统会基于此启用或关闭行为限制。</p>
+    <p class="example">targetSdkVersion 34 // 针对 Android 14 测试</p>
+</div>
+
+<div class="card">
+    <h2>总结对比</h2>
+    <table>
+        <tr>
+            <th>属性</th>
+            <th>作用</th>
+            <th>影响安装</th>
+            <th>示例</th>
+        </tr>
+        <tr>
+            <td>compileSdkVersion</td>
+            <td>编译时可用 API</td>
+            <td>否</td>
+            <td>34 (Android 14)</td>
+        </tr>
+        <tr>
+            <td>minSdkVersion</td>
+            <td>最低安装系统</td>
+            <td>是</td>
+            <td>24 (Android 7.0+)</td>
+        </tr>
+        <tr>
+            <td>targetSdkVersion</td>
+            <td>行为适配</td>
+            <td>否</td>
+            <td>34 (Android 14)</td>
+        </tr>
+    </table>
+</div>
+
+<div class="card">
+    <h2>系统版本与 API 对照</h2>
+    <table>
+        <tr>
+            <th>Android 版本</th>
+            <th>API</th>
+            <th>常用 minSdk</th>
+            <th>常用 target/compile</th>
+        </tr>
+        <tr>
+            <td>Android 14</td>
+            <td>34</td>
+            <td>24~34+</td>
+            <td>34</td>
+        </tr>
+        <tr>
+            <td>Android 13</td>
+            <td>33</td>
+            <td>24~33+</td>
+            <td>33</td>
+        </tr>
+        <tr>
+            <td>Android 12</td>
+            <td>31</td>
+            <td>24~31+</td>
+            <td>31</td>
+        </tr>
+        <tr>
+            <td>Android 11</td>
+            <td>30</td>
+            <td>24~30+</td>
+            <td>30</td>
+        </tr>
+        <tr>
+            <td>Android 10</td>
+            <td>29</td>
+            <td>24~29+</td>
+            <td>29</td>
+        </tr>
+        <tr>
+            <td>Android 9</td>
+            <td>28</td>
+            <td>24~28+</td>
+            <td>28</td>
+        </tr>
+        <tr>
+            <td>Android 8.1</td>
+            <td>27</td>
+            <td>24~27+</td>
+            <td>27</td>
+        </tr>
+        <tr>
+            <td>Android 8.0</td>
+            <td>26</td>
+            <td>24~26+</td>
+            <td>26</td>
+        </tr>
+        <tr>
+            <td>Android 7.1</td>
+            <td>25</td>
+            <td>24~25+</td>
+            <td>25</td>
+        </tr>
+        <tr>
+            <td>Android 7.0</td>
+            <td>24</td>
+            <td>24+</td>
+            <td>24</td>
+        </tr>
+    </table>
+</div>
+
+<div class="card">
+    <h2>SDK 版本关系示意</h2>
+    <div class="version-flow">
+        <div class="version-box min-box">minSdkVersion (最低安装)</div>
+        <div class="arrow"></div>
+        <div class="version-box target-box">targetSdkVersion (行为适配)</div>
+        <div class="arrow"></div>
+        <div class="version-box compile-box">compileSdkVersion (编译 API)</div>
+    </div>
+    <p class="center">⬆️ 从下到上理解：编译 → 适配 → 安装门槛</p>
+</div>
+
+<div class="card">
+    <h2>选择流程</h2>
+    <div class="flow-container">
+        <div class="flow-step flow-min">1️⃣ minSdkVersion<br>决定最低可支持系统</div>
+        <div class="flow-arrow"></div>
+        <div class="flow-step flow-target">2️⃣ targetSdkVersion<br>选择你测试过或最新系统</div>
+        <div class="flow-arrow"></div>
+        <div class="flow-step flow-compile">3️⃣ compileSdkVersion<br>通常与 target 一致或更高</div>
+    </div>
+    <p class="center">💡 建议：minSdkVersion 保持兼容性，target 最新保证适配，compile 最新保证编译可用
+        API。</p>
+</div>
+</body>
+</html>
