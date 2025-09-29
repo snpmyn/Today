@@ -68,7 +68,7 @@ public class SingleChooseBottomSheetDialogKit {
             public <T> void onItemClick(View view, int position, T t) {
                 if (null != singleChooseBottomSheetDialogKitListener) {
                     singleChooseBottomSheetDialogKitListener.singleChoose(stringList.get(position));
-                    HandlerKit.getInstance().postDelayed(bottomSheetDialog::dismiss, 500);
+                    HandlerKit.getInstance().postDelayed(bottomSheetDialog::dismiss, 200);
                 }
             }
         });
