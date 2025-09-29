@@ -8,9 +8,9 @@ package widget.notification.listener;
  */
 public interface NotificationEnableDialogOnClickListener {
     /**
-     * 下次再说
+     * 下次吧
      */
-    void talkAboutItNext();
+    void nextTime();
 
     /**
      * 去打开

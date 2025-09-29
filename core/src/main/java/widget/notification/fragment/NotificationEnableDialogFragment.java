@@ -93,11 +93,11 @@ public class NotificationEnableDialogFragment extends DialogFragment {
             return;
         }
         window.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.white_solid_r12));
-        // 下次再说
-        MaterialButton fragmentNotificationEnableDialogMbTalkAboutItNext = mView.findViewById(R.id.fragmentNotificationEnableDialogMbTalkAboutItNext);
-        fragmentNotificationEnableDialogMbTalkAboutItNext.setOnClickListener(v -> {
+        // 下次吧
+        MaterialButton fragmentNotificationEnableDialogMbNextTime = mView.findViewById(R.id.fragmentNotificationEnableDialogMbNextTime);
+        fragmentNotificationEnableDialogMbNextTime.setOnClickListener(v -> {
             dismiss();
-            notificationEnableDialogOnClickListener.talkAboutItNext();
+            notificationEnableDialogOnClickListener.nextTime();
         });
         // 去打开
         MaterialButton fragmentNotificationEnableDialogMbGoToOpen = mView.findViewById(R.id.fragmentNotificationEnableDialogMbGoToOpen);
