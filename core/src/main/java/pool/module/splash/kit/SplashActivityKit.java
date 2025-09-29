@@ -130,7 +130,7 @@ public class SplashActivityKit {
      * @param fragmentActivity FragmentActivity
      */
     private void requestPermissions(FragmentActivity fragmentActivity) {
-        PermissionxKit.execute(fragmentActivity, BasePoolApp.getConfigMap().get(2), R.string.coreFundamentalAreBasedOnThePermission, R.string.youNeedToAllowNecessaryPermissionInSettingManually, R.string.agree, R.string.refuse, new PermissionxKitListener() {
+        PermissionxKit.execute(fragmentActivity, true, BasePoolApp.getConfigMap().get(2), R.string.coreFundamentalAreBasedOnThePermission, R.string.youNeedToAllowNecessaryPermissionInSettingManually, R.string.agree, R.string.refuse, new PermissionxKitListener() {
             @Override
             public void allGranted() {
                 splashActivityListener.distribute((AppCompatActivity) fragmentActivity);
