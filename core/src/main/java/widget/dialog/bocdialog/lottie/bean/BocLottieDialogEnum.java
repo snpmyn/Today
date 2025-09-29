@@ -10,19 +10,19 @@ public enum BocLottieDialogEnum {
     /**
      * 点赞一
      */
-    LIKE_ONE("lottie/lottie_animation_dialog_like.json", 66, 66),
+    LIKE_ONE("lottie/dialog/lottie_animation_dialog_like.json", 66, 66),
     /**
      * 空一
      */
-    EMPTY_ONE("lottie/lottie_animation_dialog_empty.json", 66, 66),
+    EMPTY_ONE("lottie/dialog/lottie_animation_dialog_empty.json", 66, 66),
     /**
      * 加载一
      */
-    LOADING_ONE("lottie/lottie_animation_dialog_loading.json", 66, 66),
+    LOADING_ONE("lottie/dialog/lottie_animation_dialog_loading.json", 66, 66),
     /**
      * 成功一
      */
-    SUCCESS_ONE("lottie/lottie_animation_dialog_success.json", 66, 66);
+    SUCCESS_ONE("lottie/dialog/lottie_animation_dialog_success.json", 66, 66);
     /**
      * 资产名
      * <p>
