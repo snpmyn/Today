@@ -21,7 +21,6 @@ import com.zsp.today.module.function.database.FunctionDataBaseTable;
 import com.zsp.today.module.function.value.FunctionCondition;
 import com.zsp.today.module.heartbox.HeartBoxActivity;
 import com.zsp.today.module.homepage.bean.HomePageMenuEnum;
-import com.zsp.today.module.homepage.fragment.HomePageChildFragment;
 import com.zsp.today.module.zhilin.ZhiLinActivity;
 
 import org.jetbrains.annotations.NotNull;
@@ -156,13 +155,12 @@ public class HomePageChildFragmentKit {
     /**
      * 功能数据库表
      *
-     * @param appCompatActivity     活动
-     * @param homePageChildFragment 首页子碎片
-     * @param recyclerView          控件
+     * @param appCompatActivity 活动
+     * @param recyclerView      控件
      */
-    public void functionDataBaseTable(AppCompatActivity appCompatActivity, HomePageChildFragment homePageChildFragment, RecyclerView recyclerView) {
+    public void functionDataBaseTable(AppCompatActivity appCompatActivity, RecyclerView recyclerView) {
         if (LitePalKit.getInstance().count(FunctionDataBaseTable.class) > 0) {
-            displayFunctionDataBaseTable(appCompatActivity, homePageChildFragment, recyclerView);
+            displayFunctionDataBaseTable(appCompatActivity, recyclerView);
             return;
         }
         HomePageMenuEnum[] homePageMenuEnums = HomePageMenuEnum.values();
@@ -174,18 +172,17 @@ public class HomePageChildFragmentKit {
             functionDataBaseTableList.add(new FunctionDataBaseTable(App.getAppInstance().getPhoneNumber(), null, homePageMenuEnum.getMenuId(), homePageMenuEnum.getMenuName(), true));
         }
         if (LitePalKit.getInstance().multiSave(functionDataBaseTableList)) {
-            displayFunctionDataBaseTable(appCompatActivity, homePageChildFragment, recyclerView);
+            displayFunctionDataBaseTable(appCompatActivity, recyclerView);
         }
     }
 
     /**
      * 展示功能数据库表
      *
-     * @param appCompatActivity     活动
-     * @param homePageChildFragment 首页子碎片
-     * @param recyclerView          控件
+     * @param appCompatActivity 活动
+     * @param recyclerView      控件
      */
-    private void displayFunctionDataBaseTable(AppCompatActivity appCompatActivity, HomePageChildFragment homePageChildFragment, RecyclerView recyclerView) {
+    private void displayFunctionDataBaseTable(AppCompatActivity appCompatActivity, RecyclerView recyclerView) {
         // 获取主页菜单图标资源 ID 集
         Map<String, Integer> homePageMenuIconResIdMap = getHomePageMenuIconResIdMap();
         // 获取功能数据库表可显数据集
@@ -201,7 +198,7 @@ public class HomePageChildFragmentKit {
         }
         // 菜单适配器配套元件
         MenuAdapterKit menuAdapterKit = new MenuAdapterKit();
-        menuAdapterKit.display(appCompatActivity, recyclerView, menuBeanList, 3, 48, 192, false, (view, menuBean) -> distribute(appCompatActivity, homePageChildFragment, menuBean.getMenuId()));
+        menuAdapterKit.display(appCompatActivity, recyclerView, menuBeanList, 3, 48, 192, false, (view, menuBean) -> distribute(appCompatActivity, menuBean.getMenuId()));
     }
 
     /**
@@ -226,11 +223,10 @@ public class HomePageChildFragmentKit {
     /**
      * 分发
      *
-     * @param appCompatActivity     活动
-     * @param homePageChildFragment 首页子碎片
-     * @param menuId                菜单 ID
+     * @param appCompatActivity 活动
+     * @param menuId            菜单 ID
      */
-    private void distribute(AppCompatActivity appCompatActivity, HomePageChildFragment homePageChildFragment, int menuId) {
+    private void distribute(AppCompatActivity appCompatActivity, int menuId) {
         switch (menuId) {
             // 账目
             case 1:
