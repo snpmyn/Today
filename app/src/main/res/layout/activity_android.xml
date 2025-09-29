@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="pool.module.login.UserAgreementAndPrivacyPolicyActivity">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/androidActivityMt"
+        style="@style/Widget.Material3.Toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="?attr/colorSurface"
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/android_activity_menu"
+        app:titleCentered="true"
+        app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized"
+        tools:title="@string/androidArticle" />
+
+    <WebView
+        android:id="@+id/androidActivityWv"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/androidActivityMt" />
+</androidx.constraintlayout.widget.ConstraintLayout>
