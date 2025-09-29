@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:lottie_autoPlay="true"
-            app:lottie_fileName="lottie/lottie_animation_notification_enable_dialog_fragment.json"
+            app:lottie_fileName="lottie/dialog/lottie_animation_notification_enable_dialog_fragment.json"
             app:lottie_loop="true" />
 
         <TextView
@@ -45,35 +45,34 @@
 
         <RelativeLayout
             android:layout_width="@dimen/dp_0"
-            android:layout_height="wrap_content"
+            android:layout_height="?actionBarSize"
             android:layout_weight="1">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/fragmentNotificationEnableDialogMbTalkAboutItNext"
-                style="@style/Widget.Material3.Button.TextButton"
+                android:id="@+id/fragmentNotificationEnableDialogMbNextTime"
+                style="?attr/materialButtonTonalStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="?actionBarSize"
+                android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:filterTouchesWhenObscured="true"
                 android:insetLeft="@dimen/dp_0"
                 android:insetTop="@dimen/dp_0"
                 android:insetRight="@dimen/dp_0"
                 android:insetBottom="@dimen/dp_0"
-                android:text="@string/talkAboutItNext"
-                android:textColor="@color/color_FF202323"
+                android:text="@string/nextTime"
                 android:textSize="@dimen/sp_13" />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="@dimen/dp_0"
-            android:layout_height="wrap_content"
+            android:layout_height="?actionBarSize"
             android:layout_weight="1">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/fragmentNotificationEnableDialogMbGoToOpen"
-                style="@style/Widget.Material3.Button.TextButton"
+                style="?attr/materialButtonTonalStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="?actionBarSize"
+                android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:filterTouchesWhenObscured="true"
                 android:insetLeft="@dimen/dp_0"
