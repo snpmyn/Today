@@ -193,6 +193,27 @@ public class AudioRecordKit {
     }
 
     /**
+     * 获取唯一文件名
+     *
+     * @param dir               目录
+     * @param fileNamePrefix    文件名前缀
+     * @param mediaFileTypeEnum 媒体文件类型枚举
+     * @return 唯一文件名
+     */
+    private String getUniqueFileName(@NonNull File dir, @NonNull String fileNamePrefix, @NonNull MediaFileTypeEnum mediaFileTypeEnum) {
+        String suffix = mediaFileTypeEnum.getSuffix();
+        long now = CurrentTimeMillisClock.getInstance().now();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MMdd-HH-mm-ss", Locale.CHINA);
+        String name = (fileNamePrefix + simpleDateFormat.format(new Date(now)) + suffix);
+        int index = 1;
+        while (new File(dir, name).exists()) {
+            name = (fileNamePrefix + "(" + index + ")" + simpleDateFormat.format(new Date(now)) + suffix);
+            index++;
+        }
+        return name;
+    }
+
+    /**
      * 暂停录制
      * <p>
      * 仅 RECORDING 状态下有效
@@ -256,7 +277,6 @@ public class AudioRecordKit {
         executorService.execute(() -> {
             File fileToUse = outputFile;
             Uri resultUri = null;
-            // 记录内部文件最后修改时间
             long fileLastModified = 0L;
             try {
                 if (null != mediaRecorder) {
@@ -267,8 +287,17 @@ public class AudioRecordKit {
                 areRecording = false;
                 stopVolumeMonitoring();
                 if ((null != fileToUse) && fileToUse.exists()) {
-                    resultUri = Uri.fromFile(fileToUse);
                     fileLastModified = fileToUse.lastModified();
+                    // ⚡ 这里用 lastModified 生成最终文件名
+                    // 重命名一次
+                    String finalName = getFileNameByLastModified(fileLastModified, outputFilePrefix, mediaFileTypeEnum);
+                    File finalFile = new File(fileToUse.getParent(), finalName);
+                    if (!fileToUse.equals(finalFile)) {
+                        if (fileToUse.renameTo(finalFile)) {
+                            fileToUse = finalFile;
+                        }
+                    }
+                    resultUri = Uri.fromFile(fileToUse);
                 }
                 if (copyToDirectory && (null != fileToUse) && fileToUse.exists()) {
                     Uri copiedUri = copyToDirectory(context, fileToUse, mediaFileTypeEnum, mediaFileDirectoryEnum, outputFilePrefix, deleteOriginalFileAfterCopyToDirectory, fileLastModified);
@@ -284,11 +313,76 @@ public class AudioRecordKit {
             } catch (Exception e) {
                 Timber.e(e);
             }
-            final MediaFileInfo mediaFileInfo = MediaFileInfoHelper.getMediaFileInfo(context, (resultUri != null) ? resultUri : ((fileToUse != null) ? fileToUse : outputFile));
+            final MediaFileInfo mediaFileInfo = MediaFileInfoHelper.getMediaFileInfo(context, (resultUri != null) ? resultUri : Objects.requireNonNull(fileToUse));
             mainHandler.post(() -> {
-                if (audioRecordListener != null) audioRecordListener.onStop(mediaFileInfo);
+                if (null != audioRecordListener) {
+                    audioRecordListener.onStop(mediaFileInfo);
+                }
             });
         });
+    }
+
+    /**
+     * 复制到目录
+     *
+     * @param context                                上下文
+     * @param sourceFile                             资源文件
+     * @param mediaFileTypeEnum                      媒体文件类型枚举
+     * @param mediaFileDirectoryEnum                 媒体文件目录枚举
+     * @param fileNamePrefix                         文件名前缀
+     * @param deleteOriginalFileAfterCopyToDirectory 复制到目录后删除源文件否
+     * @param sourceFileLastModified                 资源文件最后修改时间
+     * @return 复制到目录后的文件统一资源标识符
+     */
+    @Nullable
+    public static Uri copyToDirectory(@NonNull Context context, @NonNull File sourceFile, @NonNull MediaFileTypeEnum mediaFileTypeEnum, @NonNull MediaFileDirectoryEnum mediaFileDirectoryEnum, @NonNull String fileNamePrefix, boolean deleteOriginalFileAfterCopyToDirectory, long sourceFileLastModified) {
+        if (!sourceFile.exists()) {
+            return null;
+        }
+        Uri targetUri;
+        try {
+            ContentResolver contentResolver = context.getContentResolver();
+            ContentValues contentValues = new ContentValues();
+            // ⚡ 这里用 lastModified 生成文件名
+            String fileName = getFileNameByLastModified(sourceFileLastModified, fileNamePrefix, mediaFileTypeEnum);
+            contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, fileName);
+            contentValues.put(MediaStore.MediaColumns.MIME_TYPE, mediaFileTypeEnum.getMimeType());
+            contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, mediaFileDirectoryEnum.getRelativePath());
+            targetUri = contentResolver.insert(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, contentValues);
+            if (null != targetUri) {
+                try (OutputStream outputStream = contentResolver.openOutputStream(targetUri); FileInputStream fis = new FileInputStream(sourceFile)) {
+                    byte[] buffer = new byte[8192];
+                    int len;
+                    while ((len = fis.read(buffer)) != -1) {
+                        Objects.requireNonNull(outputStream).write(buffer, 0, len);
+                    }
+                }
+                if (deleteOriginalFileAfterCopyToDirectory) {
+                    if (sourceFile.delete()) {
+                        Timber.w("delete source file: %s", sourceFile.getAbsolutePath());
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Timber.e(e);
+            targetUri = null;
+        }
+        return targetUri;
+    }
+
+    /**
+     * 通过最后修改时间获取文件名
+     *
+     * @param lastModified      最后修改时间
+     * @param fileNamePrefix    文件名前缀
+     * @param mediaFileTypeEnum 媒体文件类型枚举
+     * @return 文件名
+     */
+    @NonNull
+    private static String getFileNameByLastModified(long lastModified, @NonNull String fileNamePrefix, @NonNull MediaFileTypeEnum mediaFileTypeEnum) {
+        String suffix = mediaFileTypeEnum.getSuffix();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MMdd-HH-mm-ss", Locale.CHINA);
+        return (fileNamePrefix + simpleDateFormat.format(new Date(lastModified)) + suffix);
     }
 
     /**
@@ -432,6 +526,33 @@ public class AudioRecordKit {
     }
 
     /**
+     * 唤醒状态
+     *
+     * @param state 状态
+     */
+    private void notifyState(@NonNull State state) {
+        if (null != audioRecordListener) {
+            mainHandler.post(() -> audioRecordListener.onState(state));
+        }
+    }
+
+    /**
+     * 唤醒音量
+     *
+     * @param db    分贝值
+     *              负数
+     * @param level 归一化等级
+     *              范围 0 ~ 1
+     * @param pcm   数据字节数组
+     *              长度 = read
+     * @param read  有效字节数
+     */
+    private void notifyVolume(double db, double level, @Nullable byte[] pcm, int read) {
+        if (null != audioRecordListener)
+            mainHandler.post(() -> audioRecordListener.onVolume(db, level, pcm, read));
+    }
+
+    /**
      * 是否可以停止录制
      *
      * @return 可以停止录制否
@@ -477,60 +598,68 @@ public class AudioRecordKit {
     }
 
     /**
-     * 唤醒状态
+     * 获取录制音频列表
      *
-     * @param state 状态
+     * @param context                上下文
+     * @param fileNamePrefix         文件名前缀
+     * @param mediaFileTypeEnum      媒体文件类型枚举
+     * @param mediaFileDirectoryEnum 媒体文件目录枚举
+     * @return 录制音频列表
      */
-    private void notifyState(@NonNull State state) {
-        if (null != audioRecordListener) {
-            mainHandler.post(() -> audioRecordListener.onState(state));
+    @NonNull
+    public static List<MediaFileInfo> getRecordAudioList(@NonNull Context context, @Nullable String fileNamePrefix, @NonNull MediaFileTypeEnum mediaFileTypeEnum, @NonNull MediaFileDirectoryEnum mediaFileDirectoryEnum) {
+        List<MediaFileInfo> mediaFileInfos = new ArrayList<>();
+        try {
+            Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+            String selection = null;
+            String[] selectionArgs = null;
+            if (!TextUtils.isEmpty(fileNamePrefix)) {
+                selection = (MediaStore.MediaColumns.DISPLAY_NAME + " LIKE ?");
+                selectionArgs = new String[]{fileNamePrefix + "%"};
+            }
+            String sortOrder = (MediaStore.MediaColumns.DATE_MODIFIED + " DESC");
+            try (Cursor cursor = context.getContentResolver().query(uri, null, selection, selectionArgs, sortOrder)) {
+                if (null != cursor) {
+                    while (cursor.moveToNext()) {
+                        String name = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME));
+                        String path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA));
+                        long size = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.SIZE));
+                        long modified = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATE_MODIFIED));
+                        Uri fileUri = Uri.fromFile(new File(path));
+                        long duration = getMediaFileDuration(context, fileUri, null);
+                        mediaFileInfos.add(new MediaFileInfo(name, path, fileUri, size, duration, modified));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Timber.e(e);
         }
+        return mediaFileInfos;
     }
 
     /**
-     * 唤醒音量
+     * 获取媒体文件时长
      *
-     * @param db    分贝值
-     *              负数
-     * @param level 归一化等级
-     *              范围 0 ~ 1
-     * @param pcm   数据字节数组
-     *              长度 = read
-     * @param read  有效字节数
+     * @param context  上下文
+     * @param uri      统一资源标识符
+     * @param duration 时长
+     * @return 媒体文件时长
      */
-    private void notifyVolume(double db, double level, @Nullable byte[] pcm, int read) {
-        if (null != audioRecordListener)
-            mainHandler.post(() -> audioRecordListener.onVolume(db, level, pcm, read));
-    }
-
-    /**
-     * 发送吐司
-     *
-     * @param message 消息
-     */
-    private void postToast(@NonNull final String message) {
-        mainHandler.post(() -> ToastKit.showShort(message));
-    }
-
-    /**
-     * 获取唯一文件名
-     *
-     * @param dir               目录
-     * @param fileNamePrefix    文件名前缀
-     * @param mediaFileTypeEnum 媒体文件类型枚举
-     * @return 唯一文件名
-     */
-    private String getUniqueFileName(@NonNull File dir, @NonNull String fileNamePrefix, @NonNull MediaFileTypeEnum mediaFileTypeEnum) {
-        String suffix = mediaFileTypeEnum.getSuffix();
-        long now = CurrentTimeMillisClock.getInstance().now();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MMdd-HH-mm-ss", Locale.CHINA);
-        String name = (fileNamePrefix + simpleDateFormat.format(new Date(now)) + suffix);
-        int index = 1;
-        while (new File(dir, name).exists()) {
-            name = (fileNamePrefix + "(" + index + ")" + simpleDateFormat.format(new Date(now)) + suffix);
-            index++;
+    public static long getMediaFileDuration(@NonNull Context context, @Nullable Uri uri, @Nullable Long duration) {
+        if (null != duration) {
+            return duration;
         }
-        return name;
+        if (null == uri) {
+            return 0;
+        }
+        try (MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever()) {
+            mediaMetadataRetriever.setDataSource(context, uri);
+            String d = mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+            return (!TextUtils.isEmpty(d) ? Long.parseLong(d) : 0L);
+        } catch (Exception e) {
+            Timber.e(e, "fail to retrieve duration: %s", uri);
+            return 0L;
+        }
     }
 
     /**
@@ -575,6 +704,15 @@ public class AudioRecordKit {
     }
 
     /**
+     * 发送吐司
+     *
+     * @param message 消息
+     */
+    private void postToast(@NonNull final String message) {
+        mainHandler.post(() -> ToastKit.showShort(message));
+    }
+
+    /**
      * 释放资源
      */
     public void releaseResources() {
@@ -594,121 +732,6 @@ public class AudioRecordKit {
             audioRecordListener = null;
         } catch (Exception e) {
             Timber.e(e);
-        }
-    }
-
-    /**
-     * 复制到目录
-     *
-     * @param context                                上下文
-     * @param sourceFile                             资源文件
-     * @param mediaFileTypeEnum                      媒体文件类型枚举
-     * @param mediaFileDirectoryEnum                 媒体文件目录枚举
-     * @param fileNamePrefix                         文件名前缀
-     * @param deleteOriginalFileAfterCopyToDirectory 复制到目录后删除源文件否
-     * @param sourceFileLastModified                 资源文件最后修改时间
-     * @return 复制到目录后的文件统一资源标识符
-     */
-    @Nullable
-    public static Uri copyToDirectory(@NonNull Context context, @NonNull File sourceFile, @NonNull MediaFileTypeEnum mediaFileTypeEnum, @NonNull MediaFileDirectoryEnum mediaFileDirectoryEnum, @NonNull String fileNamePrefix, boolean deleteOriginalFileAfterCopyToDirectory, long sourceFileLastModified) {
-        if (!sourceFile.exists()) {
-            return null;
-        }
-        Uri targetUri;
-        try {
-            ContentResolver contentResolver = context.getContentResolver();
-            ContentValues contentValues = new ContentValues();
-            String suffix = mediaFileTypeEnum.getSuffix();
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MMdd-HH-mm-ss", Locale.CHINA);
-            String fileName = (fileNamePrefix + simpleDateFormat.format(new Date(sourceFileLastModified)) + suffix);
-            contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, fileName);
-            contentValues.put(MediaStore.MediaColumns.MIME_TYPE, mediaFileTypeEnum.getMimeType());
-            contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, mediaFileDirectoryEnum.getRelativePath());
-            targetUri = contentResolver.insert(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, contentValues);
-            if (null != targetUri) {
-                try (OutputStream outputStream = contentResolver.openOutputStream(targetUri); FileInputStream fis = new FileInputStream(sourceFile)) {
-                    byte[] buffer = new byte[8192];
-                    int len;
-                    while ((len = fis.read(buffer)) != -1) {
-                        assert outputStream != null;
-                        outputStream.write(buffer, 0, len);
-                    }
-                }
-                if (deleteOriginalFileAfterCopyToDirectory) {
-                    if (sourceFile.delete()) {
-                        Timber.w("delete source file: %s", sourceFile.getAbsolutePath());
-                    }
-                }
-            }
-        } catch (Exception e) {
-            Timber.e(e);
-            targetUri = null;
-        }
-        return targetUri;
-    }
-
-    /**
-     * 获取录制音频列表
-     *
-     * @param context                上下文
-     * @param fileNamePrefix         文件名前缀
-     * @param mediaFileTypeEnum      媒体文件类型枚举
-     * @param mediaFileDirectoryEnum 媒体文件目录枚举
-     * @return 录制音频列表
-     */
-    @NonNull
-    public static List<MediaFileInfo> getRecordAudioList(@NonNull Context context, @Nullable String fileNamePrefix, @NonNull MediaFileTypeEnum mediaFileTypeEnum, @NonNull MediaFileDirectoryEnum mediaFileDirectoryEnum) {
-        List<MediaFileInfo> list = new ArrayList<>();
-        try {
-            Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-            String selection = null;
-            String[] selectionArgs = null;
-            if (!TextUtils.isEmpty(fileNamePrefix)) {
-                selection = (MediaStore.MediaColumns.DISPLAY_NAME + " LIKE ?");
-                selectionArgs = new String[]{fileNamePrefix + "%"};
-            }
-            String sortOrder = (MediaStore.MediaColumns.DATE_MODIFIED + " DESC");
-            try (Cursor cursor = context.getContentResolver().query(uri, null, selection, selectionArgs, sortOrder)) {
-                if (null != cursor) {
-                    while (cursor.moveToNext()) {
-                        String name = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME));
-                        String path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA));
-                        long size = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.SIZE));
-                        long modified = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATE_MODIFIED));
-                        Uri fileUri = Uri.fromFile(new File(path));
-                        long duration = getMediaFileDuration(context, fileUri, null);
-                        list.add(new MediaFileInfo(name, path, fileUri, size, duration, modified));
-                    }
-                }
-            }
-        } catch (Exception e) {
-            Timber.e(e);
-        }
-        return list;
-    }
-
-    /**
-     * 获取媒体文件时长
-     *
-     * @param context  上下文
-     * @param uri      统一资源标识符
-     * @param duration 时长
-     * @return 媒体文件时长
-     */
-    public static long getMediaFileDuration(@NonNull Context context, @Nullable Uri uri, @Nullable Long duration) {
-        if (null != duration) {
-            return duration;
-        }
-        if (null == uri) {
-            return 0;
-        }
-        try (MediaMetadataRetriever mediaMetadataRetriever = new MediaMetadataRetriever()) {
-            mediaMetadataRetriever.setDataSource(context, uri);
-            String d = mediaMetadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
-            return !TextUtils.isEmpty(d) ? Long.parseLong(d) : 0L;
-        } catch (Exception e) {
-            Timber.e(e, "fail to retrieve duration: %s", uri);
-            return 0L;
         }
     }
 }
