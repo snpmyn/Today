@@ -21,6 +21,7 @@
     <string name="noData">暂无数据</string>
     <string name="goToOpen">去打开</string>
     <string name="carousel">轮播图</string>
+    <string name="nextTime">下次吧</string>
     <string name="zeroSecond">0 秒</string>
     <string name="saveFail">保存失败</string>
     <string name="playFail">播放失败</string>
@@ -41,7 +42,6 @@
     <string name="networkAnomaly">网络异常</string>
     <string name="copySuccessful">复制成功</string>
     <string name="exitAppHint">再按一次退出</string>
-    <string name="talkAboutItNext">下次再说</string>
     <string name="loginPageTopHint">点滴记忆</string>
     <string name="inputPhoneNumber">输入手机号</string>
     <string name="deleteAudioFail">音频删除失败</string>
