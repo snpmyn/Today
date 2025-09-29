@@ -35,7 +35,7 @@ public class ApkInstallManager {
      * @param apkFile APK 文件
      */
     public void execute(File apkFile) {
-        PermissionxKit.execute(appCompatActivity, PermissionKit.install(), R.string.installApplicationAreBasedOnThePermission, com.zsp.core.R.string.youNeedToAllowNecessaryPermissionInSettingManually, com.zsp.core.R.string.agree, com.zsp.core.R.string.refuse, new PermissionxKitListener() {
+        PermissionxKit.execute(appCompatActivity, true, PermissionKit.install(), R.string.installApplicationAreBasedOnThePermission, com.zsp.core.R.string.youNeedToAllowNecessaryPermissionInSettingManually, com.zsp.core.R.string.agree, com.zsp.core.R.string.refuse, new PermissionxKitListener() {
             @Override
             public void allGranted() {
                 if ((null == apkFile) || !apkFile.exists()) {
