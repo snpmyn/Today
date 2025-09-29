@@ -118,11 +118,11 @@ public class App extends BasePoolApp {
     protected Map<Integer, List<String>> configMap() {
         Map<Integer, List<String>> map = new HashMap<>(2);
         List<String> stringList = new ArrayList<>(5);
-        stringList.add("lottie/lottie_animation_splash_default");
+        stringList.add("lottie/splash/lottie_animation_splash_default");
         stringList.add("1000");
         stringList.add("TODAY");
-        stringList.add("file:///android_asset/html/UserAgreement.html");
-        stringList.add("file:///android_asset/html/PrivacyPolicy.html");
+        stringList.add("file:///android_asset/html/useragreementandprivacypolicy/UserAgreement.html");
+        stringList.add("file:///android_asset/html/useragreementandprivacypolicy/PrivacyPolicy.html");
         map.put(1, stringList);
         map.put(2, ListUtils.mergeLists(PermissionKit.storage(), PermissionKit.location()));
         return map;
