@@ -126,6 +126,7 @@ public class ScreenNestAdapter extends RecyclerView.Adapter<ScreenNestAdapter.Vi
             int position = (Integer) v.getTag();
             String condition = conditions.get(position);
             if (singleSelect) {
+                int oldPosition = selectPosition;
                 if (selectPosition != position) {
                     selectPosition = position;
                     screenNestAdapterItemClickListener.onItemClick(v, classification, condition, true);
@@ -137,6 +138,10 @@ public class ScreenNestAdapter extends RecyclerView.Adapter<ScreenNestAdapter.Vi
                     selectPosition = -1;
                     screenNestAdapterItemClickListener.onItemClick(v, classification, condition, false);
                 }
+                if (oldPosition != -1) {
+                    notifyItemChanged(oldPosition);
+                }
+                notifyItemChanged(selectPosition);
             } else {
                 boolean preSelected = sparseBooleanArray.get(position);
                 screenNestAdapterItemClickListener.onItemClick(v, classification, condition, !preSelected);
@@ -145,8 +150,8 @@ public class ScreenNestAdapter extends RecyclerView.Adapter<ScreenNestAdapter.Vi
                 if (!preSelected && mutuallyExclusive) {
                     screenNestAdapterItemClickListener.onItemMutuallyExclusiveClick(classification);
                 }
+                notifyItemChanged(position);
             }
-            notifyDataSetChanged();
         });
         return new ViewHolder(view);
     }
