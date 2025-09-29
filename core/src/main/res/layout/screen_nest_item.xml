@@ -4,7 +4,7 @@
     android:id="@+id/screenNestItemMcv"
     style="?attr/materialCardViewFilledStyle"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dp_44"
+    android:layout_height="wrap_content"
     android:checkable="true">
 
     <TextView
@@ -12,6 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:paddingVertical="@dimen/dp_20"
         android:textSize="@dimen/sp_10"
         tools:text="条件" />
 </com.google.android.material.card.MaterialCardView>
