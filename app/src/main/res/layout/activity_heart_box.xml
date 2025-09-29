@@ -35,7 +35,8 @@
             <widget.view.EmotionWaveView
                 android:id="@+id/heartBoxActivityEwv"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                app:autoInit="false" />
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
@@ -54,7 +55,8 @@
             <widget.view.PaperCrushView
                 android:id="@+id/heartBoxActivityPcv"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                app:autoInit="false" />
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 
