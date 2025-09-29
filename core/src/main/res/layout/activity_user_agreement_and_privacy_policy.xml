@@ -14,9 +14,9 @@
         android:layout_height="?actionBarSize"
         android:background="?attr/colorSurface"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/userAgreement"
         app:titleCentered="true"
-        app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized" />
+        app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized"
+        tools:title="@string/userAgreement" />
 
     <WebView
         android:id="@+id/userAgreementAndPrivacyPolicyActivityWv"
