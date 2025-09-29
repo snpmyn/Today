@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>重载与重写</title>
+    <style>
+        body {
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+            line-height: 1.6;
+            padding: 12px;
+            margin: 0;
+            background-color: #fff8f0;
+            color: #444;
+            font-size: 14px;
+        }
+        header {
+            background: #ffb347; /* Git 页面背景色 */
+            color: #fff;
+            padding: 14px;
+            text-align: center;
+            font-size: 18px;
+            border-bottom-left-radius: 20px; /* Git 页面圆角 */
+            border-bottom-right-radius: 20px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1); /* Git 页面阴影 */
+            margin-bottom: 14px;
+        }
+        .toc {
+            background: #fff;
+            border-radius: 14px;
+            padding: 14px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+        .toc h2 {
+            margin: 0 0 10px;
+            font-size: 15px;
+            color: #ff914d;
+        }
+        .toc ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .toc li {
+            margin: 0;
+        }
+        .toc a {
+            text-decoration: none;
+            font-size: 13px;
+            padding: 6px 10px;
+            border-radius: 12px;
+            background: #fff5e8;
+            color: #ff914d;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            transition: background 0.2s;
+        }
+        .toc a:hover {
+            background: #ffe0c2;
+        }
+        .block {
+            background: #fff;
+            border-radius: 14px;
+            padding: 14px;
+            margin: 14px 0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+        h2 {
+            font-size: 16px;
+            color: #ff914d;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        code {
+            background: #f0f0f0;
+            padding: 2px 5px;
+            border-radius: 5px;
+            font-family: Consolas, monospace;
+            font-size: 13px;
+        }
+        pre {
+            background: #fdfdfd;
+            color: #333;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 13px;
+            overflow-x: auto;
+            line-height: 1.4;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .highlight {
+            color: #ff7043;
+            font-weight: bold;
+        }
+        .table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        table {
+            width: 100%;
+            min-width: 600px;
+            border-collapse: collapse;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background: #ffb347;
+            color: #fff;
+        }
+        tr:nth-child(even) {
+            background: #fff5eb;
+        }
+
+        /* 深色模式 */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #1e1e1e;
+                color: #ddd;
+            }
+            header {
+                background: #ff914d;
+                color: #fff;
+            }
+            .block, .toc {
+                background: #2b2b2b;
+                box-shadow: none;
+            }
+            code {
+                background: #444;
+                color: #f5f5f5;
+            }
+            pre {
+                background: #2a2a2a;
+                color: #f5f5f5;
+            }
+            table {
+                border-color: #555;
+            }
+            th {
+                background: #ff914d;
+            }
+            td {
+                border-color: #555;
+            }
+            tr:nth-child(even) {
+                background: #333;
+            }
+            .toc a {
+                background: #3a3a3a;
+                color: #ffb347;
+            }
+            .toc a:hover {
+                background: #555;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>🎯 重载与重写</header>
+
+<div class="toc" id="top">
+    <h2>📖 导航目录</h2>
+    <ul>
+        <li><a href="#overload">🎭 重载（Overload）</a></li>
+        <li><a href="#override">🐶 重写（Override）</a></li>
+        <li><a href="#summary">🌟 一句话记忆</a></li>
+        <li><a href="#table">📊 对比表</a></li>
+    </ul>
+</div>
+
+<div class="block" id="overload">
+    <h2>🎭 重载 (Overload) - 同一个人，不同的“联系方式”</h2>
+    <p>就好比你有一个朋友 <span class="highlight">小李</span>：</p>
+    <ul>
+        <li>打电话找他（参数：手机号）。</li>
+        <li>发邮件找他（参数：邮箱）。</li>
+        <li>微信找他（参数：微信号）。</li>
+    </ul>
+    <p>👉 方法名相同，但参数不同，就是 <b>重载</b>。</p>
+</div>
+
+<div class="block" id="override">
+    <h2>🐶 重写 (Override) - 继承关系里的“改口”</h2>
+    <p>父类 <code>Animal</code> 有个方法 <code>speak()</code>，子类可以改写：</p>
+    <pre><code class="language-java">
+class Animal {
+    void speak() {
+        System.out.println("动物发出声音");
+    }
+}
+
+class Dog extends Animal {
+    @Override
+    void speak() {
+        System.out.println("汪汪叫");
+    }
+}
+    </code></pre>
+    <p>👉 子类重新实现父类方法，就是 <b>重写</b>。</p>
+</div>
+
+<div class="block" id="summary">
+    <h2>🌟 一句话记忆</h2>
+    <ul>
+        <li><b>重载</b>：一个人多种联系方式（编译时决定）。</li>
+        <li><b>重写</b>：继承改口，运行时听谁的（运行时决定）。</li>
+    </ul>
+</div>
+
+<div class="block" id="table">
+    <h2>📊 重载与重写的对比表</h2>
+    <div class="table-container">
+        <table>
+            <thead>
+            <tr>
+                <th>特性</th>
+                <th>重载（Overload）</th>
+                <th>重写（Override）</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>发生位置</td>
+                <td>同一个类</td>
+                <td>子类与父类</td>
+            </tr>
+            <tr>
+                <td>方法名</td>
+                <td>必须相同</td>
+                <td>必须相同</td>
+            </tr>
+            <tr>
+                <td>参数列表</td>
+                <td>必须不同</td>
+                <td>必须相同</td>
+            </tr>
+            <tr>
+                <td>返回值</td>
+                <td>可相同或不同</td>
+                <td>相同或子类</td>
+            </tr>
+            <tr>
+                <td>访问修饰符</td>
+                <td>无限制</td>
+                <td>不能更严格</td>
+            </tr>
+            <tr>
+                <td>异常声明</td>
+                <td>可以不同</td>
+                <td>不能更宽泛</td>
+            </tr>
+            <tr>
+                <td>多态类型</td>
+                <td>编译时多态</td>
+                <td>运行时多态</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
