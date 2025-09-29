@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>运算符</title>
+    <style>
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            margin: 0;
+            padding: 12px;
+            background-color: #fdf6e3;
+            color: #333;
+            font-size: 13px;
+        }
+        header {
+            background: #ffb347;
+            color: #fff;          /* 白色文字 */
+            text-align: center;
+            font-size: 18px;
+            margin-top: 4px;
+            padding: 14px 0;      /* 上下内边距统一 */
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            margin-bottom: 12px;
+        }
+        .card {
+            background-color: #fff8f0;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 13px;
+        }
+        .card h2 {
+            margin-top: 0;
+            color: #d35400;
+            font-size: 15px;
+        }
+        .card p {
+            margin: 6px 0;
+            line-height: 1.5;
+        }
+        .example {
+            background-color: #f0f4f8;
+            padding: 6px;
+            border-radius: 6px;
+            font-family: monospace;
+            display: inline-block;
+            font-size: 12px;
+            color: #2c3e50;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 8px;
+            font-size: 12px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 6px;
+            text-align: left;
+        }
+        th {
+            background-color: #f7f0e6;
+        }
+        .flow-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .flow-step {
+            padding: 8px 14px;
+            border-radius: 12px;
+            margin: 6px 0;
+            min-width: 140px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 12px;
+            color: #fff;
+        }
+        .flow-true { background-color: #27ae60; }
+        .flow-false { background-color: #e74c3c; }
+        .flow-arrow {
+            width: 2px;
+            height: 18px;
+            background-color: #555;
+        }
+        @media (max-width: 600px) {
+            body { padding: 8px; font-size: 12px; }
+            .card { padding: 10px; font-size: 12px; }
+            header { font-size: 16px; padding: 12px 0; }
+            .card h2 { font-size: 14px; }
+            .example { font-size: 11px; }
+            .flow-step { min-width: 120px; font-size: 11px; padding: 6px 12px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>Java 逻辑运算符说明</header>
+
+<div class="card">
+    <h2>1. && （逻辑与 AND）</h2>
+    <p>当左边表达式为 <strong>false</strong> 时，右边表达式不再执行（短路）。</p>
+    <p class="example">if (a != null &amp;&amp; a.length() &gt; 0) { ... }</p>
+
+    <div class="flow-container">
+        <div class="flow-step flow-false">左边 false → 右边不执行</div>
+        <div class="flow-arrow"></div>
+        <div class="flow-step flow-true">左边 true → 右边执行</div>
+    </div>
+</div>
+
+<div class="card">
+    <h2>2. || （逻辑或 OR）</h2>
+    <p>当左边表达式为 <strong>true</strong> 时，右边表达式不再执行（短路）。</p>
+    <p class="example">if (isAdmin || user.isOwner()) { ... }</p>
+
+    <div class="flow-container">
+        <div class="flow-step flow-true">左边 true → 右边不执行</div>
+        <div class="flow-arrow"></div>
+        <div class="flow-step flow-false">左边 false → 右边执行</div>
+    </div>
+</div>
+
+<div class="card">
+    <h2>3. ! （逻辑非 NOT）</h2>
+    <p>取反操作，将 true 变 false，false 变 true。</p>
+    <p class="example">if (!isEmpty) { ... }</p>
+</div>
+
+<div class="card">
+    <h2>4. &amp; （逻辑与 / 位与）</h2>
+    <p>不短路，左右表达式都会执行。用于位运算或需要同时计算两边的逻辑表达式。</p>
+    <p class="example">if (a != null &amp; a.length() &gt; 0) { ... }</p>
+</div>
+
+<div class="card">
+    <h2>5. | （逻辑或 / 位或）</h2>
+    <p>不短路，左右表达式都会执行。用于位运算或逻辑运算。</p>
+    <p class="example">if (a == 1 | a == 2) { ... }</p>
+</div>
+
+<div class="card">
+    <h2>6. ^ （异或 XOR）</h2>
+    <p>左右不同为 true，相同为 false，不短路。</p>
+    <p class="example">boolean result = a ^ b;</p>
+</div>
+
+<div class="card">
+    <h2>逻辑运算优先级</h2>
+    <p><strong>!</strong> &gt; <strong>&amp;&amp;</strong> &gt; <strong>||</strong></p>
+    <p>复杂逻辑建议使用括号明确顺序：</p>
+    <p class="example">boolean result = (a &amp;&amp; b) || (!c &amp;&amp; d);</p>
+</div>
+
+</body>
+</html>
