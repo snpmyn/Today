@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Contract;
 import java.util.Objects;
 
 import widget.status.layout.StatusLayout;
-import widget.status.listener.BaseStatusListener;
+import widget.status.listener.StatusManagerListener;
 
 /**
  * @decs: 状态管理器
@@ -25,25 +25,48 @@ public class StatusManager {
     public static int BASE_LOADING_LAYOUT_ID = NO_LAYOUT_ID;
     public static int BASE_EMPTY_LAYOUT_ID = NO_LAYOUT_ID;
     public static int BASE_RETRY_LAYOUT_ID = NO_LAYOUT_ID;
+    /**
+     * 状态布局
+     */
     private final StatusLayout statusLayout;
     /**
-     * 状（0 无网络、1 连接失败、2 加载失败、3 加载、4 空、5 内容）
+     * 状态管理器监听
      */
-    public int status;
+    private final StatusManagerListener statusManagerListener;
+    /**
+     * 状态码
+     * <p>
+     * 0 无网络、1 连接失败、2 加载失败、3 加载、4 空、5 内容
+     */
+    public int statusCode;
     /**
      * 请求码
      */
-    public int requestCode = 101;
+    public static int requestCode = 101;
 
-    private StatusManager(Object activityOrFragmentOrView, BaseStatusListener listener) {
-        if (null == listener) {
-            listener = new BaseStatusListener() {
-                @Override
-                public void setRetryEvent(View retryView) {
+    /**
+     * constructor
+     *
+     * @param activityOrFragmentOrView 活动或碎片或视图
+     * @param statusManagerListener    状态管理器监听
+     */
+    private StatusManager(Object activityOrFragmentOrView, StatusManagerListener statusManagerListener) {
+        this.statusManagerListener = Objects.requireNonNullElseGet(statusManagerListener, () -> new StatusManagerListener() {
+            @Override
+            public void setLoadingEvent(View loadingView) {
 
-                }
-            };
-        }
+            }
+
+            @Override
+            public void setEmptyEvent(View emptyView) {
+
+            }
+
+            @Override
+            public void setRetryEvent(int statusCode, View retryView) {
+
+            }
+        });
         ViewGroup contentParent;
         Context context;
         if (activityOrFragmentOrView instanceof Activity) {
@@ -59,7 +82,7 @@ public class StatusManager {
             contentParent = (ViewGroup) (view.getParent());
             context = view.getContext();
         } else {
-            throw new IllegalArgumentException("the argument's type must be Fragment or Activity: init(context)");
+            throw new IllegalArgumentException("the argument's type must be Fragment or Activity: init (context)");
         }
         int childCount = contentParent.getChildCount();
         // get contentParent
@@ -82,30 +105,29 @@ public class StatusManager {
         ViewGroup.LayoutParams lp = oldContent.getLayoutParams();
         contentParent.addView(statusLayout, index, lp);
         statusLayout.setContentView(oldContent);
-        // setup loading、empty、retry layout
-        setupLoadingLayout(listener, statusLayout);
-        setupEmptyLayout(listener, statusLayout);
-        setupRetryLayout(listener, statusLayout);
-        // callback
-        listener.setLoadingEvent(statusLayout.getLoadingView());
-        listener.setEmptyEvent(statusLayout.getEmptyView());
-        listener.setRetryEvent(statusLayout.getRetryView());
+        // setup LoadingLayout
+        setupLoadingLayout(statusLayout);
+        // setup EmptyLayout
+        setupEmptyLayout(statusLayout);
+        // setup RetryLayout
+        setupRetryLayout(statusLayout);
+        // 状态布局
         this.statusLayout = statusLayout;
     }
 
     @NonNull
     @Contract("_, _ -> new")
-    public static StatusManager generate(Object activityOrFragment, BaseStatusListener listener) {
-        return new StatusManager(activityOrFragment, listener);
+    public static StatusManager generate(Object activityOrFragmentOrView, StatusManagerListener statusManagerListener) {
+        return new StatusManager(activityOrFragmentOrView, statusManagerListener);
     }
 
-    private void setupLoadingLayout(@NonNull BaseStatusListener listener, StatusLayout statusLayout) {
-        if (listener.isSetLoadingLayout()) {
-            int layoutId = listener.generateLoadingLayoutId();
+    private void setupLoadingLayout(StatusLayout statusLayout) {
+        if (this.statusManagerListener.areSetLoadingLayout()) {
+            int layoutId = this.statusManagerListener.generateLoadingLayoutId();
             if (layoutId != NO_LAYOUT_ID) {
                 statusLayout.setLoadingView(layoutId);
             } else {
-                statusLayout.setLoadingView(listener.generateLoadingLayout());
+                statusLayout.setLoadingView(this.statusManagerListener.generateLoadingLayout());
             }
         } else {
             if (BASE_LOADING_LAYOUT_ID != NO_LAYOUT_ID) {
@@ -114,13 +136,13 @@ public class StatusManager {
         }
     }
 
-    private void setupEmptyLayout(@NonNull BaseStatusListener listener, StatusLayout statusLayout) {
-        if (listener.isSetEmptyLayout()) {
-            int layoutId = listener.generateEmptyLayoutId();
+    private void setupEmptyLayout(StatusLayout statusLayout) {
+        if (this.statusManagerListener.areSetEmptyLayout()) {
+            int layoutId = this.statusManagerListener.generateEmptyLayoutId();
             if (layoutId != NO_LAYOUT_ID) {
                 statusLayout.setEmptyView(layoutId);
             } else {
-                statusLayout.setEmptyView(listener.generateEmptyLayout());
+                statusLayout.setEmptyView(this.statusManagerListener.generateEmptyLayout());
             }
         } else {
             if (BASE_EMPTY_LAYOUT_ID != NO_LAYOUT_ID) {
@@ -129,13 +151,13 @@ public class StatusManager {
         }
     }
 
-    private void setupRetryLayout(@NonNull BaseStatusListener listener, StatusLayout statusLayout) {
-        if (listener.isSetRetryLayout()) {
-            int layoutId = listener.generateRetryLayoutId();
+    private void setupRetryLayout(StatusLayout statusLayout) {
+        if (this.statusManagerListener.areSetRetryLayout()) {
+            int layoutId = this.statusManagerListener.generateRetryLayoutId();
             if (layoutId != NO_LAYOUT_ID) {
-                statusLayout.setLoadingView(layoutId);
+                statusLayout.setRetryView(layoutId);
             } else {
-                statusLayout.setLoadingView(listener.generateRetryLayout());
+                statusLayout.setRetryView(this.statusManagerListener.generateRetryLayout());
             }
         } else {
             if (BASE_RETRY_LAYOUT_ID != NO_LAYOUT_ID) {
@@ -148,33 +170,42 @@ public class StatusManager {
      * 加载
      */
     public void showLoading() {
-        status = 3;
+        statusCode = 3;
         statusLayout.showLoading();
+        this.statusManagerListener.setLoadingEvent(statusLayout.getLoadingView());
     }
 
     /**
      * 空
      */
     public void showEmpty() {
-        status = 4;
+        statusCode = 4;
         statusLayout.showEmpty();
-    }
-
-    /**
-     * 重试
-     *
-     * @param status 0 无网络、1 连接失败、2 加载失败
-     */
-    public void showRetry(int status) {
-        statusLayout.showRetry(status);
-        this.status = status;
+        this.statusManagerListener.setEmptyEvent(statusLayout.getEmptyView());
     }
 
     /**
      * 内容
      */
     public void showContent() {
-        status = 5;
+        statusCode = 5;
         statusLayout.showContent();
+    }
+
+    /**
+     * 重试
+     *
+     * @param statusCode 状态码
+     *                   0 无网络
+     *                   1 连接失败
+     *                   2 加载失败
+     */
+    public void showRetry(int statusCode) {
+        if ((statusCode != 0) && (statusCode != 1) && (statusCode != 2)) {
+            return;
+        }
+        this.statusCode = statusCode;
+        statusLayout.showRetry(statusCode);
+        this.statusManagerListener.setRetryEvent(this.statusCode, statusLayout.getRetryView());
     }
 }
