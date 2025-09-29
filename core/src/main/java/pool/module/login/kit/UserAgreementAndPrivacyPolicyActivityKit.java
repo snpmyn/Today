@@ -46,9 +46,6 @@ public class UserAgreementAndPrivacyPolicyActivityKit {
 
     /**
      * 显示用户协议或隐私政策
-     * <p>
-     * 用户协议路径默 file:///android_asset/html/UserAgreement.html
-     * 隐私政策路径默 file:///android_asset/html/PrivacyPolicy.html
      *
      * @param appCompatActivity 活动
      * @param webView           WebView
