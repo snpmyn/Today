@@ -6,7 +6,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import com.airbnb.lottie.LottieAnimationView;
@@ -23,6 +22,7 @@ import util.activity.ActivitySuperviseManager;
 import util.handler.HandlerKit;
 import util.mmkv.MmkvKit;
 import util.net.NetManager;
+import util.theme.ThemeUtils;
 import widget.dialog.customdialog.BaseDialog;
 import widget.dialog.customdialog.BaseViewConvertListener;
 import widget.dialog.customdialog.CustomDialog;
@@ -92,8 +92,8 @@ public class SplashActivityKit {
                 TextView dialogUserAgreementAndPrivacyPolicyTvUserAgreementAndPrivacyPolicyContent = holder.getView(R.id.dialogUserAgreementAndPrivacyPolicyTvUserAgreementAndPrivacyPolicyContent);
                 // 富文本构建器配套原件
                 SpannableStringBuilderKit spannableStringBuilderKit = new SpannableStringBuilderKit(dialogUserAgreementAndPrivacyPolicyTvUserAgreementAndPrivacyPolicyContent.getText().toString());
-                spannableStringBuilderKit.setClickableSpan(ContextCompat.getColor(appCompatActivity, R.color.color_FF6AAEFF), false, 46, 52, 0, () -> showUserAgreementAndPrivacyPolicy(appCompatActivity, PoolConstant.USER_AGREEMENT));
-                spannableStringBuilderKit.setClickableSpan(ContextCompat.getColor(appCompatActivity, R.color.color_FF6AAEFF), false, 53, 59, 0, () -> showUserAgreementAndPrivacyPolicy(appCompatActivity, PoolConstant.PRIVACY_POLICY));
+                spannableStringBuilderKit.setClickableSpan(ThemeUtils.getColorPrimaryColorFromAttrResIdWithTypedArray(appCompatActivity), false, 4, 10, 0, () -> showUserAgreementAndPrivacyPolicy(appCompatActivity, PoolConstant.USER_AGREEMENT));
+                spannableStringBuilderKit.setClickableSpan(ThemeUtils.getColorPrimaryColorFromAttrResIdWithTypedArray(appCompatActivity), false, 11, 17, 0, () -> showUserAgreementAndPrivacyPolicy(appCompatActivity, PoolConstant.PRIVACY_POLICY));
                 // 配置可点击文本控件
                 spannableStringBuilderKit.configClickableSpanTextView(dialogUserAgreementAndPrivacyPolicyTvUserAgreementAndPrivacyPolicyContent, spannableStringBuilderKit);
                 // 不同意并退出
