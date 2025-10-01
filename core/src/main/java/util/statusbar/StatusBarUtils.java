@@ -17,14 +17,13 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.zsp.core.R;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import timber.log.Timber;
+import util.theme.ThemeUtils;
 
 /**
  * Created on 2017/7/20.
@@ -578,27 +577,31 @@ public class StatusBarUtils {
 
     /**
      * 状态栏亮
-     * <p>
-     * 默 white
      *
      * @param appCompatActivity 活动
      * @param colorResId        颜色资源 ID
      */
     public static void statusBarLight(AppCompatActivity appCompatActivity, int colorResId) {
-        StatusBarUtils.setColorNoTranslucent(appCompatActivity, ContextCompat.getColor(appCompatActivity, (colorResId == 0) ? R.color.white : colorResId));
+        if (colorResId == 0) {
+            StatusBarUtils.setColorNoTranslucent(appCompatActivity, Color.WHITE);
+        } else {
+            StatusBarUtils.setColorNoTranslucent(appCompatActivity, ContextCompat.getColor(appCompatActivity, colorResId));
+        }
         StatusBarUtils.statusBarTextColorDark(appCompatActivity, true);
     }
 
     /**
      * 状态栏暗
-     * <p>
-     * 默 basic
      *
      * @param appCompatActivity 活动
      * @param colorResId        颜色资源 ID
      */
     public static void statusBarDark(AppCompatActivity appCompatActivity, int colorResId) {
-        StatusBarUtils.setColorNoTranslucent(appCompatActivity, ContextCompat.getColor(appCompatActivity, (colorResId == 0) ? R.color.basic : colorResId));
+        if (colorResId == 0) {
+            StatusBarUtils.setColorNoTranslucent(appCompatActivity, ThemeUtils.getColorPrimaryColorFromAttrResIdWithTypedArray(appCompatActivity));
+        } else {
+            StatusBarUtils.setColorNoTranslucent(appCompatActivity, ContextCompat.getColor(appCompatActivity, colorResId));
+        }
         StatusBarUtils.statusBarTextColorDark(appCompatActivity, false);
     }
 }
