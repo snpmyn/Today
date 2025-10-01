@@ -15,8 +15,6 @@ import com.google.android.material.color.MaterialColors;
  *
  * @author 郑少鹏
  * @desc 主题工具类
- * <p>
- * 暂无引用
  */
 public class ThemeUtils {
     /**
@@ -27,8 +25,19 @@ public class ThemeUtils {
      * @return 颜色
      */
     @ColorInt
-    public static int getColorFromAttrResIdWithMaterialColors(@NonNull Context context, @AttrRes int attrResId) {
+    private static int getColorFromAttrResIdWithMaterialColors(@NonNull Context context, @AttrRes int attrResId) {
         return MaterialColors.getColor(context, attrResId, 0);
+    }
+
+    /**
+     * 从 attr 资源 ID 获取 ColorPrimary 颜色
+     *
+     * @param context 上下文
+     * @return 颜色
+     */
+    @ColorInt
+    public static int getColorPrimaryColorFromAttrResIdWithTypedArray(@NonNull Context context) {
+        return getColorFromAttrResIdWithTypedArray(context, androidx.appcompat.R.attr.colorPrimary);
     }
 
     /**
@@ -39,7 +48,7 @@ public class ThemeUtils {
      * @return 颜色
      */
     @ColorInt
-    public static int getColorFromAttrResIdWithTypedArray(@NonNull Context context, @AttrRes int attrResId) {
+    private static int getColorFromAttrResIdWithTypedArray(@NonNull Context context, @AttrRes int attrResId) {
         TypedArray typedArray = context.obtainStyledAttributes(new int[]{attrResId});
         try {
             return typedArray.getColor(0, 0);
