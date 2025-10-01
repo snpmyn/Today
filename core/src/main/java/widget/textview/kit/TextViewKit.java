@@ -1,4 +1,4 @@
-package widget.textview;
+package widget.textview.kit;
 
 import android.content.Context;
 import android.graphics.PorterDuff;

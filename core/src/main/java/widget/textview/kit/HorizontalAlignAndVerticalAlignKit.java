@@ -1,10 +1,14 @@
-package widget.textview.align;
+package widget.textview.kit;
 
 import android.widget.HorizontalScrollView;
 
 import androidx.annotation.NonNull;
 
 import java.util.List;
+
+import widget.textview.LeftAndRightAlignTextView;
+import widget.textview.VerticalTextView;
+import widget.textview.menu.ActionMenu;
 
 /**
  * Created on 2022/3/25
