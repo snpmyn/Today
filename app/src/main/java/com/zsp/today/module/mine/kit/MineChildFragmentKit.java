@@ -16,7 +16,7 @@ import com.zsp.today.basic.restore.kit.RestoreKit;
 import com.zsp.today.basic.restore.value.RestoreConstant;
 import com.zsp.today.basic.value.PublicConstant;
 import com.zsp.today.basic.value.RxBusConstant;
-import com.zsp.today.basic.version.VersionKit;
+import com.zsp.today.basic.version.kit.VersionKit;
 import com.zsp.today.module.account.database.AccountDataBaseTable;
 import com.zsp.today.module.dangerous.database.DangerousDataBaseTable;
 import com.zsp.today.module.login.UserDataBaseTable;
@@ -62,16 +62,16 @@ public class MineChildFragmentKit {
     /**
      * 设置昵称
      *
-     * @param textViewNickName 昵称
-     * @param materialToolbar  MaterialToolbar
-     * @param init             初始化否
+     * @param appCompatActivity 活动
+     * @param textViewNickName  昵称
+     * @param materialToolbar   MaterialToolbar
+     * @param init              初始化否
      */
-    public void setNickName(TextView textViewNickName, MaterialToolbar materialToolbar, boolean init) {
-        String nickName = App.getAppInstance().getPhoneNumber();
+    public void setNickName(AppCompatActivity appCompatActivity, TextView textViewNickName, MaterialToolbar materialToolbar, boolean init) {
         if (init) {
-            textViewNickName.setText(nickName);
+            textViewNickName.setText(App.getAppInstance().getPhoneNumber());
         } else {
-            materialToolbar.setTitle(nickName);
+            materialToolbar.setTitle(appCompatActivity.getString(R.string.app_name));
         }
     }
 
