@@ -9,6 +9,8 @@ import android.widget.LinearLayout;
 
 import com.zsp.core.R;
 
+import widget.window.WindowKit;
+
 /**
  * @desc: BOC 对话框基类
  * <p>
@@ -29,6 +31,7 @@ public abstract class BaseBocDialog extends Dialog {
      */
     BaseBocDialog(Context context, int selfThemeResId) {
         super(context, (selfThemeResId == 0) ? R.style.BocDialogStyle : selfThemeResId);
+        WindowKit.setBackgroundDrawableResourceTransparent(this.getWindow());
         this.context = context;
         setContentView(R.layout.dialog_base_boc);
         // 基类调用
