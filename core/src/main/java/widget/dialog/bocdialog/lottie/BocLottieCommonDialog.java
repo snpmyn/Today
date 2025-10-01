@@ -93,8 +93,10 @@ public class BocLottieCommonDialog extends BaseBocInstanceDialog {
             value = 120;
             bocLottieCommonDialogTv.setText(hint);
         }
+        // 设置视图布局参数
+        LayoutParamsUtils.setViewLayoutParams(view, false, 0, true, DensityUtils.dipToPxByFloat(context, value));
         // 设置窗口管理器布局参数
-        LayoutParamsUtils.setWindowManagerLayoutParams(getWindow(), true, DensityUtils.dipToPxByFloat(context, value), true, DensityUtils.dipToPxByFloat(context, value));
+        LayoutParamsUtils.setWindowManagerLayoutParams(getWindow(), true, DensityUtils.dipToPxByFloat(context, value), false, 0);
     }
 
     /**
