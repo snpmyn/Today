@@ -38,6 +38,7 @@ import util.intent.IntentJump;
 import util.intent.IntentVerify;
 import util.list.ListUtils;
 import util.rxbus.RxBus;
+import util.theme.ThemeUtils;
 import widget.dialog.materialalertdialog.kit.MaterialAlertDialogBuilderKit;
 import widget.popupmenu.PopupMenuKit;
 import widget.recyclerview.configure.RecyclerViewConfigure;
@@ -218,6 +219,6 @@ public class AccountDetailActivityKit {
         }
         // 显示
         HalfPieChartKit halfPieChartKit = new HalfPieChartKit();
-        halfPieChartKit.execute(appCompatActivity, pieChart, date, pieEntries, appCompatActivity.getString(R.string.yuan), ListUtils.listIsEmpty(accountDataBaseTableList), appCompatActivity.getString(R.string.noAccountDataAvailable), com.zsp.core.R.color.basic);
+        halfPieChartKit.execute(appCompatActivity, pieChart, date, pieEntries, appCompatActivity.getString(R.string.yuan), ListUtils.listIsEmpty(accountDataBaseTableList), appCompatActivity.getString(R.string.noAccountDataAvailable), ThemeUtils.getColorPrimaryColorFromAttrResIdWithTypedArray(appCompatActivity));
     }
 }
