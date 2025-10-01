@@ -5,7 +5,6 @@
     style="?attr/materialCardViewFilledStyle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:cardElevation="@dimen/dp_0"
     app:rippleColor="?attr/colorPrimary">
 
     <TextView
