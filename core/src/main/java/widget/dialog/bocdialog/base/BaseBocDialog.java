@@ -31,6 +31,7 @@ public abstract class BaseBocDialog extends Dialog {
      */
     BaseBocDialog(Context context, int selfThemeResId) {
         super(context, (selfThemeResId == 0) ? R.style.BocDialogStyle : selfThemeResId);
+        // 设置背景位图资源透明
         WindowKit.setBackgroundDrawableResourceTransparent(this.getWindow());
         this.context = context;
         setContentView(R.layout.dialog_base_boc);
