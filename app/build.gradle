@@ -27,7 +27,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        // 配置应用多语言资源，明确告诉 Gradle 构建系统只打包和处理指定的语言资源 ('en' 和 'zh') 而忽略所有其它语言资源
+        // 明确告诉 Gradle 构建系统只打包和处理指定的语言资源 ('en' 和 'zh') 而忽略所有其它语言资源
         // zh：宏观中文 (通常不单独使用)
         // zh-rCN：简体中文 (中国大陆) - 对应目录 values-zh-rCN
         // zh-rTW：繁体中文 (台湾) - 对应目录 values-zh-rTW
@@ -111,6 +111,20 @@ android {
     buildFeatures {
         viewBinding true
         buildConfig = true
+    }
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def appName = "今日"
+            def flavorName = variant.flavorName
+            def buildTypeName = variant.buildType.name
+            def versionCode = variant.versionCode
+            // eg
+            // 只拿 versionName "1.0"
+            // 无 versionNameSuffix "-product"
+            // 无 versionNameSuffix "-release"
+            def mergedFlavorVersionName = variant.mergedFlavor.versionName
+            outputFileName = "${appName}-${flavorName}-${buildTypeName}-${versionCode}-v${mergedFlavorVersionName}.apk"
+        }
     }
 }
 
