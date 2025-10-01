@@ -41,9 +41,9 @@
     <string name="networkAnomaly">网络异常</string>
     <string name="copySuccessful">复制成功</string>
     <string name="exitAppHint">再按一次退出</string>
-    <string name="loginPageTopHint">点滴记忆</string>
     <string name="inputPhoneNumber">输入手机号</string>
     <string name="deleteAudioFail">音频删除失败</string>
+    <string name="loginPageTopHint">陪你过每一天</string>
     <string name="currentNoNetwork">当前无网络连接</string>
     <string name="knowAndCompanionUpdate">知伴更新</string>
     <string name="notAgreeAngLoginOut">不同意并退出</string>
