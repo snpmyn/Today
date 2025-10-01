@@ -3,6 +3,7 @@ package com.zsp.today.widget.mpandroidchart.piechart;
 import static com.github.mikephil.charting.utils.ColorTemplate.rgb;
 
 import android.content.Context;
+import android.graphics.Color;
 
 import androidx.core.content.ContextCompat;
 
@@ -41,7 +42,7 @@ public class HalfPieChartKit {
         WeakReference<Context> weakReference = new WeakReference<>(context);
         this.pieChart = pieChart;
         // Sets the background color for this view.
-        /*pieChart.setBackgroundColor(ContextCompat.getColor(context, com.zsp.core.R.color.white));*/
+        /*pieChart.setBackgroundColor(Color.WHITE);*/
         // Set this to true to enable the rotation / spinning of the chart by touch.
         // Set it to false to disable it.
         // Default: true
@@ -59,10 +60,10 @@ public class HalfPieChartKit {
         // hole
         /*pieChart.setDrawHoleEnabled(true);*/
         /*pieChart.setHoleRadius(50.0F);*/
-        pieChart.setHoleColor(ContextCompat.getColor(context, com.zsp.core.R.color.white));
+        pieChart.setHoleColor(Color.WHITE);
         // TransparentCircle
         /*pieChart.setTransparentCircleRadius(55.0F);*/
-        pieChart.setTransparentCircleColor(ContextCompat.getColor(context, com.zsp.core.R.color.white));
+        pieChart.setTransparentCircleColor(Color.WHITE);
         pieChart.setTransparentCircleAlpha(110);
         // CenterText
         /*pieChart.setDrawCenterText(true);*/
@@ -74,7 +75,7 @@ public class HalfPieChartKit {
         pieChart.setRotationAngle(180.0F);
         // label
         pieChart.setEntryLabelTextSize(12.0F);
-        pieChart.setEntryLabelColor(ContextCompat.getColor(context, com.zsp.core.R.color.white));
+        pieChart.setEntryLabelColor(Color.WHITE);
         pieChart.setEntryLabelTypeface(TypefaceUtils.sansRegular(weakReference.get()));
         pieChart.animateY(1500, Easing.EaseInOutQuad);
         pieChart.invalidate();
@@ -117,7 +118,7 @@ public class HalfPieChartKit {
         pieDataSet.setColors(colors);
         PieData pieData = new PieData(pieDataSet);
         pieData.setValueTextSize(10.0F);
-        pieData.setValueTextColor(ContextCompat.getColor(context, com.zsp.core.R.color.white));
+        pieData.setValueTextColor(Color.WHITE);
         pieData.setValueTypeface(TypefaceUtils.sansLight(weakReference.get()));
         pieData.setValueFormatter(new PercentFormatter(pieChart));
         // 指引线
