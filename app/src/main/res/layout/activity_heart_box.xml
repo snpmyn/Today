@@ -100,11 +100,11 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerInParent="true"
-                        android:background="@drawable/color_ff6aaeff_solid_r12"
+                        android:background="@drawable/color_primary_solid_r12"
                         android:paddingHorizontal="@dimen/dp_10"
                         android:paddingVertical="@dimen/dp_6"
                         android:text="@string/recentVoice"
-                        android:textColor="@color/white"
+                        android:textColor="@android:color/white"
                         android:textSize="@dimen/sp_10"
                         android:textStyle="bold"
                         tools:ignore="RelativeOverlap" />
