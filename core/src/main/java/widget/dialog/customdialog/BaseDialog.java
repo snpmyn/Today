@@ -110,6 +110,7 @@ public abstract class BaseDialog extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         assert getDialog() != null;
+        // 设置背景位图资源透明
         WindowKit.setBackgroundDrawableResourceTransparent(getDialog().getWindow());
         View view = inflater.inflate(layoutId, container, false);
         convertView(ViewHolder.create(view), this);
