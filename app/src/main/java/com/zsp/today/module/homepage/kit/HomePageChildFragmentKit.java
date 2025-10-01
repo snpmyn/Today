@@ -1,12 +1,12 @@
 package com.zsp.today.module.homepage.kit;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -83,7 +83,7 @@ public class HomePageChildFragmentKit {
             @Override
             public View getDefaultView(@NotNull Context context) {
                 View view = new View(context);
-                view.setBackgroundColor(ContextCompat.getColor(context, com.zsp.core.R.color.white));
+                view.setBackgroundColor(Color.WHITE);
                 return view;
             }
 
