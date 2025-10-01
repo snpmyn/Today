@@ -71,7 +71,7 @@ public class VersionKit {
                         if (needUpdate || needForceUpdate) {
                             String downloadURL = data.getDownloadURL();
                             String buildUpdateDescription = data.getBuildUpdateDescription();
-                            new ApkDownloadManager(appCompatActivity).execute(needUpdate, needForceUpdate, "今日.apk", downloadURL, buildUpdateDescription, true);
+                            new ApkDownloadManager(appCompatActivity).execute(needUpdate, needForceUpdate, "知伴.apk", downloadURL, buildUpdateDescription, true);
                         } else if (hint) {
                             ToastKit.showShort(appCompatActivity.getString(R.string.currentTheLatestVersion));
                         }
