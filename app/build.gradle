@@ -64,13 +64,13 @@ android {
             debuggable false
             signingConfig signingConfigs.release
             versionNameSuffix "-release"
-            manifestPlaceholders = [app_name: "今日",
+            manifestPlaceholders = [app_name: "知伴",
                                     AMAP_KEY: "1088cc04ecd157e5709046d340d05ed2"]
         }
         debug {
             signingConfig signingConfigs.debug
             versionNameSuffix "-debug"
-            manifestPlaceholders = [app_name: "今日D",
+            manifestPlaceholders = [app_name: "知伴D",
                                     AMAP_KEY: "27ba468b67494ca7c8092205aa23a1b6"]
         }
     }
@@ -114,7 +114,7 @@ android {
     }
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
-            def appName = "今日"
+            def appName = "知伴"
             def flavorName = variant.flavorName
             def buildTypeName = variant.buildType.name
             def versionCode = variant.versionCode
