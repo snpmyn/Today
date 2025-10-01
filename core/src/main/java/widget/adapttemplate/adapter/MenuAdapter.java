@@ -20,7 +20,7 @@ import util.list.ListUtils;
 import util.screen.ScreenUtils;
 import widget.adapttemplate.bean.MenuBean;
 import widget.recyclerview.listener.OnRecyclerViewOnItemClickListener;
-import widget.textview.TextViewKit;
+import widget.textview.kit.TextViewKit;
 
 /**
  * Created on 2021/3/29
