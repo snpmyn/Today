@@ -21,6 +21,7 @@ import java.util.Objects;
 import util.datetime.CurrentTimeMillisClock;
 import util.density.DensityUtils;
 import util.screen.ScreenUtils;
+import widget.window.WindowKit;
 
 /**
  * @decs: BaseDialog
@@ -108,6 +109,8 @@ public abstract class BaseDialog extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        assert getDialog() != null;
+        WindowKit.setBackgroundDrawableResourceTransparent(getDialog().getWindow());
         View view = inflater.inflate(layoutId, container, false);
         convertView(ViewHolder.create(view), this);
         return view;
