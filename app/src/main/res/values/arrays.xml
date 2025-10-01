@@ -1,4 +1,5 @@
 <resources>
+    <!--账目-->
     <string-array name="year">
         <item>2024</item>
         <item>2025</item>
@@ -12,5 +13,16 @@
         <item>住宿</item>
         <item>通勤</item>
         <item>其它</item>
+    </string-array>
+    <!--应用设置-->
+    <string-array name="homePageQuoteTypeName">
+        <item>道家</item>
+        <item>来财</item>
+        <item>佛家</item>
+    </string-array>
+    <string-array name="homePageQuoteTypeValue">
+        <item>taoism</item>
+        <item>LaiCai</item>
+        <item>buddhism</item>
     </string-array>
 </resources>
