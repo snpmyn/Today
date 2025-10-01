@@ -9,13 +9,15 @@ import android.view.Window;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.button.MaterialButton;
 import com.zsp.core.R;
 
+import util.layoutparams.LayoutParamsUtils;
+import util.screen.ScreenUtils;
 import widget.notification.listener.NotificationEnableDialogOnClickListener;
+import widget.window.WindowKit;
 
 /**
  * Created on 2019/8/8.
@@ -92,7 +94,10 @@ public class NotificationEnableDialogFragment extends DialogFragment {
         if (null == getContext()) {
             return;
         }
-        window.setBackgroundDrawable(ContextCompat.getDrawable(getContext(), R.drawable.white_solid_r12));
+        // 设置背景位图资源透明
+        WindowKit.setBackgroundDrawableResourceTransparent(window);
+        // 设置窗口管理器布局参数
+        LayoutParamsUtils.setWindowManagerLayoutParams(window, true, (int) (ScreenUtils.screenWidth(getContext()) * 0.8), false, 0);
         // 下次吧
         MaterialButton fragmentNotificationEnableDialogMbNextTime = mView.findViewById(R.id.fragmentNotificationEnableDialogMbNextTime);
         fragmentNotificationEnableDialogMbNextTime.setOnClickListener(v -> {
