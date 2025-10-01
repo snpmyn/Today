@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     style="?attr/materialCardViewFilledStyle"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:cardElevation="@dimen/dp_0">
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:layout_width="match_parent"

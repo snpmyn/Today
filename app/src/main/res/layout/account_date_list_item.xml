@@ -5,7 +5,6 @@
     style="?attr/materialCardViewFilledStyle"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:cardElevation="@dimen/dp_0"
     app:rippleColor="?attr/colorPrimary">
 
     <RelativeLayout
@@ -30,7 +29,7 @@
             android:gravity="center_horizontal"
             android:paddingTop="@dimen/dp_6"
             android:paddingBottom="@dimen/dp_6"
-            android:textColor="@color/white"
+            android:textColor="@android:color/white"
             android:textSize="@dimen/sp_10"
             tools:text="2020/12/27" />
     </RelativeLayout>
