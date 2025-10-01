@@ -7,7 +7,6 @@ import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
 import androidx.annotation.ColorInt
-import androidx.core.content.ContextCompat
 import com.zsp.core.R
 import widget.kotlin.banner.IIndicator
 import widget.kotlin.banner.IIndicatorInstance
@@ -63,7 +62,7 @@ class CrossBarIndicator @JvmOverloads constructor(
     /**
      * 全局画笔
      */
-    private val mPaint = createPaint(color = ContextCompat.getColor(context, R.color.white))
+    private val mPaint = createPaint(color = Color.WHITE)
 
     //********************************
     //* 计算属性
