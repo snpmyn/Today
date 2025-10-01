@@ -1,86 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="?attr/materialCardViewFilledStyle"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_180"
-        android:background="@color/color_FF6AAEFF">
-
-        <com.airbnb.lottie.LottieAnimationView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:lottie_autoPlay="true"
-            app:lottie_fileName="lottie/dialog/lottie_animation_notification_enable_dialog_fragment.json"
-            app:lottie_loop="true" />
-
-        <TextView
-            android:id="@+id/fragmentNotificationEnableDialogTvOpenDrugReturnNotification"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/openNotificationHint"
-            android:textColor="@color/white"
-            android:textSize="@dimen/sp_16"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/fragmentNotificationEnableDialogTvOpenDrugReturnNotification"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/dp_10"
-            android:text="@string/neverMissTheLatestNewsAnymore"
-            android:textColor="@color/white"
-            android:textSize="@dimen/sp_14" />
-    </RelativeLayout>
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:baselineAligned="false">
+        android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="@dimen/dp_0"
-            android:layout_height="?actionBarSize"
-            android:layout_weight="1">
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60"
+            android:scaleType="fitXY"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="lottie/dialog/lottie_animation_notification_enable_dialog_fragment.json"
+            app:lottie_loop="true" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/fragmentNotificationEnableDialogMbNextTime"
-                style="?attr/materialButtonTonalStyle"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingVertical="@dimen/dp_30">
+
+            <TextView
+                android:id="@+id/fragmentNotificationEnableDialogTvOpenDrugReturnNotification"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:filterTouchesWhenObscured="true"
-                android:insetLeft="@dimen/dp_0"
-                android:insetTop="@dimen/dp_0"
-                android:insetRight="@dimen/dp_0"
-                android:insetBottom="@dimen/dp_0"
-                android:text="@string/nextTime"
-                android:textSize="@dimen/sp_13" />
-        </RelativeLayout>
+                android:text="@string/openNotificationHint"
+                android:textSize="@dimen/sp_16"
+                android:textStyle="bold" />
 
-        <RelativeLayout
-            android:layout_width="@dimen/dp_0"
-            android:layout_height="?actionBarSize"
-            android:layout_weight="1">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/fragmentNotificationEnableDialogMbGoToOpen"
-                style="?attr/materialButtonTonalStyle"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:filterTouchesWhenObscured="true"
-                android:insetLeft="@dimen/dp_0"
-                android:insetTop="@dimen/dp_0"
-                android:insetRight="@dimen/dp_0"
-                android:insetBottom="@dimen/dp_0"
-                android:text="@string/goToOpen"
-                android:textSize="@dimen/sp_13" />
-        </RelativeLayout>
+                android:layout_marginTop="@dimen/dp_10"
+                android:text="@string/neverMissTheLatestNewsAnymore"
+                android:textSize="@dimen/sp_14" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:paddingBottom="@dimen/dp_20">
+
+            <RelativeLayout
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/fragmentNotificationEnableDialogMbNextTime"
+                    style="?attr/materialButtonTonalStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:filterTouchesWhenObscured="true"
+                    android:insetLeft="@dimen/dp_0"
+                    android:insetTop="@dimen/dp_0"
+                    android:insetRight="@dimen/dp_0"
+                    android:insetBottom="@dimen/dp_0"
+                    android:text="@string/nextTime"
+                    android:textSize="@dimen/sp_12" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/fragmentNotificationEnableDialogMbGoToOpen"
+                    style="?attr/materialButtonTonalStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:filterTouchesWhenObscured="true"
+                    android:insetLeft="@dimen/dp_0"
+                    android:insetTop="@dimen/dp_0"
+                    android:insetRight="@dimen/dp_0"
+                    android:insetBottom="@dimen/dp_0"
+                    android:text="@string/goToOpen"
+                    android:textSize="@dimen/sp_12" />
+            </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</com.google.android.material.card.MaterialCardView>
