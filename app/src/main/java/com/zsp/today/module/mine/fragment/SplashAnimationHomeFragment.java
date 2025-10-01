@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 import pool.base.BasePoolFragment;
 import util.rxbus.RxBus;
-import widget.status.listener.BaseStatusListener;
+import widget.status.kit.StatusManagerKit;
 import widget.status.manager.StatusManager;
 
 /**
@@ -138,9 +138,19 @@ public class SplashAnimationHomeFragment extends BasePoolFragment {
 
     private void initConfiguration() {
         // 状态管理器
-        statusManager = StatusManager.generate(splashAnimationHomeFragmentRv, new BaseStatusListener() {
+        statusManager = StatusManagerKit.generate(fragmentationSupportActivity, splashAnimationHomeFragmentRv, new StatusManagerKit.StatusManagerKitListener() {
             @Override
-            public void setRetryEvent(View retryView) {
+            public void noNetwork() {
+
+            }
+
+            @Override
+            public void connectFail() {
+
+            }
+
+            @Override
+            public void loadFail() {
 
             }
         });
