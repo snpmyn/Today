@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!--title - 列表项主标题-->
+    <!--summary - 列表项说明-->
+    <!--key - 用来存储和读取值-->
+    <!--defaultValue - 初始默认值-->
+    <ListPreference
+        app:defaultValue="taoism"
+        app:entries="@array/homePageQuoteTypeName"
+        app:entryValues="@array/homePageQuoteTypeValue"
+        app:icon="@drawable/ic_text_ad_cos_24dp"
+        app:key="HomePageQuote"
+        app:summary="选择你中意的短语类型\n选择后需要重启应用才可生效"
+        app:title="首页短语" />
+    <SwitchPreferenceCompat
+        app:defaultValue="true"
+        app:icon="@drawable/ic_palette_cos_24dp"
+        app:key="DynamicColor"
+        app:summary="支持 Android 12+ 版本\n自动提取桌面壁纸颜色后配色\n切换后需要重启应用才可生效"
+        app:title="动态配色" />
+</PreferenceScreen>
