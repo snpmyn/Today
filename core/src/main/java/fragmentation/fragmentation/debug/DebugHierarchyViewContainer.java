@@ -13,7 +13,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 
 import com.zsp.core.R;
 
@@ -21,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+import util.theme.ThemeUtils;
 import widget.emoji.MoodEmojiKit;
 import widget.toast.ToastKit;
 
@@ -163,7 +163,7 @@ public class DebugHierarchyViewContainer extends ScrollView {
         ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mItemHeight);
         textView.setLayoutParams(layoutParams);
         if (hierarchy == 0) {
-            textView.setTextColor(ContextCompat.getColor(mContext, R.color.basic));
+            textView.setTextColor(ThemeUtils.getColorPrimaryColorFromAttrResIdWithTypedArray(mContext));
             textView.setTextSize(16);
         }
         textView.setGravity(Gravity.CENTER_VERTICAL);
