@@ -30,17 +30,18 @@
                 android:orientation="vertical">
 
                 <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/cos_solid_circle">
+                    android:layout_width="@dimen/dp_90"
+                    android:layout_height="@dimen/dp_90"
+                    android:background="@drawable/color_on_surface_solid_circle">
 
                     <com.airbnb.lottie.LottieAnimationView
                         android:id="@+id/mineChildFragmentLavHeadPortrait"
-                        android:layout_width="@dimen/dp_90"
-                        android:layout_height="@dimen/dp_90"
+                        android:layout_width="@dimen/dp_72"
+                        android:layout_height="@dimen/dp_72"
+                        android:layout_centerInParent="true"
                         android:padding="@dimen/dp_6"
                         app:lottie_autoPlay="true"
-                        app:lottie_fileName="lottie/headportrait/HeadPortrait.json"
+                        app:lottie_fileName="lottie/headportrait/HeadPortrait.lottie"
                         app:lottie_loop="true" />
                 </RelativeLayout>
 
