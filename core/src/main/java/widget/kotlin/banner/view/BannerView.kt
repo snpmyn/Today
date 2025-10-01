@@ -6,7 +6,6 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.RelativeLayout
-import androidx.core.content.ContextCompat
 import com.zsp.core.R
 import widget.kotlin.banner.IBannerView
 import widget.kotlin.banner.IBannerViewInstance
@@ -81,7 +80,7 @@ class BannerView @JvmOverloads constructor(
     /**
      * 全局画笔
      */
-    private val mPaint = createPaint(color = ContextCompat.getColor(context, R.color.white))
+    private val mPaint = createPaint(color = Color.WHITE)
 
     /**
      * 全局 Path
@@ -260,9 +259,7 @@ class BannerView @JvmOverloads constructor(
                     }
                 } ?: View(context).apply {
                     setBackgroundColor(
-                        ContextCompat.getColor(
-                            context, R.color.white
-                        )
+                        Color.WHITE
                     )
                 }
                 val lp = LayoutParams(getItemViewWidth(), mViewHeight.toInt()).apply {
