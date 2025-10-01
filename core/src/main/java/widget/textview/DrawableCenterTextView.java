@@ -12,8 +12,9 @@ import androidx.appcompat.widget.AppCompatTextView;
  * Created on 2018/10/25.
  *
  * @author 郑少鹏
- * @desc 上下图居中（xml 设 android:gravity="center_horizontal"）背景自白
+ * @desc 位图居中 TextView
  * 左右图居中（xml 设 android:gravity="center_vertical"）背景自白
+ * 上下图居中（xml 设 android:gravity="center_horizontal"）背景自白
  */
 public class DrawableCenterTextView extends AppCompatTextView {
     private final Rect rect;

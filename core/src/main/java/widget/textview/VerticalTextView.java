@@ -1,4 +1,4 @@
-package widget.textview.align;
+package widget.textview;
 
 import static android.view.MotionEvent.ACTION_MOVE;
 
@@ -36,6 +36,8 @@ import util.keyboard.KeyboardUtils;
 import util.screen.ScreenUtils;
 import util.statusbar.StatusBarUtils;
 import util.vibrator.VibratorUtils;
+import widget.textview.menu.ActionMenu;
+import widget.textview.menu.ActionMenuCallBack;
 import widget.toast.ToastKit;
 import widget.value.WidgetMagic;
 
