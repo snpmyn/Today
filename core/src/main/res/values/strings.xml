@@ -32,7 +32,6 @@
     <string name="noUpdateYet">先不更新</string>
     <string name="continueUse">继续使用</string>
     <string name="unknownDate">未知日期</string>
-    <string name="todayUpdate">今日更新</string>
     <string name="checkSetting">检查设置</string>
     <string name="fileNotExit">文件不存在</string>
     <string name="privacyPolicy">隐私政策</string>
@@ -46,6 +45,7 @@
     <string name="inputPhoneNumber">输入手机号</string>
     <string name="deleteAudioFail">音频删除失败</string>
     <string name="currentNoNetwork">当前无网络连接</string>
+    <string name="knowAndCompanionUpdate">知伴更新</string>
     <string name="notAgreeAngLoginOut">不同意并退出</string>
     <string name="dataStatusIsAbnormal">数据状态异常</string>
     <string name="openNotificationHint">打开通知提示</string>
