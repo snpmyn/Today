@@ -1,5 +1,6 @@
 package widget.spannablestringbuilder;
 
+import android.graphics.Color;
 import android.text.SpannableStringBuilder;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
@@ -114,6 +115,8 @@ public class SpannableStringBuilderKit extends SpannableStringBuilder {
      * @param spannableStringBuilderKit 富文本构建器配套原件
      */
     public void configClickableSpanTextView(@NonNull TextView textView, SpannableStringBuilderKit spannableStringBuilderKit) {
+        // 取消点击 ClickableSpan 高亮背景
+        textView.setHighlightColor(Color.TRANSPARENT);
         // 设置文本视图使用链接移动方法，使其能够识别和响应文本中的可点击链接。
         // setMovementMethod()：是一个用于设置文本移动 / 交互方法的方法。
         // LinkMovementMethod.getInstance()：获取链接移动方法的实例，专门用于处理超链接点击。
