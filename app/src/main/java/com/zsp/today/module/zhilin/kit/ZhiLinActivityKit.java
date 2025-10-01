@@ -1,11 +1,12 @@
-package com.zsp.today.module.widget.kit;
+package com.zsp.today.module.zhilin.kit;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.zsp.today.R;
-import com.zsp.today.module.widget.bean.WidgetMenuEnum;
-import com.zsp.today.module.widget.tablayout.TabLayoutActivity;
+import com.zsp.today.module.zhilin.android.AndroidActivity;
+import com.zsp.today.module.zhilin.bean.ZhiLinMenuEnum;
+import com.zsp.today.module.zhilin.tablayout.TabLayoutActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,12 +19,12 @@ import widget.status.manager.StatusManager;
 import widget.toast.ToastKit;
 
 /**
- * Created on 2025/8/19.
+ * Created on 2025/9/28.
  *
  * @author 郑少鹏
- * @desc 组件碎片配套原件
+ * @desc 知林页配套原件
  */
-public class WidgetFragmentKit {
+public class ZhiLinActivityKit {
     /**
      * 展示
      *
@@ -38,12 +39,12 @@ public class WidgetFragmentKit {
         // 状态判断
         StatusManagerKit.statusJudge(statusManager, true, null);
         // 获取组件菜单图标资源 ID 集
-        WidgetMenuEnum[] widgetMenuEnums = WidgetMenuEnum.values();
+        ZhiLinMenuEnum[] zhiLinMenuEnums = ZhiLinMenuEnum.values();
         // 获取菜单集
-        List<MenuBean> menuBeanList = new ArrayList<>(widgetMenuEnums.length);
-        for (WidgetMenuEnum widgetMenuEnum : widgetMenuEnums) {
-            if (widgetMenuEnum.getMenuShow()) {
-                menuBeanList.add(new MenuBean(widgetMenuEnum.getMenuId(), widgetMenuEnum.getMenuIconResId(), widgetMenuEnum.getMenuName()));
+        List<MenuBean> menuBeanList = new ArrayList<>(zhiLinMenuEnums.length);
+        for (ZhiLinMenuEnum zhiLinMenuEnum : zhiLinMenuEnums) {
+            if (zhiLinMenuEnum.getMenuShow()) {
+                menuBeanList.add(new MenuBean(zhiLinMenuEnum.getMenuId(), zhiLinMenuEnum.getMenuIconResId(), zhiLinMenuEnum.getMenuName()));
             }
         }
         // 状态判断
@@ -70,6 +71,10 @@ public class WidgetFragmentKit {
                 // 搜索视图
             case 3:
                 ToastKit.showShort(appCompatActivity.getString(R.string.waitForImplementation));
+                break;
+            // 安卓
+            case 4:
+                IntentJump.getInstance().jump(null, appCompatActivity, false, AndroidActivity.class);
                 break;
             default:
                 break;
