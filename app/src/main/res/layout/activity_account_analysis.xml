@@ -15,7 +15,6 @@
         android:background="?attr/colorSurface"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/account_analysis_activity_menu"
-        app:navigationIcon="@drawable/ic_arrow_back_cos_24dp"
         app:title="@string/accountAnalysis"
         app:titleCentered="true"
         app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized" />
@@ -43,7 +42,6 @@
             android:layout_height="@dimen/dp_0"
             android:layout_margin="@dimen/dp_12"
             android:layout_weight="1"
-            app:cardElevation="@dimen/dp_0"
             app:contentPaddingBottom="@dimen/dp_24"
             app:contentPaddingLeft="@dimen/dp_12"
             app:contentPaddingRight="@dimen/dp_12"
