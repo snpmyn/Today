@@ -1,6 +1,7 @@
-package widget.textview.align;
+package widget.textview.menu;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -10,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,7 +80,7 @@ public class ActionMenu extends LinearLayout {
      * <p>
      * 全选、复制
      */
-    void addDefaultMenuItem() {
+    public void addDefaultMenuItem() {
         View selectAllView = createMenuItem(DEFAULT_ACTION_MENU_ITEM_TITLE_SELECT_ALL);
         View copyView = createMenuItem(DEFAULT_ACTION_MENU_ITEM_TITLE_COPY);
         addView(selectAllView);
@@ -118,7 +118,7 @@ public class ActionMenu extends LinearLayout {
     /**
      * 添自定菜单项
      */
-    void addCustomMenuItem() {
+    public void addCustomMenuItem() {
         boolean flag = ((null == actionMenuItemTitleList) || actionMenuItemTitleList.isEmpty());
         if (flag) {
             return;
@@ -151,7 +151,7 @@ public class ActionMenu extends LinearLayout {
         menuItem.setLayoutParams(params);
         menuItem.setTextSize(14);
         menuItem.setTextColor(actionMenuItemTextColor);
-        menuItem.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent));
+        menuItem.setBackgroundColor(Color.TRANSPARENT);
         menuItem.setGravity(Gravity.CENTER);
         menuItem.setText(itemTitle);
         menuItem.setTag(itemTitle);
