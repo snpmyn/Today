@@ -24,6 +24,8 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import util.theme.ThemeUtils;
+
 /**
  * Created on 2019/7/10.
  *
@@ -71,7 +73,7 @@ public class LineChartKit implements OnChartValueSelectedListener {
         WeakReference<Context> weakReference = new WeakReference<>(context);
         this.lineChart = lineChart;
         // Sets the background color for this view.
-        /*lineChart.setBackgroundColor(ContextCompat.getColor(context, com.zsp.core.R.color.white));*/
+        /*lineChart.setBackgroundColor(Color.WHITE);*/
         // Set this to true if this component should be enabled (should be drawn), false if not. If disabled, nothing of this component will be drawn.
         // Default: true
         /*lineChart.getDescription().setEnabled(true);*/
@@ -82,7 +84,7 @@ public class LineChartKit implements OnChartValueSelectedListener {
         /*lineChart.getDescription().setTextSize(10.0F);*/
         // Sets the text color to use for the labels.
         // Make sure to use getResources().getColor(...) when using a color from the resources.
-        lineChart.getDescription().setTextColor(ContextCompat.getColor(weakReference.get(), com.zsp.core.R.color.basic));
+        lineChart.getDescription().setTextColor(ThemeUtils.getColorPrimaryColorFromAttrResIdWithTypedArray(weakReference.get()));
         // Set this to false to disable all gestures and touches on the chart.
         // Default: true
         /*lineChart.setTouchEnabled(true);*/
@@ -171,9 +173,9 @@ public class LineChartKit implements OnChartValueSelectedListener {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         // Sets the text color to use for the labels.
         // Make sure to use getResources().getColor(...) when using a color from the resources.
-        xAxis.setTextColor(ContextCompat.getColor(weakReference.get(), com.zsp.core.R.color.basic));
+        xAxis.setTextColor(ThemeUtils.getColorPrimaryColorFromAttrResIdWithTypedArray(weakReference.get()));
         // Sets the color of the border surrounding the chart.
-        xAxis.setAxisLineColor(ContextCompat.getColor(weakReference.get(), com.zsp.core.R.color.basic));
+        xAxis.setAxisLineColor(ThemeUtils.getColorPrimaryColorFromAttrResIdWithTypedArray(weakReference.get()));
         if (null != values) {
             xAxis.setValueFormatter(new StringValueFormatter(values));
         }
@@ -211,9 +213,9 @@ public class LineChartKit implements OnChartValueSelectedListener {
         /*yLeftAxis.setGranularity(1.0F);*/
         // Sets the text color to use for the labels.
         // Make sure to use getResources().getColor(...) when using a color from the resources.
-        yLeftAxis.setTextColor(ContextCompat.getColor(weakReference.get(), com.zsp.core.R.color.basic));
+        yLeftAxis.setTextColor(ThemeUtils.getColorPrimaryColorFromAttrResIdWithTypedArray(weakReference.get()));
         // Sets the color of the border surrounding the chart.
-        yLeftAxis.setAxisLineColor(ContextCompat.getColor(weakReference.get(), com.zsp.core.R.color.basic));
+        yLeftAxis.setAxisLineColor(ThemeUtils.getColorPrimaryColorFromAttrResIdWithTypedArray(weakReference.get()));
         // Returns the right y-axis object. In the horizontal bar-chart, this is the bottom axis.
         YAxis yRightAxis = lineChart.getAxisRight();
         // Set this to true if this component should be enabled (should be drawn), false if not.
@@ -239,9 +241,9 @@ public class LineChartKit implements OnChartValueSelectedListener {
         /*yRightAxis.setGranularity(1.0F);*/
         // Sets the text color to use for the labels.
         // Make sure to use getResources().getColor(...) when using a color from the resources.
-        yRightAxis.setTextColor(ContextCompat.getColor(weakReference.get(), com.zsp.core.R.color.basic));
+        yRightAxis.setTextColor(ThemeUtils.getColorPrimaryColorFromAttrResIdWithTypedArray(weakReference.get()));
         // Sets the color of the border surrounding the chart.
-        yRightAxis.setAxisLineColor(ContextCompat.getColor(weakReference.get(), com.zsp.core.R.color.basic));
+        yRightAxis.setAxisLineColor(ThemeUtils.getColorPrimaryColorFromAttrResIdWithTypedArray(weakReference.get()));
     }
 
     /**
@@ -294,7 +296,7 @@ public class LineChartKit implements OnChartValueSelectedListener {
             lineDataSet.setColor(ContextCompat.getColor(weakReference.get(), com.zsp.core.R.color.color_FFF86C09));
             // Sets the color that is used for drawing the highlight indicators.
             // Do not forget to resolve the color using getResources().getColor(...) or Color.rgb(...).
-            lineDataSet.setHighLightColor(ContextCompat.getColor(weakReference.get(), com.zsp.core.R.color.basic));
+            lineDataSet.setHighLightColor(ThemeUtils.getColorPrimaryColorFromAttrResIdWithTypedArray(weakReference.get()));
             // Sets the alpha value (transparency) that is used for filling the line surface (0-255), default: 85.
             lineDataSet.setFillAlpha(100);
             // Sets the color that is used for filling the area below the line.
