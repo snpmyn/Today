@@ -47,14 +47,11 @@ public class SplashAnimationHomeFragmentKit {
         // 状态判断
         StatusManagerKit.statusJudge(statusManager, true, null);
         // 数据
-        List<SplashAnimationListBean> splashAnimationListBeanList = new ArrayList<>(6);
-        splashAnimationListBeanList.add(new SplashAnimationListBean("lottie/lottie_animation_splash_one"));
-        splashAnimationListBeanList.add(new SplashAnimationListBean("lottie/lottie_animation_splash_two"));
-        splashAnimationListBeanList.add(new SplashAnimationListBean("lottie/lottie_animation_splash_three"));
-        splashAnimationListBeanList.add(new SplashAnimationListBean("lottie/lottie_animation_splash_four"));
-        splashAnimationListBeanList.add(new SplashAnimationListBean("lottie/lottie_animation_splash_five"));
-        splashAnimationListBeanList.add(new SplashAnimationListBean("lottie/lottie_animation_splash_six"));
-        splashAnimationListBeanList.add(new SplashAnimationListBean("lottie/lottie_animation_splash_seven"));
+        List<SplashAnimationListBean> splashAnimationListBeanList = new ArrayList<>(4);
+        splashAnimationListBeanList.add(new SplashAnimationListBean("lottie/splash/lottie_animation_splash_one"));
+        splashAnimationListBeanList.add(new SplashAnimationListBean("lottie/splash/lottie_animation_splash_two"));
+        splashAnimationListBeanList.add(new SplashAnimationListBean("lottie/splash/lottie_animation_splash_three"));
+        splashAnimationListBeanList.add(new SplashAnimationListBean("lottie/splash/lottie_animation_splash_four"));
         // 控件
         RecyclerViewConfigure recyclerViewConfigure = new RecyclerViewConfigure(appCompatActivity, recyclerView);
         recyclerViewConfigure.gridLayout(2, 48, true, true, false);
