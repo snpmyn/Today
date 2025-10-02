@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="basic">#FF4E80F5</color>
-    <color name="white">#FFFFFFFF</color>
     <!--customize your theme here-->
-    <color name="color_9EA5B8">#9EA5B8</color>
-    <color name="color_FF202323">#FF202323</color>
-    <color name="color_FFEA6464">#FFEA6464</color>
-    <color name="color_FFF86C09">#FFF86C09</color>
-    <color name="color_FF6AAEFF">#FF6AAEFF</color>
+    <color name="color_06FDDB">#06FDDB</color>
+    <color name="color_FFEA6464">#FFF44336</color>
+    <color name="color_FFF86C09">#FFEE6002</color>
     <integer-array name="color_loading_indicator">
         <item>@color/color_FFF86C09</item>
-        <item>@color/color_FF6AAEFF</item>
         <item>@color/color_FFEA6464</item>
+        <item>@color/color_FFF86C09</item>
     </integer-array>
 </resources>
