@@ -107,7 +107,6 @@ public class HeartBoxActivity extends BasePoolActivity {
      */
     @Override
     protected void setListener() {
-        // MaterialButton
         ViewAntiBruteForceClickKit.setViewAntiBruteForceClickListener(heartBoxActivityMbPauseOrResume, 200, v -> heartBoxActivityKit.pauseOrResume(HeartBoxActivity.this));
         ViewAntiBruteForceClickKit.setViewAntiBruteForceClickListener(heartBoxActivityMbStartOrStop, 200, v -> heartBoxActivityKit.startOrStop(HeartBoxActivity.this, heartBoxActivityMbPauseOrResume));
         ViewAntiBruteForceClickKit.setViewAntiBruteForceClickListener(heartBoxActivityMbCancel, 200, v -> heartBoxActivityKit.cancel(HeartBoxActivity.this));
@@ -122,6 +121,15 @@ public class HeartBoxActivity extends BasePoolActivity {
         // 用 Handler.post(Runnable)
         // 于 onCreate() 末尾提交仍排在主线程消息队列后执行
         HandlerKit.getInstance().post(() -> heartBoxActivityKit.checkRecordAudioPermission(HeartBoxActivity.this, heartBoxActivityEwv, heartBoxActivityPcv, heartBoxActivityMcv, heartBoxActivityTvDurationSize, heartBoxActivityTvTime, heartBoxActivityTvDate, heartBoxActivityMd, heartBoxActivityMbg, heartBoxActivityMbListen, heartBoxActivityMbRelease, heartBoxActivityMbLook, heartBoxActivityMbPauseOrResume, heartBoxActivityMbStartOrStop));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // 心情波视图
+        heartBoxActivityEwv.initView();
+        // 纸张粉碎视图
+        heartBoxActivityPcv.initView();
     }
 
     @Override
