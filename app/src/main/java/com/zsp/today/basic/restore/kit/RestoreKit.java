@@ -25,11 +25,11 @@ public class RestoreKit {
     /**
      * 账目数据库表文件绝对路径
      */
-    public String accountDataBaseTableFileAbsolutePath = Folder.EXTERNAL_BACKUP + File.separator + AccountDataBaseTable.class.getSimpleName() + BuildConfig.BACKUP_SUFFIX + ".json";
+    public String accountDataBaseTableFileAbsolutePath = Folder.EXTERNAL_BACKUP + File.separator + AccountDataBaseTable.class.getSimpleName() + "-" + BuildConfig.BACKUP_SUFFIX + ".json";
     /**
      * 险情数据库表文件绝对路径
      */
-    public String dangerousDataBaseTableFileAbsolutePath = Folder.EXTERNAL_BACKUP + File.separator + DangerousDataBaseTable.class.getSimpleName() + BuildConfig.BACKUP_SUFFIX + ".json";
+    public String dangerousDataBaseTableFileAbsolutePath = Folder.EXTERNAL_BACKUP + File.separator + DangerousDataBaseTable.class.getSimpleName() + "-" + BuildConfig.BACKUP_SUFFIX + ".json";
 
     public static RestoreKit getInstance() {
         return InstanceHolder.INSTANCE;
