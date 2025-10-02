@@ -5,31 +5,100 @@
     style="?attr/materialCardViewFilledStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    app:contentPadding="@dimen/dp_12"
     app:rippleColor="?attr/colorPrimary">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_116">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/accountMonthListItemTvMonth"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="?attr/colorPrimary"
-            android:gravity="center_vertical"
-            android:paddingLeft="@dimen/dp_10"
-            android:paddingRight="@dimen/dp_10"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/sp_10"
-            tools:text="01 月" />
-
-        <TextView
-            android:id="@+id/accountMonthListItemTvTotalAmount"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_toEndOf="@+id/accountMonthListItemTvMonth"
-            android:gravity="center"
-            android:textAppearance="?attr/textAppearanceHeadline6"
-            tools:text="66" />
-    </RelativeLayout>
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/accountMonthListItemTvTotalAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="?actionBarSize"
+                android:background="@drawable/color_on_primary_solid_r12"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/dp_10"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                tools:text="66" />
+
+            <TextView
+                android:id="@+id/accountMonthListItemTvMonth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/color_primary_solid_r12"
+                android:paddingHorizontal="@dimen/dp_10"
+                android:paddingVertical="@dimen/dp_6"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/sp_10"
+                android:textStyle="bold"
+                tools:ignore="RelativeOverlap"
+                tools:text="01 月" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_12">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="?actionBarSize"
+                android:background="@drawable/color_on_primary_solid_r12"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/dp_10">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/numberOfConsumptionTransactionsInTheMonth"
+                    android:textSize="@dimen/sp_12"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/accountMonthListItemTvNumberOfConsumptionTransactionsInTheMonth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_6"
+                    android:textColor="@color/color_FFF86C09"
+                    android:textSize="@dimen/sp_12"
+                    android:textStyle="bold"
+                    tools:text="32 笔" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:layout_marginStart="@dimen/dp_12"
+                android:background="@drawable/color_on_primary_solid_r12"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/dp_10">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/largestConsumerCategory"
+                    android:textSize="@dimen/sp_12"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/accountMonthListItemTvLargestConsumerCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_6"
+                    android:textColor="@color/color_FFF86C09"
+                    android:textSize="@dimen/sp_12"
+                    android:textStyle="bold"
+                    tools:text="午饭 20 元" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
