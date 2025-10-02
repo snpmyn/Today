@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.zsp.core.R;
@@ -30,8 +31,8 @@ public class LoginActivity extends BasePoolActivity implements View.OnClickListe
     private TextInputLayout loginActivityTilInputPhoneNumber;
     private TextInputEditText loginActivityTietPhoneNumber;
     private MaterialButton loginActivityMbLogin;
-    private TextView loginActivityTvUserAgreement;
-    private TextView loginActivityTvPrivacyPolicy;
+    private MaterialCardView loginActivityMcvUserAgreement;
+    private MaterialCardView loginActivityMcvPrivacyPolicy;
     /**
      * 登录页监听
      */
@@ -73,8 +74,8 @@ public class LoginActivity extends BasePoolActivity implements View.OnClickListe
         loginActivityTilInputPhoneNumber = findViewById(R.id.loginActivityTilInputPhoneNumber);
         loginActivityTietPhoneNumber = findViewById(R.id.loginActivityTietPhoneNumber);
         loginActivityMbLogin = findViewById(R.id.loginActivityMbLogin);
-        loginActivityTvUserAgreement = findViewById(R.id.loginActivityTvUserAgreement);
-        loginActivityTvPrivacyPolicy = findViewById(R.id.loginActivityTvPrivacyPolicy);
+        loginActivityMcvUserAgreement = findViewById(R.id.loginActivityMcvUserAgreement);
+        loginActivityMcvPrivacyPolicy = findViewById(R.id.loginActivityMcvPrivacyPolicy);
     }
 
     /**
@@ -113,9 +114,9 @@ public class LoginActivity extends BasePoolActivity implements View.OnClickListe
         loginActivityTietPhoneNumber.addTextChangedListener(new CustomTextWatcher(loginActivityTilInputPhoneNumber, loginActivityTietPhoneNumber));
         // MaterialButton
         loginActivityMbLogin.setOnClickListener(this);
-        // TextView
-        loginActivityTvUserAgreement.setOnClickListener(this);
-        loginActivityTvPrivacyPolicy.setOnClickListener(this);
+        // MaterialCardView
+        loginActivityMcvUserAgreement.setOnClickListener(this);
+        loginActivityMcvPrivacyPolicy.setOnClickListener(this);
     }
 
     @Override
@@ -124,10 +125,10 @@ public class LoginActivity extends BasePoolActivity implements View.OnClickListe
         if (id == R.id.loginActivityMbLogin) {
             // 登录
             loginActivityKit.login(this, loginActivityTilInputPhoneNumber, loginActivityTietPhoneNumber, loginActivityListener);
-        } else if (id == R.id.loginActivityTvUserAgreement) {
+        } else if (id == R.id.loginActivityMcvUserAgreement) {
             // 用户协议
             userAgreementAndPrivacyPolicyActivityKit.showUserAgreementAndPrivacyPolicy(this, PoolConstant.USER_AGREEMENT);
-        } else if (id == R.id.loginActivityTvPrivacyPolicy) {
+        } else if (id == R.id.loginActivityMcvPrivacyPolicy) {
             // 政策隐私
             userAgreementAndPrivacyPolicyActivityKit.showUserAgreementAndPrivacyPolicy(this, PoolConstant.PRIVACY_POLICY);
         }
