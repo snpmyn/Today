@@ -89,6 +89,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/dangerousActivityMbSaveConfig"
+                    style="?attr/materialIconButtonFilledTonalStyle"
                     android:layout_width="@dimen/dp_0"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -99,16 +100,15 @@
                     android:insetBottom="@dimen/dp_0"
                     android:lines="4"
                     android:text="@string/saveConfig"
-                    android:textColor="@color/white"
                     android:textSize="@dimen/sp_14"
                     android:textStyle="bold" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/dangerousActivityMbSend"
+                    style="?attr/materialIconButtonFilledTonalStyle"
                     android:layout_width="@dimen/dp_0"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/color_FFF86C09"
                     android:filterTouchesWhenObscured="true"
                     android:insetLeft="@dimen/dp_0"
                     android:insetTop="@dimen/dp_0"
@@ -116,10 +116,9 @@
                     android:insetBottom="@dimen/dp_0"
                     android:lines="4"
                     android:text="@string/send"
-                    android:textColor="@color/white"
+                    android:textColor="@color/color_FFF86C09"
                     android:textSize="@dimen/sp_14"
-                    android:textStyle="bold"
-                    app:rippleColor="@color/white" />
+                    android:textStyle="bold" />
             </com.google.android.material.button.MaterialButtonGroup>
         </LinearLayout>
     </ScrollView>
