@@ -99,7 +99,7 @@ public class ApkDownloadManager {
         ApkCleanManager.execute(appCompatActivity);
         // 下载管理器请求对象
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(downloadUrl));
-        request.setTitle(appCompatActivity.getString(R.string.todayUpdate));
+        request.setTitle(appCompatActivity.getString(R.string.knowAndCompanionUpdate));
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         if (useExternalPublicDownload) {
             // 外部公共 Download 目录
@@ -124,68 +124,65 @@ public class ApkDownloadManager {
         DownloadManager downloadManager = (DownloadManager) appCompatActivity.getSystemService(Context.DOWNLOAD_SERVICE);
         // 调用 .enqueue(request) 提交给系统
         long downloadId = downloadManager.enqueue(request);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                boolean downloading = true;
-                // 当前进度
-                int currentProgress = 0;
-                while (downloading) {
-                    Cursor cursor = downloadManager.query(new DownloadManager.Query().setFilterById(downloadId));
-                    if ((null != cursor) && cursor.moveToFirst()) {
-                        int bytesTotal = cursor.getInt(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
-                        int bytesDownloaded = cursor.getInt(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
-                        int progress = (bytesTotal > 0) ? Math.round((bytesDownloaded * 100.0F) / bytesTotal) : 0;
-                        // 仅进度变化时更新
-                        if (progress != currentProgress) {
-                            final int start = currentProgress;
-                            final int end = progress;
-                            currentProgress = progress;
+        new Thread(() -> {
+            boolean downloading = true;
+            // 当前进度
+            int currentProgress = 0;
+            while (downloading) {
+                Cursor cursor = downloadManager.query(new DownloadManager.Query().setFilterById(downloadId));
+                if ((null != cursor) && cursor.moveToFirst()) {
+                    int bytesTotal = cursor.getInt(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_TOTAL_SIZE_BYTES));
+                    int bytesDownloaded = cursor.getInt(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR));
+                    int progress = (bytesTotal > 0) ? Math.round((bytesDownloaded * 100.0F) / bytesTotal) : 0;
+                    // 仅进度变化时更新
+                    if (progress != currentProgress) {
+                        final int start = currentProgress;
+                        final int end = progress;
+                        currentProgress = progress;
+                        HandlerKit.getInstance().post(() -> {
+                            // 插值动画
+                            // 平滑过渡
+                            ValueAnimator valueAnimator = ValueAnimator.ofInt(start, end);
+                            valueAnimator.setDuration(150);
+                            valueAnimator.setInterpolator(new android.view.animation.DecelerateInterpolator());
+                            valueAnimator.addUpdateListener(animation -> {
+                                // 更新
+                                ProgressMaterialAlertDialogKit.getInstance().update((int) animation.getAnimatedValue());
+                            });
+                            valueAnimator.start();
+                        });
+                    }
+                    int status = cursor.getInt(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_STATUS));
+                    if (status == DownloadManager.STATUS_SUCCESSFUL) {
+                        downloading = false;
+                        HandlerKit.getInstance().post(() -> {
+                            // 关闭
+                            ProgressMaterialAlertDialogKit.getInstance().close();
+                        });
+                        // 用 DownloadManager.COLUMN_LOCAL_URI 获取系统保存的实际文件路径
+                        String columnLocalUri = cursor.getString(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_LOCAL_URI));
+                        if (null != columnLocalUri) {
+                            File file = new File(Objects.requireNonNull(Uri.parse(columnLocalUri).getPath()));
                             HandlerKit.getInstance().post(() -> {
-                                // 插值动画
-                                // 平滑过渡
-                                ValueAnimator valueAnimator = ValueAnimator.ofInt(start, end);
-                                valueAnimator.setDuration(150);
-                                valueAnimator.setInterpolator(new android.view.animation.DecelerateInterpolator());
-                                valueAnimator.addUpdateListener(animation -> {
-                                    // 更新
-                                    ProgressMaterialAlertDialogKit.getInstance().update((int) animation.getAnimatedValue());
-                                });
-                                valueAnimator.start();
+                                // 安装
+                                ApkInstallManager.getInstance(appCompatActivity).execute(file);
                             });
                         }
-                        int status = cursor.getInt(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_STATUS));
-                        if (status == DownloadManager.STATUS_SUCCESSFUL) {
-                            downloading = false;
-                            HandlerKit.getInstance().post(() -> {
-                                // 关闭
-                                ProgressMaterialAlertDialogKit.getInstance().close();
-                            });
-                            // 用 DownloadManager.COLUMN_LOCAL_URI 获取系统保存的实际文件路径
-                            String columnLocalUri = cursor.getString(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_LOCAL_URI));
-                            if (null != columnLocalUri) {
-                                File file = new File(Objects.requireNonNull(Uri.parse(columnLocalUri).getPath()));
-                                HandlerKit.getInstance().post(() -> {
-                                    // 安装
-                                    ApkInstallManager.getInstance(appCompatActivity).execute(file);
-                                });
-                            }
-                        } else if (status == DownloadManager.STATUS_FAILED) {
-                            downloading = false;
-                            HandlerKit.getInstance().post(() -> {
-                                // 关闭
-                                ProgressMaterialAlertDialogKit.getInstance().close();
-                            });
-                        }
+                    } else if (status == DownloadManager.STATUS_FAILED) {
+                        downloading = false;
+                        HandlerKit.getInstance().post(() -> {
+                            // 关闭
+                            ProgressMaterialAlertDialogKit.getInstance().close();
+                        });
                     }
-                    if (null != cursor) {
-                        cursor.close();
-                    }
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException ignored) {
+                }
+                if (null != cursor) {
+                    cursor.close();
+                }
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException ignored) {
 
-                    }
                 }
             }
         }).start();
