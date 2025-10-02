@@ -49,7 +49,7 @@ public class VersionKit {
         if (hint) {
             BocDialogKit.getInstance(appCompatActivity).bocCommonLoading(appCompatActivity.getString(R.string.check), null);
         }
-        Ion.with(appCompatActivity).load(IonInitConfig.POST, "https://api.pgyer.com/apiv2/app/check").setTimeout(IonInitConfig.TIME_OUT).setLogging(IonInitConfig.LOG_TAG, IonInitConfig.LOG_LEVEL).addQuery("_api_key", "33ff1520a3b3b352210b83f33b7bdf96").addQuery("appKey", "070f15aa424fefee1560725d8d596e8e").asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+        Ion.with(appCompatActivity).load(IonInitConfig.POST, "https://api.pgyer.com/apiv2/app/check").setTimeout(IonInitConfig.TIME_OUT).setLogging(IonInitConfig.LOG_TAG, IonInitConfig.LOG_LEVEL).addQuery("_api_key", "33ff1520a3b3b352210b83f33b7bdf96").addQuery("appKey", "58e50e98badbf930ba527f27e4b986ef").asJsonObject().setCallback(new FutureCallback<JsonObject>() {
             @Override
             public void onCompleted(Exception e, JsonObject result) {
                 if (hint) {
