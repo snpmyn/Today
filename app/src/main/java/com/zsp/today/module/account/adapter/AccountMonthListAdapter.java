@@ -76,10 +76,14 @@ public class AccountMonthListAdapter extends RecyclerView.Adapter<AccountMonthLi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.itemView.setTag(position);
         AccountMonthListBean accountMonthListBean = accountMonthListBeans.get(position);
-        // 月
-        holder.accountMonthListItemTvMonth.setText(String.format(context.getString(R.string.formatMonth), accountMonthListBean.getMonth()));
         // 总金额
         holder.accountMonthListItemTvTotalAmount.setText(String.format(context.getString(R.string.formatYuan), accountMonthListBean.getTotalAmount()));
+        // 数量
+        holder.accountMonthListItemTvNumberOfConsumptionTransactionsInTheMonth.setText(String.valueOf(accountMonthListBean.getCount()));
+        // 最大类目和金额
+        holder.accountMonthListItemTvLargestConsumerCategory.setText(accountMonthListBean.getMaxCategoryAndAmount());
+        // 月
+        holder.accountMonthListItemTvMonth.setText(String.format(context.getString(R.string.formatMonth), accountMonthListBean.getMonth()));
     }
 
     @Override
@@ -91,13 +95,17 @@ public class AccountMonthListAdapter extends RecyclerView.Adapter<AccountMonthLi
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView accountMonthListItemTvMonth;
         private final TextView accountMonthListItemTvTotalAmount;
+        private final TextView accountMonthListItemTvNumberOfConsumptionTransactionsInTheMonth;
+        private final TextView accountMonthListItemTvLargestConsumerCategory;
+        private final TextView accountMonthListItemTvMonth;
 
         private ViewHolder(@NonNull View view) {
             super(view);
-            accountMonthListItemTvMonth = view.findViewById(R.id.accountMonthListItemTvMonth);
             accountMonthListItemTvTotalAmount = view.findViewById(R.id.accountMonthListItemTvTotalAmount);
+            accountMonthListItemTvNumberOfConsumptionTransactionsInTheMonth = view.findViewById(R.id.accountMonthListItemTvNumberOfConsumptionTransactionsInTheMonth);
+            accountMonthListItemTvLargestConsumerCategory = view.findViewById(R.id.accountMonthListItemTvLargestConsumerCategory);
+            accountMonthListItemTvMonth = view.findViewById(R.id.accountMonthListItemTvMonth);
         }
     }
 }
