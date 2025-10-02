@@ -8,6 +8,7 @@
       <w>adbe</w>
       <w>addr</w>
       <w>amap</w>
+      <w>appname</w>
       <w>arrondis</w>
       <w>baidumapsdk</w>
       <w>bdmap</w>
@@ -32,14 +33,18 @@
       <w>dctv</w>
       <w>decs</w>
       <w>dflt</w>
+      <w>dorg</w>
       <w>efab</w>
       <w>elipse</w>
       <w>elíptico</w>
       <w>encrpyted</w>
+      <w>endlocal</w>
       <w>eqvr</w>
+      <w>errorlevel</w>
       <w>exop</w>
       <w>externalstorage</w>
       <w>fafb</w>
+      <w>fddb</w>
       <w>fileprovider</w>
       <w>fioa</w>
       <w>floatingactionbutton</w>
@@ -50,6 +55,7 @@
       <w>gpay</w>
       <w>groupe</w>
       <w>grupo</w>
+      <w>headportrait</w>
       <w>heartbox</w>
       <w>hight</w>
       <w>hmmss</w>
@@ -90,6 +96,7 @@
       <w>relleno</w>
       <w>rxbus</w>
       <w>sendto</w>
+      <w>setlocal</w>
       <w>shapeable</w>
       <w>smsc</w>
       <w>smssdk</w>
@@ -112,6 +119,7 @@
       <w>trre</w>
       <w>ukramedia</w>
       <w>uniqued</w>
+      <w>useragreementandprivacypolicy</w>
       <w>uykio</w>
       <w>wordprocessingml</w>
       <w>xing</w>
@@ -120,6 +128,7 @@
       <w>yyyymmddhhmmss</w>
       <w>yyyymmhh</w>
       <w>yyyymmss</w>
+      <w>zhilin</w>
       <w>zpkil</w>
       <w>zzzzzzzzzzzzzzz</w>
       <w>глаз</w>
