@@ -9,6 +9,7 @@ import com.zsp.today.module.account.value.AccountCondition;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import litepal.kit.LitePalKit;
@@ -138,6 +139,23 @@ public class AccountBasicKit {
             accountDetailBeanList.add(new AccountDetailBean(accountDataBaseTable.getDate(), accountDataBaseTable.getCategory(), accountDataBaseTable.getAmount()));
         }
         return accountDetailBeanList;
+    }
+
+    /**
+     * 获取最大类目和金额
+     *
+     * @param accountDataBaseTableList 账目数据库表数据集合
+     * @return 最大类目和金额
+     */
+    public String getMaxCategoryAndAmount(List<AccountDataBaseTable> accountDataBaseTableList) {
+        if ((null == accountDataBaseTableList) || ListUtils.listIsEmpty(accountDataBaseTableList)) {
+            return "无数据";
+        }
+        AccountDataBaseTable maxAccountDataBaseTable = accountDataBaseTableList.stream().filter(item -> null != item.getAmount()).max(Comparator.comparingDouble(AccountDataBaseTable::getAmount)).orElse(null);
+        if (null == maxAccountDataBaseTable) {
+            return "无数据";
+        }
+        return maxAccountDataBaseTable.getCategory() + " " + maxAccountDataBaseTable.getAmount() + " 元";
     }
 
     private static final class InstanceHolder {
