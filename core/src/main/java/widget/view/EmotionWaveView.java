@@ -3,6 +3,7 @@ package widget.view;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -22,7 +23,7 @@ import util.array.ArrayUtils;
 /**
  * @decs: 心情波视图
  * @author: 郑少鹏
- * @date: 2025/9/13 17:49
+ * @date: 2025/9/29 15:41
  * @version: v 1.0
  */
 public class EmotionWaveView extends View {
@@ -43,23 +44,48 @@ public class EmotionWaveView extends View {
     private String emotionText = "平静";
     private float breathingScale = 1.0F;
     private float rippleProgress = 0.0F;
+    private boolean initialized = false;
+    private boolean autoInit = true;
 
     public EmotionWaveView(Context context) {
         super(context);
-        init();
+        initDefault();
     }
 
-    public EmotionWaveView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init();
+    public EmotionWaveView(Context context, AttributeSet attributeSet) {
+        super(context, attributeSet);
+        initDefault();
+        if (null != attributeSet) {
+            TypedArray typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.EmotionWaveView);
+            autoInit = typedArray.getBoolean(R.styleable.EmotionWaveView_autoInit, true);
+            typedArray.recycle();
+        }
+        if (autoInit) {
+            post(this::initView);
+        }
     }
 
-    public EmotionWaveView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init();
+    public EmotionWaveView(Context context, AttributeSet attributeSet, int defStyleAttr) {
+        super(context, attributeSet, defStyleAttr);
+        initDefault();
+        if (null != attributeSet) {
+            TypedArray typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.EmotionWaveView);
+            autoInit = typedArray.getBoolean(R.styleable.EmotionWaveView_autoInit, true);
+            typedArray.recycle();
+        }
+        if (autoInit) {
+            post(this::initView);
+        }
     }
 
-    private void init() {
+    private void initDefault() {
+        emotionText = "平静";
+    }
+
+    public void initView() {
+        if (initialized) {
+            return;
+        }
         circlePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         circlePaint.setStyle(Paint.Style.FILL);
         circlePaint.setColor(Color.parseColor("#FFB6B9"));
@@ -78,19 +104,20 @@ public class EmotionWaveView extends View {
         startBreathingAnimation();
         startRippleAnimation();
         startSeaAnimation();
+        initialized = true;
     }
 
     private void startBreathingAnimation() {
-        ValueAnimator animator = ValueAnimator.ofFloat(0.95F, 1.05F);
-        animator.setDuration(3000);
-        animator.setInterpolator(new LinearInterpolator());
-        animator.setRepeatMode(ValueAnimator.REVERSE);
-        animator.setRepeatCount(ValueAnimator.INFINITE);
-        animator.addUpdateListener(animation -> {
+        ValueAnimator valueAnimator = ValueAnimator.ofFloat(0.95F, 1.05F);
+        valueAnimator.setDuration(3000);
+        valueAnimator.setInterpolator(new LinearInterpolator());
+        valueAnimator.setRepeatMode(ValueAnimator.REVERSE);
+        valueAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        valueAnimator.addUpdateListener(animation -> {
             breathingScale = (float) animation.getAnimatedValue();
             invalidate();
         });
-        animator.start();
+        valueAnimator.start();
     }
 
     private void startRippleAnimation() {
@@ -119,6 +146,9 @@ public class EmotionWaveView extends View {
 
     public void setVolume(float normalizedVolume) {
         this.volume = Math.max(0.0F, Math.min(normalizedVolume, 1.0F));
+        if (!initialized) {
+            return;
+        }
         if (this.volume <= 0.0F) {
             emotionText = canToggle() ? emotionTexts[0] : getContext().getString(R.string.calm);
             circlePaint.setColor(Color.parseColor("#FFB6B9"));
@@ -149,6 +179,9 @@ public class EmotionWaveView extends View {
 
     @Override
     protected void onDraw(@NonNull Canvas canvas) {
+        if (!initialized) {
+            return;
+        }
         super.onDraw(canvas);
         int width = getWidth();
         int height = getHeight();
@@ -183,7 +216,7 @@ public class EmotionWaveView extends View {
         int baseY = (int) (height * 0.75);
         seaPath.moveTo(0, baseY);
         for (int x = 0; x <= width; x++) {
-            float y = (float) (Math.sin(2 * Math.PI * (x + seaOffset * width) / ((double) width / waveCount)) * maxWaveHeight);
+            float y = (float) (Math.sin(2 * Math.PI * (x + seaOffset * width) / (width / (double) waveCount)) * maxWaveHeight);
             seaPath.lineTo(x, baseY + y);
         }
         seaPath.lineTo(width, height);
@@ -194,10 +227,7 @@ public class EmotionWaveView extends View {
 
     private int adjustAlpha(int color, float factor) {
         int alpha = Math.min(255, Math.max(0, (int) (Color.alpha(color) * factor)));
-        int red = Color.red(color);
-        int green = Color.green(color);
-        int blue = Color.blue(color);
-        return Color.argb(alpha, red, green, blue);
+        return Color.argb(alpha, Color.red(color), Color.green(color), Color.blue(color));
     }
 
     /**
