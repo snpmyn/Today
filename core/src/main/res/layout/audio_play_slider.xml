@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <!--scaleType 作用于内容而非背景-->
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/audioPlaySliderSiv"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:layout_weight="2.5"
+        android:scaleType="fitXY"
+        app:shapeAppearance="@style/ShapeableImageViewBottom"
+        tools:srcCompat="@drawable/picture_two" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/audioPlaySliderSlider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:value="6.00"
+            android:valueFrom="0.0"
+            android:valueTo="10.0"
+            app:labelBehavior="gone"
+            app:thumbColor="@color/color_FFF86C09"
+            app:thumbHeight="@dimen/dp_48"
+            app:trackCornerSize="@dimen/dp_12"
+            app:trackHeight="@dimen/dp_40"
+            app:trackIconActiveColor="@color/track_icon_active_color"
+            app:trackIconActiveEnd="@drawable/ic_music_note_cos_24dp"
+            app:trackIconActiveStart="@drawable/ic_music_note_cos_24dp"
+            app:trackIconInactiveColor="@color/track_icon_inactive_color"
+            app:trackIconInactiveEnd="@drawable/ic_music_off_cos_24dp"
+            app:trackIconInactiveStart="@drawable/ic_music_off_cos_24dp"
+            app:trackIconSize="@dimen/dp_20"
+            app:trackInsideCornerSize="@dimen/dp_12" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/audioPlaySliderMb"
+            style="?attr/materialIconButtonFilledTonalStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_10"
+            android:filterTouchesWhenObscured="true"
+            android:insetLeft="@dimen/dp_0"
+            android:insetTop="@dimen/dp_0"
+            android:insetRight="@dimen/dp_0"
+            android:insetBottom="@dimen/dp_0"
+            app:icon="@drawable/ic_pause_cos_24dp"
+            app:iconGravity="textStart" />
+    </LinearLayout>
+</LinearLayout>
