@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="and">和</string>
     <string name="mine">我的</string>
     <string name="hint">提示</string>
     <string name="calm">平静</string>
@@ -52,7 +51,6 @@
     <string name="canNotStartRecording">无法开始录制</string>
     <string name="canNotPauseRecording">无法暂停录制</string>
     <string name="canNotResumeRecording">无法恢复录制</string>
-    <string name="bySigningInYouAgree">登录即代表您同意</string>
     <string name="inputCorrectPhoneNumber">输入正确的手机号</string>
     <string name="needTurnOnLocationServices">需开启定位服务</string>
     <string name="loadFailAndTryAgainLater">加载失败，稍后重试</string>
