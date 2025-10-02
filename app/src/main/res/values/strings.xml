@@ -90,6 +90,7 @@
     <string name="noAccountDataAvailable">暂无账单数据</string>
     <string name="accountNotificationChinese">账目通知</string>
     <string name="enterIntoAccountSuccessful">入账成功</string>
+    <string name="largestConsumerCategory">最大消费类目</string>
     <string name="periodicNotificationChinese">周期通知</string>
     <string name="updateLocationSuccessful">更新定位成功</string>
     <string name="canNotGetLocationInfo">无法获取定位信息</string>
@@ -110,6 +111,7 @@
     <string name="inputEmergencyContactPhoneNumber">输入紧急联系人手机号</string>
     <string name="hurryUpSendTheCoarseLocation">来不及了\n使用粗略位置发送</string>
     <string name="myHeartLittleColdAndSmile">心事微凉\u00A0\u00A0笑一笑吧</string>
+    <string name="numberOfConsumptionTransactionsInTheMonth">当月消费笔数</string>
     <string name="recordReadAudioAreBasedOnThePermission">录制读取音频需要该权限</string>
     <string name="receiveNotificationAreBasedOnThePermission">接收通知需要该权限</string>
     <string name="inputCorrectEmergencyContactPhoneNumber">输入正确的紧急联系人手机号</string>
