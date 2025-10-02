@@ -1,33 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:gravity="center">
+    style="?attr/materialCardViewFilledStyle"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/bocCanCancelLoadingDialogIvLoading"
-        android:layout_width="@dimen/dp_24"
-        android:layout_height="@dimen/dp_24"
-        android:contentDescription="@string/progressBar"
-        android:scaleType="centerInside"
-        app:srcCompat="@drawable/boc_dialog_can_cancel_loading"
-        app:tint="?attr/colorPrimary" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
 
-    <TextView
-        android:id="@+id/bocCanCancelLoadingDialogTvHint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/dp_12"
-        android:textColor="@color/color_FF202323"
-        android:textSize="@dimen/sp_13"
-        tools:text="加载中" />
+        <ImageView
+            android:id="@+id/bocCanCancelLoadingDialogIvLoading"
+            android:layout_width="@dimen/dp_24"
+            android:layout_height="@dimen/dp_24"
+            android:contentDescription="@string/progressBar"
+            android:scaleType="centerInside"
+            app:srcCompat="@drawable/boc_dialog_can_cancel_loading"
+            app:tint="?attr/colorPrimary" />
 
-    <ImageView
-        android:id="@+id/bocCanCancelLoadingDialogIvClose"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/close"
-        app:srcCompat="@drawable/ic_close_cos_20dp" />
-</LinearLayout>
+        <TextView
+            android:id="@+id/bocCanCancelLoadingDialogTvHint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp_12"
+            android:textSize="@dimen/sp_13"
+            tools:text="加载中" />
+
+        <ImageView
+            android:id="@+id/bocCanCancelLoadingDialogIvClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/close"
+            app:srcCompat="@drawable/ic_close_cos_20dp" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
