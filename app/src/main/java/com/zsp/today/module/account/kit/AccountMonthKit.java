@@ -30,7 +30,7 @@ public class AccountMonthKit {
         for (String month : AccountBasicKit.getInstance().monthRemoveDuplicationWithSort(appointYear, asc)) {
             List<AccountDataBaseTable> accountDataBaseTableList = AccountBasicKit.getInstance().getAccountDataBaseTableListByYearMonth(appointYear, month);
             String totalAmount = AccountBasicKit.getInstance().totalAmountBaseOnAccountDataBaseTable(accountDataBaseTableList);
-            accountMonthListBeanResultList.add(new AccountMonthListBean(appointYear, month, totalAmount));
+            accountMonthListBeanResultList.add(new AccountMonthListBean(appointYear, month, totalAmount, accountDataBaseTableList.size(), AccountBasicKit.getInstance().getMaxCategoryAndAmount(accountDataBaseTableList)));
         }
         return accountMonthListBeanResultList;
     }
