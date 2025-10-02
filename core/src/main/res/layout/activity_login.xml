@@ -57,49 +57,55 @@
             android:insetBottom="@dimen/dp_0"
             android:lines="2"
             android:text="@string/login"
-            android:textColor="@color/white"
-            android:textSize="@dimen/sp_18"
-            app:rippleColor="@color/white" />
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold"
+            app:rippleColor="@android:color/white" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/loginActivityLlBottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingVertical="@dimen/dp_24"
+        android:layout_marginBottom="@dimen/dp_20"
+        android:paddingHorizontal="@dimen/dp_46"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/loginActivityMcvUserAgreement"
+            style="?attr/materialCardViewFilledStyle"
+            android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
-            android:text="@string/bySigningInYouAgree"
-            android:textSize="@dimen/sp_12"
-            android:textStyle="bold" />
+            android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/loginActivityTvUserAgreement"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/userAgreement"
-            android:textColor="@color/color_FFF86C09"
-            android:textSize="@dimen/sp_12"
-            android:textStyle="bold" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingVertical="@dimen/dp_20"
+                android:text="@string/userAgreement"
+                android:textColor="@color/color_FFF86C09"
+                android:textSize="@dimen/sp_10"
+                android:textStyle="bold" />
+        </com.google.android.material.card.MaterialCardView>
 
-        <TextView
-            android:layout_width="wrap_content"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/loginActivityMcvPrivacyPolicy"
+            style="?attr/materialCardViewFilledStyle"
+            android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
-            android:text="@string/and"
-            android:textSize="@dimen/sp_12"
-            android:textStyle="bold" />
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/loginActivityTvPrivacyPolicy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/privacyPolicy"
-            android:textColor="@color/color_FFF86C09"
-            android:textSize="@dimen/sp_12"
-            android:textStyle="bold" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingVertical="@dimen/dp_20"
+                android:text="@string/privacyPolicy"
+                android:textColor="@color/color_FFF86C09"
+                android:textSize="@dimen/sp_10"
+                android:textStyle="bold" />
+        </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
