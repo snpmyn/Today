@@ -493,12 +493,12 @@ public class HeartBoxActivityKit {
                     mediaFileInfoMap.put(name, mediaFileInfo);
                 }
                 Collections.reverse(stringList);
+                // 临时条件
+                final String[] conditionTemporary = new String[1];
                 // ScreenHandleKit
                 ScreenHandleKit screenHandleKit = new ScreenHandleKit(appCompatActivity);
                 // 打包集合条件
                 screenHandleKit.packListConditions(appCompatActivity.getString(R.string.voice), 1, true, stringList);
-                // 单选后可反选
-                screenHandleKit.canReverseSelectAfterSingleSelect(appCompatActivity.getString(R.string.voice));
                 // 默选
                 screenHandleKit.defaultSelect(appCompatActivity.getString(R.string.voice), name);
                 // 关联
@@ -507,7 +507,7 @@ public class HeartBoxActivityKit {
                 screenHandleKit.setScreenHandleListener(new ScreenHandleListener() {
                     @Override
                     public void click(View view, String classification, String condition, boolean selected) {
-                        prepareMediaFileInfo(appCompatActivity, mediaFileInfoMap.get(condition), heartBoxActivityMcv, heartBoxActivityTvDurationSize, heartBoxActivityTvTime, heartBoxActivityTvDate, heartBoxActivityMd, heartBoxActivityMbg, heartBoxActivityMbListen, heartBoxActivityMbRelease, heartBoxActivityMbLook);
+                        conditionTemporary[0] = condition;
                     }
 
                     @Override
@@ -518,6 +518,7 @@ public class HeartBoxActivityKit {
                     @Override
                     public void ensure() {
                         screenHandleKit.dismiss();
+                        prepareMediaFileInfo(appCompatActivity, mediaFileInfoMap.get(conditionTemporary[0]), heartBoxActivityMcv, heartBoxActivityTvDurationSize, heartBoxActivityTvTime, heartBoxActivityTvDate, heartBoxActivityMd, heartBoxActivityMbg, heartBoxActivityMbListen, heartBoxActivityMbRelease, heartBoxActivityMbLook);
                     }
                 });
                 // 显示
