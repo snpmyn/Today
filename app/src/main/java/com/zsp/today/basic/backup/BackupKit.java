@@ -35,9 +35,9 @@ public class BackupKit {
     public <T extends BaseDataBaseTable> void backup(AppCompatActivity appCompatActivity, Class<T> modelClass, BackupKitListener backupKitListener) {
         String json = new Gson().toJson(LitePalKit.getInstance().findAll(modelClass));
         // 内备份
-        boolean internalBackupState = FileUtils.saveStringAsFile(appCompatActivity, JsonFormat.formatJson(json), Folder.INTERNAL_BACKUP, modelClass.getSimpleName() + "-" + BuildConfig.BACKUP_SUFFIX + ".json");
+        boolean internalBackupState = FileUtils.saveStringAsFile(appCompatActivity, JsonFormat.formatJson(json), Folder.INTERNAL_BACKUP, modelClass.getSimpleName() + BuildConfig.BACKUP_SUFFIX + ".json");
         // 外备份
-        boolean externalBackupState = FileUtils.saveStringAsFile(appCompatActivity, JsonFormat.formatJson(json), Folder.EXTERNAL_BACKUP, modelClass.getSimpleName() + "-" + BuildConfig.BACKUP_SUFFIX + ".json");
+        boolean externalBackupState = FileUtils.saveStringAsFile(appCompatActivity, JsonFormat.formatJson(json), Folder.EXTERNAL_BACKUP, modelClass.getSimpleName() + BuildConfig.BACKUP_SUFFIX + ".json");
         if (null == backupKitListener) {
             if (!internalBackupState) {
                 ToastKit.showShort(appCompatActivity.getString(R.string.internalBackupFail));

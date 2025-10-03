@@ -89,7 +89,7 @@ android {
             versionNameSuffix "-develop"
             applicationId "com.zsp.today.develop"
             buildConfigField "int", "ENVIRONMENT_TYPE", "1"
-            buildConfigField "String", "BACKUP_SUFFIX", "\"develop\""
+            buildConfigField "String", "BACKUP_SUFFIX", "\"Develop\""
         }
         // 生产环境
         product {
