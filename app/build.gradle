@@ -99,7 +99,7 @@ android {
             versionNameSuffix "-product"
             applicationId "com.zsp.today.product"
             buildConfigField "int", "ENVIRONMENT_TYPE", "2"
-            buildConfigField "String", "BACKUP_SUFFIX", "\"product\""
+            buildConfigField "String", "BACKUP_SUFFIX", "\"\""
         }
     }
     compileOptions {
