@@ -84,15 +84,14 @@ public class MineChildFragmentKit {
      */
     public void display(@NonNull AppCompatActivity appCompatActivity, MineChildFragment mineChildFragment, RecyclerView recyclerView) {
         // 数据
-        List<MenuBean> moduleBeanList = new ArrayList<>(8);
+        List<MenuBean> moduleBeanList = new ArrayList<>(7);
         moduleBeanList.add(new MenuBean(1, R.drawable.ic_start_animation_cos_24dp, appCompatActivity.getString(R.string.startAnimation)));
         moduleBeanList.add(new MenuBean(2, R.drawable.ic_reset_cos_24dp, appCompatActivity.getString(R.string.resetData)));
         moduleBeanList.add(new MenuBean(3, R.drawable.ic_clean_cache_cos_24dp, appCompatActivity.getString(R.string.cleanCache)));
-        moduleBeanList.add(new MenuBean(4, R.drawable.ic_author_cos_24dp, appCompatActivity.getString(R.string.author)));
-        moduleBeanList.add(new MenuBean(5, R.drawable.ic_system_update_alt_cos_24dp, appCompatActivity.getString(com.zsp.core.R.string.versionUpdate)));
-        moduleBeanList.add(new MenuBean(6, R.drawable.ic_donate_cos_24dp, appCompatActivity.getString(R.string.donate)));
+        moduleBeanList.add(new MenuBean(4, R.drawable.ic_system_update_alt_cos_24dp, appCompatActivity.getString(com.zsp.core.R.string.versionUpdate)));
+        moduleBeanList.add(new MenuBean(5, R.drawable.ic_author_cos_24dp, appCompatActivity.getString(R.string.author)));
+        moduleBeanList.add(new MenuBean(6, R.drawable.ic_settings_applications_cos_24dp, appCompatActivity.getString(R.string.applicationSetting)));
         moduleBeanList.add(new MenuBean(7, R.drawable.ic_log_out_cos_24dp, appCompatActivity.getString(R.string.logOut)));
-        moduleBeanList.add(new MenuBean(8, R.drawable.ic_settings_applications_cos_24dp, appCompatActivity.getString(R.string.applicationSetting)));
         // 模块适配器配套元件
         MenuAdapterKit menuAdapterKit = new MenuAdapterKit();
         menuAdapterKit.display(appCompatActivity, recyclerView, moduleBeanList, 3, 48, 192, false, (view, menuBean) -> distribute(appCompatActivity, mineChildFragment, menuBean.getMenuId()));
@@ -120,25 +119,21 @@ public class MineChildFragmentKit {
             case 3:
                 cleanCache(appCompatActivity);
                 break;
-            // 作者
-            case 4:
-                author(appCompatActivity);
-                break;
             // 版本更新
-            case 5:
+            case 4:
                 VersionKit.check(appCompatActivity, true);
                 break;
-            // 赞助
-            case 6:
+            // 作者
+            case 5:
                 author(appCompatActivity);
+                break;
+            // 应用设置
+            case 6:
+                IntentJump.getInstance().jumpWithAnimation(null, appCompatActivity, false, SettingActivity.class, 0, 0);
                 break;
             // 退出
             case 7:
                 loginOut(appCompatActivity);
-                break;
-            // 应用设置
-            case 8:
-                IntentJump.getInstance().jumpWithAnimation(null, appCompatActivity, false, SettingActivity.class, 0, 0);
                 break;
             default:
                 break;
@@ -213,7 +208,7 @@ public class MineChildFragmentKit {
      * @param appCompatActivity 活动
      */
     private void author(AppCompatActivity appCompatActivity) {
-        new MaterialAlertDialogBuilderKit(appCompatActivity, com.zsp.core.R.style.ThemeOverlay_Catalog_MaterialAlertDialog_Centered_FullWidthButtons).setView(R.layout.donate).show();
+        new MaterialAlertDialogBuilderKit(appCompatActivity, com.zsp.core.R.style.ThemeOverlay_Catalog_MaterialAlertDialog_Centered_FullWidthButtons).setView(R.layout.author).show();
     }
 
     /**
