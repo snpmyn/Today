@@ -23,7 +23,7 @@
                 android:layout_height="?actionBarSize"
                 android:background="@drawable/color_secondary_container_solid_r12"
                 android:gravity="center"
-                android:paddingHorizontal="@dimen/dp_10"
+                android:paddingHorizontal="@dimen/dp_12"
                 android:textAppearance="?attr/textAppearanceHeadline6"
                 tools:text="66" />
 
@@ -53,13 +53,13 @@
                 android:background="@drawable/color_secondary_container_solid_r12"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:paddingHorizontal="@dimen/dp_10">
+                android:paddingHorizontal="@dimen/dp_12">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/numberOfConsumptionTransactionsInTheMonth"
-                    android:textSize="@dimen/sp_12"
+                    android:textSize="@dimen/sp_13"
                     android:textStyle="bold" />
 
                 <TextView
@@ -68,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_6"
                     android:textColor="@color/color_FFF86C09"
-                    android:textSize="@dimen/sp_12"
+                    android:textSize="@dimen/sp_13"
                     android:textStyle="bold"
                     tools:text="32 笔" />
             </LinearLayout>
@@ -80,13 +80,13 @@
                 android:background="@drawable/color_secondary_container_solid_r12"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:paddingHorizontal="@dimen/dp_10">
+                android:paddingHorizontal="@dimen/dp_12">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/largestConsumerCategory"
-                    android:textSize="@dimen/sp_12"
+                    android:textSize="@dimen/sp_13"
                     android:textStyle="bold" />
 
                 <TextView
@@ -95,7 +95,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_6"
                     android:textColor="@color/color_FFF86C09"
-                    android:textSize="@dimen/sp_12"
+                    android:textSize="@dimen/sp_13"
                     android:textStyle="bold"
                     tools:text="午饭 20 元" />
             </LinearLayout>
