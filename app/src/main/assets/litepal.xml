@@ -40,6 +40,8 @@
         <mapping class="com.zsp.today.module.account.database.AccountDataBaseTable" />
         <!--险情数据库表-->
         <mapping class="com.zsp.today.module.dangerous.database.DangerousDataBaseTable" />
+        <!--归心数据库表-->
+        <mapping class="com.zsp.today.module.homecome.database.HomeComeDataBaseTable" />"
     </list>
 
     <!--
