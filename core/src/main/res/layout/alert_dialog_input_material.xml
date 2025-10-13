@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/inputMaterialAlertDialogMcvTitle"
+        style="?attr/materialCardViewFilledStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_12"
+        android:layout_marginTop="@dimen/dp_20"
+        app:contentPadding="@dimen/dp_12">
+
+        <TextView
+            android:id="@+id/inputMaterialAlertDialogTvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:letterSpacing="0.05"
+            android:lineSpacingExtra="@dimen/dp_6"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold"
+            tools:text="标题" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputMaterialAlertDialogTilContent"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_12"
+        android:layout_marginTop="@dimen/dp_20"
+        app:boxBackgroundMode="filled"
+        app:boxCornerRadiusBottomEnd="@dimen/dp_10"
+        app:boxCornerRadiusBottomStart="@dimen/dp_10"
+        app:boxCornerRadiusTopEnd="@dimen/dp_10"
+        app:boxCornerRadiusTopStart="@dimen/dp_10"
+        app:boxStrokeWidth="0dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputMaterialAlertDialogTietContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:inputType="textMultiLine"
+            android:minLines="4"
+            android:textSize="@dimen/sp_14"
+            android:textStyle="bold" />
+    </com.google.android.material.textfield.TextInputLayout>
+</LinearLayout>
