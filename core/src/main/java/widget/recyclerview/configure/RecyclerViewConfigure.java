@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import spruce.sort.LinearSort;
+import util.density.DensityUtils;
 import widget.recyclerview.decoration.GridLayoutSpaceItemDecoration;
 import widget.recyclerview.decoration.LinearLayoutHorizontalSpaceItemDecoration;
 import widget.recyclerview.decoration.LinearLayoutVerticalSpaceItemDecoration;
@@ -98,7 +99,7 @@ public class RecyclerViewConfigure {
         // 固定 RecyclerView 高（避 RecyclerView 重 measure）
         recyclerView.setHasFixedSize(hasFixedSize);
         if (needSpace) {
-            recyclerView.addItemDecoration(new LinearLayoutHorizontalSpaceItemDecoration(space, topAndBottomOffset));
+            recyclerView.addItemDecoration(new LinearLayoutHorizontalSpaceItemDecoration(DensityUtils.dipToPxByInt(space), topAndBottomOffset));
         }
     }
 
@@ -127,7 +128,7 @@ public class RecyclerViewConfigure {
         // 固定 RecyclerView 高（避 RecyclerView 重 measure）
         recyclerView.setHasFixedSize(hasFixedSize);
         if (needSpace) {
-            recyclerView.addItemDecoration(new LinearLayoutVerticalSpaceItemDecoration(space, leftAndRightOffset));
+            recyclerView.addItemDecoration(new LinearLayoutVerticalSpaceItemDecoration(DensityUtils.dipToPxByInt(space), leftAndRightOffset));
         }
     }
 
@@ -137,12 +138,12 @@ public class RecyclerViewConfigure {
      * {@link #spruceKitConfigure(long, long, boolean, LinearSort.Direction)} 后调。
      *
      * @param spanCount                      跨距数
-     * @param spacing                        间距
+     * @param space                          间距
      * @param firstRowHaveTopSpaceDecoration 头行有上间距装饰否
      * @param hasFixedSize                   已固定大小
      * @param spruce                         spruce 否
      */
-    public void gridLayout(int spanCount, int spacing, boolean firstRowHaveTopSpaceDecoration, boolean hasFixedSize, boolean spruce) {
+    public void gridLayout(int spanCount, int space, boolean firstRowHaveTopSpaceDecoration, boolean hasFixedSize, boolean spruce) {
         // 条目装饰数量
         if (recyclerView.getItemDecorationCount() > 0) {
             recyclerView.removeItemDecorationAt(0);
@@ -155,6 +156,6 @@ public class RecyclerViewConfigure {
         }));
         // 固定 RecyclerView 高（避 RecyclerView 重 measure）
         recyclerView.setHasFixedSize(hasFixedSize);
-        recyclerView.addItemDecoration(new GridLayoutSpaceItemDecoration(spanCount, spacing, firstRowHaveTopSpaceDecoration, true));
+        recyclerView.addItemDecoration(new GridLayoutSpaceItemDecoration(spanCount, DensityUtils.dipToPxByInt(space), firstRowHaveTopSpaceDecoration, true));
     }
 }
