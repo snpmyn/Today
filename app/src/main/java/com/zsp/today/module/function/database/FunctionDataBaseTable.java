@@ -17,6 +17,11 @@ public class FunctionDataBaseTable extends BaseDataBaseTable {
     @Column(nullable = false)
     private int functionId;
     /**
+     * 功能图标资源名称
+     */
+    @Column(nullable = false)
+    private String functionIconResName;
+    /**
      * 功能名称
      */
     @Column(nullable = false)
@@ -39,21 +44,27 @@ public class FunctionDataBaseTable extends BaseDataBaseTable {
     /**
      * constructor
      *
-     * @param phoneNumber  手机号
-     * @param date         日期
-     * @param functionId   功能 ID
-     * @param functionName 功能名称
-     * @param functionShow 功能显示
+     * @param phoneNumber         手机号
+     * @param date                日期
+     * @param functionId          功能 ID
+     * @param functionIconResName 功能图标资源名称
+     * @param functionName        功能名称
+     * @param functionShow        功能显示
      */
-    public FunctionDataBaseTable(String phoneNumber, String date, int functionId, String functionName, Boolean functionShow) {
+    public FunctionDataBaseTable(String phoneNumber, String date, int functionId, String functionIconResName, String functionName, Boolean functionShow) {
         super(phoneNumber, date);
         this.functionId = functionId;
+        this.functionIconResName = functionIconResName;
         this.functionName = functionName;
         this.functionShow = functionShow;
     }
 
     public int getFunctionId() {
         return functionId;
+    }
+
+    public String getFunctionIconResName() {
+        return functionIconResName;
     }
 
     public String getFunctionName() {
