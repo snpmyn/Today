@@ -43,7 +43,8 @@ public class RestoreDangerousDataBaseTableKit {
      */
     public void restoreDangerousDataBaseTable(AppCompatActivity appCompatActivity, RestoreKit.RestoreKitListener restoreKitListener) {
         if (MmkvKit.defaultMmkv().decodeBool(RestoreConstant.RESTORE_$_DANGEROUS_DATA_BASE_TABLE)) {
-            end(appCompatActivity, restoreKitListener);
+            // 恢复归心数据库表
+            RestoreHomeComeDataBaseTableKit.getInstance().restoreHomeComeDataBaseTable(appCompatActivity, restoreKitListener);
             return;
         }
         if (null == RestoreKit.getInstance().bocLottieCommonDialog) {
@@ -92,28 +93,10 @@ public class RestoreDangerousDataBaseTableKit {
         TimerKit.getInstance().execute(appCompatActivity, PublicConstant.DELAY_DURATION, () -> RestoreKit.getInstance().bocLottieCommonDialog.update(bocLottieDialogEnum, hint, 0, new BocLottieDialogAnimationEndListener() {
             @Override
             public void onAnimationEnd() {
-                end(appCompatActivity, restoreKitListener);
+                // 恢复归心数据库表
+                RestoreHomeComeDataBaseTableKit.getInstance().restoreHomeComeDataBaseTable(appCompatActivity, restoreKitListener);
             }
         }));
-    }
-
-    /**
-     * 结束
-     *
-     * @param appCompatActivity  活动
-     * @param restoreKitListener 恢复配套元件监听
-     */
-    private void end(AppCompatActivity appCompatActivity, RestoreKit.RestoreKitListener restoreKitListener) {
-        // 置空
-        if (null != RestoreKit.getInstance().bocLottieCommonDialog) {
-            RestoreKit.getInstance().bocLottieCommonDialog = null;
-        }
-        // 结束
-        BocDialogKit.getInstance(appCompatActivity).end();
-        if (null != restoreKitListener) {
-            // 结束
-            restoreKitListener.end();
-        }
     }
 
     private static final class InstanceHolder {
