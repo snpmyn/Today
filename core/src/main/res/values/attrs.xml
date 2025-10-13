@@ -60,4 +60,8 @@
         <attr name="autoInit" />
     </declare-styleable>
     <attr name="autoInit" format="boolean" />
+    <!--AccountLineView-->
+    <declare-styleable name="AccountLineView">
+        <attr name="minSidePadding" format="dimension" />
+    </declare-styleable>
 </resources>
