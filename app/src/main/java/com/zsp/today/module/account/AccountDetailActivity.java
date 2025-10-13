@@ -1,20 +1,22 @@
 package com.zsp.today.module.account;
 
-import android.view.View;
-import android.widget.Button;
+import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.zsp.today.R;
 import com.zsp.today.basic.value.RxBusConstant;
 import com.zsp.today.module.account.bean.AccountTransferBean;
 import com.zsp.today.module.account.kit.AccountDetailActivityKit;
 import com.zsp.today.module.account.value.AccountConstant;
+
+import org.jetbrains.annotations.NotNull;
 
 import pool.base.BasePoolActivity;
 import util.intent.IntentVerify;
@@ -22,9 +24,13 @@ import util.rxbus.annotation.Subscribe;
 import util.rxbus.annotation.Tag;
 import util.rxbus.thread.EventThread;
 import util.view.ViewUtils;
+import widget.floatingactionbutton.DraggableFloatingActionButton;
+import widget.floatingactionbutton.kit.DraggableFloatingActionButtonKit;
 import widget.materialcontainertransform.MaterialContainerTransformKit;
 import widget.status.kit.StatusManagerKit;
 import widget.status.manager.StatusManager;
+import widget.view.AccountLineView;
+import widget.view.NutritionChartView;
 
 /**
  * @desc: 账目详情页
@@ -35,10 +41,13 @@ public class AccountDetailActivity extends BasePoolActivity {
     private RelativeLayout accountDetailActivityRl;
     private MaterialToolbar accountDetailActivityMt;
     private RecyclerView accountDetailActivityRv;
-    private FloatingActionButton accountDetailActivityFab;
+    private DraggableFloatingActionButton accountDetailActivityDfab;
     private MaterialCardView accountDetailActivityMcv;
+    private LinearLayout accountDetailActivityLl;
+    private NutritionChartView accountDetailActivityNcv;
     private PieChart accountDetailActivityPc;
-    private Button accountDetailActivityButton;
+    private AccountLineView accountDetailActivityAav;
+    private MaterialButton accountDetailActivityMb;
     /**
      * 账目传输
      */
@@ -70,10 +79,14 @@ public class AccountDetailActivity extends BasePoolActivity {
         accountDetailActivityRl = findViewById(R.id.accountDetailActivityRl);
         accountDetailActivityMt = findViewById(R.id.accountDetailActivityMt);
         accountDetailActivityRv = findViewById(R.id.accountDetailActivityRv);
-        accountDetailActivityFab = findViewById(R.id.accountDetailActivityFab);
+        accountDetailActivityDfab = findViewById(R.id.accountDetailActivityDfab);
+        DraggableFloatingActionButtonKit.execute(accountDetailActivityDfab);
         accountDetailActivityMcv = findViewById(R.id.accountDetailActivityMcv);
+        accountDetailActivityLl = findViewById(R.id.accountDetailActivityLl);
+        accountDetailActivityNcv = findViewById(R.id.accountDetailActivityNcv);
         accountDetailActivityPc = findViewById(R.id.accountDetailActivityPc);
-        accountDetailActivityButton = findViewById(R.id.accountDetailActivityButton);
+        accountDetailActivityAav = findViewById(R.id.accountDetailActivityAav);
+        accountDetailActivityMb = findViewById(R.id.accountDetailActivityMb);
     }
 
     /**
@@ -103,7 +116,7 @@ public class AccountDetailActivity extends BasePoolActivity {
         // 账目详情页配套元件
         accountDetailActivityKit = new AccountDetailActivityKit();
         // 设转换名
-        MaterialContainerTransformKit.getInstance().setTransitionName(accountDetailActivityFab, String.valueOf(R.id.accountDetailActivityFab));
+        MaterialContainerTransformKit.getInstance().setTransitionName(accountDetailActivityDfab, String.valueOf(R.id.accountDetailActivityDfab));
     }
 
     /**
@@ -113,19 +126,15 @@ public class AccountDetailActivity extends BasePoolActivity {
     protected void setListener() {
         // MaterialToolbar
         accountDetailActivityMt.setOnMenuItemClickListener(item -> {
-            accountDetailActivityKit.addAccount(AccountDetailActivity.this);
+            menuItemClickToExecute(item);
             return true;
         });
         // FloatingActionButton
-        accountDetailActivityFab.setOnClickListener(v -> {
-            ViewUtils.hideView(accountDetailActivityFab, View.GONE);
-            MaterialContainerTransformKit.getInstance().showEndView(AccountDetailActivity.this, accountDetailActivityRl, accountDetailActivityFab, accountDetailActivityMcv, false);
-            accountDetailActivityKit.everydayAnalysis(AccountDetailActivity.this, accountDetailActivityPc, accountTransferBean.getDate());
-        });
-        // ImageButton
-        accountDetailActivityButton.setOnClickListener(v -> {
-            MaterialContainerTransformKit.getInstance().showStartView(AccountDetailActivity.this, accountDetailActivityRl, accountDetailActivityFab, accountDetailActivityMcv, false);
-            ViewUtils.showView(accountDetailActivityFab);
+        accountDetailActivityDfab.setOnClickListener(v -> accountDetailActivityKit.everydayAnalysis(AccountDetailActivity.this, accountDetailActivityRl, accountDetailActivityMcv, accountDetailActivityLl, accountDetailActivityNcv, accountDetailActivityPc, accountDetailActivityAav, accountDetailActivityDfab, accountTransferBean.getDate(), false));
+        // MaterialButton
+        accountDetailActivityMb.setOnClickListener(v -> {
+            MaterialContainerTransformKit.getInstance().showStartView(AccountDetailActivity.this, accountDetailActivityRl, accountDetailActivityDfab, accountDetailActivityMcv, false);
+            ViewUtils.showView(accountDetailActivityDfab);
         });
     }
 
@@ -135,6 +144,22 @@ public class AccountDetailActivity extends BasePoolActivity {
     @Override
     protected void startLogic() {
         accountDetailActivityKit.displayAccount(this, accountDetailActivityRv, accountTransferBean.getDate(), statusManager);
+    }
+
+    /**
+     * 菜单条目点击执行
+     *
+     * @param menuItem 菜单条目
+     */
+    private void menuItemClickToExecute(@NotNull MenuItem menuItem) {
+        int itemId = menuItem.getItemId();
+        if (itemId == R.id.accountDetailActivityMenuAddAccount) {
+            // 添加账目
+            accountDetailActivityKit.addAccount(AccountDetailActivity.this);
+        } else if (itemId == R.id.accountDetailActivityMenuAccountAnalysis) {
+            // 账目分析
+            accountDetailActivityKit.everydayAnalysis(AccountDetailActivity.this, accountDetailActivityRl, accountDetailActivityMcv, accountDetailActivityLl, accountDetailActivityNcv, accountDetailActivityPc, accountDetailActivityAav, accountDetailActivityDfab, accountTransferBean.getDate(), true);
+        }
     }
 
     @Subscribe(thread = EventThread.MAIN_THREAD, tags = {@Tag(RxBusConstant.ACCOUNT_DETAIL_ACTIVITY_$_REFRESH_ACCOUNT)})
