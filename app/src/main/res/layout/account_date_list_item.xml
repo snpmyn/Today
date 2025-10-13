@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             android:layout_above="@+id/accountDateListItemTvDate"
             android:gravity="center"
-            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:textAppearance="?attr/textAppearanceBodyLargeEmphasized"
             tools:text="66" />
 
         <TextView
