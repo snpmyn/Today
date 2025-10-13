@@ -17,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import util.density.DensityUtils;
 import util.list.ListUtils;
 import util.screen.ScreenUtils;
 import widget.adapttemplate.bean.FunctionBean;
@@ -45,7 +46,7 @@ public class FunctionAdapter extends RecyclerView.Adapter<FunctionAdapter.ViewHo
     public FunctionAdapter(Context context, int spanCount, int totalMargin) {
         this.context = context;
         this.spanCount = spanCount;
-        this.totalMargin = totalMargin;
+        this.totalMargin = DensityUtils.dipToPxByInt(totalMargin);
         this.functionBeans = new ArrayList<>();
     }
 
