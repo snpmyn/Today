@@ -50,10 +50,11 @@ public class ButtonMaterialAlertDialogKit {
         // 视图
         View view = appCompatActivity.getLayoutInflater().inflate(R.layout.alert_dialog_button_material, null);
         // 上
+        MaterialCardView buttonMaterialAlertDialogMcvTop = view.findViewById(R.id.buttonMaterialAlertDialogMcvTop);
         TextView buttonMaterialAlertDialogTvTop = view.findViewById(R.id.buttonMaterialAlertDialogTvTop);
         buttonMaterialAlertDialogTvTop.setMinHeight(DensityUtils.dipToPxByInt(26));
         buttonMaterialAlertDialogTvTop.setText(topText);
-        buttonMaterialAlertDialogTvTop.setOnClickListener(v -> {
+        buttonMaterialAlertDialogMcvTop.setOnClickListener(v -> {
             if (null != buttonMaterialAlertDialogKitTopClickListener) {
                 buttonMaterialAlertDialogKitTopClickListener.onTopClick(alertDialog);
             }
@@ -66,7 +67,7 @@ public class ButtonMaterialAlertDialogKit {
         } else {
             buttonMaterialAlertDialogTvMiddle.setMinHeight(DensityUtils.dipToPxByInt(26));
             buttonMaterialAlertDialogTvMiddle.setText(middleText);
-            buttonMaterialAlertDialogTvMiddle.setOnClickListener(v -> {
+            buttonMaterialAlertDialogMcvMiddle.setOnClickListener(v -> {
                 if (null != buttonMaterialAlertDialogKitMiddleClickListener) {
                     buttonMaterialAlertDialogKitMiddleClickListener.onMiddleClick(alertDialog);
                 }
@@ -80,7 +81,7 @@ public class ButtonMaterialAlertDialogKit {
         } else {
             buttonMaterialAlertDialogTvBottom.setMinHeight(DensityUtils.dipToPxByInt(26));
             buttonMaterialAlertDialogTvBottom.setText(bottomText);
-            buttonMaterialAlertDialogTvBottom.setOnClickListener(v -> {
+            buttonMaterialAlertDialogMcvBottom.setOnClickListener(v -> {
                 if (null != buttonMaterialAlertDialogKitBottomClickListener) {
                     buttonMaterialAlertDialogKitBottomClickListener.onBottomClick(alertDialog);
                 }
