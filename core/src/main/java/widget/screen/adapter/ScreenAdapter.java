@@ -152,7 +152,7 @@ public class ScreenAdapter extends RecyclerView.Adapter<ScreenAdapter.ViewHolder
         RecyclerViewConfigure recyclerViewConfigure = new RecyclerViewConfigure(context, holder.screenItemRv);
         // 避内容充整屏滑时头 / 末项频繁重绘
         if (holder.screenItemRv.getItemDecorationCount() == 0) {
-            recyclerViewConfigure.gridLayout(integerList.get(0), 36, true, false, false);
+            recyclerViewConfigure.gridLayout(integerList.get(0), 12, true, false, false);
         }
         holder.screenItemRv.setNestedScrollingEnabled(false);
         // 嵌套（适配器）
