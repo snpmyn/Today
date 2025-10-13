@@ -27,7 +27,7 @@ import widget.dialog.customdialog.BaseDialog;
 import widget.dialog.customdialog.BaseViewConvertListener;
 import widget.dialog.customdialog.CustomDialog;
 import widget.dialog.customdialog.ViewHolder;
-import widget.dialog.materialalertdialog.kit.MaterialAlertDialogBuilderKit;
+import widget.dialog.materialalertdialog.MaterialAlertDialogBuilderKit;
 import widget.permissionx.kit.PermissionxKit;
 import widget.permissionx.listener.PermissionxKitListener;
 import widget.spannablestringbuilder.SpannableStringBuilderKit;
