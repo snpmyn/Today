@@ -13,19 +13,23 @@ public enum HomePageMenuEnum {
     /**
      * 账目
      */
-    ACCOUNT(1, R.drawable.ic_account_cos_24dp, "账目", true),
+    ACCOUNT(1, R.drawable.ic_home_page_menu_account_cos_24dp, "HomePageMenuAccount@One", "账目", true),
     /**
      * 险情
      */
-    DANGEROUS(2, R.drawable.ic_dangerous_cos_24dp, "险情", true),
+    DANGEROUS(2, R.drawable.ic_home_page_menu_dangerous_cos_24dp, "HomePageMenuDangerous@One", "险情", true),
     /**
      * 心盒
      */
-    HEART_BOX(3, R.drawable.ic_heart_box_cos_24dp, "心盒", true),
+    HEART_BOX(3, R.drawable.ic_home_page_menu_heart_box_cos_24dp, "HomePageMenuHeartBox@One", "心盒", true),
+    /**
+     * 归心
+     */
+    HOME_COME(4, R.drawable.ic_home_page_menu_home_come_cos_24dp, "HomePageMenuHomeCome@One", "归心", true),
     /**
      * 知林
      */
-    ZHI_LIN(4, R.drawable.ic_zhi_lin_cos_24dp, "知林", App.getAppInstance().tag());
+    ZHI_LIN(5, R.drawable.ic_home_page_menu_zhi_lin_cos_24dp, "HomePageMenuZhiLin@One", "知林", App.getAppInstance().tag());
     /**
      * 菜单 ID
      */
@@ -34,6 +38,10 @@ public enum HomePageMenuEnum {
      * 菜单图标资源 ID
      */
     private final int menuIconResId;
+    /**
+     * 菜单图标资源名称
+     */
+    private final String menuIconResName;
     /**
      * 菜单名称
      */
@@ -46,14 +54,16 @@ public enum HomePageMenuEnum {
     /**
      * constructor
      *
-     * @param menuId        菜单 ID
-     * @param menuIconResId 菜单图标资源 ID
-     * @param menuName      菜单名称
-     * @param menuShow      菜单显示
+     * @param menuId          菜单 ID
+     * @param menuIconResId   菜单图标资源 ID
+     * @param menuIconResName 菜单图标资源名称
+     * @param menuName        菜单名称
+     * @param menuShow        菜单显示
      */
-    HomePageMenuEnum(int menuId, int menuIconResId, String menuName, Boolean menuShow) {
+    HomePageMenuEnum(int menuId, int menuIconResId, String menuIconResName, String menuName, Boolean menuShow) {
         this.menuId = menuId;
         this.menuIconResId = menuIconResId;
+        this.menuIconResName = menuIconResName;
         this.menuName = menuName;
         this.menuShow = menuShow;
     }
@@ -64,6 +74,10 @@ public enum HomePageMenuEnum {
 
     public int getMenuIconResId() {
         return menuIconResId;
+    }
+
+    public String getMenuIconResName() {
+        return menuIconResName;
     }
 
     public String getMenuName() {
