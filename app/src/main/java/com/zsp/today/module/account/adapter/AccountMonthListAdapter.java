@@ -7,8 +7,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
 import com.zsp.today.R;
 import com.zsp.today.module.account.bean.AccountMonthListBean;
 
@@ -19,7 +21,9 @@ import java.util.List;
 
 import util.list.ListUtils;
 import widget.recyclerview.listener.OnRecyclerViewOnItemClickListener;
+import widget.recyclerview.listener.OnRecyclerViewOnItemInnerClickListener;
 import widget.recyclerview.listener.OnRecyclerViewOnItemLongClickListener;
+import widget.textview.kit.TextViewKit;
 
 /**
  * Created on 2021/11/4
@@ -32,6 +36,7 @@ public class AccountMonthListAdapter extends RecyclerView.Adapter<AccountMonthLi
     private List<AccountMonthListBean> accountMonthListBeans;
     private OnRecyclerViewOnItemClickListener onRecyclerViewOnItemClickListener;
     private OnRecyclerViewOnItemLongClickListener onRecyclerViewOnItemLongClickListener;
+    private OnRecyclerViewOnItemInnerClickListener onRecyclerViewOnItemInnerClickListener;
 
     /**
      * constructor
@@ -53,6 +58,10 @@ public class AccountMonthListAdapter extends RecyclerView.Adapter<AccountMonthLi
 
     public void setOnRecyclerViewOnItemLongClickListener(OnRecyclerViewOnItemLongClickListener onRecyclerViewOnItemLongClickListener) {
         this.onRecyclerViewOnItemLongClickListener = onRecyclerViewOnItemLongClickListener;
+    }
+
+    public void setOnRecyclerViewOnItemInnerClickListener(OnRecyclerViewOnItemInnerClickListener onRecyclerViewOnItemInnerClickListener) {
+        this.onRecyclerViewOnItemInnerClickListener = onRecyclerViewOnItemInnerClickListener;
     }
 
     @NotNull
@@ -77,13 +86,28 @@ public class AccountMonthListAdapter extends RecyclerView.Adapter<AccountMonthLi
         holder.itemView.setTag(position);
         AccountMonthListBean accountMonthListBean = accountMonthListBeans.get(position);
         // 总金额
-        holder.accountMonthListItemTvTotalAmount.setText(String.format(context.getString(R.string.formatYuan), accountMonthListBean.getTotalAmount()));
-        // 数量
-        holder.accountMonthListItemTvNumberOfConsumptionTransactionsInTheMonth.setText(String.valueOf(accountMonthListBean.getCount()));
-        // 最大类目和金额
-        holder.accountMonthListItemTvLargestConsumerCategory.setText(accountMonthListBean.getMaxCategoryAndAmount());
+        holder.accountMonthListItemTvTotalAmount.setText(String.format(context.getString(R.string.formatRmb), accountMonthListBean.getTotalAmount()));
         // 月
         holder.accountMonthListItemTvMonth.setText(String.format(context.getString(R.string.formatMonth), accountMonthListBean.getMonth()));
+        // 消费笔数
+        holder.accountMonthListItemTvNumberOfConsumptionTransactions.setText(String.valueOf(accountMonthListBean.getCount()));
+        // 月度环比
+        if (accountMonthListBean.monthOnMonthGreaterThanZero()) {
+            int color = ContextCompat.getColor(context, com.zsp.core.R.color.color_FFEA6464);
+            holder.accountMonthListItemTvMonthOnMonth.setTextColor(color);
+            TextViewKit.setDrawable(context, holder.accountMonthListItemTvMonthOnMonth, R.drawable.ic_trending_up_cos_20dp, 1, 10);
+            TextViewKit.setDrawableColor(holder.accountMonthListItemTvMonthOnMonth, color);
+        } else if (accountMonthListBean.monthOnMonthLessThanZero()) {
+            int color = ContextCompat.getColor(context, com.zsp.core.R.color.color_228B22);
+            holder.accountMonthListItemTvMonthOnMonth.setTextColor(color);
+            TextViewKit.setDrawable(context, holder.accountMonthListItemTvMonthOnMonth, R.drawable.ic_trending_down_cos_20dp, 1, 10);
+            TextViewKit.setDrawableColor(holder.accountMonthListItemTvMonthOnMonth, color);
+        }
+        holder.accountMonthListItemTvMonthOnMonth.setText(accountMonthListBean.getMonthOnMonthDescribe());
+        // 最大消费
+        holder.accountMonthListItemTvLargestConsumer.setText(accountMonthListBean.getMaxCategoryAndAmount());
+        // 排序
+        holder.accountMonthListItemMbSort.setOnClickListener(v -> onRecyclerViewOnItemInnerClickListener.onItemInnerClick(holder.accountMonthListItemMbSort, holder.getBindingAdapterPosition(), accountMonthListBean));
     }
 
     @Override
@@ -96,16 +120,20 @@ public class AccountMonthListAdapter extends RecyclerView.Adapter<AccountMonthLi
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView accountMonthListItemTvTotalAmount;
-        private final TextView accountMonthListItemTvNumberOfConsumptionTransactionsInTheMonth;
-        private final TextView accountMonthListItemTvLargestConsumerCategory;
         private final TextView accountMonthListItemTvMonth;
+        private final TextView accountMonthListItemTvNumberOfConsumptionTransactions;
+        private final TextView accountMonthListItemTvMonthOnMonth;
+        private final TextView accountMonthListItemTvLargestConsumer;
+        private final MaterialButton accountMonthListItemMbSort;
 
         private ViewHolder(@NonNull View view) {
             super(view);
             accountMonthListItemTvTotalAmount = view.findViewById(R.id.accountMonthListItemTvTotalAmount);
-            accountMonthListItemTvNumberOfConsumptionTransactionsInTheMonth = view.findViewById(R.id.accountMonthListItemTvNumberOfConsumptionTransactionsInTheMonth);
-            accountMonthListItemTvLargestConsumerCategory = view.findViewById(R.id.accountMonthListItemTvLargestConsumerCategory);
             accountMonthListItemTvMonth = view.findViewById(R.id.accountMonthListItemTvMonth);
+            accountMonthListItemTvNumberOfConsumptionTransactions = view.findViewById(R.id.accountMonthListItemTvNumberOfConsumptionTransactions);
+            accountMonthListItemTvMonthOnMonth = view.findViewById(R.id.accountMonthListItemTvMonthOnMonth);
+            accountMonthListItemTvLargestConsumer = view.findViewById(R.id.accountMonthListItemTvLargestConsumer);
+            accountMonthListItemMbSort = view.findViewById(R.id.accountMonthListItemMbSort);
         }
     }
 }
