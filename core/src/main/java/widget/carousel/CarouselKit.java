@@ -15,7 +15,7 @@ import com.zsp.core.R;
 
 import java.util.List;
 
-import widget.dialog.materialalertdialog.kit.PictureInfoMaterialAlertDialogKit;
+import widget.dialog.materialalertdialog.PictureInfoMaterialAlertDialogKit;
 
 /**
  * Created on 2025/8/10.
