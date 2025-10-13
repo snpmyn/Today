@@ -26,7 +26,7 @@ import litepal.kit.LitePalKit;
 import util.intent.IntentJump;
 import util.intent.IntentVerify;
 import util.rxbus.RxBus;
-import widget.dialog.materialalertdialog.kit.MaterialAlertDialogBuilderKit;
+import widget.dialog.materialalertdialog.DoubleConfirmationMaterialAlertDialogKit;
 import widget.recyclerview.configure.RecyclerViewConfigure;
 import widget.recyclerview.controller.RecyclerViewDisplayController;
 import widget.recyclerview.listener.OnRecyclerViewOnItemClickListener;
@@ -61,7 +61,7 @@ public class AccountSecondActivityKit {
         }
         // 控件
         RecyclerViewConfigure recyclerViewConfigure = new RecyclerViewConfigure(appCompatActivity, recyclerView);
-        recyclerViewConfigure.gridLayout(3, 48, true, true, false);
+        recyclerViewConfigure.gridLayout(3, 12, true, true, false);
         // 适配器
         AccountDateListAdapter accountDateListAdapter = new AccountDateListAdapter(appCompatActivity, 3, 192);
         accountDateListAdapter.setAccountDateListData(accountDateListBeanList);
@@ -78,7 +78,7 @@ public class AccountSecondActivityKit {
         accountDateListAdapter.setOnRecyclerViewOnItemLongClickListener(new OnRecyclerViewOnItemLongClickListener() {
             @Override
             public <T> void onItemLongClick(View view, int position, T t) {
-                new MaterialAlertDialogBuilderKit(appCompatActivity).setTitle(com.zsp.core.R.string.hint).setMessage(R.string.wantToDeleteTheAccountOfTheDay).setPositiveButton(R.string.yes, (dialog, which) -> {
+                DoubleConfirmationMaterialAlertDialogKit.getInstance().show(appCompatActivity, appCompatActivity.getString(com.zsp.core.R.string.hint), appCompatActivity.getString(R.string.wantToDeleteAccount), appCompatActivity.getString(R.string.yes), appCompatActivity.getString(R.string.wait), appCompatActivity.getString(R.string.hintAgain), appCompatActivity.getString(R.string.deletionCannotBeRestored), appCompatActivity.getString(com.zsp.core.R.string.delete), appCompatActivity.getString(R.string.wait), dialog -> {
                     dialog.dismiss();
                     AccountDateListBean accountDateListBean = (AccountDateListBean) t;
                     LitePalKit.getInstance().multiDelete(AccountDataBaseTable.class, AccountCondition.ACCOUNT_PHONE_NUMBER_AND_DATE, App.getAppInstance().getPhoneNumber(), accountDateListBean.getDate());
@@ -88,7 +88,7 @@ public class AccountSecondActivityKit {
                     RxBus.get().post(RxBusConstant.ACCOUNT_HOME_ACTIVITY_AND_SECOND_ACTIVITY_$_REFRESH_ACCOUNT, RxBusConstant.ACCOUNT_HOME_ACTIVITY_AND_SECOND_ACTIVITY_$_REFRESH_ACCOUNT_CODE);
                     // 备份
                     BackupKit.getInstance().backup(appCompatActivity, AccountDataBaseTable.class, null);
-                }).setNegativeButton(R.string.wait, (dialog, which) -> dialog.dismiss()).setCancelable(false).show();
+                });
             }
         });
         // 状态判断
