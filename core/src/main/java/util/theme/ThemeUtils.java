@@ -41,6 +41,28 @@ public class ThemeUtils {
     }
 
     /**
+     * 从 attr 资源 ID 获取 ColorOnSurface 颜色
+     *
+     * @param context 上下文
+     * @return 颜色
+     */
+    @ColorInt
+    public static int getColorOnSurfaceColorFromAttrResIdWithTypedArray(@NonNull Context context) {
+        return getColorFromAttrResIdWithTypedArray(context, com.google.android.material.R.attr.colorOnSurface);
+    }
+
+    /**
+     * 从 attr 资源 ID 获取 ColorSecondaryContainer 颜色
+     *
+     * @param context 上下文
+     * @return 颜色
+     */
+    @ColorInt
+    public static int getColorSecondaryContainerColorFromAttrResIdWithTypedArray(@NonNull Context context) {
+        return getColorFromAttrResIdWithTypedArray(context, com.google.android.material.R.attr.colorSecondaryContainer);
+    }
+
+    /**
      * 从 attr 资源 ID 获取颜色
      *
      * @param context   上下文
