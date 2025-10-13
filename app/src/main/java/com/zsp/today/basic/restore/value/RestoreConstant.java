@@ -15,4 +15,8 @@ public class RestoreConstant {
      * 恢复（险情数据库表）
      */
     public static final String RESTORE_$_DANGEROUS_DATA_BASE_TABLE = "RestoreDangerousDataBaseTable";
+    /**
+     * 恢复（归心数据库表）
+     */
+    public static final String RESTORE_$_HOME_COME_DATA_BASE_TABLE = "RestoreHomeComeDataBaseTable";
 }
