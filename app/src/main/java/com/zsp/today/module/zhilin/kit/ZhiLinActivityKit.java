@@ -31,11 +31,11 @@ public class ZhiLinActivityKit {
      * @param appCompatActivity 活动
      * @param recyclerView      控件
      * @param spanCount         跨距数
-     * @param spacing           间距
+     * @param space             间距
      * @param totalMargin       总外边距
      * @param statusManager     状态管理器
      */
-    public void display(AppCompatActivity appCompatActivity, RecyclerView recyclerView, int spanCount, int spacing, int totalMargin, StatusManager statusManager) {
+    public void display(AppCompatActivity appCompatActivity, RecyclerView recyclerView, int spanCount, int space, int totalMargin, StatusManager statusManager) {
         // 状态判断
         StatusManagerKit.statusJudge(statusManager, true, null);
         // 获取组件菜单图标资源 ID 集
@@ -51,7 +51,7 @@ public class ZhiLinActivityKit {
         StatusManagerKit.statusJudge(statusManager, false, menuBeanList);
         // 菜单适配器配套元件
         MenuAdapterKit menuAdapterKit = new MenuAdapterKit();
-        menuAdapterKit.display(appCompatActivity, recyclerView, menuBeanList, spanCount, spacing, totalMargin, false, (view, menuBean) -> distribute(appCompatActivity, menuBean.getMenuId()));
+        menuAdapterKit.display(appCompatActivity, recyclerView, menuBeanList, spanCount, space, totalMargin, false, (view, menuBean) -> distribute(appCompatActivity, menuBean.getMenuId()));
     }
 
     /**
