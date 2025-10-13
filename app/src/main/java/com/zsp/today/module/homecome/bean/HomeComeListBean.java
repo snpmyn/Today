@@ -1,6 +1,6 @@
 package com.zsp.today.module.homecome.bean;
 
-import com.zsp.today.module.homecome.MemorialKit;
+import widget.memorial.MemorialKit;
 
 /**
  * Created on 2025/10/10.
