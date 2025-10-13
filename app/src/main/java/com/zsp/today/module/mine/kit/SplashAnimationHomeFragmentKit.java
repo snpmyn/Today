@@ -54,7 +54,7 @@ public class SplashAnimationHomeFragmentKit {
         splashAnimationListBeanList.add(new SplashAnimationListBean("lottie/splash/lottie_animation_splash_four"));
         // 控件
         RecyclerViewConfigure recyclerViewConfigure = new RecyclerViewConfigure(appCompatActivity, recyclerView);
-        recyclerViewConfigure.gridLayout(2, 48, true, true, false);
+        recyclerViewConfigure.gridLayout(2, 12, true, true, false);
         // 适配器
         SplashAnimationListAdapter splashAnimationListAdapter = getSplashAnimationListAdapter(appCompatActivity, splashAnimationHomeFragment, splashAnimationListBeanList);
         // 状态判断
