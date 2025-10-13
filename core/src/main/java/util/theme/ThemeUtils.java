@@ -25,7 +25,7 @@ public class ThemeUtils {
      * @return 颜色
      */
     @ColorInt
-    private static int getColorFromAttrResIdWithMaterialColors(@NonNull Context context, @AttrRes int attrResId) {
+    public static int getColorFromAttrResIdWithMaterialColors(@NonNull Context context, @AttrRes int attrResId) {
         return MaterialColors.getColor(context, attrResId, 0);
     }
 
