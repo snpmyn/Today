@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theme Toggle</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        label#theme-toggle-button {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        #toggle {
+            opacity: 0;
+            width: 0;
+            height: 0;
+            position: absolute;
+        }
+
+        /* 动画元素 - 使用更流畅的动画曲线 */
+        #container, #patches, #stars, #button, #sun, #moon, #cloud {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* 背景颜色切换 */
+        #container { fill: #83cbd8; }
+        #toggle:checked + svg #container { fill: #2b4360; }
+
+        /* 滑块位置 - 精确计算居中并保持边距 */
+        /* 容器宽度60.667, 高度35, 圆半径10 */
+        /* 容器圆角17.5, 左右边距6px */
+        /* 左侧位置: 6 (边距) + 10 (半径) = 16px */
+        /* 右侧位置: 60.667 - 6 (边距) - 10 (半径) = 44.667px */
+        /* 垂直居中: 35 / 2 = 17.5 */
+        #button {
+            transform: translate(16px, 17.5px);
+        }
+        #toggle:checked + svg #button {
+            transform: translate(44.667px, 17.5px);
+        }
+
+        /* 太阳与月亮显隐 */
+        #sun {
+            opacity: 1;
+            fill: #f8e664;
+        }
+        #toggle:checked + svg #sun {
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        #moon {
+            opacity: 0;
+            fill: #cce6ee;
+            transform: scale(0.8);
+        }
+        #toggle:checked + svg #moon {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* 云与星显隐 */
+        #cloud {
+            opacity: 1;
+            transform: scale(1);
+        }
+        #toggle:checked + svg #cloud {
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        #stars {
+            opacity: 0;
+        }
+        #toggle:checked + svg #stars {
+            opacity: 1;
+        }
+
+        /* SVG 自适应 */
+        svg {
+            width: 90%;
+            height: auto;
+            max-height: 100%;
+            display: block;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<label id="theme-toggle-button">
+    <input type="checkbox" id="toggle">
+    <svg viewBox="0 0 69.667 44" xmlns="http://www.w3.org/2000/svg">
+        <g transform="translate(3.5 3.5)">
+            <!-- 背景容器 -->
+            <rect id="container" rx="17.5" height="35" width="60.667"/>
+
+            <!-- 滑块按钮组 -->
+            <g id="button">
+                <!-- 太阳 -->
+                <circle id="sun" fill="#f8e664" r="10" cx="0" cy="0"/>
+
+                <!-- 月亮 -->
+                <g id="moon">
+                    <circle fill="#cce6ee" r="10" cx="0" cy="0"/>
+                    <circle fill="#2b4360" r="8" cx="3" cy="-3"/>
+                </g>
+            </g>
+
+            <!-- 云朵 -->
+            <g id="cloud">
+                <circle fill="#fff" cx="37" cy="11" r="3"/>
+            </g>
+
+            <!-- 星星 -->
+            <g id="stars">
+                <circle fill="#def8ff" cx="15" cy="8" r="1.5"/>
+                <circle fill="#def8ff" cx="20" cy="12" r="1"/>
+                <circle fill="#def8ff" cx="12" cy="14" r="1.2"/>
+            </g>
+        </g>
+    </svg>
+</label>
+
+<script>
+    const toggle = document.getElementById('toggle');
+
+    toggle.addEventListener('change', function() {
+        if (window.Android && Android.onThemeToggled) {
+            Android.onThemeToggled(this.checked);
+        }
+    });
+
+    // 初始化时检查系统主题
+    if (window.Android && Android.getInitialTheme) {
+        try {
+            toggle.checked = Android.getInitialTheme();
+        } catch (e) {
+            console.log('Initial theme not available');
+        }
+    }
+</script>
+</body>
+</html>
