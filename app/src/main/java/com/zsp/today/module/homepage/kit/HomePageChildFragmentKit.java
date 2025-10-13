@@ -40,6 +40,8 @@ import widget.adapttemplate.bean.MenuBean;
 import widget.adapttemplate.kit.MenuAdapterKit;
 import widget.carousel.CarouselItem;
 import widget.carousel.CarouselKit;
+import widget.carousel.CarouselListener;
+import widget.dialog.materialalertdialog.PictureInfoMaterialAlertDialogKit;
 import widget.kotlin.banner.IBannerView;
 import widget.kotlin.banner.view.BannerView;
 
@@ -151,7 +153,17 @@ public class HomePageChildFragmentKit {
         carouselItemList.add(new CarouselItem(R.drawable.banner_nine, "文昌门"));
         // 轮播配套原件
         CarouselKit carouselKit = new CarouselKit();
-        carouselKit.execute(appCompatActivity, recyclerView, carouselItemList, new HeroCarouselStrategy(), false, CarouselLayoutManager.ALIGNMENT_CENTER, false);
+        carouselKit.execute(recyclerView, carouselItemList, new HeroCarouselStrategy(), false, CarouselLayoutManager.ALIGNMENT_CENTER, false, new CarouselListener() {
+            @Override
+            public void onItemClick(CarouselItem carouselItem, int position) {
+
+            }
+
+            @Override
+            public void onItemLongClick(CarouselItem carouselItem, int position) {
+                PictureInfoMaterialAlertDialogKit.getInstance().show(appCompatActivity, carouselItem);
+            }
+        });
     }
 
     /**
