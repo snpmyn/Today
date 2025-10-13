@@ -2,8 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/accountDetailActivityMenuAddAccount"
         android:contentDescription="@string/addAccount"
         android:icon="@drawable/ic_add_cos_24dp"
         android:title="@string/addAccount"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/accountDetailActivityMenuAccountAnalysis"
+        android:contentDescription="@string/accountAnalysis"
+        android:icon="@drawable/ic_insert_chart_cos_24dp"
+        android:title="@string/accountAnalysis"
         app:showAsAction="always" />
 </menu>
