@@ -39,7 +39,7 @@ public class FunctionActivityKit {
         }
         // 功能适配器配套元件
         FunctionAdapterKit functionAdapterKit = new FunctionAdapterKit();
-        functionAdapterKit.display(appCompatActivity, recyclerView, functionBeanList, 3, 48, 192, this::update);
+        functionAdapterKit.display(appCompatActivity, recyclerView, functionBeanList, 3, 12, 48, this::update);
     }
 
     /**
