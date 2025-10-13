@@ -3,6 +3,8 @@ package com.zsp.today.module.account.kit;
 import com.zsp.today.module.account.bean.AccountMonthListBean;
 import com.zsp.today.module.account.database.AccountDataBaseTable;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,11 +28,21 @@ public class AccountMonthKit {
      */
     public List<AccountMonthListBean> getAccountMonthListBeanListByMonthRemoveDuplicationWithSort(String appointYear, boolean asc) {
         List<AccountMonthListBean> accountMonthListBeanResultList = new ArrayList<>();
+        // 上月总金额
+        BigDecimal lastTotalAmount = null;
         // 根据按序去重后月数据集合查询处理每月下账目数据
         for (String month : AccountBasicKit.getInstance().monthRemoveDuplicationWithSort(appointYear, asc)) {
             List<AccountDataBaseTable> accountDataBaseTableList = AccountBasicKit.getInstance().getAccountDataBaseTableListByYearMonth(appointYear, month);
             String totalAmount = AccountBasicKit.getInstance().totalAmountBaseOnAccountDataBaseTable(accountDataBaseTableList);
-            accountMonthListBeanResultList.add(new AccountMonthListBean(appointYear, month, totalAmount, accountDataBaseTableList.size(), AccountBasicKit.getInstance().getMaxCategoryAndAmount(accountDataBaseTableList)));
+            // 月度环比
+            Double monthOnMonth = null;
+            // 当月总金额
+            BigDecimal currentTotalAmount = new BigDecimal(totalAmount);
+            if ((null != lastTotalAmount) && lastTotalAmount.compareTo(BigDecimal.ZERO) != 0) {
+                monthOnMonth = currentTotalAmount.subtract(lastTotalAmount).divide(lastTotalAmount, 4, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100)).doubleValue();
+            }
+            accountMonthListBeanResultList.add(new AccountMonthListBean(appointYear, month, totalAmount, accountDataBaseTableList.size(), monthOnMonth, AccountBasicKit.getInstance().getMaxCategoryAndAmount(accountDataBaseTableList)));
+            lastTotalAmount = currentTotalAmount;
         }
         return accountMonthListBeanResultList;
     }
