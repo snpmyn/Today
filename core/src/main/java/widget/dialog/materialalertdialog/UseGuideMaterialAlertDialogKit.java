@@ -1,11 +1,9 @@
-package widget.dialog.materialalertdialog.kit;
+package widget.dialog.materialalertdialog;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import widget.dialog.materialalertdialog.listener.UseGuideMaterialAlertDialogKitListener;
 
 /**
  * Created on 2025/9/3.
@@ -75,5 +73,20 @@ public class UseGuideMaterialAlertDialogKit {
                 show(appCompatActivity, index - 1, cancelable, useGuideMaterialAlertDialogKitListener);
             }
         }).setCancelable(cancelable).show();
+    }
+
+    /**
+     * 使用指南材料对话框配套元件监听
+     */
+    public interface UseGuideMaterialAlertDialogKitListener {
+        /**
+         * 开始
+         */
+        void start();
+
+        /**
+         * 结束
+         */
+        void end();
     }
 }
