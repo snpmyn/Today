@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
@@ -19,6 +20,7 @@ import com.zsp.today.basic.value.RxBusConstant;
 import com.zsp.today.basic.version.kit.VersionKit;
 import com.zsp.today.module.account.database.AccountDataBaseTable;
 import com.zsp.today.module.dangerous.database.DangerousDataBaseTable;
+import com.zsp.today.module.homecome.database.HomeComeDataBaseTable;
 import com.zsp.today.module.login.UserDataBaseTable;
 import com.zsp.today.module.mine.fragment.MineChildFragment;
 import com.zsp.today.module.mine.fragment.SplashAnimationHomeFragment;
@@ -39,10 +41,10 @@ import widget.adapttemplate.kit.MenuAdapterKit;
 import widget.dialog.bocdialog.kit.BocDialogKit;
 import widget.dialog.bocdialog.lottie.BocLottieCommonDialog;
 import widget.dialog.bocdialog.lottie.bean.BocLottieDialogEnum;
-import widget.dialog.materialalertdialog.kit.DebugMaterialAlertDialogKit;
-import widget.dialog.materialalertdialog.kit.MaterialAlertDialogBuilderKit;
-import widget.dialog.materialalertdialog.kit.UseGuideMaterialAlertDialogKit;
-import widget.dialog.materialalertdialog.listener.UseGuideMaterialAlertDialogKitListener;
+import widget.dialog.materialalertdialog.DebugMaterialAlertDialogKit;
+import widget.dialog.materialalertdialog.HintMaterialAlertDialogKit;
+import widget.dialog.materialalertdialog.MaterialAlertDialogBuilderKit;
+import widget.dialog.materialalertdialog.UseGuideMaterialAlertDialogKit;
 import widget.emoji.MoodEmojiKit;
 import widget.media.audio.AudioPlayKit;
 import widget.toast.ToastKit;
@@ -94,7 +96,7 @@ public class MineChildFragmentKit {
         moduleBeanList.add(new MenuBean(7, R.drawable.ic_log_out_cos_24dp, appCompatActivity.getString(R.string.logOut)));
         // 模块适配器配套元件
         MenuAdapterKit menuAdapterKit = new MenuAdapterKit();
-        menuAdapterKit.display(appCompatActivity, recyclerView, moduleBeanList, 3, 48, 192, false, (view, menuBean) -> distribute(appCompatActivity, mineChildFragment, menuBean.getMenuId()));
+        menuAdapterKit.display(appCompatActivity, recyclerView, moduleBeanList, 3, 12, 48, false, (view, menuBean) -> distribute(appCompatActivity, mineChildFragment, menuBean.getMenuId()));
     }
 
     /**
@@ -147,7 +149,7 @@ public class MineChildFragmentKit {
      */
     private void resetData(AppCompatActivity appCompatActivity) {
         UseGuideMaterialAlertDialogKit useGuideMaterialAlertDialogKit = getUseGuideMaterialAlertDialogKit();
-        useGuideMaterialAlertDialogKit.show(appCompatActivity, 0, false, new UseGuideMaterialAlertDialogKitListener() {
+        useGuideMaterialAlertDialogKit.show(appCompatActivity, 0, false, new UseGuideMaterialAlertDialogKit.UseGuideMaterialAlertDialogKitListener() {
             @Override
             public void start() {
 
@@ -159,9 +161,11 @@ public class MineChildFragmentKit {
                 // 重置恢复常量值
                 MmkvKit.defaultMmkv().encode(RestoreConstant.RESTORE_$_ACCOUNT_DATA_BASE_TABLE, false);
                 MmkvKit.defaultMmkv().encode(RestoreConstant.RESTORE_$_DANGEROUS_DATA_BASE_TABLE, false);
+                MmkvKit.defaultMmkv().encode(RestoreConstant.RESTORE_$_HOME_COME_DATA_BASE_TABLE, false);
                 // 重置数据库
                 LitePalKit.getInstance().allDelete(AccountDataBaseTable.class);
                 LitePalKit.getInstance().allDelete(DangerousDataBaseTable.class);
+                LitePalKit.getInstance().allDelete(HomeComeDataBaseTable.class);
                 TimerKit.getInstance().execute(appCompatActivity, PublicConstant.DELAY_DURATION, () -> bocLottieCommonDialog.update(BocLottieDialogEnum.SUCCESS_ONE, appCompatActivity.getString(R.string.dataHasBeenDeleted), 0, () -> {
                     bocLottieCommonDialog = null;
                     BocDialogKit.getInstance(appCompatActivity).end();
@@ -180,8 +184,8 @@ public class MineChildFragmentKit {
     @NonNull
     private static UseGuideMaterialAlertDialogKit getUseGuideMaterialAlertDialogKit() {
         UseGuideMaterialAlertDialogKit useGuideMaterialAlertDialogKit = new UseGuideMaterialAlertDialogKit();
-        useGuideMaterialAlertDialogKit.prepareData("步骤一", MoodEmojiKit.Mood.FOLDER.getEmoji() + " 删除数据 " + MoodEmojiKit.Mood.FOLDER.getEmoji() + "\n\n删除账目数据\n删除险情数据", "等下", "下一步");
-        useGuideMaterialAlertDialogKit.prepareData("步骤二", MoodEmojiKit.Mood.FOLDER.getEmoji() + " 恢复数据 " + MoodEmojiKit.Mood.FOLDER.getEmoji() + "\n\nDocuments 文件夹下数据备份文件\n\n恢复账目数据\n恢复险情数据", "上一步", "去重置");
+        useGuideMaterialAlertDialogKit.prepareData("步骤一", MoodEmojiKit.Mood.FOLDER.getEmoji() + " 删除数据 " + MoodEmojiKit.Mood.FOLDER.getEmoji() + "\n\n删除账目数据\n删除险情数据\n删除归心数据", "等下", "下一步");
+        useGuideMaterialAlertDialogKit.prepareData("步骤二", MoodEmojiKit.Mood.FOLDER.getEmoji() + " 恢复数据 " + MoodEmojiKit.Mood.FOLDER.getEmoji() + "\n\nDocuments 文件夹下数据备份文件\n\n恢复账目数据\n恢复险情数据\n恢复归心数据", "上一步", "去重置");
         return useGuideMaterialAlertDialogKit;
     }
 
@@ -217,10 +221,12 @@ public class MineChildFragmentKit {
      * @param appCompatActivity 活动
      */
     private void loginOut(AppCompatActivity appCompatActivity) {
-        new MaterialAlertDialogBuilderKit(appCompatActivity).setTitle(com.zsp.core.R.string.hint).setMessage(R.string.needToInputPhoneNumberToLoginAgainAfterLogOut).setPositiveButton(R.string.logOut, (dialog, which) -> {
-            dialog.dismiss();
+        HintMaterialAlertDialogKit.getInstance().show(appCompatActivity, null, appCompatActivity.getString(R.string.needToInputPhoneNumberToLoginAgainAfterLogOut), appCompatActivity.getString(R.string.logOut), appCompatActivity.getString(R.string.wait), null);
+        HintMaterialAlertDialogKit.getInstance().setHintMaterialAlertDialogKitOnPositiveClickListener(alertDialog -> {
+            alertDialog.dismiss();
             LitePalKit.getInstance().allDelete(UserDataBaseTable.class);
             IntentJump.getInstance().jump(null, appCompatActivity, true, LoginActivity.class);
-        }).setNegativeButton(R.string.wait, (dialog, which) -> dialog.dismiss()).show();
+        });
+        HintMaterialAlertDialogKit.getInstance().setHintMaterialAlertDialogKitOnNegativeClickListener(AppCompatDialog::dismiss);
     }
 }
