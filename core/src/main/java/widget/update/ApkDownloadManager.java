@@ -16,8 +16,8 @@ import java.io.File;
 import java.util.Objects;
 
 import util.handler.HandlerKit;
-import widget.dialog.materialalertdialog.kit.MaterialAlertDialogBuilderKit;
-import widget.dialog.materialalertdialog.kit.ProgressMaterialAlertDialogKit;
+import widget.dialog.materialalertdialog.MaterialAlertDialogBuilderKit;
+import widget.dialog.materialalertdialog.ProgressMaterialAlertDialogKit;
 
 /**
  * @decs: APK 下载管理器
