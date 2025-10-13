@@ -16,7 +16,7 @@ import com.zsp.core.R;
 
 import util.layoutparams.LayoutParamsUtils;
 import util.screen.ScreenUtils;
-import widget.dialog.materialalertdialog.kit.MaterialAlertDialogBuilderKit;
+import widget.dialog.materialalertdialog.MaterialAlertDialogBuilderKit;
 import widget.picture.PictureRandomPicker;
 
 /**
