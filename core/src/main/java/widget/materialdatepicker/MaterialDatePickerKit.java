@@ -29,7 +29,7 @@ public class MaterialDatePickerKit {
      */
     public void show(AppCompatActivity appCompatActivity, MaterialDatePickerKitInterface materialDatePickerKitInterface) {
         WeakReference<AppCompatActivity> weakReference = new WeakReference<>(appCompatActivity);
-        MaterialDatePicker<?> materialDatePicker = MaterialDatePicker.Builder.datePicker().setTitleText(R.string.selectDate).setSelection(MaterialDatePicker.todayInUtcMilliseconds()).build();
+        MaterialDatePicker<?> materialDatePicker = MaterialDatePicker.Builder.datePicker().setTitleText(R.string.chooseDate).setSelection(MaterialDatePicker.todayInUtcMilliseconds()).build();
         materialDatePicker.addOnPositiveButtonClickListener((MaterialPickerOnPositiveButtonClickListener<Object>) selection -> materialDatePickerKitInterface.onPositiveButtonClick(yearMonthDateConversionToYearMonthDate(materialDatePicker.getHeaderText())));
         materialDatePicker.addOnNegativeButtonClickListener(v -> materialDatePickerKitInterface.onNegativeButtonClick());
         materialDatePicker.show(weakReference.get().getSupportFragmentManager(), weakReference.get().getClass().getName());
