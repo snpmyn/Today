@@ -40,7 +40,7 @@ public class SingleChooseBottomSheetDialogKit {
         // 控件
         RecyclerView bottomSheetDialogSingleChooseRv = bottomSheetDialogView.findViewById(R.id.bottomSheetDialogSingleChooseRv);
         RecyclerViewConfigure recyclerViewConfigure = new RecyclerViewConfigure(appCompatActivity, bottomSheetDialogSingleChooseRv);
-        recyclerViewConfigure.linearVerticalLayout(true, 48, true, true, false);
+        recyclerViewConfigure.linearVerticalLayout(true, 12, true, true, false);
         // 适配器
         SingleChooseBottomSheetDialogAdapter singleChooseBottomSheetDialogAdapter = getSingleChooseBottomSheetDialogAdapter(appCompatActivity, myBottomSheetDialog, stringList, defaultSelectPosition, singleChooseBottomSheetDialogKitListener);
         // 展示
