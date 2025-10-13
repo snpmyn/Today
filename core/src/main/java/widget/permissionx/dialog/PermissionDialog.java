@@ -88,9 +88,13 @@ public class PermissionDialog extends RationaleDialog {
         // Manifest.permission_group.STORAGE
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             permissionNameMap.put(Manifest.permission.READ_MEDIA_AUDIO, Manifest.permission_group.STORAGE);
+            permissionNameMap.put(Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission_group.STORAGE);
         }
         permissionNameMap.put(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission_group.STORAGE);
         permissionNameMap.put(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission_group.STORAGE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            permissionNameMap.put(Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED, Manifest.permission_group.STORAGE);
+        }
         permissionIconMap.put(Manifest.permission_group.STORAGE, R.drawable.ic_topic_cos_24dp);
         // Manifest.permission_group.LOCATION
         permissionNameMap.put(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission_group.LOCATION);
@@ -114,6 +118,9 @@ public class PermissionDialog extends RationaleDialog {
         // Manifest.permission_group.MICROPHONE
         permissionNameMap.put(Manifest.permission.RECORD_AUDIO, Manifest.permission_group.MICROPHONE);
         permissionIconMap.put(Manifest.permission_group.MICROPHONE, R.drawable.ic_music_video_cos_24dp);
+        // Manifest.permission_group.CAMERA
+        permissionNameMap.put(Manifest.permission.CAMERA, Manifest.permission_group.CAMERA);
+        permissionIconMap.put(Manifest.permission_group.CAMERA, R.drawable.ic_photo_camera_cos_24dp);
     }
 
     public PermissionDialog(@NonNull Context context, List<String> deniedList, String message, String positiveText, String negativeText) {

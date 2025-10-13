@@ -126,4 +126,37 @@ public class PermissionKit {
         }
         return list;
     }
+
+    /**
+     * 读取图片
+     *
+     * @return 读取图片权限集
+     */
+    @NonNull
+    public static List<String> readImage() {
+        List<String> list = new ArrayList<>(2);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            // ✅ Android 13+ (API 33+)
+            list.add(Manifest.permission.READ_MEDIA_IMAGES);
+            // ✅ Android 14+ (API 34+)
+            list.add(Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED);
+        } else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.TIRAMISU) {
+            // ✅ Android 13+ (API 33+)
+            list.add(Manifest.permission.READ_MEDIA_IMAGES);
+        }
+        return list;
+    }
+
+    /**
+     * 拍照
+     *
+     * @return 拍照权限集
+     */
+    @NonNull
+    public static List<String> camera() {
+        List<String> list = new ArrayList<>(1);
+        // ✅ Android 6+ (API 23+)
+        list.add(Manifest.permission.CAMERA);
+        return list;
+    }
 }
