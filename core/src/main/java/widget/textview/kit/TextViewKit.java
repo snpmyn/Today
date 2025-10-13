@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
 import org.jetbrains.annotations.NotNull;
@@ -19,15 +20,37 @@ import org.jetbrains.annotations.NotNull;
  */
 public class TextViewKit {
     /**
+     * 创造 TextView
+     *
+     * @param context   上下文
+     * @param text      文本
+     * @param textSize  文本尺寸
+     * @param textColor 文本颜色
+     * @param bold      粗体否
+     * @return TextView
+     */
+    @NonNull
+    public static TextView createTextView(Context context, String text, int textSize, int textColor, boolean bold) {
+        TextView textView = new TextView(context);
+        textView.setText(text);
+        textView.setTextSize(textSize);
+        textView.setTextColor(textColor);
+        if (bold) {
+            textView.setTypeface(null, android.graphics.Typeface.BOLD);
+        }
+        return textView;
+    }
+
+    /**
      * 设置位图
      *
      * @param context       上下文
      * @param textView      TextView
      * @param drawableResId 位图资源 ID
      * @param position      位置（1 左、2 上、3 右、4 下）
-     * @param pad           间距
+     * @param padding       间距
      */
-    public static void setDrawable(Context context, TextView textView, int drawableResId, int position, int pad) {
+    public static void setDrawable(Context context, TextView textView, int drawableResId, int position, int padding) {
         Drawable drawable = ContextCompat.getDrawable(context, drawableResId);
         if (null != drawable) {
             drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
@@ -47,7 +70,7 @@ public class TextViewKit {
                 default:
                     break;
             }
-            textView.setCompoundDrawablePadding(pad);
+            textView.setCompoundDrawablePadding(padding);
         }
     }
 
