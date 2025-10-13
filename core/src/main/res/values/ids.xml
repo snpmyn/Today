@@ -5,4 +5,8 @@
     <item name="fragmentationHierarchy" type="id" />
     <!--banner-->
     <item name="bannerViewRealItem" type="id" />
+    <!--SystemBar-->
+    <item name="status_bar_view" type="id" />
+    <item name="navigation_bar_view" type="id" />
+    <item name="navigation_height_live_data" type="id" />
 </resources>
