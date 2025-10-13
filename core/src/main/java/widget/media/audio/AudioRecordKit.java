@@ -350,10 +350,10 @@ public class AudioRecordKit {
             contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, mediaFileDirectoryEnum.getRelativePath());
             targetUri = contentResolver.insert(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, contentValues);
             if (null != targetUri) {
-                try (OutputStream outputStream = contentResolver.openOutputStream(targetUri); FileInputStream fis = new FileInputStream(sourceFile)) {
+                try (OutputStream outputStream = contentResolver.openOutputStream(targetUri); FileInputStream fileInputStream = new FileInputStream(sourceFile)) {
                     byte[] buffer = new byte[8192];
                     int len;
-                    while ((len = fis.read(buffer)) != -1) {
+                    while ((len = fileInputStream.read(buffer)) != -1) {
                         Objects.requireNonNull(outputStream).write(buffer, 0, len);
                     }
                 }
@@ -469,7 +469,9 @@ public class AudioRecordKit {
                 } else {
                     volumeHandler.post(() -> notifyVolume(0, 0, null, 0));
                 }
-                if (areRecording) volumeHandler.postDelayed(this, volumeUpdateInterval);
+                if (areRecording) {
+                    volumeHandler.postDelayed(this, volumeUpdateInterval);
+                }
             }
         };
     }
@@ -548,8 +550,9 @@ public class AudioRecordKit {
      * @param read  有效字节数
      */
     private void notifyVolume(double db, double level, @Nullable byte[] pcm, int read) {
-        if (null != audioRecordListener)
+        if (null != audioRecordListener) {
             mainHandler.post(() -> audioRecordListener.onVolume(db, level, pcm, read));
+        }
     }
 
     /**
