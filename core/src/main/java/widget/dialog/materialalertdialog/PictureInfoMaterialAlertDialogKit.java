@@ -1,4 +1,4 @@
-package widget.dialog.materialalertdialog.kit;
+package widget.dialog.materialalertdialog;
 
 import android.view.View;
 import android.widget.ImageView;
