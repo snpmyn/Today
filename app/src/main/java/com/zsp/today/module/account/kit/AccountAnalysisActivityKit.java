@@ -18,7 +18,7 @@ import java.util.List;
 import util.list.ListUtils;
 import util.theme.ThemeUtils;
 import util.view.ViewUtils;
-import widget.dialog.materialalertdialog.kit.SingleChooseMaterialAlertDialogKit;
+import widget.dialog.materialalertdialog.SingleChooseMaterialAlertDialogKit;
 import widget.toast.ToastKit;
 
 /**
