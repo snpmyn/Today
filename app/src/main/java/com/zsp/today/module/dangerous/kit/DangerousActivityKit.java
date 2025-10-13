@@ -28,9 +28,8 @@ import util.validate.RegularUtils;
 import widget.dialog.bocdialog.kit.BocDialogKit;
 import widget.dialog.bocdialog.lottie.BocLottieClickDialog;
 import widget.dialog.bocdialog.lottie.bean.BocLottieDialogEnum;
-import widget.dialog.materialalertdialog.kit.MaterialAlertDialogBuilderKit;
-import widget.dialog.materialalertdialog.kit.UseGuideMaterialAlertDialogKit;
-import widget.dialog.materialalertdialog.listener.UseGuideMaterialAlertDialogKitListener;
+import widget.dialog.materialalertdialog.MaterialAlertDialogBuilderKit;
+import widget.dialog.materialalertdialog.UseGuideMaterialAlertDialogKit;
 import widget.emoji.MoodEmojiKit;
 import widget.location.value.LocationConstant;
 import widget.permissionx.kit.PermissionKit;
@@ -98,7 +97,7 @@ public class DangerousActivityKit implements SmsKit.SmsKitSendListener, SmsKit.S
             return;
         }
         UseGuideMaterialAlertDialogKit useGuideMaterialAlertDialogKit = getUseGuideMaterialAlertDialogKit();
-        useGuideMaterialAlertDialogKit.show(appCompatActivity, 0, false, new UseGuideMaterialAlertDialogKitListener() {
+        useGuideMaterialAlertDialogKit.show(appCompatActivity, 0, false, new UseGuideMaterialAlertDialogKit.UseGuideMaterialAlertDialogKitListener() {
             @Override
             public void start() {
 
