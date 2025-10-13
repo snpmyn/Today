@@ -51,10 +51,12 @@ dependencies {
     api libs.gson
     api libs.mpac
     api libs.mmkv
+    api libs.lunar
     api libs.glide
     api libs.timber
     api libs.rxjava
     api libs.lottie
+    api libs.palette
     api libs.relinker
     api libs.eventbus
     api libs.rxandroid
