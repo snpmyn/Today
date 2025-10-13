@@ -6,6 +6,7 @@ import com.zsp.today.BuildConfig;
 import com.zsp.today.basic.value.Folder;
 import com.zsp.today.module.account.database.AccountDataBaseTable;
 import com.zsp.today.module.dangerous.database.DangerousDataBaseTable;
+import com.zsp.today.module.homecome.database.HomeComeDataBaseTable;
 
 import java.io.File;
 
@@ -30,6 +31,10 @@ public class RestoreKit {
      * 险情数据库表文件绝对路径
      */
     public String dangerousDataBaseTableFileAbsolutePath = Folder.EXTERNAL_BACKUP + File.separator + DangerousDataBaseTable.class.getSimpleName() + BuildConfig.BACKUP_SUFFIX + ".json";
+    /**
+     * 归心数据库表文件绝对路径
+     */
+    public String homeComeDataBaseTableFileAbsolutePath = Folder.EXTERNAL_BACKUP + File.separator + HomeComeDataBaseTable.class.getSimpleName() + BuildConfig.BACKUP_SUFFIX + ".json";
 
     public static RestoreKit getInstance() {
         return InstanceHolder.INSTANCE;
