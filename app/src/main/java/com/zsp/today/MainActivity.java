@@ -109,7 +109,9 @@ public class MainActivity extends BasePoolActivity implements BasePoolFragment.O
         // 执行
         mainActivityKit.execute(this);
         // 开始
-        ServiceKit.getInstance().start(this, periodicServiceConnection, PeriodicService.class);
+        if (BuildConfig.DEBUG) {
+            ServiceKit.getInstance().start(this, periodicServiceConnection, PeriodicService.class);
+        }
     }
 
     /**
