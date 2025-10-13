@@ -1,5 +1,7 @@
 package com.zsp.today.module.account.bean;
 
+import java.util.Locale;
+
 /**
  * Created on 2021/11/4
  *
@@ -24,6 +26,10 @@ public class AccountMonthListBean {
      */
     private final int count;
     /**
+     * 月度环比
+     */
+    private final Double monthOnMonth;
+    /**
      * 最大类目和金额
      */
     private final String maxCategoryAndAmount;
@@ -35,13 +41,15 @@ public class AccountMonthListBean {
      * @param month                月
      * @param totalAmount          总金额
      * @param count                数量
+     * @param monthOnMonth         月度环比
      * @param maxCategoryAndAmount 最大类目和金额
      */
-    public AccountMonthListBean(String year, String month, String totalAmount, int count, String maxCategoryAndAmount) {
+    public AccountMonthListBean(String year, String month, String totalAmount, int count, Double monthOnMonth, String maxCategoryAndAmount) {
         this.year = year;
         this.month = month;
         this.totalAmount = totalAmount;
         this.count = count;
+        this.monthOnMonth = monthOnMonth;
         this.maxCategoryAndAmount = maxCategoryAndAmount;
     }
 
@@ -63,5 +71,42 @@ public class AccountMonthListBean {
 
     public String getMaxCategoryAndAmount() {
         return maxCategoryAndAmount;
+    }
+
+    /**
+     * 月度环比大于 0
+     *
+     * @return 月度环比大于 0 否
+     */
+    public boolean monthOnMonthGreaterThanZero() {
+        return ((null != monthOnMonth) && (monthOnMonth > 0));
+    }
+
+    /**
+     * 月度环比小于 0
+     *
+     * @return 月度环比小于 0 否
+     */
+    public boolean monthOnMonthLessThanZero() {
+        return ((null != monthOnMonth) && (monthOnMonth < 0));
+    }
+
+    /**
+     * 获取月度环比描述
+     *
+     * @return 月度环比描述
+     */
+    public String getMonthOnMonthDescribe() {
+        if (null == monthOnMonth) {
+            // 头月或无法计算
+            return "--";
+        }
+        if (monthOnMonthGreaterThanZero()) {
+            return String.format(Locale.CHINA, "%.1f%%", monthOnMonth);
+        } else if (monthOnMonthLessThanZero()) {
+            return String.format(Locale.CHINA, "%.1f%%", Math.abs(monthOnMonth));
+        } else {
+            return "持平";
+        }
     }
 }
