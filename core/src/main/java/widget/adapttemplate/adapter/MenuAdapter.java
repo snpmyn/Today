@@ -16,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import util.density.DensityUtils;
 import util.list.ListUtils;
 import util.screen.ScreenUtils;
 import widget.adapttemplate.bean.MenuBean;
@@ -45,7 +46,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     public MenuAdapter(Context context, int spanCount, int totalMargin) {
         this.context = context;
         this.spanCount = spanCount;
-        this.totalMargin = totalMargin;
+        this.totalMargin = DensityUtils.dipToPxByInt(totalMargin);
         this.menuBeans = new ArrayList<>();
     }
 
