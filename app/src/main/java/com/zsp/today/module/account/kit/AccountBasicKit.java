@@ -9,8 +9,12 @@ import com.zsp.today.module.account.value.AccountCondition;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import litepal.kit.LitePalKit;
 import util.data.BigDecimalUtils;
@@ -113,6 +117,18 @@ public class AccountBasicKit {
     }
 
     /**
+     * 通过年月按照金额排序获取账目数据库表数据集合
+     *
+     * @param appointYear  指定年
+     * @param appointMonth 指定月
+     * @param asc          升序否
+     * @return 账目数据库表数据集合
+     */
+    public List<AccountDataBaseTable> getAccountDataBaseTableListByYearMonthWithAmountSort(String appointYear, String appointMonth, boolean asc) {
+        return LitePalKit.getInstance().queryByWhereAndOrderAndSelect(AccountDataBaseTable.class, new String[]{AccountCondition.ACCOUNT_PHONE_NUMBER_AND_YEAR_AND_MONTH, App.getAppInstance().getPhoneNumber(), appointYear, appointMonth}, "amount", asc, "category", "amount");
+    }
+
+    /**
      * 账目数据库表总金额
      *
      * @param accountDataBaseTableList 账目数据库表数据集合
@@ -125,20 +141,6 @@ public class AccountBasicKit {
             totalAmount = ((null == totalAmount) ? amount : BigDecimalUtils.add(totalAmount, amount));
         }
         return BigDecimalUtils.bigDecimalToString(totalAmount);
-    }
-
-    /**
-     * 转化账目数据库表数据集合为账目详情数据集合
-     *
-     * @param accountDataBaseTableList 账目数据库表数据集合
-     * @return 账目详情数据集合
-     */
-    public List<AccountDetailBean> transformAccountDataBaseTableToAccountDetailBean(@NonNull List<AccountDataBaseTable> accountDataBaseTableList) {
-        List<AccountDetailBean> accountDetailBeanList = new ArrayList<>(accountDataBaseTableList.size());
-        for (AccountDataBaseTable accountDataBaseTable : accountDataBaseTableList) {
-            accountDetailBeanList.add(new AccountDetailBean(accountDataBaseTable.getDate(), accountDataBaseTable.getCategory(), accountDataBaseTable.getAmount()));
-        }
-        return accountDetailBeanList;
     }
 
     /**
@@ -156,6 +158,65 @@ public class AccountBasicKit {
             return "无数据";
         }
         return maxAccountDataBaseTable.getCategory() + " " + maxAccountDataBaseTable.getAmount() + " 元";
+    }
+
+    /**
+     * 转化账目数据库表数据集合为账目详情数据集合
+     *
+     * @param accountDataBaseTableList 账目数据库表数据集合
+     * @return 账目详情数据集合
+     */
+    public List<AccountDetailBean> transformAccountDataBaseTableToAccountDetailBean(@NonNull List<AccountDataBaseTable> accountDataBaseTableList) {
+        List<AccountDetailBean> accountDetailBeanList = new ArrayList<>(accountDataBaseTableList.size());
+        for (AccountDataBaseTable accountDataBaseTable : accountDataBaseTableList) {
+            accountDetailBeanList.add(new AccountDetailBean(accountDataBaseTable.getDate(), accountDataBaseTable.getCategory(), accountDataBaseTable.getAmount()));
+        }
+        return accountDetailBeanList;
+    }
+
+    /**
+     * 根据金额排序
+     *
+     * @param accountDataBaseTableList 账目数据库表数据集合
+     * @param asc                      升序否
+     *                                 true 升序
+     *                                 false 降序
+     * @return 根据金额排序后账目数据库表数据集合
+     */
+    public List<AccountDataBaseTable> sortByAmount(List<AccountDataBaseTable> accountDataBaseTableList, boolean asc) {
+        if ((null == accountDataBaseTableList) || ListUtils.listIsEmpty(accountDataBaseTableList)) {
+            return accountDataBaseTableList;
+        }
+        return accountDataBaseTableList.stream().sorted(asc ? Comparator.comparingDouble(AccountDataBaseTable::getAmount) : Comparator.comparingDouble(AccountDataBaseTable::getAmount).reversed()).collect(Collectors.toList());
+    }
+
+    /**
+     * 合并相同类目的金额并排序
+     *
+     * @param accountDataBaseTableList 账目数据库表数据集合
+     * @return 账目数据库表数据集合
+     */
+    public List<AccountDataBaseTable> mergeAccountOfTheSameCategoryAndSort(List<AccountDataBaseTable> accountDataBaseTableList) {
+        if ((null == accountDataBaseTableList) || accountDataBaseTableList.isEmpty()) {
+            return Collections.emptyList();
+        }
+        // 用 Map 合并相同类目的金额
+        Map<String, AccountDataBaseTable> mergeMap = new LinkedHashMap<>();
+        for (AccountDataBaseTable item : accountDataBaseTableList) {
+            if ((null == item) || (null == item.getCategory())) {
+                continue;
+            }
+            String key = item.getCategory();
+            AccountDataBaseTable existing = mergeMap.get(key);
+            if (null == existing) {
+                mergeMap.put(key, new AccountDataBaseTable(item.getPhoneNumber(), item.getDate(), item.getCategory(), item.getAmount()));
+            } else {
+                existing.setAmount(existing.getAmount() + item.getAmount());
+            }
+        }
+        // 转 List
+        // 金额从大到小排序
+        return mergeMap.values().stream().sorted((a, b) -> Double.compare(b.getAmount(), a.getAmount())).collect(Collectors.toList());
     }
 
     private static final class InstanceHolder {
