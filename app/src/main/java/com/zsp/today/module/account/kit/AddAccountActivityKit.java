@@ -28,7 +28,7 @@ import util.intent.IntentVerify;
 import util.keyboard.KeyboardUtils;
 import util.list.ListUtils;
 import util.rxbus.RxBus;
-import widget.dialog.materialalertdialog.kit.SingleChooseMaterialAlertDialogKit;
+import widget.dialog.materialalertdialog.SingleChooseMaterialAlertDialogKit;
 import widget.materialdatepicker.MaterialDatePickerKit;
 import widget.toast.ToastKit;
 
@@ -142,7 +142,7 @@ public class AddAccountActivityKit {
     /**
      * 修改账目
      * <p>
-     * 账目详情页修改模式下进入添加账目页。
+     * 账目详情页修改模式下进入添加账目页
      *
      * @param appCompatActivity                    活动
      * @param materialAutoCompleteTextViewDate     日期框
@@ -165,8 +165,10 @@ public class AddAccountActivityKit {
         AccountTransferBean accountTransferBean = (AccountTransferBean) IntentVerify.getSerializableExtra(appCompatActivity.getIntent(), AccountConstant.ACCOUNT_DETAIL_ACTIVITY_$_ACCOUNT_TRANSFER_BEAN);
         assert accountTransferBean != null;
         if (TextUtils.equals(nowCategory, accountTransferBean.getCategory())) {
-            // 场景一：修改金额。
-            // 据原日期、原类目查询本地数据库。重设金额，多个更新。
+            // 场景一 - 修改金额
+            // 据原日期、原类目查询本地数据库
+            // 重设金额
+            // 多个更新
             String[] conditions = new String[]{AccountCondition.ACCOUNT_PHONE_NUMBER_AND_DATE_AND_CATEGORY, App.getAppInstance().getPhoneNumber(), oldDate, nowCategory};
             List<AccountDataBaseTable> accountDataBaseTableList = LitePalKit.getInstance().queryByWhere(AccountDataBaseTable.class, conditions);
             AccountDataBaseTable accountDataBaseTable = accountDataBaseTableList.get(0);
@@ -175,8 +177,11 @@ public class AddAccountActivityKit {
                 hintAndRefreshAccount(appCompatActivity);
             }
         } else {
-            // 场景二：修改类目、金额。
-            // 删原账目。据原日期、新类目查询本地数据库。有则合并，多个更新；无则单个保存。
+            // 场景二 - 修改类目、金额
+            // 删原账目
+            // 据原日期、新类目查询本地数据库
+            // 有则合并后多个更新
+            // 无则单个保存
             String[] oldConditions = new String[]{AccountCondition.ACCOUNT_PHONE_NUMBER_AND_DATE_AND_CATEGORY_AND_AMOUNT, App.getAppInstance().getPhoneNumber(), accountTransferBean.getDate(), accountTransferBean.getCategory(), BigDecimalUtils.bigDecimalToString(BigDecimal.valueOf(accountTransferBean.getAmount()))};
             LitePalKit.getInstance().multiDelete(AccountDataBaseTable.class, oldConditions);
             String[] nowConditions = new String[]{AccountCondition.ACCOUNT_PHONE_NUMBER_AND_DATE_AND_CATEGORY, App.getAppInstance().getPhoneNumber(), oldDate, nowCategory};
@@ -197,8 +202,13 @@ public class AddAccountActivityKit {
     /**
      * 提示和刷新账目
      * <p>
-     * 场景一：首页子碎片进入添加账目页。只需刷新首页子碎片账目。
-     * 场景二：账目详情页（添加模式、修改模式）进入添加账目页。同时刷新首页子碎片和账目详情页账目。
+     * 场景一
+     * 首页子碎片进入添加账目页
+     * 只需刷新首页子碎片账目
+     * <p>
+     * 场景二
+     * 账目详情页（添加模式、修改模式）进入添加账目页
+     * 同时刷新首页子碎片和账目详情页账目
      *
      * @param appCompatActivity 活动
      */
@@ -226,7 +236,7 @@ public class AddAccountActivityKit {
     /**
      * 来自账目详情页添加模式
      * <p>
-     * 账目详情页添加模式下携日期进入添加账目页。
+     * 账目详情页添加模式下携日期进入添加账目页
      *
      * @param appCompatActivity 活动
      * @return 来自账目详情页添加模式否
@@ -239,7 +249,7 @@ public class AddAccountActivityKit {
     /**
      * 来自账目详情页修改模式
      * <p>
-     * 账目详情页修改模式下携日期、类目、金额进入添加账目页。
+     * 账目详情页修改模式下携日期、类目、金额进入添加账目页
      *
      * @param appCompatActivity 活动
      * @return 来自账目详情页修改模式否
