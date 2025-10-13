@@ -36,12 +36,15 @@ import util.file.OpenFileKit;
 import util.intent.IntentJump;
 import util.list.ListUtils;
 import util.view.ViewUtils;
+import widget.bottomsheetdialog.SingleChooseBottomSheetDialogKit;
 import widget.dialog.bottomsheetdialog.MyBottomSheetDialog;
-import widget.dialog.materialalertdialog.kit.MaterialAlertDialogBuilderKit;
-import widget.dialog.materialalertdialog.kit.SingleChooseMaterialAlertDialogKit;
+import widget.dialog.materialalertdialog.DoubleConfirmationMaterialAlertDialogKit;
+import widget.dialog.materialalertdialog.MaterialAlertDialogBuilderKit;
+import widget.dialog.materialalertdialog.SingleChooseMaterialAlertDialogKit;
 import widget.recyclerview.configure.RecyclerViewConfigure;
 import widget.recyclerview.controller.RecyclerViewDisplayController;
 import widget.recyclerview.listener.OnRecyclerViewOnItemClickListener;
+import widget.recyclerview.listener.OnRecyclerViewOnItemInnerClickListener;
 import widget.recyclerview.listener.OnRecyclerViewOnItemLongClickListener;
 import widget.status.kit.StatusManagerKit;
 import widget.status.manager.StatusManager;
@@ -107,7 +110,12 @@ public class AccountHomeActivityKit {
     public void displayAccount(AppCompatActivity appCompatActivity, RecyclerView recyclerView, List<AccountMonthListBean> accountMonthListBeanList, StatusManager statusManager) {
         // 控件
         RecyclerViewConfigure recyclerViewConfigure = new RecyclerViewConfigure(appCompatActivity, recyclerView);
-        recyclerViewConfigure.linearVerticalLayout(true, 48, true, true, false);
+        // Spruce 入场动画解决共享元素闪烁问题
+        // B 页面返回 A 页面时，B 页面共享元素 overlay 先渲染。
+        // 但 Spruce 延迟动画让 RecyclerView item 在 overlay 上方依次入场
+        // 动画开始时 RecyclerView item 初始不可见或透明，覆盖掉残影 → 用户不会看到残影。
+        // 该方式本质上和官方方案延迟 notifyDataSetChanged 原理一致，只不过用视觉动画替代了逻辑延迟。
+        recyclerViewConfigure.linearVerticalLayout(true, 12, true, true, true);
         // 适配器
         AccountMonthListAdapter accountMonthListAdapter = new AccountMonthListAdapter(appCompatActivity);
         accountMonthListAdapter.setAccountMonthListData(accountMonthListBeanList);
@@ -124,7 +132,7 @@ public class AccountHomeActivityKit {
         accountMonthListAdapter.setOnRecyclerViewOnItemLongClickListener(new OnRecyclerViewOnItemLongClickListener() {
             @Override
             public <T> void onItemLongClick(View view, int position, T t) {
-                new MaterialAlertDialogBuilderKit(appCompatActivity).setTitle(com.zsp.core.R.string.hint).setMessage(R.string.wantToDeleteTheAccountOfTheDay).setPositiveButton(R.string.yes, (dialog, which) -> {
+                DoubleConfirmationMaterialAlertDialogKit.getInstance().show(appCompatActivity, appCompatActivity.getString(com.zsp.core.R.string.hint), appCompatActivity.getString(R.string.wantToDeleteAccount), appCompatActivity.getString(R.string.yes), appCompatActivity.getString(R.string.wait), appCompatActivity.getString(R.string.hintAgain), appCompatActivity.getString(R.string.deletionCannotBeRestored), appCompatActivity.getString(com.zsp.core.R.string.delete), appCompatActivity.getString(R.string.wait), dialog -> {
                     dialog.dismiss();
                     AccountMonthListBean accountMonthListBean = (AccountMonthListBean) t;
                     LitePalKit.getInstance().multiDelete(AccountDataBaseTable.class, AccountCondition.ACCOUNT_PHONE_NUMBER_AND_YEAR_AND_MONTH, App.getAppInstance().getPhoneNumber(), accountMonthListBean.getYear(), accountMonthListBean.getMonth());
@@ -133,7 +141,24 @@ public class AccountHomeActivityKit {
                     StatusManagerKit.statusJudge(statusManager, false, accountMonthListBeanList);
                     // 备份
                     BackupKit.getInstance().backup(appCompatActivity, AccountDataBaseTable.class, null);
-                }).setNegativeButton(R.string.wait, (dialog, which) -> dialog.dismiss()).setCancelable(false).show();
+                });
+            }
+        });
+        accountMonthListAdapter.setOnRecyclerViewOnItemInnerClickListener(new OnRecyclerViewOnItemInnerClickListener() {
+            @Override
+            public <T> void onItemInnerClick(View view, int position, T t) {
+                AccountMonthListBean accountMonthListBean = (AccountMonthListBean) t;
+                // 账目数据库表集
+                List<AccountDataBaseTable> accountDataBaseTableListFromGetAccountDataBaseTableListByYearMonthWithAmountSort = AccountBasicKit.getInstance().getAccountDataBaseTableListByYearMonthWithAmountSort(accountMonthListBean.getYear(), accountMonthListBean.getMonth(), false);
+                List<AccountDataBaseTable> accountDataBaseTableListFromMergeAccountOfTheSameCategoryAndSort = AccountBasicKit.getInstance().mergeAccountOfTheSameCategoryAndSort(accountDataBaseTableListFromGetAccountDataBaseTableListByYearMonthWithAmountSort);
+                // 类目金额集
+                List<String> categoryAmountList = new ArrayList<>(accountDataBaseTableListFromMergeAccountOfTheSameCategoryAndSort.size());
+                for (AccountDataBaseTable accountDataBaseTable : accountDataBaseTableListFromMergeAccountOfTheSameCategoryAndSort) {
+                    categoryAmountList.add(accountDataBaseTable.getCategory() + " " + accountDataBaseTable.getAmount());
+                }
+                SingleChooseBottomSheetDialogKit.show(appCompatActivity, categoryAmountList, -1, value -> {
+
+                });
             }
         });
         // 状态判断
