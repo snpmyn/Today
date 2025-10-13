@@ -5,7 +5,8 @@ import android.graphics.drawable.InsetDrawable;
 import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.MenuRes;
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieEntry;
+import com.google.android.material.card.MaterialCardView;
 import com.zsp.today.R;
 import com.zsp.today.application.App;
 import com.zsp.today.basic.backup.BackupKit;
@@ -34,18 +36,26 @@ import java.util.List;
 
 import litepal.kit.LitePalKit;
 import util.data.BigDecimalUtils;
+import util.data.DoubleUtils;
 import util.intent.IntentJump;
 import util.intent.IntentVerify;
 import util.list.ListUtils;
 import util.rxbus.RxBus;
 import util.theme.ThemeUtils;
-import widget.dialog.materialalertdialog.kit.MaterialAlertDialogBuilderKit;
+import util.view.ViewUtils;
+import widget.dialog.materialalertdialog.DoubleConfirmationMaterialAlertDialogKit;
+import widget.floatingactionbutton.DraggableFloatingActionButton;
+import widget.materialcontainertransform.MaterialContainerTransformKit;
 import widget.popupmenu.PopupMenuKit;
 import widget.recyclerview.configure.RecyclerViewConfigure;
 import widget.recyclerview.controller.RecyclerViewDisplayController;
 import widget.recyclerview.listener.OnRecyclerViewOnItemLongClickListener;
 import widget.status.kit.StatusManagerKit;
 import widget.status.manager.StatusManager;
+import widget.view.AccountLineView;
+import widget.view.NutritionChartView;
+import widget.view.kit.AccountLineViewKit;
+import widget.view.kit.NutritionChartViewKit;
 
 /**
  * Created on 2021/1/4
@@ -82,7 +92,7 @@ public class AccountDetailActivityKit {
         List<AccountDetailBean> accountDetailBeanList = AccountBasicKit.getInstance().transformAccountDataBaseTableToAccountDetailBean(accountDataBaseTableList);
         // 控件
         RecyclerViewConfigure recyclerViewConfigure = new RecyclerViewConfigure(appCompatActivity, recyclerView);
-        recyclerViewConfigure.linearVerticalLayout(true, 48, true, true, false);
+        recyclerViewConfigure.linearVerticalLayout(true, 12, true, true, false);
         // 适配器
         AccountDetailAdapter accountDetailAdapter = getAccountDetailAdapter(appCompatActivity, statusManager, accountDetailBeanList);
         // 状态判断
@@ -185,7 +195,7 @@ public class AccountDetailActivityKit {
      * @param statusManager         状态管理器
      */
     private void deleteAccount(AppCompatActivity appCompatActivity, AccountDetailAdapter accountDetailAdapter, List<AccountDetailBean> accountDetailBeanList, int position, AccountDetailBean accountDetailBean, StatusManager statusManager) {
-        new MaterialAlertDialogBuilderKit(appCompatActivity).setTitle(com.zsp.core.R.string.hint).setMessage(R.string.wantToDeleteThisAccount).setPositiveButton(R.string.yes, (dialog, which) -> {
+        DoubleConfirmationMaterialAlertDialogKit.getInstance().show(appCompatActivity, appCompatActivity.getString(com.zsp.core.R.string.hint), appCompatActivity.getString(R.string.wantToDeleteAccount), appCompatActivity.getString(R.string.yes), appCompatActivity.getString(R.string.wait), appCompatActivity.getString(R.string.hintAgain), appCompatActivity.getString(R.string.deletionCannotBeRestored), appCompatActivity.getString(com.zsp.core.R.string.delete), appCompatActivity.getString(R.string.wait), dialog -> {
             dialog.dismiss();
             LitePalKit.getInstance().multiDelete(AccountDataBaseTable.class, AccountCondition.ACCOUNT_PHONE_NUMBER_AND_DATE_AND_CATEGORY_AND_AMOUNT, App.getAppInstance().getPhoneNumber(), accountDetailBean.getDate(), accountDetailBean.getCategory(), BigDecimalUtils.bigDecimalToString(BigDecimal.valueOf(accountDetailBean.getAmount())));
             RecyclerViewDisplayController.deleteDynamic(accountDetailAdapter, position, accountDetailBeanList);
@@ -194,31 +204,53 @@ public class AccountDetailActivityKit {
             RxBus.get().post(RxBusConstant.ACCOUNT_HOME_ACTIVITY_AND_SECOND_ACTIVITY_$_REFRESH_ACCOUNT, RxBusConstant.ACCOUNT_HOME_ACTIVITY_AND_SECOND_ACTIVITY_$_REFRESH_ACCOUNT_CODE);
             // 备份
             BackupKit.getInstance().backup(appCompatActivity, AccountDataBaseTable.class, null);
-        }).setNegativeButton(R.string.wait, (dialog, which) -> dialog.dismiss()).setCancelable(false).show();
+        });
     }
 
     /**
      * 每日分析
      *
-     * @param appCompatActivity 活动
-     * @param pieChart          半圆饼图表
-     * @param date              日期
+     * @param appCompatActivity             活动
+     * @param relativeLayout                RelativeLayout
+     * @param materialCardView              材料卡片视图
+     * @param linearLayout                  LinearLayout
+     * @param nutritionChartView            营养图表视图
+     * @param pieChart                      半圆饼图表
+     * @param accountLineView               账目线段视图
+     * @param draggableFloatingActionButton 可拖动浮动操作按钮
+     * @param date                          日期
+     * @param clickMenu                     点击菜单否
      */
-    public void everydayAnalysis(AppCompatActivity appCompatActivity, @NonNull PieChart pieChart, String date) {
-        // 边距
-        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) pieChart.getLayoutParams();
-        if (layoutParams.topMargin == 0) {
-            layoutParams.setMargins(0, 50, 0, -(pieChart.getHeight() / 2));
-            pieChart.setLayoutParams(layoutParams);
-        }
+    public void everydayAnalysis(AppCompatActivity appCompatActivity, RelativeLayout relativeLayout, MaterialCardView materialCardView, LinearLayout linearLayout, NutritionChartView nutritionChartView, PieChart pieChart, AccountLineView accountLineView, DraggableFloatingActionButton draggableFloatingActionButton, String date, boolean clickMenu) {
+        ViewUtils.hideView(draggableFloatingActionButton, View.GONE);
+        MaterialContainerTransformKit.getInstance().showEndView(appCompatActivity, relativeLayout, draggableFloatingActionButton, materialCardView, false);
         // 数据
         List<AccountDataBaseTable> accountDataBaseTableList = LitePalKit.getInstance().queryByWhere(AccountDataBaseTable.class, AccountCondition.ACCOUNT_PHONE_NUMBER_AND_DATE, App.getAppInstance().getPhoneNumber(), date);
-        ArrayList<PieEntry> pieEntries = new ArrayList<>(accountDataBaseTableList.size());
-        for (AccountDataBaseTable accountDataBaseTable : accountDataBaseTableList) {
-            pieEntries.add(new PieEntry(accountDataBaseTable.getAmount().floatValue() / new BigDecimal(AccountBasicKit.getInstance().totalAmountBaseOnAccountDataBaseTable(accountDataBaseTableList)).floatValue(), accountDataBaseTable.getCategory()));
+        if (clickMenu) {
+            ViewUtils.showView(accountLineView);
+            ViewUtils.hideView(linearLayout, View.GONE);
+            // 账目线段视图
+            List<AccountLineView.AccountItem> accountItemList = new ArrayList<>(accountDataBaseTableList.size());
+            for (AccountDataBaseTable accountDataBaseTable : AccountBasicKit.getInstance().sortByAmount(accountDataBaseTableList, false)) {
+                accountItemList.add(new AccountLineView.AccountItem(accountDataBaseTable.getCategory(), DoubleUtils.doubleToFloat(accountDataBaseTable.getAmount()), 0));
+            }
+            AccountLineViewKit.execute(accountLineView, accountItemList);
+        } else {
+            ViewUtils.showView(linearLayout);
+            ViewUtils.hideView(accountLineView, View.GONE);
+            // 半圆饼图表
+            ArrayList<PieEntry> pieEntries = new ArrayList<>(accountDataBaseTableList.size());
+            for (AccountDataBaseTable accountDataBaseTable : accountDataBaseTableList) {
+                pieEntries.add(new PieEntry(accountDataBaseTable.getAmount().floatValue() / new BigDecimal(AccountBasicKit.getInstance().totalAmountBaseOnAccountDataBaseTable(accountDataBaseTableList)).floatValue(), accountDataBaseTable.getCategory()));
+            }
+            HalfPieChartKit halfPieChartKit = new HalfPieChartKit();
+            halfPieChartKit.execute(appCompatActivity, pieChart, date, pieEntries, appCompatActivity.getString(R.string.yuan), ListUtils.listIsEmpty(accountDataBaseTableList), appCompatActivity.getString(R.string.noAccountDataAvailable), ThemeUtils.getColorPrimaryColorFromAttrResIdWithTypedArray(appCompatActivity));
+            // 营养图表视图
+            List<NutritionChartView.NutritionPart> nutritionPartList = new ArrayList<>(accountDataBaseTableList.size());
+            for (AccountDataBaseTable accountDataBaseTable : accountDataBaseTableList) {
+                nutritionPartList.add(new NutritionChartView.NutritionPart(DoubleUtils.doubleToFloat(accountDataBaseTable.getAmount()), 0, accountDataBaseTable.getCategory()));
+            }
+            NutritionChartViewKit.execute(appCompatActivity, nutritionChartView, nutritionPartList, appCompatActivity.getString(R.string.yuan), appCompatActivity.getString(R.string.todaySpent));
         }
-        // 显示
-        HalfPieChartKit halfPieChartKit = new HalfPieChartKit();
-        halfPieChartKit.execute(appCompatActivity, pieChart, date, pieEntries, appCompatActivity.getString(R.string.yuan), ListUtils.listIsEmpty(accountDataBaseTableList), appCompatActivity.getString(R.string.noAccountDataAvailable), ThemeUtils.getColorPrimaryColorFromAttrResIdWithTypedArray(appCompatActivity));
     }
 }
