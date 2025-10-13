@@ -14,7 +14,7 @@ import java.util.Objects;
 
 import util.layoutparams.LayoutParamsUtils;
 import util.screen.ScreenUtils;
-import widget.dialog.materialalertdialog.kit.MaterialAlertDialogBuilderKit;
+import widget.dialog.materialalertdialog.MaterialAlertDialogBuilderKit;
 
 /**
  * @decs: 截屏配套原件
