@@ -2,6 +2,7 @@ package com.zsp.today.module.homepage.kit;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -20,6 +21,7 @@ import com.zsp.today.module.dangerous.DangerousActivity;
 import com.zsp.today.module.function.database.FunctionDataBaseTable;
 import com.zsp.today.module.function.value.FunctionCondition;
 import com.zsp.today.module.heartbox.HeartBoxActivity;
+import com.zsp.today.module.homecome.HomeComeActivity;
 import com.zsp.today.module.homepage.bean.HomePageMenuEnum;
 import com.zsp.today.module.zhilin.ZhiLinActivity;
 
@@ -154,26 +156,83 @@ public class HomePageChildFragmentKit {
 
     /**
      * 功能数据库表
+     * <p>
+     * 场景一 - 初次安装
+     * 场景二 - 卸载安装
+     * 场景三 - 覆盖安装
      *
      * @param appCompatActivity 活动
      * @param recyclerView      控件
      */
     public void functionDataBaseTable(AppCompatActivity appCompatActivity, RecyclerView recyclerView) {
-        if (LitePalKit.getInstance().count(FunctionDataBaseTable.class) > 0) {
-            displayFunctionDataBaseTable(appCompatActivity, recyclerView);
-            return;
-        }
-        HomePageMenuEnum[] homePageMenuEnums = HomePageMenuEnum.values();
-        List<FunctionDataBaseTable> functionDataBaseTableList = new ArrayList<>(homePageMenuEnums.length);
-        for (HomePageMenuEnum homePageMenuEnum : homePageMenuEnums) {
-            if (!homePageMenuEnum.getMenuShow()) {
-                continue;
+        if (needSave(LitePalKit.getInstance().findAll(FunctionDataBaseTable.class))) {
+            // 先删
+            // 避免数据污染
+            LitePalKit.getInstance().allDelete(FunctionDataBaseTable.class);
+            // 后存
+            // 只存可显示主页菜单
+            HomePageMenuEnum[] homePageMenuEnums = HomePageMenuEnum.values();
+            List<FunctionDataBaseTable> functionDataBaseTableList = new ArrayList<>(homePageMenuEnums.length);
+            for (HomePageMenuEnum homePageMenuEnum : homePageMenuEnums) {
+                if (homePageMenuEnum.getMenuShow()) {
+                    functionDataBaseTableList.add(new FunctionDataBaseTable(App.getAppInstance().getPhoneNumber(), null, homePageMenuEnum.getMenuId(), homePageMenuEnum.getMenuIconResName(), homePageMenuEnum.getMenuName(), true));
+                }
             }
-            functionDataBaseTableList.add(new FunctionDataBaseTable(App.getAppInstance().getPhoneNumber(), null, homePageMenuEnum.getMenuId(), homePageMenuEnum.getMenuName(), true));
-        }
-        if (LitePalKit.getInstance().multiSave(functionDataBaseTableList)) {
+            if (LitePalKit.getInstance().multiSave(functionDataBaseTableList)) {
+                displayFunctionDataBaseTable(appCompatActivity, recyclerView);
+            }
+        } else {
             displayFunctionDataBaseTable(appCompatActivity, recyclerView);
         }
+    }
+
+    /**
+     * 需要保存
+     *
+     * @param functionDataBaseTableList 功能数据库表集
+     * @return 需要保存否
+     */
+    public static boolean needSave(List<FunctionDataBaseTable> functionDataBaseTableList) {
+        // 可显示主页菜单枚举集
+        List<HomePageMenuEnum> homePageMenuEnumsCanShow = new ArrayList<>();
+        for (HomePageMenuEnum homePageMenuEnum : HomePageMenuEnum.values()) {
+            if (homePageMenuEnum.getMenuShow()) {
+                homePageMenuEnumsCanShow.add(homePageMenuEnum);
+            }
+        }
+        // 可显示主页菜单枚举集数量
+        // 功能数据库表集数量
+        // 不一致
+        if (functionDataBaseTableList.size() != homePageMenuEnumsCanShow.size()) {
+            return true;
+        }
+        // 建立映射
+        Map<Integer, FunctionDataBaseTable> functionDataBaseTableMap = new HashMap<>();
+        for (FunctionDataBaseTable functionDataBaseTable : functionDataBaseTableList) {
+            functionDataBaseTableMap.put(functionDataBaseTable.getFunctionId(), functionDataBaseTable);
+        }
+        // 以可显示主页菜单枚举集为基准
+        // 遍历比较
+        for (HomePageMenuEnum homePageMenuEnum : homePageMenuEnumsCanShow) {
+            FunctionDataBaseTable functionDataBaseTable = functionDataBaseTableMap.get(homePageMenuEnum.getMenuId());
+            if (null == functionDataBaseTable) {
+                // 功能数据库表无对应主页菜单
+                return true;
+            }
+            if (!TextUtils.equals(homePageMenuEnum.getMenuIconResName(), functionDataBaseTable.getFunctionIconResName())) {
+                // 菜单图标资源名称
+                // 功能图标资源名称
+                // 不一致
+                return true;
+            }
+            if (!TextUtils.equals(homePageMenuEnum.getMenuName(), functionDataBaseTable.getFunctionName())) {
+                // 菜单名称
+                // 功能名称
+                // 不一致
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -198,7 +257,7 @@ public class HomePageChildFragmentKit {
         }
         // 菜单适配器配套元件
         MenuAdapterKit menuAdapterKit = new MenuAdapterKit();
-        menuAdapterKit.display(appCompatActivity, recyclerView, menuBeanList, 3, 48, 192, false, (view, menuBean) -> distribute(appCompatActivity, menuBean.getMenuId()));
+        menuAdapterKit.display(appCompatActivity, recyclerView, menuBeanList, 3, 12, 48, false, (view, menuBean) -> distribute(appCompatActivity, menuBean.getMenuId()));
     }
 
     /**
@@ -211,10 +270,6 @@ public class HomePageChildFragmentKit {
         HomePageMenuEnum[] homePageMenuEnums = HomePageMenuEnum.values();
         Map<String, Integer> menuIconResIdMap = new HashMap<>(homePageMenuEnums.length);
         for (HomePageMenuEnum homePageMenuEnum : homePageMenuEnums) {
-            // 用 menuName 和 menuIconResId
-            // 因在 HomePageMenuEnum 变迁过程中，menuName 和 menuIconResId 可最大程度保持一一对应，而 menuId 顺序可能被打乱。
-            // 场景：APP 原有三个主页菜单，某天新增了一个主页菜单。然而在没卸载的情况下重装了 APP，此时因 menuId 顺序可能已被打乱，从而导致 menuName 和 menuIconResId 显示不匹配。
-            // 上述场景一般不会出现，且不允许出现。
             menuIconResIdMap.put(homePageMenuEnum.getMenuName(), homePageMenuEnum.getMenuIconResId());
         }
         return menuIconResIdMap;
@@ -240,8 +295,12 @@ public class HomePageChildFragmentKit {
             case 3:
                 IntentJump.getInstance().jump(null, appCompatActivity, false, HeartBoxActivity.class);
                 break;
-            // 知林
+            // 归心
             case 4:
+                IntentJump.getInstance().jump(null, appCompatActivity, false, HomeComeActivity.class);
+                break;
+            // 知林
+            case 5:
                 IntentJump.getInstance().jump(null, appCompatActivity, false, ZhiLinActivity.class);
                 break;
             default:
