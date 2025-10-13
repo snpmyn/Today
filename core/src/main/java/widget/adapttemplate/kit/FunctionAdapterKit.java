@@ -27,14 +27,14 @@ public class FunctionAdapterKit {
      * @param recyclerView                控件
      * @param functionBeanList            数据集合
      * @param spanCount                   跨距数
-     * @param spacing                     间距
+     * @param space                       间距
      * @param totalMargin                 总外边距
      * @param functionAdapterKitInterface 功能适配器配套元件接口
      */
-    public void display(AppCompatActivity appCompatActivity, RecyclerView recyclerView, List<FunctionBean> functionBeanList, int spanCount, int spacing, int totalMargin, FunctionAdapterKitInterface functionAdapterKitInterface) {
+    public void display(AppCompatActivity appCompatActivity, RecyclerView recyclerView, List<FunctionBean> functionBeanList, int spanCount, int space, int totalMargin, FunctionAdapterKitInterface functionAdapterKitInterface) {
         // 控件
         RecyclerViewConfigure recyclerViewConfigure = new RecyclerViewConfigure(appCompatActivity, recyclerView);
-        recyclerViewConfigure.gridLayout(spanCount, spacing, true, true, false);
+        recyclerViewConfigure.gridLayout(spanCount, space, true, true, false);
         // 适配器
         FunctionAdapter functionAdapter = new FunctionAdapter(appCompatActivity, spanCount, totalMargin);
         functionAdapter.setFunctionData(functionBeanList);
