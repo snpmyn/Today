@@ -10,9 +10,11 @@
         android:id="@+id/audioPlaySliderSiv"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"
+        android:layout_marginHorizontal="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
         android:layout_weight="2.5"
         android:scaleType="fitXY"
-        app:shapeAppearance="@style/ShapeableImageViewBottom"
+        app:shapeAppearance="@style/ShapeAppearanceRoundedFour26"
         tools:srcCompat="@drawable/picture_two" />
 
     <LinearLayout
