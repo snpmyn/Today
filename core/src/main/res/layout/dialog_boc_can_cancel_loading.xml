@@ -33,6 +33,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/close"
-            app:srcCompat="@drawable/ic_close_cos_20dp" />
+            app:srcCompat="@drawable/ic_close_cos_24dp" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
