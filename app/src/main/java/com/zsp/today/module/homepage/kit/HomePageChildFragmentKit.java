@@ -153,12 +153,7 @@ public class HomePageChildFragmentKit {
         carouselItemList.add(new CarouselItem(R.drawable.banner_nine, "文昌门"));
         // 轮播配套原件
         CarouselKit carouselKit = new CarouselKit();
-        carouselKit.execute(recyclerView, carouselItemList, new HeroCarouselStrategy(), false, CarouselLayoutManager.ALIGNMENT_CENTER, false, new CarouselListener() {
-            @Override
-            public void onItemClick(CarouselItem carouselItem, int position) {
-
-            }
-
+        carouselKit.execute(recyclerView, carouselItemList, new HeroCarouselStrategy(), RecyclerView.HORIZONTAL, false, CarouselLayoutManager.ALIGNMENT_CENTER, false, 4, 0, 4, 0, false, new CarouselListener() {
             @Override
             public void onItemLongClick(CarouselItem carouselItem, int position) {
                 PictureInfoMaterialAlertDialogKit.getInstance().show(appCompatActivity, carouselItem);
