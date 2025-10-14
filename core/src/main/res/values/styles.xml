@@ -85,11 +85,17 @@
         <item name="android:layout_weight">1</item>
         <item name="android:layout_width">@dimen/dp_0</item>
     </style>
-    <!--ShapeableImageView-->
-    <style name="ShapeableImageViewBottom" parent="">
+    <!--ShapeAppearanceRoundedFour26-->
+    <style name="ShapeAppearanceRoundedFour26" parent="">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">@dimen/dp_16</item>
-        <item name="cornerSizeTopLeft">@dimen/dp_0</item>
-        <item name="cornerSizeTopRight">@dimen/dp_0</item>
+        <item name="cornerSize">@dimen/dp_26</item>
+    </style>
+    <!--ShapeAppearanceRoundedTopLeftRight26BottomLeftRight6-->
+    <style name="ShapeAppearanceRoundedTopLeftRight26BottomLeftRight6" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">@dimen/dp_26</item>
+        <item name="cornerSizeTopRight">@dimen/dp_26</item>
+        <item name="cornerSizeBottomLeft">@dimen/dp_6</item>
+        <item name="cornerSizeBottomRight">@dimen/dp_6</item>
     </style>
 </resources>
