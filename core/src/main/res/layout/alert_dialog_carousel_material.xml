@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/dp_12">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/carouselMaterialAlertDialogRv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        app:layout_constraintBottom_toTopOf="@+id/carouselMaterialAlertDialogMbg"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButtonGroup
+        android:id="@+id/carouselMaterialAlertDialogMbg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_12"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toBottomOf="@+id/carouselMaterialAlertDialogRv">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/carouselMaterialAlertDialogMbClose"
+            style="?attr/materialIconButtonFilledTonalStyle"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
+            android:filterTouchesWhenObscured="true"
+            android:insetLeft="@dimen/dp_0"
+            android:insetTop="@dimen/dp_0"
+            android:insetRight="@dimen/dp_0"
+            android:insetBottom="@dimen/dp_0"
+            app:icon="@drawable/ic_close_cos_24dp"
+            app:iconGravity="textStart"
+            app:iconSize="@dimen/dp_20" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/carouselMaterialAlertDialogMbUse"
+            style="?attr/materialButtonTonalStyle"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:filterTouchesWhenObscured="true"
+            android:insetLeft="@dimen/dp_0"
+            android:insetTop="@dimen/dp_0"
+            android:insetRight="@dimen/dp_0"
+            android:insetBottom="@dimen/dp_0"
+            android:text="@string/swipeToViewClickToUse"
+            android:textSize="@dimen/sp_12"
+            android:textStyle="bold" />
+    </com.google.android.material.button.MaterialButtonGroup>
+</androidx.constraintlayout.widget.ConstraintLayout>
