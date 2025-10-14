@@ -89,7 +89,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/dangerousActivityMbSaveConfig"
-                    style="?attr/materialIconButtonFilledTonalStyle"
+                    style="?attr/materialButtonTonalStyle"
                     android:layout_width="@dimen/dp_0"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -105,7 +105,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/dangerousActivityMbSend"
-                    style="?attr/materialIconButtonFilledTonalStyle"
+                    style="?attr/materialButtonTonalStyle"
                     android:layout_width="@dimen/dp_0"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
