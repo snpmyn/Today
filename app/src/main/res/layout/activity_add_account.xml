@@ -67,7 +67,7 @@
                 app:endIconDrawable="@drawable/ic_add_cos_20dp"
                 app:endIconMode="custom"
                 app:errorEnabled="true"
-                app:errorTextColor="@color/color_FFEA6464"
+                app:errorTextColor="@color/color_FFF44336"
                 app:helperText="@string/category"
                 app:startIconDrawable="@drawable/ic_category_cos_24dp"
                 app:startIconTint="?attr/colorPrimary">
@@ -90,7 +90,7 @@
                 app:counterMaxLength="8"
                 app:endIconMode="clear_text"
                 app:errorEnabled="true"
-                app:errorTextColor="@color/color_FFEA6464"
+                app:errorTextColor="@color/color_FFF44336"
                 app:helperText="@string/amount"
                 app:prefixText="@string/renMinBi"
                 app:startIconDrawable="@drawable/ic_wallet_cos_24dp"

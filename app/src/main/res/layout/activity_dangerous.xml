@@ -43,7 +43,7 @@
                 app:boxCornerRadiusTopEnd="@dimen/dp_10"
                 app:boxCornerRadiusTopStart="@dimen/dp_10"
                 app:errorEnabled="true"
-                app:errorTextColor="@color/color_FFEA6464">
+                app:errorTextColor="@color/color_FFF44336">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/dangerousActivityTietDangerousNotice"
@@ -66,7 +66,7 @@
                 app:counterMaxLength="11"
                 app:endIconMode="clear_text"
                 app:errorEnabled="true"
-                app:errorTextColor="@color/color_FFEA6464"
+                app:errorTextColor="@color/color_FFF44336"
                 app:startIconDrawable="@drawable/ic_contact_cos_24dp"
                 app:startIconTint="?attr/colorPrimary">
 
@@ -116,7 +116,7 @@
                     android:insetBottom="@dimen/dp_0"
                     android:lines="4"
                     android:text="@string/send"
-                    android:textColor="@color/color_FFF86C09"
+                    android:textColor="@color/color_FFEE6002"
                     android:textSize="@dimen/sp_14"
                     android:textStyle="bold" />
             </com.google.android.material.button.MaterialButtonGroup>

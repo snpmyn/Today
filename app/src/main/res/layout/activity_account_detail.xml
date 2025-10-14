@@ -99,6 +99,6 @@
             app:icon="@drawable/ic_close_cos_24dp"
             app:iconGravity="textStart"
             app:iconSize="@dimen/dp_15"
-            app:iconTint="@color/color_FFF86C09" />
+            app:iconTint="@color/color_FFEE6002" />
     </com.google.android.material.card.MaterialCardView>
 </RelativeLayout>

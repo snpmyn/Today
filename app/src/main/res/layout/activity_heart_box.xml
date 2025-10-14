@@ -91,7 +91,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:text="@string/aGlimmerOfHope"
-                        android:textColor="@color/color_FFF86C09"
+                        android:textColor="@color/color_FFEE6002"
                         android:textSize="@dimen/sp_16"
                         android:textStyle="bold" />
 
@@ -149,7 +149,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/px1"
                     android:visibility="gone"
-                    app:dividerColor="@color/color_FFF86C09" />
+                    app:dividerColor="@color/color_FFEE6002" />
 
                 <com.google.android.material.button.MaterialButtonGroup
                     android:id="@+id/heartBoxActivityMbg"
