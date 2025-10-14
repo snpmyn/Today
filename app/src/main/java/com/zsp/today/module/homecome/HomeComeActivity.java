@@ -23,7 +23,7 @@ import widget.view.DatePickerDialog;
 public class HomeComeActivity extends BasePoolActivity implements View.OnClickListener {
     private ImageView homeComeActivityIvBackground;
     private SmartFlexibleRecyclerView homeComeActivitySfrv;
-    private MaterialButton homeComeActivityMbBackground;
+    private MaterialButton homeComeActivityMbSelectBackground;
     private MaterialButton homeComeActivityMbPlace;
     /**
      * 归心页配套原件
@@ -54,7 +54,7 @@ public class HomeComeActivity extends BasePoolActivity implements View.OnClickLi
         // SmartFlexibleRecyclerView
         homeComeActivitySfrv = findViewById(R.id.homeComeActivitySfrv);
         // MaterialButton
-        homeComeActivityMbBackground = findViewById(R.id.homeComeActivityMbBackground);
+        homeComeActivityMbSelectBackground = findViewById(R.id.homeComeActivityMbSelectBackground);
         homeComeActivityMbPlace = findViewById(R.id.homeComeActivityMbPlace);
     }
 
@@ -74,7 +74,7 @@ public class HomeComeActivity extends BasePoolActivity implements View.OnClickLi
      */
     @Override
     protected void setListener() {
-        homeComeActivityMbBackground.setOnClickListener(this);
+        homeComeActivityMbSelectBackground.setOnClickListener(this);
         homeComeActivityMbPlace.setOnClickListener(this);
     }
 
@@ -92,12 +92,12 @@ public class HomeComeActivity extends BasePoolActivity implements View.OnClickLi
     @Override
     public void onClick(@NonNull View v) {
         int id = v.getId();
-        if (id == R.id.homeComeActivityMbBackground) {
-            // 背景
-            homeComeActivityKit.background(this, imagePicker);
+        if (id == R.id.homeComeActivityMbSelectBackground) {
+            // 选择背景
+            homeComeActivityKit.selectBackground(this, imagePicker, homeComeActivityIvBackground);
         } else if (id == R.id.homeComeActivityMbPlace) {
             // 安放
-            homeComeActivityKit.placeOrModify(this, homeComeActivitySfrv, null, DatePickerDialog.CalendarType.LUNAR.getName(), 2025, 5, 20, false);
+            homeComeActivityKit.placeOrModify(this, homeComeActivitySfrv, null, DatePickerDialog.CalendarType.LUNAR.getName(), 2025, 10, 2, false);
         }
     }
 }
