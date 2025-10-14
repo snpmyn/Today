@@ -31,17 +31,25 @@ public class CarouselKit {
      *                         {@link FullScreenCarouselStrategy}
      *                         {@link MultiBrowseCarouselStrategy}
      *                         {@link com.google.android.material.carousel.UncontainedCarouselStrategy}
+     * @param orientation      方向
+     *                         {@link RecyclerView#HORIZONTAL}
+     *                         {@link RecyclerView#VERTICAL}
      * @param debug            调试
      * @param alignment        对齐
      *                         {@link CarouselLayoutManager#ALIGNMENT_START}
      *                         {@link CarouselLayoutManager#ALIGNMENT_CENTER}
      * @param snap             吸附
+     * @param left             左边距
+     * @param top              上边距
+     * @param right            右边距
+     * @param bottom           下边距
+     * @param useInDialog      在对话框中使用
      * @param carouselListener 轮播监听
      */
     @SuppressLint("RestrictedApi")
-    public void execute(RecyclerView recyclerView, List<CarouselItem> carouselItemList, CarouselStrategy carouselStrategy, boolean debug, int alignment, boolean snap, CarouselListener carouselListener) {
+    public void execute(RecyclerView recyclerView, List<CarouselItem> carouselItemList, CarouselStrategy carouselStrategy, int orientation, boolean debug, int alignment, boolean snap, int left, int top, int right, int bottom, boolean useInDialog, CarouselListener carouselListener) {
         // 轮播布局管理器
-        CarouselLayoutManager carouselLayoutManager = new CarouselLayoutManager(carouselStrategy);
+        CarouselLayoutManager carouselLayoutManager = new CarouselLayoutManager(carouselStrategy, orientation);
         carouselLayoutManager.setDebuggingEnabled(recyclerView, debug);
         carouselLayoutManager.setCarouselAlignment(alignment);
         // 控件
@@ -52,10 +60,23 @@ public class CarouselKit {
         CarouselSnapHelper carouselSnapHelper = new CarouselSnapHelper(!snap);
         carouselSnapHelper.attachToRecyclerView(recyclerView);
         // 轮播适配器
-        CarouselAdapter carouselAdapter = new CarouselAdapter(new CarouselListener() {
+        CarouselAdapter carouselAdapter = new CarouselAdapter(left, top, right, bottom, new CarouselListener() {
             @Override
             public void onItemClick(CarouselItem carouselItem, int position) {
-                recyclerView.smoothScrollToPosition(position);
+                if (useInDialog) {
+                    recyclerView.post(() -> {
+                        RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForAdapterPosition(position);
+                        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+                        if ((null != viewHolder) && (null != layoutManager)) {
+                            int[] snapDistance = carouselSnapHelper.calculateDistanceToFinalSnap(layoutManager, viewHolder.itemView);
+                            if (null != snapDistance) {
+                                recyclerView.smoothScrollBy(snapDistance[0], snapDistance[1]);
+                            }
+                        }
+                    });
+                } else {
+                    recyclerView.smoothScrollToPosition(position);
+                }
                 if (null != carouselListener) {
                     carouselListener.onItemClick(carouselItem, position);
                 }
