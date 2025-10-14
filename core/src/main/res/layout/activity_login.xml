@@ -33,7 +33,7 @@
             android:hint="@string/inputPhoneNumber"
             app:endIconMode="clear_text"
             app:errorEnabled="true"
-            app:errorTextColor="@color/color_FFEA6464"
+            app:errorTextColor="@color/color_FFF44336"
             app:startIconDrawable="@drawable/ic_contact_cos_24dp"
             app:startIconTint="?attr/colorPrimary">
 
@@ -84,7 +84,7 @@
                 android:gravity="center"
                 android:paddingVertical="@dimen/dp_20"
                 android:text="@string/userAgreement"
-                android:textColor="@color/color_FFF86C09"
+                android:textColor="@color/color_FFEE6002"
                 android:textSize="@dimen/sp_10"
                 android:textStyle="bold" />
         </com.google.android.material.card.MaterialCardView>
@@ -103,7 +103,7 @@
                 android:gravity="center"
                 android:paddingVertical="@dimen/dp_20"
                 android:text="@string/privacyPolicy"
-                android:textColor="@color/color_FFF86C09"
+                android:textColor="@color/color_FFEE6002"
                 android:textSize="@dimen/sp_10"
                 android:textStyle="bold" />
         </com.google.android.material.card.MaterialCardView>
