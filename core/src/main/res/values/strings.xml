@@ -56,6 +56,7 @@
     <string name="canNotStartRecording">无法开始录制</string>
     <string name="canNotPauseRecording">无法暂停录制</string>
     <string name="canNotResumeRecording">无法恢复录制</string>
+    <string name="swipeToViewClickToUse">滑动查看 点击使用</string>
     <string name="inputCorrectPhoneNumber">输入正确的手机号</string>
     <string name="needTurnOnLocationServices">需开启定位服务</string>
     <string name="loadFailAndTryAgainLater">加载失败，稍后重试</string>
