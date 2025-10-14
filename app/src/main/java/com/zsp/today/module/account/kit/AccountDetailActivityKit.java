@@ -144,9 +144,9 @@ public class AccountDetailActivityKit {
             public void menuItem(MenuItem menuItem) {
                 if (null != menuItem.getIcon()) {
                     if (menuItem.getItemId() == R.id.accountDetailActivityPopupMenuModify) {
-                        menuItem.getIcon().setTint(appCompatActivity.getColor(com.zsp.core.R.color.color_FFF86C09));
+                        menuItem.getIcon().setTint(appCompatActivity.getColor(com.zsp.core.R.color.color_FFEE6002));
                     } else if (menuItem.getItemId() == R.id.accountDetailActivityPopupMenuDelete) {
-                        menuItem.getIcon().setTint(appCompatActivity.getColor(com.zsp.core.R.color.color_FFEA6464));
+                        menuItem.getIcon().setTint(appCompatActivity.getColor(com.zsp.core.R.color.color_FFF44336));
                     }
                     int iconMarginPx = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, appCompatActivity.getResources().getDisplayMetrics());
                     menuItem.setIcon(new InsetDrawable(menuItem.getIcon(), iconMarginPx, 0, iconMarginPx, 0));

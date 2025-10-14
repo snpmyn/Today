@@ -93,7 +93,7 @@ public class AccountMonthListAdapter extends RecyclerView.Adapter<AccountMonthLi
         holder.accountMonthListItemTvNumberOfConsumptionTransactions.setText(String.valueOf(accountMonthListBean.getCount()));
         // 月度环比
         if (accountMonthListBean.monthOnMonthGreaterThanZero()) {
-            int color = ContextCompat.getColor(context, com.zsp.core.R.color.color_FFEA6464);
+            int color = ContextCompat.getColor(context, com.zsp.core.R.color.color_FFF44336);
             holder.accountMonthListItemTvMonthOnMonth.setTextColor(color);
             TextViewKit.setDrawable(context, holder.accountMonthListItemTvMonthOnMonth, R.drawable.ic_trending_up_cos_20dp, 1, 10);
             TextViewKit.setDrawableColor(holder.accountMonthListItemTvMonthOnMonth, color);
