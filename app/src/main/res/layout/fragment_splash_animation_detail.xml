@@ -39,14 +39,14 @@
             android:insetRight="@dimen/dp_0"
             android:insetBottom="@dimen/dp_0"
             android:text="@string/use"
-            android:textColor="@color/color_FFF86C09"
+            android:textColor="@color/color_FFEE6002"
             android:textSize="@dimen/sp_14"
             android:textStyle="bold"
             app:icon="@drawable/ic_fire_cos_24dp"
             app:iconGravity="textStart"
             app:iconPadding="@dimen/dp_2"
             app:iconSize="@dimen/dp_18"
-            app:iconTint="@color/color_FFF86C09"
-            app:rippleColor="@color/color_FFF86C09" />
+            app:iconTint="@color/color_FFEE6002"
+            app:rippleColor="@color/color_FFEE6002" />
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
