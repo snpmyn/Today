@@ -67,6 +67,7 @@ public class InputMaterialAlertDialogKit {
         if (!TextUtils.isEmpty(content)) {
             inputMaterialAlertDialogTietContent.setText(content);
         }
+        // 设置视图
         alertDialog.setView(view);
         // 积极按钮
         if (!TextUtils.isEmpty(positiveText)) {

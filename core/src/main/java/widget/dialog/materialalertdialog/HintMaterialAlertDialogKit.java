@@ -61,6 +61,7 @@ public class HintMaterialAlertDialogKit {
         TextView hintMaterialAlertDialogTvMessage = view.findViewById(R.id.hintMaterialAlertDialogTvMessage);
         hintMaterialAlertDialogTvMessage.setMinHeight(DensityUtils.dipToPxByInt(66));
         hintMaterialAlertDialogTvMessage.setText(message);
+        // 设置视图
         alertDialog.setView(view);
         // 积极按钮
         if (!TextUtils.isEmpty(positiveText)) {
