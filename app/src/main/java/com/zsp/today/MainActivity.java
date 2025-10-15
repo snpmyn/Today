@@ -1,6 +1,7 @@
 package com.zsp.today;
 
 import android.content.Intent;
+import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
@@ -23,6 +24,7 @@ import util.rxbus.annotation.Tag;
 import util.rxbus.thread.EventThread;
 import widget.notification.kit.NotificationKit;
 import widget.service.kit.ServiceKit;
+import widget.transition.kit.TransitionKit;
 
 /**
  * @decs: 主页
@@ -47,6 +49,12 @@ public class MainActivity extends BasePoolActivity implements BasePoolFragment.O
      * 周期服务连接
      */
     private PeriodicServiceConnection periodicServiceConnection;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        TransitionKit.getInstance().startPageSetting(this);
+        super.onCreate(savedInstanceState);
+    }
 
     /**
      * 布局资源 ID
