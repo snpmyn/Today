@@ -142,15 +142,15 @@ public class HomePageChildFragmentKit {
     public void carousel(AppCompatActivity appCompatActivity, RecyclerView recyclerView) {
         // 轮播条目集
         List<CarouselItem> carouselItemList = new ArrayList<>(9);
-        carouselItemList.add(new CarouselItem(R.drawable.banner_one, "上木居村"));
-        carouselItemList.add(new CarouselItem(R.drawable.banner_two, "火星一号公路"));
-        carouselItemList.add(new CarouselItem(R.drawable.banner_three, "那拉提河谷草原"));
-        carouselItemList.add(new CarouselItem(R.drawable.banner_four, "赛里木湖"));
-        carouselItemList.add(new CarouselItem(R.drawable.banner_five, "禾木村"));
-        carouselItemList.add(new CarouselItem(R.drawable.banner_six, "西府老街"));
-        carouselItemList.add(new CarouselItem(R.drawable.banner_seven, "贾村塬"));
-        carouselItemList.add(new CarouselItem(R.drawable.banner_eight, "金台区"));
-        carouselItemList.add(new CarouselItem(R.drawable.banner_nine, "文昌门"));
+        carouselItemList.add(new CarouselItem(R.drawable.banner_one, "banner_one", "上木居村"));
+        carouselItemList.add(new CarouselItem(R.drawable.banner_two, "banner_two", "火星一号公路"));
+        carouselItemList.add(new CarouselItem(R.drawable.banner_three, "banner_three", "那拉提河谷草原"));
+        carouselItemList.add(new CarouselItem(R.drawable.banner_four, "banner_four", "赛里木湖"));
+        carouselItemList.add(new CarouselItem(R.drawable.banner_five, "banner_five", "禾木村"));
+        carouselItemList.add(new CarouselItem(R.drawable.banner_six, "banner_six", "西府老街"));
+        carouselItemList.add(new CarouselItem(R.drawable.banner_seven, "banner_seven", "贾村塬"));
+        carouselItemList.add(new CarouselItem(R.drawable.banner_eight, "banner_eight", "金台区"));
+        carouselItemList.add(new CarouselItem(R.drawable.banner_nine, "banner_nine", "文昌门"));
         // 轮播配套原件
         CarouselKit carouselKit = new CarouselKit();
         carouselKit.execute(recyclerView, carouselItemList, new HeroCarouselStrategy(), RecyclerView.HORIZONTAL, false, CarouselLayoutManager.ALIGNMENT_CENTER, false, 4, 0, 4, 0, false, new CarouselListener() {
