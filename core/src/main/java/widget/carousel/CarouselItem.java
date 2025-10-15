@@ -12,6 +12,10 @@ public class CarouselItem {
      */
     public int drawableResId;
     /**
+     * 位图资源名
+     */
+    public String drawableResName;
+    /**
      * 位图描述
      */
     public String drawableDescribe;
@@ -20,15 +24,21 @@ public class CarouselItem {
      * constructor
      *
      * @param drawableResId    位图资源 ID
+     * @param drawableResName  位图资源名
      * @param drawableDescribe 位图描述
      */
-    public CarouselItem(int drawableResId, String drawableDescribe) {
+    public CarouselItem(int drawableResId, String drawableResName, String drawableDescribe) {
         this.drawableResId = drawableResId;
+        this.drawableResName = drawableResName;
         this.drawableDescribe = drawableDescribe;
     }
 
     public int getDrawableResId() {
-        return this.drawableResId;
+        return drawableResId;
+    }
+
+    public String getDrawableResName() {
+        return drawableResName;
     }
 
     public String getDrawableDescribe() {
