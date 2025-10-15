@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/homeComeActivityIvBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/homeComeBackground"
+        android:scaleType="centerCrop"
+        tools:srcCompat="@drawable/home_come_1" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_weight="2" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_weight="1.2"
+            app:lottie_autoPlay="true"
+            app:lottie_colorFilter="@color/color_FFEE6002"
+            app:lottie_fileName="lottie/homecome/candle.json"
+            app:lottie_loop="true" />
+
+        <widget.recyclerview.custom.SmartFlexibleRecyclerView
+            android:id="@+id/homeComeActivitySfrv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none" />
+
+        <com.google.android.material.card.MaterialCardView
+            style="?attr/materialCardViewFilledStyle"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:layout_marginHorizontal="@dimen/dp_12"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:alpha="0.8"
+            app:shapeAppearance="@style/ShapeAppearanceRoundedTopLeftRight26BottomLeftRight6">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/homeComeActivityMbSelectBackground"
+                    style="?attr/materialIconButtonFilledTonalStyle"
+                    android:layout_width="@dimen/dp_40"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/dp_20"
+                    android:filterTouchesWhenObscured="true"
+                    android:insetLeft="@dimen/dp_0"
+                    android:insetTop="@dimen/dp_0"
+                    android:insetRight="@dimen/dp_0"
+                    android:insetBottom="@dimen/dp_0"
+                    app:icon="@drawable/ic_panorama_cos_24dp"
+                    app:iconGravity="textStart"
+                    app:iconSize="@dimen/dp_20" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_toStartOf="@+id/homeComeActivityMbPlace"
+                    android:layout_toEndOf="@+id/homeComeActivityMbSelectBackground"
+                    android:gravity="center"
+                    android:letterSpacing="0.05"
+                    android:lineSpacingExtra="@dimen/dp_6"
+                    android:text="@string/hereToPlaceThoughts"
+                    android:textColor="@color/color_FFEE6002"
+                    android:textSize="@dimen/sp_16"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/homeComeActivityMbPlace"
+                    style="?attr/materialIconButtonFilledTonalStyle"
+                    android:layout_width="@dimen/dp_40"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/dp_20"
+                    android:filterTouchesWhenObscured="true"
+                    android:insetLeft="@dimen/dp_0"
+                    android:insetTop="@dimen/dp_0"
+                    android:insetRight="@dimen/dp_0"
+                    android:insetBottom="@dimen/dp_0"
+                    app:icon="@drawable/ic_cardiology_cos_24dp"
+                    app:iconGravity="textStart"
+                    app:iconSize="@dimen/dp_20" />
+            </RelativeLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+</FrameLayout>
