@@ -1,5 +1,8 @@
 package com.zsp.today.module.zhilin.kit;
 
+import android.content.Intent;
+import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,12 +14,12 @@ import com.zsp.today.module.zhilin.tablayout.TabLayoutActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-import util.intent.IntentJump;
 import widget.adapttemplate.bean.MenuBean;
 import widget.adapttemplate.kit.MenuAdapterKit;
 import widget.status.kit.StatusManagerKit;
 import widget.status.manager.StatusManager;
 import widget.toast.ToastKit;
+import widget.transition.kit.TransitionKit;
 
 /**
  * Created on 2025/9/28.
@@ -51,20 +54,22 @@ public class ZhiLinActivityKit {
         StatusManagerKit.statusJudge(statusManager, false, menuBeanList);
         // 菜单适配器配套元件
         MenuAdapterKit menuAdapterKit = new MenuAdapterKit();
-        menuAdapterKit.display(appCompatActivity, recyclerView, menuBeanList, spanCount, space, totalMargin, false, (view, menuBean) -> distribute(appCompatActivity, menuBean.getMenuId()));
+        menuAdapterKit.display(appCompatActivity, recyclerView, menuBeanList, spanCount, space, totalMargin, false, (view, menuBean) -> distribute(appCompatActivity, view, menuBean.getMenuId()));
     }
 
     /**
      * 分发
      *
      * @param appCompatActivity 活动
+     * @param view              视图
      * @param menuId            菜单 ID
      */
-    private void distribute(AppCompatActivity appCompatActivity, int menuId) {
+    private void distribute(AppCompatActivity appCompatActivity, View view, int menuId) {
         switch (menuId) {
             // 标签布局
             case 1:
-                IntentJump.getInstance().jump(null, appCompatActivity, false, TabLayoutActivity.class);
+                Intent fromThisToTabLayoutActivityIntent = new Intent(appCompatActivity, TabLayoutActivity.class);
+                TransitionKit.getInstance().jumpWithTransition(appCompatActivity, view, fromThisToTabLayoutActivityIntent, false);
                 break;
             // 卡片视图
             case 2:
@@ -74,7 +79,8 @@ public class ZhiLinActivityKit {
                 break;
             // 安卓
             case 4:
-                IntentJump.getInstance().jump(null, appCompatActivity, false, AndroidActivity.class);
+                Intent fromThisToAndroidActivityIntent = new Intent(appCompatActivity, AndroidActivity.class);
+                TransitionKit.getInstance().jumpWithTransition(appCompatActivity, view, fromThisToAndroidActivityIntent, false);
                 break;
             default:
                 break;

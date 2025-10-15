@@ -11,6 +11,8 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import com.zsp.today.R;
 import com.zsp.today.databinding.ActivityTablayoutBinding;
 
+import widget.transition.kit.TransitionKit;
+
 /**
  * @decs: 标签布局页
  * @author: 郑少鹏
@@ -20,6 +22,7 @@ import com.zsp.today.databinding.ActivityTablayoutBinding;
 public class TabLayoutActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        TransitionKit.getInstance().endPageSetting(this);
         super.onCreate(savedInstanceState);
         ActivityTablayoutBinding activityTablayoutBinding = ActivityTablayoutBinding.inflate(getLayoutInflater());
         setContentView(activityTablayoutBinding.getRoot());

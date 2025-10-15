@@ -1,7 +1,9 @@
 package com.zsp.today.module.zhilin;
 
+import android.os.Bundle;
 import android.view.MenuItem;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
@@ -13,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import pool.base.BasePoolActivity;
 import widget.status.kit.StatusManagerKit;
 import widget.status.manager.StatusManager;
+import widget.transition.kit.TransitionKit;
 
 /**
  * Created on 2025/9/27.
@@ -31,6 +34,12 @@ public class ZhiLinActivity extends BasePoolActivity {
      * 知林页配套原件
      */
     private ZhiLinActivityKit zhiLinActivityKit;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        TransitionKit.getInstance().startPageSetting(this);
+        super.onCreate(savedInstanceState);
+    }
 
     /**
      * 布局资源 ID
