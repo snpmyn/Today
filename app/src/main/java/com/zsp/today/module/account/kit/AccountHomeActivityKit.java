@@ -50,7 +50,6 @@ import widget.status.kit.StatusManagerKit;
 import widget.status.manager.StatusManager;
 import widget.textview.DrawableCenterTextView;
 import widget.toast.ToastKit;
-import widget.transition.kit.TransitionKit;
 
 /**
  * Created on 2021/6/13 0013
@@ -110,12 +109,7 @@ public class AccountHomeActivityKit {
     public void displayAccount(AppCompatActivity appCompatActivity, RecyclerView recyclerView, List<AccountMonthListBean> accountMonthListBeanList, StatusManager statusManager) {
         // 控件
         RecyclerViewConfigure recyclerViewConfigure = new RecyclerViewConfigure(appCompatActivity, recyclerView);
-        // Spruce 入场动画解决共享元素闪烁问题
-        // B 页面返回 A 页面时，B 页面共享元素 overlay 先渲染。
-        // 但 Spruce 延迟动画让 RecyclerView item 在 overlay 上方依次入场
-        // 动画开始时 RecyclerView item 初始不可见或透明，覆盖掉残影 → 用户不会看到残影。
-        // 该方式本质上和官方方案延迟 notifyDataSetChanged 原理一致，只不过用视觉动画替代了逻辑延迟。
-        recyclerViewConfigure.linearVerticalLayout(true, 12, true, true, true);
+        recyclerViewConfigure.linearVerticalLayout(true, 12, true, true, false);
         // 适配器
         AccountMonthListAdapter accountMonthListAdapter = new AccountMonthListAdapter(appCompatActivity);
         accountMonthListAdapter.setAccountMonthListData(accountMonthListBeanList);
@@ -126,7 +120,7 @@ public class AccountHomeActivityKit {
                 AccountTransferBean accountTransferBean = new AccountTransferBean(accountMonthListBean.getYear(), accountMonthListBean.getMonth());
                 Intent intent = new Intent(appCompatActivity, AccountSecondActivity.class);
                 intent.putExtra(AccountConstant.ACCOUNT_HOME_ACTIVITY_$_ACCOUNT_TRANSFER_BEAN, accountTransferBean);
-                TransitionKit.getInstance().jumpWithTransition(appCompatActivity, view, intent);
+                IntentJump.getInstance().jump(intent, appCompatActivity, false, AccountSecondActivity.class);
             }
         });
         accountMonthListAdapter.setOnRecyclerViewOnItemLongClickListener(new OnRecyclerViewOnItemLongClickListener() {
