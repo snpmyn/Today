@@ -1,7 +1,9 @@
 package com.zsp.today.module.mine.kit;
 
 import android.animation.ValueAnimator;
+import android.content.Intent;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,7 +34,6 @@ import java.util.List;
 import litepal.kit.LitePalKit;
 import pool.module.login.LoginActivity;
 import util.cache.CacheManager;
-import util.intent.IntentJump;
 import util.mmkv.MmkvKit;
 import util.rxbus.RxBus;
 import util.timer.TimerKit;
@@ -48,6 +49,7 @@ import widget.dialog.materialalertdialog.UseGuideMaterialAlertDialogKit;
 import widget.emoji.MoodEmojiKit;
 import widget.media.audio.AudioPlayKit;
 import widget.toast.ToastKit;
+import widget.transition.kit.TransitionKit;
 
 /**
  * Created on 2021/2/1
@@ -96,17 +98,18 @@ public class MineChildFragmentKit {
         moduleBeanList.add(new MenuBean(7, R.drawable.ic_log_out_cos_24dp, appCompatActivity.getString(R.string.logOut)));
         // 模块适配器配套元件
         MenuAdapterKit menuAdapterKit = new MenuAdapterKit();
-        menuAdapterKit.display(appCompatActivity, recyclerView, moduleBeanList, 3, 12, 48, false, (view, menuBean) -> distribute(appCompatActivity, mineChildFragment, menuBean.getMenuId()));
+        menuAdapterKit.display(appCompatActivity, recyclerView, moduleBeanList, 3, 12, 48, false, (view, menuBean) -> distribute(appCompatActivity, view, mineChildFragment, menuBean.getMenuId()));
     }
 
     /**
      * 分发
      *
      * @param appCompatActivity 活动
+     * @param view              视图
      * @param mineChildFragment 我的子碎片
      * @param functionId        功能 ID
      */
-    private void distribute(AppCompatActivity appCompatActivity, MineChildFragment mineChildFragment, int functionId) {
+    private void distribute(AppCompatActivity appCompatActivity, View view, MineChildFragment mineChildFragment, int functionId) {
         switch (functionId) {
             // 启动动画
             case 1:
@@ -131,11 +134,12 @@ public class MineChildFragmentKit {
                 break;
             // 应用设置
             case 6:
-                IntentJump.getInstance().jumpWithAnimation(null, appCompatActivity, false, SettingActivity.class, 0, 0);
+                Intent fromThisToSettingActivityIntent = new Intent(appCompatActivity, SettingActivity.class);
+                TransitionKit.getInstance().jumpWithTransition(appCompatActivity, view, fromThisToSettingActivityIntent, false);
                 break;
             // 退出
             case 7:
-                loginOut(appCompatActivity);
+                loginOut(appCompatActivity, view);
                 break;
             default:
                 break;
@@ -219,13 +223,15 @@ public class MineChildFragmentKit {
      * 退出
      *
      * @param appCompatActivity 活动
+     * @param view              视图
      */
-    private void loginOut(AppCompatActivity appCompatActivity) {
+    private void loginOut(AppCompatActivity appCompatActivity, View view) {
         HintMaterialAlertDialogKit.getInstance().show(appCompatActivity, null, appCompatActivity.getString(R.string.needToInputPhoneNumberToLoginAgainAfterLogOut), appCompatActivity.getString(R.string.logOut), appCompatActivity.getString(R.string.wait), null);
         HintMaterialAlertDialogKit.getInstance().setHintMaterialAlertDialogKitOnPositiveClickListener(alertDialog -> {
             alertDialog.dismiss();
             LitePalKit.getInstance().allDelete(UserDataBaseTable.class);
-            IntentJump.getInstance().jump(null, appCompatActivity, true, LoginActivity.class);
+            Intent fromThisToLoginActivityIntent = new Intent(appCompatActivity, LoginActivity.class);
+            TransitionKit.getInstance().jumpWithTransition(appCompatActivity, view, fromThisToLoginActivityIntent, true);
         });
         HintMaterialAlertDialogKit.getInstance().setHintMaterialAlertDialogKitOnNegativeClickListener(AppCompatDialog::dismiss);
     }
