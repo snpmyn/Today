@@ -1,11 +1,13 @@
 package pool.module.login;
 
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
@@ -20,6 +22,7 @@ import pool.module.login.listener.LoginActivityListener;
 import pool.value.PoolConstant;
 import util.animation.AnimationManager;
 import widget.textwatcher.CustomTextWatcher;
+import widget.transition.kit.TransitionKit;
 
 /**
  * @desc: 登录页
@@ -53,6 +56,12 @@ public class LoginActivity extends BasePoolActivity implements View.OnClickListe
      */
     public static void setLoginActivityListener(LoginActivityListener loginActivityListener) {
         LoginActivity.loginActivityListener = loginActivityListener;
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        TransitionKit.getInstance().endPageSetting(this);
+        super.onCreate(savedInstanceState);
     }
 
     /**
@@ -127,10 +136,10 @@ public class LoginActivity extends BasePoolActivity implements View.OnClickListe
             loginActivityKit.login(this, loginActivityTilInputPhoneNumber, loginActivityTietPhoneNumber, loginActivityListener);
         } else if (id == R.id.loginActivityMcvUserAgreement) {
             // 用户协议
-            userAgreementAndPrivacyPolicyActivityKit.showUserAgreementAndPrivacyPolicy(this, PoolConstant.USER_AGREEMENT);
+            userAgreementAndPrivacyPolicyActivityKit.showUserAgreementOrPrivacyPolicy(this, PoolConstant.USER_AGREEMENT);
         } else if (id == R.id.loginActivityMcvPrivacyPolicy) {
             // 政策隐私
-            userAgreementAndPrivacyPolicyActivityKit.showUserAgreementAndPrivacyPolicy(this, PoolConstant.PRIVACY_POLICY);
+            userAgreementAndPrivacyPolicyActivityKit.showUserAgreementOrPrivacyPolicy(this, PoolConstant.PRIVACY_POLICY);
         }
     }
 

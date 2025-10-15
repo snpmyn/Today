@@ -64,7 +64,7 @@ public class UserAgreementAndPrivacyPolicyActivityKit {
      * @param appCompatActivity 活动
      * @param functionalName    功能名称
      */
-    public void showUserAgreementAndPrivacyPolicy(AppCompatActivity appCompatActivity, String functionalName) {
+    public void showUserAgreementOrPrivacyPolicy(AppCompatActivity appCompatActivity, String functionalName) {
         Intent intentUserAgreement = new Intent();
         intentUserAgreement.putExtra(functionalName, functionalName);
         IntentJump.getInstance().jumpWithAnimation(intentUserAgreement, appCompatActivity, false, UserAgreementAndPrivacyPolicyActivity.class, 0, 0);

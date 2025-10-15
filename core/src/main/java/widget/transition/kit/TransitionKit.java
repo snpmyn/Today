@@ -84,9 +84,13 @@ public class TransitionKit {
      * @param appCompatActivity 活动
      * @param view              视图
      * @param intent            意图
+     * @param finish            是否关闭
      */
-    public void jumpWithTransition(@NonNull AppCompatActivity appCompatActivity, View view, Intent intent) {
+    public void jumpWithTransition(@NonNull AppCompatActivity appCompatActivity, View view, Intent intent, boolean finish) {
         appCompatActivity.startActivity(intent, makeSceneTransitionAnimation(appCompatActivity, view).toBundle());
+        if (finish) {
+            appCompatActivity.finish();
+        }
     }
 
     private static final class InstanceHolder {

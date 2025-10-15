@@ -121,7 +121,7 @@ public class SplashActivityKit {
      */
     public void showUserAgreementAndPrivacyPolicy(AppCompatActivity appCompatActivity, String functionalName) {
         UserAgreementAndPrivacyPolicyActivityKit userAgreementAndPrivacyPolicyActivityKit = new UserAgreementAndPrivacyPolicyActivityKit();
-        userAgreementAndPrivacyPolicyActivityKit.showUserAgreementAndPrivacyPolicy(appCompatActivity, functionalName);
+        userAgreementAndPrivacyPolicyActivityKit.showUserAgreementOrPrivacyPolicy(appCompatActivity, functionalName);
     }
 
     /**
