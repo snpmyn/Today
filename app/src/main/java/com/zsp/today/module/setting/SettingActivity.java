@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.zsp.today.R;
 import com.zsp.today.module.setting.fragment.SettingFragment;
 
+import widget.transition.kit.TransitionKit;
+
 /**
  * Created on 2025/9/27.
  *
@@ -16,6 +18,7 @@ import com.zsp.today.module.setting.fragment.SettingFragment;
 public class SettingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        TransitionKit.getInstance().endPageSetting(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         getSupportFragmentManager().beginTransaction().replace(R.id.settingActivityFl, new SettingFragment()).commit();
