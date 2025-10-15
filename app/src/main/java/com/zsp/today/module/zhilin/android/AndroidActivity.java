@@ -1,6 +1,9 @@
 package com.zsp.today.module.zhilin.android;
 
+import android.os.Bundle;
 import android.webkit.WebView;
+
+import androidx.annotation.Nullable;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.zsp.today.R;
@@ -8,6 +11,7 @@ import com.zsp.today.module.zhilin.android.bean.AndroidArticleEnum;
 import com.zsp.today.module.zhilin.android.kit.AndroidActivityKit;
 
 import pool.base.BasePoolActivity;
+import widget.transition.kit.TransitionKit;
 
 /**
  * Created on 2025/9/28.
@@ -22,6 +26,12 @@ public class AndroidActivity extends BasePoolActivity {
      * 安卓页配套原件
      */
     private AndroidActivityKit androidActivityKit;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        TransitionKit.getInstance().endPageSetting(this);
+        super.onCreate(savedInstanceState);
+    }
 
     /**
      * 布局资源 ID
