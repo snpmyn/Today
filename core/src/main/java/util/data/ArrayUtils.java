@@ -1,4 +1,4 @@
-package util.array;
+package util.data;
 
 import androidx.annotation.NonNull;
 

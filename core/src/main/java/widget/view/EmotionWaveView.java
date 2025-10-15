@@ -18,7 +18,7 @@ import androidx.annotation.NonNull;
 
 import com.zsp.core.R;
 
-import util.array.ArrayUtils;
+import util.data.ArrayUtils;
 
 /**
  * @decs: 心情波视图

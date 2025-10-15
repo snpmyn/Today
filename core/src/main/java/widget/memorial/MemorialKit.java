@@ -102,7 +102,7 @@ public class MemorialKit {
             memorialInfo.daysUntilAnniversary = TimeUnit.MILLISECONDS.toDays(nextAnniversary.getTimeInMillis() - today.getTimeInMillis());
             memorialInfo.areTodayAnniversary = today.equals(thisYearAnniversary);
             memorialInfo.anniversaryCount = thisYear - calendar.get(Calendar.YEAR);
-            memorialInfo.message = (memorialInfo.type + "\n" + ((memorialInfo.daysSinceDeath == 0) ? "今天" : (memorialInfo.daysSinceDeath > 0) ? ("第 " + memorialInfo.daysSinceDeath + " 天") : "尚未到达") + "\n" + (memorialInfo.areTodayAnniversary ? ("今天是第 " + memorialInfo.anniversaryCount + " 个纪念日") : ("距下个纪念日 " + memorialInfo.daysUntilAnniversary + " 天")));
+            memorialInfo.message = (memorialInfo.type + "\n" + ((memorialInfo.daysSinceDeath == 0) ? "今天" : (memorialInfo.daysSinceDeath > 0) ? ("第 " + memorialInfo.daysSinceDeath + " 天") : "余生未完") + "\n" + (memorialInfo.areTodayAnniversary ? ("今天是第 " + memorialInfo.anniversaryCount + " 个纪念日") : ("距下个纪念日 " + memorialInfo.daysUntilAnniversary + " 天")));
         } catch (Exception e) {
             memorialInfo.message = ("日期处理失败 " + e.getMessage());
             memorialInfo.type = "错误";
@@ -163,7 +163,7 @@ public class MemorialKit {
         } else if (daysSinceDeath > 0) {
             daysText = ("第 " + daysSinceDeath + " 天");
         } else {
-            daysText = "尚未到达";
+            daysText = "余生未完";
         }
         int thisYear = today.get(Calendar.YEAR);
         Calendar thisYearAnniversary = Calendar.getInstance();
