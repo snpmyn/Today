@@ -1,5 +1,7 @@
 package com.zsp.today.module.account.kit;
 
+import android.text.TextUtils;
+
 import androidx.annotation.NonNull;
 
 import com.zsp.today.application.App;
@@ -201,22 +203,22 @@ public class AccountBasicKit {
             return Collections.emptyList();
         }
         // 用 Map 合并相同类目的金额
-        Map<String, AccountDataBaseTable> mergeMap = new LinkedHashMap<>();
-        for (AccountDataBaseTable item : accountDataBaseTableList) {
-            if ((null == item) || (null == item.getCategory())) {
+        Map<String, AccountDataBaseTable> accountDataBaseTableMap = new LinkedHashMap<>();
+        for (AccountDataBaseTable accountDataBaseTable : accountDataBaseTableList) {
+            if ((null == accountDataBaseTable) || TextUtils.isEmpty(accountDataBaseTable.getCategory())) {
                 continue;
             }
-            String key = item.getCategory();
-            AccountDataBaseTable existing = mergeMap.get(key);
-            if (null == existing) {
-                mergeMap.put(key, new AccountDataBaseTable(item.getPhoneNumber(), item.getDate(), item.getCategory(), item.getAmount()));
+            String key = accountDataBaseTable.getCategory();
+            AccountDataBaseTable existingAccountDataBaseTable = accountDataBaseTableMap.get(key);
+            if (null == existingAccountDataBaseTable) {
+                accountDataBaseTableMap.put(key, new AccountDataBaseTable(accountDataBaseTable.getPhoneNumber(), accountDataBaseTable.getDate(), accountDataBaseTable.getCategory(), accountDataBaseTable.getAmount()));
             } else {
-                existing.setAmount(existing.getAmount() + item.getAmount());
+                existingAccountDataBaseTable.setAmount(BigDecimalUtils.add(BigDecimal.valueOf(existingAccountDataBaseTable.getAmount()), BigDecimal.valueOf(accountDataBaseTable.getAmount())).doubleValue());
             }
         }
         // 转 List
         // 金额从大到小排序
-        return mergeMap.values().stream().sorted((a, b) -> Double.compare(b.getAmount(), a.getAmount())).collect(Collectors.toList());
+        return accountDataBaseTableMap.values().stream().sorted((a, b) -> Double.compare(b.getAmount(), a.getAmount())).collect(Collectors.toList());
     }
 
     private static final class InstanceHolder {
