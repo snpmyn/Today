@@ -1,8 +1,5 @@
 package com.zsp.today.module.account;
 
-import android.os.Bundle;
-
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
@@ -20,7 +17,6 @@ import util.rxbus.annotation.Tag;
 import util.rxbus.thread.EventThread;
 import widget.status.kit.StatusManagerKit;
 import widget.status.manager.StatusManager;
-import widget.transition.kit.TransitionKit;
 
 /**
  * @desc: 账目二页
@@ -38,12 +34,6 @@ public class AccountSecondActivity extends BasePoolActivity {
      * 账目二页配套元件
      */
     private AccountSecondActivityKit accountSecondActivityKit;
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        TransitionKit.getInstance().endPageSetting(this);
-        super.onCreate(savedInstanceState);
-    }
 
     /**
      * 布局资源 ID

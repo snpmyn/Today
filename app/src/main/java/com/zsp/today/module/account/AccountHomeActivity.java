@@ -1,11 +1,9 @@
 package com.zsp.today.module.account;
 
-import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
@@ -26,7 +24,6 @@ import util.rxbus.thread.EventThread;
 import util.view.ViewUtils;
 import widget.status.kit.StatusManagerKit;
 import widget.status.manager.StatusManager;
-import widget.transition.kit.TransitionKit;
 
 /**
  * @desc: 账目主页
@@ -49,12 +46,6 @@ public class AccountHomeActivity extends BasePoolActivity implements View.OnClic
      * 账目主页配套元件
      */
     private AccountHomeActivityKit accountHomeActivityKit;
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        TransitionKit.getInstance().startPageSetting(this);
-        super.onCreate(savedInstanceState);
-    }
 
     /**
      * 布局资源 ID
