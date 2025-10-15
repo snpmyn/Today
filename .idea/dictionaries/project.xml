@@ -21,6 +21,7 @@
       <w>charecter</w>
       <w>chulito</w>
       <w>circ</w>
+      <w>clumn</w>
       <w>coef</w>
       <w>coeff</w>
       <w>contornos</w>
@@ -28,10 +29,12 @@
       <w>cyles</w>
       <w>d'ellipse</w>
       <w>daef</w>
+      <w>datetaken</w>
       <w>dcec</w>
       <w>dcim</w>
       <w>dctv</w>
       <w>decs</w>
+      <w>dfab</w>
       <w>dflt</w>
       <w>dorg</w>
       <w>efab</w>
@@ -59,7 +62,9 @@
       <w>heartbox</w>
       <w>hight</w>
       <w>hmmss</w>
+      <w>homecome</w>
       <w>ijxya</w>
+      <w>inited</w>
       <w>interpolators</w>
       <w>jian</w>
       <w>lbsapi</w>
@@ -85,6 +90,7 @@
       <w>oldw</w>
       <w>oneline</w>
       <w>openxmlformats</w>
+      <w>originalable</w>
       <w>permissionx</w>
       <w>pingpong</w>
       <w>poped</w>
@@ -97,6 +103,7 @@
       <w>rxbus</w>
       <w>sendto</w>
       <w>setlocal</w>
+      <w>sfrv</w>
       <w>shapeable</w>
       <w>smsc</w>
       <w>smssdk</w>
@@ -107,8 +114,10 @@
       <w>tablayout</w>
       <w>tarsos</w>
       <w>tetescope</w>
+      <w>threegpp</w>
       <w>tiet</w>
       <w>timming</w>
+      <w>toobar</w>
       <w>tracciato</w>
       <w>tracup</w>
       <w>transformar</w>
@@ -128,6 +137,7 @@
       <w>yyyymmddhhmmss</w>
       <w>yyyymmhh</w>
       <w>yyyymmss</w>
+      <w>zhihu</w>
       <w>zhilin</w>
       <w>zpkil</w>
       <w>zzzzzzzzzzzzzzz</w>
