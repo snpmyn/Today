@@ -10,5 +10,5 @@ public class PublicConstant {
     /**
      * 延时时长
      */
-    public static long DELAY_DURATION = 200L;
+    public static long DELAY_DURATION = 500L;
 }
