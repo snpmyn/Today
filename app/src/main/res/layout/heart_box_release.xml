@@ -48,6 +48,6 @@
             android:textColor="@android:color/white"
             android:textSize="@dimen/sp_16"
             android:textStyle="bold"
-            tools:text="心事微凉\u00A0\u00A0笑一笑吧" />
+            tools:text="心事微凉 笑一笑吧" />
     </LinearLayout>
 </FrameLayout>
