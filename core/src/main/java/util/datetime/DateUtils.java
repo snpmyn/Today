@@ -5,8 +5,6 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
-import com.zsp.core.R;
-
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -927,7 +925,7 @@ public class DateUtils {
         BigDecimal second = new BigDecimal(s);
         BigDecimal millisecond = new BigDecimal(m);
         BigDecimal result = second.add(millisecond.divide(new BigDecimal(1000), RoundingMode.HALF_UP).setScale(2, RoundingMode.HALF_UP));
-        return String.format(context.getApplicationContext().getString(R.string.formatSeconds), BigDecimalUtils.bigDecimalToString(result));
+        return String.format("%1$s 秒", BigDecimalUtils.bigDecimalToString(result));
     }
 
     /**
