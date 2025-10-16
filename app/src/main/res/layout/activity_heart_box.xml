@@ -228,12 +228,12 @@
                 android:insetRight="@dimen/dp_0"
                 android:insetBottom="@dimen/dp_0"
                 android:text="@string/pause"
-                android:textSize="@dimen/sp_14"
+                android:textSize="@dimen/sp_12"
                 android:textStyle="bold" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/heartBoxActivityMbStartOrStop"
-                style="?attr/materialButtonTonalStyle"
+                style="?attr/materialIconButtonFilledTonalStyle"
                 android:layout_width="@dimen/dp_0"
                 android:layout_height="@dimen/dp_120"
                 android:layout_weight="1.8"
@@ -259,7 +259,7 @@
                 android:insetRight="@dimen/dp_0"
                 android:insetBottom="@dimen/dp_0"
                 android:text="@string/cancel"
-                android:textSize="@dimen/sp_14"
+                android:textSize="@dimen/sp_12"
                 android:textStyle="bold" />
         </com.google.android.material.button.MaterialButtonGroup>
     </LinearLayout>
