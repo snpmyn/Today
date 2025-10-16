@@ -86,9 +86,9 @@ public class AccountMonthListAdapter extends RecyclerView.Adapter<AccountMonthLi
         holder.itemView.setTag(position);
         AccountMonthListBean accountMonthListBean = accountMonthListBeans.get(position);
         // 总金额
-        holder.accountMonthListItemTvTotalAmount.setText(String.format(context.getString(R.string.formatRmb), accountMonthListBean.getTotalAmount()));
+        holder.accountMonthListItemTvTotalAmount.setText(String.format("￥ %1$s", accountMonthListBean.getTotalAmount()));
         // 月
-        holder.accountMonthListItemTvMonth.setText(String.format(context.getString(R.string.formatMonth), accountMonthListBean.getMonth()));
+        holder.accountMonthListItemTvMonth.setText(String.format("%1$s 月", accountMonthListBean.getMonth()));
         // 消费笔数
         holder.accountMonthListItemTvNumberOfConsumptionTransactions.setText(String.valueOf(accountMonthListBean.getCount()));
         // 月度环比
