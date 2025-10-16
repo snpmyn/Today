@@ -74,12 +74,8 @@
     <string name="youNeedToAllowNecessaryPermissionInSettingManually">你需要手动在设置中授予该权限</string>
     <!--fragmentation-->
     <string name="fragmentationStackView">栈视图 (StackView)</string>
-    <string name="formatFragmentationStackHelp">* - 不在回退栈\n%1$s - 可见</string>
     <!--banner-->
     <string name="bannerNeedAndOnlySetLinearLayoutManagerType">需且只能设线性布局管理器类型</string>
     <string name="bannerContextCorrespondsToTheActivityInstance">上下文对应 Activity 实例</string>
     <string name="bannerViewPagerIsNotUsedAsTheUnderlyingImplementationHere">此处未用 ViewPager 作底层实现</string>
-    <!--format-->
-    <string name="formatSeconds">%1$s 秒</string>
-    <string name="formatLocation">经度 %1$.2f，纬度 %2$.2f，精度 %3$.2f 米</string>
 </resources>
