@@ -362,7 +362,7 @@ public class HeartBoxActivityKit {
             ViewUtils.showView(heartBoxActivityMbg);
             comfortQuoteLooper.stop();
             // 时长大小
-            String durationSize = String.format(appCompatActivity.getString(R.string.formatDurationSize), MoodEmojiKit.Mood.HOURGLASS.getEmoji(), MediaFileInfoHelper.getMediaFileDuration(appCompatActivity, uriTemporary, null, DurationFormatTypeEnum.CHINESE), MoodEmojiKit.Mood.FILE_SIZE.getEmoji(), MediaFileInfoHelper.getMediaFileSize(mediaFileInfo.getSize()));
+            String durationSize = String.format("%1$s %2$s\u3000\u3000\u3000\u3000\u3000\u3000%3$s %4$s", MoodEmojiKit.Mood.HOURGLASS.getEmoji(), MediaFileInfoHelper.getMediaFileDuration(appCompatActivity, uriTemporary, null, DurationFormatTypeEnum.CHINESE), MoodEmojiKit.Mood.FILE_SIZE.getEmoji(), MediaFileInfoHelper.getMediaFileSize(mediaFileInfo.getSize()));
             heartBoxActivityTvDurationSize.setText(durationSize);
             // 时间
             String time = String.format(appCompatActivity.getString(R.string.formatSsWithSpace), MoodEmojiKit.Mood.SPIRAL_CALENDAR.getEmoji(), MediaFileInfoHelper.getMediaFileChineseDateTimeMembers(appCompatActivity, mediaFileInfo.getUri())[1]);
@@ -449,14 +449,8 @@ public class HeartBoxActivityKit {
      * @param uri               统一资源标识符
      */
     private void release(AppCompatActivity appCompatActivity, Uri uri) {
-        LeafView.startLeafAnimation(appCompatActivity, 100, 200, 3000, 6000, 25.0F, 8000, 0.0F, 0.005F, 1000, 1000, new LeafView.OnLeafAnimationEndListener() {
-            @Override
-            public void onAnimationEnd() {
-                MediaFileKit.delete(appCompatActivity, uri, (absolutePathOrUri, mediaStoreUri) -> {
-
-                });
-            }
-        }, () -> AudioPlayKit.play(appCompatActivity, "audio/release.wav", null, 0));
+        LeafView.startLeafAnimation(appCompatActivity, 100, 200, 3000, 6000, 25.0F, 8000, 0.0F, 0.005F, 1000, 1000, () -> MediaFileKit.delete(appCompatActivity, uri, (absolutePathOrUri, mediaStoreUri) -> {
+        }), () -> AudioPlayKit.play(appCompatActivity, "audio/release.wav", null, 0));
     }
 
     /**
