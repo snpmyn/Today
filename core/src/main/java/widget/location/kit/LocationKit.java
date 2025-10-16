@@ -12,6 +12,8 @@ import androidx.core.app.ActivityCompat;
 
 import com.zsp.core.R;
 
+import java.util.Locale;
+
 import util.mmkv.MmkvKit;
 import widget.location.listener.LocationKitListener;
 import widget.location.value.LocationConstant;
@@ -62,7 +64,7 @@ public class LocationKit {
             double latitude = location.getLatitude();
             // 精度
             float accuracy = location.getAccuracy();
-            String locationInfo = String.format(appCompatActivity.getString(R.string.formatLocation), longitude, latitude, accuracy);
+            String locationInfo = String.format(Locale.CHINA, "经度 %1$.2f，纬度 %2$.2f，精度 %3$.2f 米", longitude, latitude, accuracy);
             MmkvKit.defaultMmkv().encode(LocationConstant.LOCATION_INFO, locationInfo);
             if (null != locationKitListener) {
                 locationKitListener.onLocationChanged(locationInfo);
