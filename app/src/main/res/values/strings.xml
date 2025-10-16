@@ -23,6 +23,7 @@
     <string name="heartBox">心盒</string>
     <string name="function">功能</string>
     <string name="category">类目</string>
+    <string name="lingFang">灵方</string>
     <string name="iKnow">我知道啦</string>
     <string name="dangerous">险情</string>
     <string name="twoColumn">两列</string>
@@ -123,7 +124,7 @@
     <string name="periodicNotificationEnglish">periodic notification</string>
     <string name="inputEmergencyContactPhoneNumber">输入紧急联系人手机号</string>
     <string name="hurryUpSendTheCoarseLocation">来不及了\n使用粗略位置发送</string>
-    <string name="myHeartLittleColdAndSmile">心事微凉\u00A0\u00A0笑一笑吧</string>
+    <string name="myHeartLittleColdAndSmile">心事微凉 笑一笑吧</string>
     <string name="recordReadAudioAreBasedOnThePermission">录制读取音频需要该权限</string>
     <string name="receiveNotificationAreBasedOnThePermission">接收通知需要该权限</string>
     <string name="inputCorrectEmergencyContactPhoneNumber">输入正确的紧急联系人手机号</string>
@@ -132,12 +133,6 @@
     <string name="tabLayoutTitleOne">TabOne</string>
     <string name="tabLayoutTitleTwo">TabTwo</string>
     <!-- format -->
-    <string name="formatRmb">￥ %1$s</string>
-    <string name="formatMonth">%1$s 月</string>
     <string name="formatSsWithSpace">%1$s %2$s</string>
     <string name="formatSsWithLineBreak">%1$s\n%2$s</string>
-    <string name="formatCleanCacheSuccessful">已清理 %1$s</string>
-    <string name="formatAccountFileName">/账单 %1$s-%2$s.xls</string>
-    <string name="formatAccountExportSuccessful">账单导出成功\n%1$s</string>
-    <string name="formatDurationSize">%1$s %2$s\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0%3$s %4$s</string>
 </resources>
