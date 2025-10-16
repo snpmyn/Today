@@ -217,7 +217,7 @@ public class AccountHomeActivityKit {
         }
         String startDate = StringUtils.replace(accountDataBaseTableList.get(accountDataBaseTableList.size() - 1).getDate(), "-", "");
         String endDate = StringUtils.replace(accountDataBaseTableList.get(0).getDate(), "-", "");
-        String fileName = String.format(appCompatActivity.getString(R.string.formatAccountFileName), startDate, endDate);
+        String fileName = String.format("/账单 %1$s-%2$s.xls", startDate, endDate);
         ExcelKit excelKit = new ExcelKit();
         excelKit.initExcel(Folder.ACCOUNT + fileName, appCompatActivity.getString(R.string.accountTwo), categoryList);
         excelKit.writeToExcel(appCompatActivity, Folder.ACCOUNT + fileName, dateList, categoryList, this::openAccount);
@@ -230,7 +230,7 @@ public class AccountHomeActivityKit {
      * @param filePath          文件路径
      */
     public void openAccount(AppCompatActivity appCompatActivity, String filePath) {
-        new MaterialAlertDialogBuilderKit(appCompatActivity).setTitle(com.zsp.core.R.string.hint).setMessage(String.format(appCompatActivity.getString(R.string.formatAccountExportSuccessful), filePath)).setPositiveButton(R.string.openAccount, (dialog, which) -> {
+        new MaterialAlertDialogBuilderKit(appCompatActivity).setTitle(com.zsp.core.R.string.hint).setMessage(String.format("账单导出成功\n%1$s", filePath)).setPositiveButton(R.string.openAccount, (dialog, which) -> {
             dialog.dismiss();
             OpenFileKit.openFile(appCompatActivity, new File(filePath));
         }).setNegativeButton(R.string.iKnow, (dialog, which) -> dialog.dismiss()).setCancelable(false).show();
