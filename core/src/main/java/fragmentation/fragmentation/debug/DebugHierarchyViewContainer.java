@@ -100,7 +100,7 @@ public class DebugHierarchyViewContainer extends ScrollView {
         params.leftMargin = dip2px(16);
         params.gravity = Gravity.CENTER_VERTICAL;
         imageView.setLayoutParams(params);
-        mTitleLayout.setOnClickListener(v -> ToastKit.showShort(String.format(mContext.getString(R.string.formatFragmentationStackHelp), MoodEmojiKit.Mood.FIRE.getEmoji())));
+        mTitleLayout.setOnClickListener(v -> ToastKit.showShort(String.format("* - 不在回退栈\n%1$s - 可见", MoodEmojiKit.Mood.FIRE.getEmoji())));
         mTitleLayout.addView(imageView);
         return mTitleLayout;
     }
