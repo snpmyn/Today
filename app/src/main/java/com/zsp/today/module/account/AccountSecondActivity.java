@@ -54,7 +54,7 @@ public class AccountSecondActivity extends BasePoolActivity {
         accountSecondActivityRv = findViewById(R.id.accountSecondActivityRv);
         AccountTransferBean accountTransferBean = (AccountTransferBean) IntentVerify.getSerializableExtra(getIntent(), AccountConstant.ACCOUNT_HOME_ACTIVITY_$_ACCOUNT_TRANSFER_BEAN);
         assert accountTransferBean != null;
-        accountSecondActivityMt.setTitle(String.format(getString(R.string.formatMonth), accountTransferBean.getMonth()));
+        accountSecondActivityMt.setTitle(String.format("%1$s 月", accountTransferBean.getMonth()));
     }
 
     /**
