@@ -205,8 +205,8 @@ public class MineChildFragmentKit {
         } else {
             AudioPlayKit.CacheHelper.clearCache(appCompatActivity);
             CacheManager.clearAllCache(appCompatActivity);
-            ToastKit.showShort(String.format(appCompatActivity.getString(R.string.formatCleanCacheSuccessful), totalCacheSize));
-            DebugMaterialAlertDialogKit.getInstance().show(appCompatActivity, String.format(appCompatActivity.getString(R.string.formatCleanCacheSuccessful), totalCacheSize), BuildConfig.DEBUG);
+            ToastKit.showShort(String.format("已清理 %1$s", totalCacheSize));
+            DebugMaterialAlertDialogKit.getInstance().show(appCompatActivity, String.format("已清理 %1$s", totalCacheSize), BuildConfig.DEBUG);
         }
     }
 
