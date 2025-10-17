@@ -3,6 +3,7 @@ package com.zsp.today.module.heartbox.kit;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -355,7 +356,7 @@ public class HeartBoxActivityKit {
             name = mediaFileInfo.getName();
         }
         if (null == comfortQuoteLooper) {
-            comfortQuoteLooper = new ComfortQuoteLooper(ComfortQuoteLooper.Mode.THREE_LINES, 4000, heartBoxActivityTvDurationSize, heartBoxActivityTvTime, heartBoxActivityTvDate);
+            comfortQuoteLooper = new ComfortQuoteLooper(ComfortQuoteLooper.Mode.THREE_LINES, 3000, heartBoxActivityTvDurationSize, heartBoxActivityTvTime, heartBoxActivityTvDate);
         }
         if (canNext) {
             ViewUtils.hideView(heartBoxActivityMd, View.GONE);
@@ -364,15 +365,21 @@ public class HeartBoxActivityKit {
             // 时长大小
             String durationSize = String.format("%1$s %2$s\u3000\u3000\u3000\u3000\u3000\u3000%3$s %4$s", MoodEmojiKit.Mood.HOURGLASS.getEmoji(), MediaFileInfoHelper.getMediaFileDuration(appCompatActivity, uriTemporary, null, DurationFormatTypeEnum.CHINESE), MoodEmojiKit.Mood.FILE_SIZE.getEmoji(), MediaFileInfoHelper.getMediaFileSize(mediaFileInfo.getSize()));
             heartBoxActivityTvDurationSize.setText(durationSize);
+            heartBoxActivityTvDurationSize.setGravity(Gravity.START);
             // 时间
             String time = String.format(appCompatActivity.getString(R.string.formatSsWithSpace), MoodEmojiKit.Mood.SPIRAL_CALENDAR.getEmoji(), MediaFileInfoHelper.getMediaFileChineseDateTimeMembers(appCompatActivity, mediaFileInfo.getUri())[1]);
             heartBoxActivityTvTime.setText(time);
+            heartBoxActivityTvTime.setGravity(Gravity.START);
             // 日期
             String date = String.format(appCompatActivity.getString(R.string.formatSsWithSpace), MoodEmojiKit.Mood.SPIRAL_CALENDAR.getEmoji(), MediaFileInfoHelper.getMediaFileChineseDateTimeMembers(appCompatActivity, mediaFileInfo.getUri())[0]);
             heartBoxActivityTvDate.setText(date);
+            heartBoxActivityTvDate.setGravity(Gravity.START);
         } else {
             ViewUtils.hideView(heartBoxActivityMbg, View.GONE);
             ViewUtils.showView(heartBoxActivityMd);
+            heartBoxActivityTvDurationSize.setGravity(Gravity.CENTER);
+            heartBoxActivityTvTime.setGravity(Gravity.CENTER);
+            heartBoxActivityTvDate.setGravity(Gravity.CENTER);
             comfortQuoteLooper.start();
         }
         // 听听
