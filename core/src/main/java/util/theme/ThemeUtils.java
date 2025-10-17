@@ -41,6 +41,17 @@ public class ThemeUtils {
     }
 
     /**
+     * 从 attr 资源 ID 获取 ColorSurface 颜色
+     *
+     * @param context 上下文
+     * @return 颜色
+     */
+    @ColorInt
+    public static int getColorSurfaceColorFromAttrResIdWithTypedArray(@NonNull Context context) {
+        return getColorFromAttrResIdWithTypedArray(context, com.google.android.material.R.attr.colorSurface);
+    }
+
+    /**
      * 从 attr 资源 ID 获取 ColorOnSurface 颜色
      *
      * @param context 上下文
