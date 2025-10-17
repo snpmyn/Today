@@ -10,6 +10,12 @@
     <uses-feature
         android:name="android.hardware.telephony"
         android:required="false" />
+    <uses-feature
+        android:name="android.hardware.sensor.accelerometer"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.sensor.compass"
+        android:required="true" />
 
     <uses-permission
         android:name="android.permission.SEND_SMS"
@@ -18,9 +24,13 @@
     <uses-permission
         android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         tools:ignore="AllFilesAccessPolicy,ScopedStorage" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission
         android:name="android.permission.REQUEST_INSTALL_PACKAGES"
         tools:ignore="RequestInstallPackagesPolicy" />
+    <uses-permission
+        android:name="android.permission.HIGH_SAMPLING_RATE_SENSORS"
+        tools:ignore="HighSamplingRate" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
     <uses-permission
@@ -52,6 +62,8 @@
         <activity android:name=".module.zhilin.android.AndroidActivity" />
         <activity android:name=".module.zhilin.tablayout.TabLayoutActivity" />
         <activity android:name=".module.zhilin.ZhiLinActivity" />
+        <activity android:name=".module.detect.DetectActivity" />
+        <activity android:name=".module.lingfang.LingFangActivity" />
         <activity android:name=".module.homecome.HomeComeActivity" />
         <activity android:name=".module.heartbox.HeartBoxActivity" />
         <activity android:name=".module.dangerous.DangerousActivity" />
