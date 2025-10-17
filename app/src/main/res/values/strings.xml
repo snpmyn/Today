@@ -114,6 +114,7 @@
     <string name="restoreAnimationSuccessful">恢复动画成功</string>
     <string name="currentTheLatestVersion">当前已是最新版本</string>
     <string name="numberOfConsumptionTransactions">消费笔数</string>
+    <string name="myHeartLittleColdAndSmile">心事微凉 笑一笑吧</string>
     <string name="noYearAnalysisDataAvailable">暂无年度分析数据</string>
     <string name="cameraAreBasedOnThePermission">拍照需要该权限</string>
     <string name="homeComeConfigHasBeenRestored">归心配置已恢复</string>
@@ -126,11 +127,11 @@
     <string name="periodicNotificationEnglish">periodic notification</string>
     <string name="inputEmergencyContactPhoneNumber">输入紧急联系人手机号</string>
     <string name="hurryUpSendTheCoarseLocation">来不及了\n使用粗略位置发送</string>
-    <string name="myHeartLittleColdAndSmile">心事微凉 笑一笑吧</string>
     <string name="recordReadAudioAreBasedOnThePermission">录制读取音频需要该权限</string>
     <string name="receiveNotificationAreBasedOnThePermission">接收通知需要该权限</string>
     <string name="inputCorrectEmergencyContactPhoneNumber">输入正确的紧急联系人手机号</string>
     <string name="needToInputPhoneNumberToLoginAgainAfterLogOut">退出后需输入手机号重新登录</string>
+    <string name="detectIllustrate">仅可探测\n铁、钢、镍、钴等磁性金属\n\n不可探测\n铜、铝、金、银、铅等非磁性金属</string>
     <!--widget - TabLayout-->
     <string name="tabLayoutTitleOne">TabOne</string>
     <string name="tabLayoutTitleTwo">TabTwo</string>
