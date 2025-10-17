@@ -59,7 +59,6 @@ public class VibratorUtils {
 
     /**
      * Cancel vibrate.
-     * Must hold <uses-permission android:name="android.permission.VIBRATE" />
      *
      * @param context Context
      */
