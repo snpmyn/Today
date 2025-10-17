@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/detectActivityLl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:layout_weight="4">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/detectActivityMcvResult"
+            style="?attr/materialCardViewFilledStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginHorizontal="@dimen/dp_20"
+            android:visibility="gone"
+            app:contentPaddingBottom="@dimen/dp_40"
+            app:contentPaddingLeft="@dimen/dp_20"
+            app:contentPaddingRight="@dimen/dp_20"
+            app:contentPaddingTop="@dimen/dp_40">
+
+            <TextView
+                android:id="@+id/detectActivityTvResult"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="@dimen/sp_14"
+                android:textStyle="bold"
+                tools:text="结果" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/detectActivityLavDetect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            app:lottie_colorFilter="@color/color_FFEE6002"
+            app:lottie_fileName="lottie/detect/detect.json"
+            app:lottie_loop="true" />
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/detectActivityMbtg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginHorizontal="@dimen/dp_20"
+            android:gravity="center"
+            android:spacing="@dimen/dp_20"
+            app:checkedButton="@+id/detectActivityMbStop"
+            app:selectionRequired="true"
+            app:singleSelection="true">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/detectActivityMbStop"
+                style="?attr/materialButtonTonalStyle"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="?actionBarSize"
+                android:layout_weight="1"
+                android:filterTouchesWhenObscured="true"
+                android:insetLeft="@dimen/dp_0"
+                android:insetTop="@dimen/dp_0"
+                android:insetRight="@dimen/dp_0"
+                android:insetBottom="@dimen/dp_0"
+                android:text="@string/stop"
+                android:textSize="@dimen/sp_12"
+                android:textStyle="bold" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/detectActivityMbStart"
+                style="?attr/materialButtonTonalStyle"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="?actionBarSize"
+                android:layout_weight="1"
+                android:filterTouchesWhenObscured="true"
+                android:insetLeft="@dimen/dp_0"
+                android:insetTop="@dimen/dp_0"
+                android:insetRight="@dimen/dp_0"
+                android:insetBottom="@dimen/dp_0"
+                android:text="@string/start"
+                android:textSize="@dimen/sp_12"
+                android:textStyle="bold" />
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+    </RelativeLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        style="?attr/materialCardViewFilledStyle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:layout_margin="@dimen/dp_20"
+        android:layout_weight="1"
+        app:contentPaddingLeft="@dimen/dp_20"
+        app:contentPaddingRight="@dimen/dp_20">
+
+        <TextView
+            android:id="@+id/detectActivityTvIllustrate"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="@dimen/sp_14"
+            android:textStyle="bold"
+            tools:text="说明" />
+    </com.google.android.material.card.MaterialCardView>
+</LinearLayout>
