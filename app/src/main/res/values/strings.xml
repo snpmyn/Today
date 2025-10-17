@@ -60,6 +60,7 @@
     <string name="restoreAccount">恢复账目</string>
     <string name="androidArticle">安卓文章</string>
     <string name="smsSendFail">短信发送失败</string>
+    <string name="metalDetected">探测到金属</string>
     <string name="largestConsumer">最大消费</string>
     <string name="dangerousNotice">险情通知</string>
     <string name="accountAnalysis">账目分析</string>
