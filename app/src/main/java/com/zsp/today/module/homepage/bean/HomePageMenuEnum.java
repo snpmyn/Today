@@ -27,9 +27,17 @@ public enum HomePageMenuEnum {
      */
     HOME_COME(4, R.drawable.ic_home_page_menu_home_come_cos_24dp, "HomePageMenuHomeCome@One", "归心", true),
     /**
+     * 灵方
+     */
+    LING_FANG(5, R.drawable.ic_home_page_menu_ling_fang_cos_24dp, "HomePageMenuLingFang@One", "灵方", true),
+    /**
+     * 探测
+     */
+    DETECT(6, R.drawable.ic_home_page_menu_detect_cos_24dp, "HomePageMenuDetect@One", "探测", true),
+    /**
      * 知林
      */
-    ZHI_LIN(5, R.drawable.ic_home_page_menu_zhi_lin_cos_24dp, "HomePageMenuZhiLin@One", "知林", App.getAppInstance().tag());
+    ZHI_LIN(7, R.drawable.ic_home_page_menu_zhi_lin_cos_24dp, "HomePageMenuZhiLin@One", "知林", App.getAppInstance().tag());
     /**
      * 菜单 ID
      */
