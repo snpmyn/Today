@@ -363,7 +363,7 @@ public class HeartBoxActivityKit {
             ViewUtils.showView(heartBoxActivityMbg);
             comfortQuoteLooper.stop();
             // 时长大小
-            String durationSize = String.format("%1$s %2$s\u3000\u3000\u3000\u3000\u3000\u3000%3$s %4$s", MoodEmojiKit.Mood.HOURGLASS.getEmoji(), MediaFileInfoHelper.getMediaFileDuration(appCompatActivity, uriTemporary, null, DurationFormatTypeEnum.CHINESE), MoodEmojiKit.Mood.FILE_SIZE.getEmoji(), MediaFileInfoHelper.getMediaFileSize(mediaFileInfo.getSize()));
+            String durationSize = String.format("%1$s %2$s\u3000\u3000%3$s %4$s", MoodEmojiKit.Mood.HOURGLASS.getEmoji(), MediaFileInfoHelper.getMediaFileDuration(appCompatActivity, uriTemporary, null, DurationFormatTypeEnum.CHINESE), MoodEmojiKit.Mood.FILE_SIZE.getEmoji(), MediaFileInfoHelper.getMediaFileSize(mediaFileInfo.getSize()));
             heartBoxActivityTvDurationSize.setText(durationSize);
             heartBoxActivityTvDurationSize.setGravity(Gravity.START);
             // 时间
