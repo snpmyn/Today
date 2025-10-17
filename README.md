@@ -14,6 +14,7 @@ TODO:
 assert
 暂无引用
 @SuppressLint("NewApi")
+@SuppressLint("InlinedApi")
 @SuppressWarnings("rawtypes")
 @SuppressLint("RestrictedApi")
 @SuppressLint("InflateParams")
