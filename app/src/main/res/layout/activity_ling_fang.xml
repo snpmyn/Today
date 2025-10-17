@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/lingFangActivityIvBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/homeComeBackground"
+        android:scaleType="centerCrop"
+        tools:srcCompat="@drawable/ling_fang_11" />
+
+    <widget.sensor.bagua.BaguaCompassView
+        android:id="@+id/lingFangActivityBcv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginHorizontal="@dimen/dp_20"
+        android:alpha="0.92" />
+
+    <com.google.android.material.card.MaterialCardView
+        style="?attr/materialCardViewFilledStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/dp_20"
+        android:alpha="0.8"
+        app:contentPadding="@dimen/dp_20">
+
+        <TextView
+            android:id="@+id/lingFangActivityTv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="@dimen/sp_14"
+            android:textStyle="bold"
+            tools:text="西北" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/lingFangActivityMbSelectBackground"
+            style="?attr/materialIconButtonFilledTonalStyle"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
+            android:layout_gravity="bottom"
+            android:filterTouchesWhenObscured="true"
+            android:insetLeft="@dimen/dp_0"
+            android:insetTop="@dimen/dp_0"
+            android:insetRight="@dimen/dp_0"
+            android:insetBottom="@dimen/dp_0"
+            app:icon="@drawable/ic_panorama_cos_24dp"
+            app:iconGravity="textStart"
+            app:iconSize="@dimen/dp_20" />
+    </com.google.android.material.card.MaterialCardView>
+</RelativeLayout>
