@@ -54,8 +54,11 @@ public class HomeComeActivityKit {
      * @param homeComeActivityIvBackground ImageView
      */
     public void setBackground(AppCompatActivity appCompatActivity, ImageView homeComeActivityIvBackground) {
-        String backgroundImageResource = MmkvKit.defaultMmkv().decodeString(HomeComeConstant.HOME_COME_ACTIVITY_$_BACKGROUND_IMAGE_RESOURCE, "home_come_1");
+        String backgroundImageResource = MmkvKit.defaultMmkv().decodeString(HomeComeConstant.HOME_COME_ACTIVITY_$_BACKGROUND_IMAGE_RESOURCE);
         int imageResource = ResourceUtils.getResourceId(appCompatActivity, backgroundImageResource, "drawable");
+        if (imageResource == 0) {
+            imageResource = ResourceUtils.getResourceId(appCompatActivity, "home_come_1", "drawable");
+        }
         StatusBarColorHelper.INSTANCE.setBackgroundImageResource(appCompatActivity, homeComeActivityIvBackground, imageResource, new StatusBarColorHelper.StatusBarColorListener() {
             @Override
             public void onLight() {
