@@ -18,11 +18,13 @@ import com.zsp.today.R;
 import com.zsp.today.application.App;
 import com.zsp.today.module.account.AccountHomeActivity;
 import com.zsp.today.module.dangerous.DangerousActivity;
+import com.zsp.today.module.detect.DetectActivity;
 import com.zsp.today.module.function.database.FunctionDataBaseTable;
 import com.zsp.today.module.function.value.FunctionCondition;
 import com.zsp.today.module.heartbox.HeartBoxActivity;
 import com.zsp.today.module.homecome.HomeComeActivity;
 import com.zsp.today.module.homepage.bean.HomePageMenuEnum;
+import com.zsp.today.module.lingfang.LingFangActivity;
 import com.zsp.today.module.zhilin.ZhiLinActivity;
 
 import org.jetbrains.annotations.NotNull;
@@ -213,6 +215,7 @@ public class HomePageChildFragmentKit {
         if (functionDataBaseTableList.size() != homePageMenuEnumsCanShow.size()) {
             return true;
         }
+        // 功能数据库表集
         // 建立映射
         Map<Integer, FunctionDataBaseTable> functionDataBaseTableMap = new HashMap<>();
         for (FunctionDataBaseTable functionDataBaseTable : functionDataBaseTableList) {
@@ -306,8 +309,16 @@ public class HomePageChildFragmentKit {
             case 4:
                 IntentJump.getInstance().jump(null, appCompatActivity, false, HomeComeActivity.class);
                 break;
-            // 知林
+            // 灵方
             case 5:
+                IntentJump.getInstance().jump(null, appCompatActivity, false, LingFangActivity.class);
+                break;
+            // 探测
+            case 6:
+                IntentJump.getInstance().jump(null, appCompatActivity, false, DetectActivity.class);
+                break;
+            // 知林
+            case 7:
                 IntentJump.getInstance().jump(null, appCompatActivity, false, ZhiLinActivity.class);
                 break;
             default:
