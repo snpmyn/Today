@@ -1,5 +1,7 @@
 package util.view;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -13,6 +15,8 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.ref.WeakReference;
 
 import util.datetime.CurrentTimeMillisClock;
+import util.handler.HandlerKit;
+import util.theme.ThemeUtils;
 import util.value.UtilMagic;
 
 /**
@@ -163,6 +167,20 @@ public class ViewUtils {
             }
         }
         return false;
+    }
+
+    /**
+     * 闪烁
+     *
+     * @param context     上下文
+     * @param flashView   闪烁视图
+     * @param delayMillis 延迟毫秒
+     */
+    public static void flash(Context context, View flashView, long delayMillis) {
+        if (null != flashView) {
+            flashView.setBackgroundColor(Color.RED);
+            HandlerKit.getInstance().postDelayed(() -> flashView.setBackgroundColor(ThemeUtils.getColorSurfaceColorFromAttrResIdWithTypedArray(context)), delayMillis);
+        }
     }
 
     /**
