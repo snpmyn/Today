@@ -7,10 +7,10 @@ import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 
-import com.zsp.today.MainActivity;
 import com.zsp.today.R;
 import com.zsp.today.basic.notification.NotificationKit;
 
+import pool.module.splash.SplashActivity;
 import widget.notification.helper.NotificationHelper;
 
 /**
@@ -35,7 +35,7 @@ public class PeriodicService extends Service {
     public void onCreate() {
         super.onCreate();
         NotificationHelper.getInstance(this).createNotificationChannel(NotificationKit.periodicNotificationInfo(this)[0], NotificationKit.periodicNotificationInfo(this)[1], NotificationKit.periodicNotificationInfo(this)[2]);
-        Notification notification = NotificationHelper.getInstance(this).createCommonNotification(this, NotificationKit.periodicNotificationInfo(this)[0], getString(R.string.serviceIsRunning), getString(R.string.inPeriodicOperation), R.drawable.ic_notification_white_56dp, MainActivity.class);
+        Notification notification = NotificationHelper.getInstance(this).createCommonNotification(this, NotificationKit.periodicNotificationInfo(this)[0], getString(R.string.serviceIsRunning), getString(R.string.inPeriodicOperation), R.drawable.ic_notification_white_56dp, SplashActivity.class);
         startForeground(NotificationKit.periodicNotificationId(), notification);
         handler = new Handler();
         handler.post(updateTask);

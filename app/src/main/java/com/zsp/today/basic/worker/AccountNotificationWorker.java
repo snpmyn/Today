@@ -7,10 +7,10 @@ import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
-import com.zsp.today.MainActivity;
 import com.zsp.today.R;
 import com.zsp.today.basic.notification.NotificationKit;
 
+import pool.module.splash.SplashActivity;
 import widget.notification.helper.NotificationHelper;
 
 /**
@@ -34,7 +34,7 @@ public class AccountNotificationWorker extends Worker {
     @Override
     public Result doWork() {
         NotificationHelper.getInstance(context).createNotificationChannel(NotificationKit.accountNotificationInfo(context)[0], NotificationKit.accountNotificationInfo(context)[1], NotificationKit.accountNotificationInfo(context)[2]);
-        Notification notification = NotificationHelper.getInstance(context).createCommonNotification(context, NotificationKit.accountNotificationInfo(context)[0], context.getString(R.string.todayAccount), context.getString(R.string.rememberToKeepAccount), R.drawable.ic_notification_white_56dp, MainActivity.class);
+        Notification notification = NotificationHelper.getInstance(context).createCommonNotification(context, NotificationKit.accountNotificationInfo(context)[0], context.getString(R.string.todayAccount), context.getString(R.string.rememberToKeepAccount), R.drawable.ic_notification_white_56dp, SplashActivity.class);
         NotificationHelper.getInstance(context).notify(NotificationKit.accountNotificationId(), notification);
         return Result.success();
     }
