@@ -27,6 +27,7 @@ import com.zsp.today.module.login.UserDataBaseTable;
 import com.zsp.today.module.mine.fragment.MineChildFragment;
 import com.zsp.today.module.mine.fragment.SplashAnimationHomeFragment;
 import com.zsp.today.module.setting.SettingActivity;
+import com.zsp.youmeng.UmKit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -229,6 +230,7 @@ public class MineChildFragmentKit {
         HintMaterialAlertDialogKit.getInstance().show(appCompatActivity, null, appCompatActivity.getString(R.string.needToInputPhoneNumberToLoginAgainAfterLogOut), appCompatActivity.getString(R.string.logOut), appCompatActivity.getString(R.string.wait), null);
         HintMaterialAlertDialogKit.getInstance().setHintMaterialAlertDialogKitOnPositiveClickListener(alertDialog -> {
             alertDialog.dismiss();
+            UmKit.getInstance().onProfileSignOff();
             LitePalKit.getInstance().allDelete(UserDataBaseTable.class);
             Intent fromThisToLoginActivityIntent = new Intent(appCompatActivity, LoginActivity.class);
             TransitionKit.getInstance().jumpWithTransition(appCompatActivity, view, fromThisToLoginActivityIntent, true);
