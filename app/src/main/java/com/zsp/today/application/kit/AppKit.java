@@ -9,6 +9,7 @@ import com.zsp.today.MainActivity;
 import com.zsp.today.application.App;
 import com.zsp.today.module.login.UserDataBaseTable;
 import com.zsp.today.module.setting.kit.SharedPreferencesKit;
+import com.zsp.youmeng.UmKit;
 
 import litepal.kit.LitePalKit;
 import pool.module.login.LoginActivity;
@@ -47,7 +48,13 @@ public class AppKit {
             IntentJump.getInstance().jump(null, appCompatActivity, true, MainActivity.class);
             return;
         }
-        IntentJump.getInstance().jump(null, appCompatActivity, true, (null == App.getAppInstance().getUserDataBaseTable()) ? LoginActivity.class : MainActivity.class);
+        UserDataBaseTable userDataBaseTable = App.getAppInstance().getUserDataBaseTable();
+        if (null == userDataBaseTable) {
+            IntentJump.getInstance().jump(null, appCompatActivity, true, LoginActivity.class);
+        } else {
+            UmKit.getInstance().userProfileMobile(userDataBaseTable.getPhoneNumber());
+            IntentJump.getInstance().jump(null, appCompatActivity, true, MainActivity.class);
+        }
     }
 
     /**
@@ -71,6 +78,8 @@ public class AppKit {
         UserDataBaseTable userDataBaseTable = new UserDataBaseTable(phoneNumber, null);
         if (LitePalKit.getInstance().singleSave(userDataBaseTable)) {
             MmkvKit.defaultMmkv().encode(PoolConstant.LOGIN_$_PHONE_NUMBER, phoneNumber);
+            UmKit.getInstance().onProfileSignIn(null, phoneNumber);
+            UmKit.getInstance().userProfileMobile(phoneNumber);
             BocDialogKit.getInstance(appCompatActivity).end();
             IntentJump.getInstance().jump(null, appCompatActivity, true, MainActivity.class);
         } else {
