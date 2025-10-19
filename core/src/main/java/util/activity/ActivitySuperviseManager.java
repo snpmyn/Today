@@ -11,6 +11,8 @@ import android.os.PersistableBundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.zsp.youmeng.UmKit;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -51,10 +53,10 @@ public class ActivitySuperviseManager {
      */
     public void pushActivity(Activity activity) {
         ACTIVITIES.add(activity);
-        Timber.d("推入：%s", activity.getClass().getSimpleName());
-        Timber.d("活动数：%s", ACTIVITIES.size());
+        Timber.d("推入 - %s", activity.getClass().getSimpleName());
+        Timber.d("活动数 - %s", ACTIVITIES.size());
         for (int i = 0; i < ACTIVITIES.size(); i++) {
-            Timber.d("概览：%s", ACTIVITIES.get(i).getClass().getSimpleName());
+            Timber.d("概览 - %s", ACTIVITIES.get(i).getClass().getSimpleName());
         }
     }
 
@@ -65,10 +67,10 @@ public class ActivitySuperviseManager {
      */
     public void removeActivity(Activity activity) {
         ACTIVITIES.remove(activity);
-        Timber.d("去除：%s", activity.getClass().getSimpleName());
-        Timber.d("活动数：%s", ACTIVITIES.size());
+        Timber.d("去除 - %s", activity.getClass().getSimpleName());
+        Timber.d("活动数 - %s", ACTIVITIES.size());
         for (int i = 0; i < ACTIVITIES.size(); i++) {
-            Timber.d("概览：%s", ACTIVITIES.get(i).getClass().getSimpleName());
+            Timber.d("概览 - %s", ACTIVITIES.get(i).getClass().getSimpleName());
         }
     }
 
@@ -87,7 +89,7 @@ public class ActivitySuperviseManager {
         ActivityManager activityManager = (ActivityManager) context.getApplicationContext().getSystemService(ACTIVITY_SERVICE);
         ActivityManager.RunningTaskInfo runningTaskInfo = ((null != activityManager) ? activityManager.getRunningTasks(1).get(0) : null);
         String currentRunningActivityName = ((null != runningTaskInfo) && (null != runningTaskInfo.topActivity)) ? runningTaskInfo.topActivity.getShortClassName() : null;
-        Timber.d("当前活动名：%s", currentRunningActivityName);
+        Timber.d("当前活动名 - %s", currentRunningActivityName);
         return currentRunningActivityName;
     }
 
@@ -118,7 +120,7 @@ public class ActivitySuperviseManager {
             return;
         }
         if (null != activity) {
-            Timber.d("结束：%s", activity.getClass().getSimpleName());
+            Timber.d("结束 - %s", activity.getClass().getSimpleName());
             ACTIVITIES.remove(activity);
             activity.finish();
         }
@@ -169,6 +171,7 @@ public class ActivitySuperviseManager {
      */
     public void appExit() {
         try {
+            UmKit.getInstance().onKillProcess(getTopActivityInstance());
             finishAllActivity();
         } catch (Exception e) {
             Timber.e(e);
