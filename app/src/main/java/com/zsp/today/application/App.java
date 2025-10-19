@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClientOption;
+import com.umeng.analytics.MobclickAgent;
 import com.zsp.amap.kit.AmapLocationKit;
 import com.zsp.amap.listener.AmapLocationKitListener;
 import com.zsp.amap.value.AmapConstant;
@@ -12,6 +13,7 @@ import com.zsp.today.application.kit.AppKit;
 import com.zsp.today.basic.value.Folder;
 import com.zsp.today.basic.value.RxBusConstant;
 import com.zsp.today.module.login.UserDataBaseTable;
+import com.zsp.youmeng.UmKit;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -92,6 +94,11 @@ public class App extends BasePoolApp {
         appInstance = this;
         // 动态配色
         AppKit.dynamicColor();
+        // 友盟配套原件
+        UmKit.getInstance().preInit(this, "68f2e0a2644c9e2c2058e7cf", BuildConfig.FLAVOR);
+        UmKit.getInstance().setPageCollectionMode(MobclickAgent.PageMode.AUTO);
+        UmKit.getInstance().setProcessEvent(true);
+        UmKit.getInstance().setLogEnabled(true);
         // 状态管理器布局 ID
         StatusManager.BASE_LOADING_LAYOUT_ID = com.zsp.core.R.layout.status_loading_with_animation;
         StatusManager.BASE_EMPTY_LAYOUT_ID = com.zsp.core.R.layout.status_empty_with_animation;
