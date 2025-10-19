@@ -85,6 +85,17 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <!--9.4.0+ 支持-->
+            <!--唤起码 um.App Key-->
+            <!--单独 intent-filter-->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="um.68f2e0a2644c9e2c2058e7cf" />
+            </intent-filter>
         </activity>
 
         <service
