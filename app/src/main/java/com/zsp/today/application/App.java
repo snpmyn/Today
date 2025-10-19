@@ -30,6 +30,7 @@ import pool.module.splash.kit.SplashActivityKit;
 import timber.log.Timber;
 import util.list.ListUtils;
 import util.mmkv.MmkvKit;
+import util.number.NumberFormatUtils;
 import util.rxbus.RxBus;
 import widget.crash.CrashManager;
 import widget.permissionx.kit.PermissionKit;
@@ -69,7 +70,7 @@ public class App extends BasePoolApp {
      */
     public String getPhoneNumber() {
         UserDataBaseTable userDataBaseTable = getUserDataBaseTable();
-        return (null == userDataBaseTable) ? "12345678910" : userDataBaseTable.getPhoneNumber();
+        return (null == userDataBaseTable) ? NumberFormatUtils.formatPhoneNumberTwo("1234567890") : userDataBaseTable.getPhoneNumber();
     }
 
     /**
@@ -78,7 +79,7 @@ public class App extends BasePoolApp {
      * @return 标志
      */
     public boolean tag() {
-        return (BuildConfig.DEBUG || TextUtils.equals(App.getAppInstance().getPhoneNumber(), "13673541527"));
+        return (BuildConfig.DEBUG || TextUtils.equals(App.getAppInstance().getPhoneNumber(), NumberFormatUtils.formatPhoneNumberTwo("13673541527")));
     }
 
     /**
