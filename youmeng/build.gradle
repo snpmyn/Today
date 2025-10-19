@@ -1,0 +1,44 @@
+plugins {
+    alias(libs.plugins.android.library)
+}
+
+android {
+    // 编译期用
+    // 和 APK 安装无关
+    // 可统一用一个 namespace
+    // 主要影响生成的 R 类和 BuildConfig 包名
+    namespace 'com.zsp.youmeng'
+    compileSdk rootProject.ext.compileSdk
+
+    defaultConfig {
+        minSdk rootProject.ext.minSdk
+
+        // 专门用于传递给主应用 (消费者)。它指定的规则是确保主应用在混淆时，能正确处理这个库的代码。这些规则会被打包到 AAR 中。
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled rootProject.ext.minifyEnabled
+            // 用于当前模块本身的编译和测试。它决定在编译和测试这个库时，如何混淆库的代码。这些规则不会被打包到 AAR 中，也不会传递给主应用。
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        // 源代码兼容 Java 11 (可按需设)
+        sourceCompatibility JavaVersion.VERSION_11
+        // 生成的字节码兼容 Java 11 (可按需设)
+        targetCompatibility JavaVersion.VERSION_11
+    }
+}
+
+dependencies {
+    api libs.common
+    /*统计 - 必选*/
+    api libs.asms
+    /*重要 - 必选*/
+    /*不集成则在初始化时输出 e 级别 LOG 和 Toast 提示*/
+    api libs.uyumao
+    /*高级运营分析 - 可选*/
+    /*卸载分析、反作弊*/
+}
