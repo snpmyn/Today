@@ -16,7 +16,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        // JitPack
         maven { url "https://jitpack.io" }
+        // 友盟
+        maven { url 'https://repo1.maven.org/maven2/' }
     }
 }
 
@@ -25,3 +28,4 @@ include ':app'
 include ':core'
 include ':amap'
 include ':bdmap'
+include ':youmeng'
