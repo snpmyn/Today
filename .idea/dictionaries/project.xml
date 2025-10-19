@@ -63,7 +63,9 @@
       <w>hight</w>
       <w>hmmss</w>
       <w>homecome</w>
+      <w>iccid</w>
       <w>ijxya</w>
+      <w>imsi</w>
       <w>inited</w>
       <w>interpolators</w>
       <w>jian</w>
@@ -78,6 +80,7 @@
       <w>mbtg</w>
       <w>mddhhmmss</w>
       <w>mediastore</w>
+      <w>meng</w>
       <w>mhac</w>
       <w>mmap</w>
       <w>mmkv</w>

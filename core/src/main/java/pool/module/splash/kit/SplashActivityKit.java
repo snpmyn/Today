@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.zsp.core.R;
+import com.zsp.youmeng.UmKit;
 
 import java.util.Objects;
 
@@ -54,6 +55,8 @@ public class SplashActivityKit {
         HandlerKit.getInstance().postDelayed(() -> {
             LottieKit.getInstance().endAnimation(lottieAnimationView);
             if (MmkvKit.defaultMmkv().decodeBool(PoolConstant.USER_AGREEMENT_AND_PRIVACY_POLICY)) {
+                UmKit.getInstance().submitPolicyGrantResult(appCompatActivity, true);
+                UmKit.getInstance().init(appCompatActivity, "68f2e0a2644c9e2c2058e7cf", "product");
                 checkConnect(appCompatActivity);
             } else {
                 userAgreementAndPrivacyPolicy(appCompatActivity);
@@ -100,6 +103,7 @@ public class SplashActivityKit {
                 TextView dialogUserAgreementAndPrivacyPolicyTvNotAgreeAngLoginOut = holder.getView(R.id.dialogUserAgreementAndPrivacyPolicyTvNotAgreeAngLoginOut);
                 dialogUserAgreementAndPrivacyPolicyTvNotAgreeAngLoginOut.setOnClickListener(v -> {
                     dialog.dismiss();
+                    UmKit.getInstance().submitPolicyGrantResult(appCompatActivity, false);
                     appCompatActivity.finish();
                 });
                 // 同意
@@ -107,6 +111,8 @@ public class SplashActivityKit {
                 dialogUserAgreementAndPrivacyPolicyTvAgree.setOnClickListener(v -> {
                     dialog.dismiss();
                     MmkvKit.defaultMmkv().encode(PoolConstant.USER_AGREEMENT_AND_PRIVACY_POLICY, true);
+                    UmKit.getInstance().submitPolicyGrantResult(appCompatActivity, true);
+                    UmKit.getInstance().init(appCompatActivity, "68f2e0a2644c9e2c2058e7cf", "product");
                     checkConnect(appCompatActivity);
                 });
             }
