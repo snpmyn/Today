@@ -93,7 +93,7 @@ public class LingFangActivityKit {
         carouselItemList.add(new CarouselItem(R.drawable.ling_fang_18, "ling_fang_18", "三太子"));
         carouselItemList.add(new CarouselItem(R.drawable.ling_fang_19, "ling_fang_19", "黑羽咒"));
         carouselItemList.add(new CarouselItem(R.drawable.ling_fang_20, "ling_fang_20", "驱邪化煞"));
-        carouselItemList.add(new CarouselItem(R.drawable.ling_fang_21, "ling_fang_21", "玄易金莲"));
+        carouselItemList.add(new CarouselItem(R.drawable.ling_fang_21, "ling_fang_21", "齐天大圣"));
         carouselItemList.add(new CarouselItem(R.drawable.ling_fang_22, "ling_fang_22", "虚空"));
         carouselItemList.add(new CarouselItem(R.drawable.ling_fang_23, "ling_fang_23", "御符伞"));
         carouselItemList.add(new CarouselItem(R.drawable.ling_fang_24, "ling_fang_24", "苍龙道心"));
