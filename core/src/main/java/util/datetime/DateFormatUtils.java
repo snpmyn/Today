@@ -9,6 +9,7 @@ import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 import timber.log.Timber;
 import util.value.UtilMagic;
@@ -92,7 +93,7 @@ public class DateFormatUtils {
      */
     public static String formatString(String value) {
         String sReturn = "";
-        if ((null == value) || value.isEmpty()) {
+        if (TextUtils.isEmpty(value)) {
             return sReturn;
         }
         if (value.length() == UtilMagic.INT_FOURTEEN) {
@@ -117,7 +118,7 @@ public class DateFormatUtils {
     }
 
     static String formatDate(String date, String format) {
-        if ((null == date) || date.isEmpty()) {
+        if (TextUtils.isEmpty(date)) {
             return "";
         }
         Date dt;
@@ -162,7 +163,7 @@ public class DateFormatUtils {
             if (null == (dt = simpleDateFormatIn.parse(date, parsePosition))) {
                 return date;
             }
-            if ((null == format) || (format.trim().isEmpty())) {
+            if ((null == format) || TextUtils.isEmpty(format.trim())) {
                 simpleDateFormatOut = new SimpleDateFormat("yyyy年MM月dd日", Locale.CHINA);
             } else {
                 simpleDateFormatOut = new SimpleDateFormat(format, Locale.CHINA);
@@ -192,7 +193,7 @@ public class DateFormatUtils {
      * @return formatDate
      */
     static @NotNull String formatDate(String value) {
-        return getFormat(DATE_YEAR_MONTH_DATE_HOUR_MINUTE_SECOND_ONE).format(DateUtils.stringToDate(value, DATE_YEAR_MONTH_DATE_HOUR_MINUTE_SECOND_ONE));
+        return getFormat(DATE_YEAR_MONTH_DATE_HOUR_MINUTE_SECOND_ONE).format(Objects.requireNonNull(DateUtils.stringToDate(value, DATE_YEAR_MONTH_DATE_HOUR_MINUTE_SECOND_ONE)));
     }
 
     /**
@@ -213,7 +214,7 @@ public class DateFormatUtils {
      */
     @Contract("_ -> new")
     static @NotNull SimpleDateFormat getFormat(String format) {
-        if ((null == format) || TextUtils.isEmpty(format)) {
+        if (TextUtils.isEmpty(format)) {
             format = DATE_YEAR_MONTH_DATE_HOUR_MINUTE;
         }
         return new SimpleDateFormat(format, Locale.CHINA);

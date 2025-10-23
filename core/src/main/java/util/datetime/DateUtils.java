@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -212,7 +213,7 @@ public class DateUtils {
      */
     public static @NotNull String getCurrentHm() {
         Calendar calendar = Calendar.getInstance();
-        return calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE);
+        return (calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE));
     }
 
     /**
@@ -240,7 +241,7 @@ public class DateUtils {
      */
     public static @NotNull String addYearToDate(int year, String date, String format) {
         Date newDate = new Date();
-        if ((null != date) && !date.isEmpty()) {
+        if (!TextUtils.isEmpty(date)) {
             newDate = stringToDate(date, format);
         }
         return addYearToDate(year, newDate, format);
@@ -271,7 +272,7 @@ public class DateUtils {
      */
     public static @NotNull String addMothToDate(int month, String date, String format) {
         Date newDate = new Date();
-        if ((null != date) && !date.isEmpty()) {
+        if (!TextUtils.isEmpty(date)) {
             newDate = stringToDate(date, format);
         }
         return addMothToDate(month, newDate, format);
@@ -302,7 +303,7 @@ public class DateUtils {
      */
     public static @NotNull String addDayToDate(int day, String date, String format) {
         Date newDate = new Date();
-        if ((null != date) && !date.isEmpty()) {
+        if (!TextUtils.isEmpty(date)) {
             newDate = stringToDate(date, format);
         }
         return addDayToDate(day, newDate, format);
@@ -333,7 +334,7 @@ public class DateUtils {
      */
     public static @NotNull String addHourToDate(int hour, String date, String format) {
         Date newDate = new Date();
-        if ((null != date) && !date.isEmpty()) {
+        if (!TextUtils.isEmpty(date)) {
             newDate = stringToDate(date, format);
         }
         return addHourToDate(hour, newDate, format);
@@ -364,7 +365,7 @@ public class DateUtils {
      */
     public static @NotNull String addMinuteToDate(int minute, String date, String format) {
         Date newDate = new Date();
-        if ((null != date) && !date.isEmpty()) {
+        if (!TextUtils.isEmpty(date)) {
             newDate = stringToDate(date, format);
         }
         return addMinuteToDate(minute, newDate, format);
@@ -395,7 +396,7 @@ public class DateUtils {
      */
     public static @NotNull String addSecondToDate(int second, String date, String format) {
         Date newDate = new Date();
-        if ((null != date) && !date.isEmpty()) {
+        if (!TextUtils.isEmpty(date)) {
             newDate = stringToDate(date, format);
         }
         return addSecondToDate(second, newDate, format);
@@ -423,8 +424,9 @@ public class DateUtils {
      * @param value value
      * @return Date
      */
+    @Nullable
     private static Date stringToDate(String value) {
-        if ((null == value) || value.isEmpty()) {
+        if (TextUtils.isEmpty(value)) {
             return null;
         }
         SimpleDateFormat simpleDateFormat = DateFormatUtils.getFormat(DateFormatUtils.DATE_YEAR_MONTH_DATE_HOUR_MINUTE_SECOND_ONE);
@@ -445,8 +447,9 @@ public class DateUtils {
      * @param format 日期格式
      * @return Date
      */
+    @Nullable
     static Date stringToDate(String value, String format) {
-        if ((null == value) || value.isEmpty()) {
+        if (TextUtils.isEmpty(value)) {
             return null;
         }
         SimpleDateFormat simpleDateFormat = DateFormatUtils.getFormat(format);
@@ -694,7 +697,7 @@ public class DateUtils {
      */
     public static int compareTime(String oldTime, String newTime, int type) {
         // newTime 空默当前时
-        if ((null == newTime) || newTime.isEmpty()) {
+        if (TextUtils.isEmpty(newTime)) {
             newTime = getCurrentTimeYearMonthDayHourMinuteSecondOne();
         }
         SimpleDateFormat simpleDateFormat = DateFormatUtils.getFormat("");
@@ -765,6 +768,7 @@ public class DateUtils {
     public static @NotNull String getMonthLastDate(String date) {
         Date strDate = DateUtils.stringToDate(getMonthFirstDate(date));
         Calendar calendar = Calendar.getInstance();
+        assert strDate != null;
         calendar.setTime(strDate);
         calendar.add(Calendar.MONTH, 1);
         calendar.add(Calendar.DAY_OF_YEAR, -1);
@@ -878,7 +882,7 @@ public class DateUtils {
     public static long secondSeparate(String oldTime, String newTime) {
         long seconds = 0;
         // newTime 空默当前时
-        if ((null == newTime) || newTime.isEmpty()) {
+        if (TextUtils.isEmpty(newTime)) {
             newTime = getCurrentTimeYearMonthDayHourMinuteSecondOne();
         }
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DateFormatUtils.DATE_YEAR_MONTH_DATE_HOUR_MINUTE, Locale.US);

@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.webkit.MimeTypeMap;
 
 import androidx.annotation.NonNull;
@@ -96,7 +97,7 @@ public class OpenFileKit {
      * @param mimeType 多用途互联网邮件扩展类型
      */
     public static void openUri(Context context, @NonNull Uri uri, String mimeType) {
-        if ((null == mimeType) || mimeType.isEmpty()) {
+        if (TextUtils.isEmpty(mimeType)) {
             mimeType = "*/*";
         }
         Intent intent = new Intent(Intent.ACTION_VIEW);
