@@ -93,8 +93,8 @@ android {
         }
         // 生产环境
         product {
-            versionCode 1
-            versionName "1.0"
+            versionCode 2
+            versionName "1.251023"
             dimension "dimension"
             versionNameSuffix "-product"
             applicationId "com.zsp.today.product"
@@ -119,7 +119,7 @@ android {
             def buildTypeName = variant.buildType.name
             def versionCode = variant.versionCode
             // eg
-            // 只拿 versionName "1.0"
+            // 只拿 versionName "xxx.xxx"
             // 无 versionNameSuffix "-product"
             // 无 versionNameSuffix "-release"
             def mergedFlavorVersionName = variant.mergedFlavor.versionName
