@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Environment;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDialog;
 
 import com.zsp.core.R;
 
@@ -16,7 +17,7 @@ import java.io.File;
 import java.util.Objects;
 
 import util.handler.HandlerKit;
-import widget.dialog.materialalertdialog.MaterialAlertDialogBuilderKit;
+import widget.dialog.materialalertdialog.HintMaterialAlertDialogKit;
 import widget.dialog.materialalertdialog.ProgressMaterialAlertDialogKit;
 
 /**
@@ -50,20 +51,21 @@ public class ApkDownloadManager {
     public void execute(boolean needUpdate, boolean needForceUpdate, String fileName, String downloadUrl, String updateDescription, boolean useExternalPublicDownload) {
         // 先走需要强制更新
         if (needForceUpdate) {
-            new MaterialAlertDialogBuilderKit(appCompatActivity, R.style.ThemeOverlay_Catalog_MaterialAlertDialog_Centered_FullWidthButtons).setTitle(R.string.versionUpdate).setMessage(updateDescription + "\n" + appCompatActivity.getString(R.string.toEnsureNormalUseThisVersionMustBeUpdated)).setPositiveButton(appCompatActivity.getString(R.string.thenUpdate), (dialog, which) -> {
+            HintMaterialAlertDialogKit.getInstance().show(appCompatActivity, appCompatActivity.getString(R.string.versionUpdate), updateDescription + "\n\n" + appCompatActivity.getString(R.string.toEnsureNormalUseThisVersionMustBeUpdated), appCompatActivity.getString(R.string.thenUpdate), null, null);
+            HintMaterialAlertDialogKit.getInstance().setHintMaterialAlertDialogKitOnPositiveClickListener(alertDialog -> {
                 ProgressMaterialAlertDialogKit.getInstance().show(appCompatActivity);
                 startDownload(fileName, downloadUrl, useExternalPublicDownload);
-            }).setCancelable(false).show();
+            });
             return;
         }
         // 后走需要更新
         if (needUpdate) {
-            new MaterialAlertDialogBuilderKit(appCompatActivity, R.style.ThemeOverlay_Catalog_MaterialAlertDialog_Centered_FullWidthButtons).setTitle(R.string.versionUpdate).setMessage(updateDescription).setPositiveButton(R.string.nowUpdate, (dialog, which) -> {
+            HintMaterialAlertDialogKit.getInstance().show(appCompatActivity, appCompatActivity.getString(R.string.versionUpdate), updateDescription, appCompatActivity.getString(R.string.nowUpdate), appCompatActivity.getString(R.string.noUpdateYet), null);
+            HintMaterialAlertDialogKit.getInstance().setHintMaterialAlertDialogKitOnPositiveClickListener(alertDialog -> {
                 ProgressMaterialAlertDialogKit.getInstance().show(appCompatActivity);
                 startDownload(fileName, downloadUrl, useExternalPublicDownload);
-            }).setNegativeButton(R.string.noUpdateYet, (dialog, which) -> {
-
-            }).setCancelable(false).show();
+            });
+            HintMaterialAlertDialogKit.getInstance().setHintMaterialAlertDialogKitOnNegativeClickListener(AppCompatDialog::dismiss);
         }
     }
 
