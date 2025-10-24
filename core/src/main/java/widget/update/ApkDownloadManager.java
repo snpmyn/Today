@@ -53,6 +53,7 @@ public class ApkDownloadManager {
         if (needForceUpdate) {
             HintMaterialAlertDialogKit.getInstance().show(appCompatActivity, appCompatActivity.getString(R.string.versionUpdate), updateDescription + "\n\n" + appCompatActivity.getString(R.string.toEnsureNormalUseThisVersionMustBeUpdated), appCompatActivity.getString(R.string.thenUpdate), null, null);
             HintMaterialAlertDialogKit.getInstance().setHintMaterialAlertDialogKitOnPositiveClickListener(alertDialog -> {
+                alertDialog.dismiss();
                 ProgressMaterialAlertDialogKit.getInstance().show(appCompatActivity);
                 startDownload(fileName, downloadUrl, useExternalPublicDownload);
             });
@@ -62,6 +63,7 @@ public class ApkDownloadManager {
         if (needUpdate) {
             HintMaterialAlertDialogKit.getInstance().show(appCompatActivity, appCompatActivity.getString(R.string.versionUpdate), updateDescription, appCompatActivity.getString(R.string.nowUpdate), appCompatActivity.getString(R.string.noUpdateYet), null);
             HintMaterialAlertDialogKit.getInstance().setHintMaterialAlertDialogKitOnPositiveClickListener(alertDialog -> {
+                alertDialog.dismiss();
                 ProgressMaterialAlertDialogKit.getInstance().show(appCompatActivity);
                 startDownload(fileName, downloadUrl, useExternalPublicDownload);
             });
