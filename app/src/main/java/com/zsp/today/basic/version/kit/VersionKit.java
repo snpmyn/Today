@@ -3,6 +3,7 @@ package com.zsp.today.basic.version.kit;
 import android.text.TextUtils;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDialog;
 
 import com.google.gson.Gson;
 import com.koushikdutta.ion.Ion;
@@ -11,9 +12,9 @@ import com.zsp.today.R;
 import com.zsp.today.basic.version.bean.VersionInfoBean;
 
 import widget.dialog.bocdialog.kit.BocDialogKit;
+import widget.dialog.materialalertdialog.HintMaterialAlertDialogKit;
 import widget.ion.config.IonInitConfig;
 import widget.ion.kit.IonErrorKit;
-import widget.toast.ToastKit;
 import widget.update.ApkDownloadManager;
 
 /**
@@ -69,14 +70,25 @@ public class VersionKit {
                         String buildUpdateDescription = data.getBuildUpdateDescription();
                         new ApkDownloadManager(appCompatActivity).execute(needUpdate, needForceUpdate, "知伴.apk", downloadURL, buildUpdateDescription, true);
                     } else if (hint) {
-                        ToastKit.showShort(appCompatActivity.getString(R.string.currentTheLatestVersion));
+                        showHint(appCompatActivity, appCompatActivity.getString(R.string.currentTheLatestVersion) + "\n\n" + data.getBuildVersion());
                     }
                 } else if (hint) {
-                    ToastKit.showShort(IonErrorKit.getMessage(code));
+                    showHint(appCompatActivity, IonErrorKit.getMessage(code));
                 }
             } else if (hint) {
-                ToastKit.showShort(appCompatActivity.getString(R.string.failToObtainVersionInformation));
+                showHint(appCompatActivity, appCompatActivity.getString(R.string.failToObtainVersionInformation));
             }
         });
+    }
+
+    /**
+     * 显示提示
+     *
+     * @param appCompatActivity 活动
+     * @param message           内容
+     */
+    private static void showHint(AppCompatActivity appCompatActivity, String message) {
+        HintMaterialAlertDialogKit.getInstance().show(appCompatActivity, null, message, appCompatActivity.getString(R.string.iKnow), null, null);
+        HintMaterialAlertDialogKit.getInstance().setHintMaterialAlertDialogKitOnPositiveClickListener(AppCompatDialog::dismiss);
     }
 }
