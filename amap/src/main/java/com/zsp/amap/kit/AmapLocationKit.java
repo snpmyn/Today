@@ -6,10 +6,10 @@ import android.content.Context;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
-import com.zsp.amap.R;
 import com.zsp.amap.listener.AmapLocationKitListener;
 
 import java.lang.ref.WeakReference;
+import java.util.Locale;
 
 /**
  * Created on 2025/9/1.
@@ -56,7 +56,7 @@ public class AmapLocationKit {
         aMapLocationClient.setLocationListener(aMapLocation -> {
             if (null != aMapLocation) {
                 if (aMapLocation.getErrorCode() == 0) {
-                    amapLocationKitListener.locationSuccessful(aMapLocation, getLocationInfo(application, aMapLocation));
+                    amapLocationKitListener.locationSuccessful(aMapLocation, getLocationInfo(aMapLocation));
                 } else {
                     amapLocationKitListener.locationFail(aMapLocation);
                 }
@@ -121,11 +121,10 @@ public class AmapLocationKit {
     /**
      * 获取定位信息
      *
-     * @param application  应用
      * @param aMapLocation BDLocation
      * @return 定位信息
      */
-    public String getLocationInfo(Application application, AMapLocation aMapLocation) {
+    public String getLocationInfo(AMapLocation aMapLocation) {
         // 地址
         String addrStr = aMapLocation.getAddress();
         // AOI 名
@@ -137,7 +136,7 @@ public class AmapLocationKit {
         // 纬度
         double latitude = aMapLocation.getLatitude();
         // 定位信息
-        return String.format(application.getString(R.string.formatAmapLocation), addrStr, locationDescribe, longitude, latitude, aoiName);
+        return String.format(Locale.CHINA, "我在%1$s，%2$s。经度 %3$.2f，纬度 %4$.2f。附近有%5$s。", addrStr, locationDescribe, longitude, latitude, aoiName);
     }
 
     /**

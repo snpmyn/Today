@@ -8,12 +8,12 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.Poi;
-import com.zsp.bdmap.R;
 import com.zsp.bdmap.listener.BdMapLocationKitListener;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created on 2025/8/30.
@@ -63,7 +63,7 @@ public class BdMapLocationKit {
             @Override
             public void onReceiveLocation(BDLocation bdLocation) {
                 if (null != bdLocation) {
-                    bdMapLocationKitListener.onReceiveLocation(bdLocation, getLocationInfo(application, bdLocation));
+                    bdMapLocationKitListener.onReceiveLocation(bdLocation, getLocationInfo(bdLocation));
                 }
             }
         });
@@ -133,11 +133,10 @@ public class BdMapLocationKit {
     /**
      * 获取定位信息
      *
-     * @param application 应用
-     * @param bdLocation  BDLocation
+     * @param bdLocation BDLocation
      * @return 定位信息
      */
-    public String getLocationInfo(Application application, BDLocation bdLocation) {
+    public String getLocationInfo(BDLocation bdLocation) {
         // 地址
         String addrStr = bdLocation.getAddrStr();
         // 定位描述
@@ -154,7 +153,7 @@ public class BdMapLocationKit {
         }
         String poiInfo = String.join("、", poiNameList);
         // 定位信息
-        return String.format(application.getString(R.string.formatBdMapLocation), addrStr, locationDescribe, longitude, latitude, poiInfo);
+        return String.format(Locale.CHINA, "我在%1$s，%2$s。经度 %3$.2f，纬度 %4$.2f。附近有%5$s。", addrStr, locationDescribe, longitude, latitude, poiInfo);
     }
 
     /**
