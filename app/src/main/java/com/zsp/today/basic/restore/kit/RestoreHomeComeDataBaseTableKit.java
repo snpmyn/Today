@@ -46,9 +46,9 @@ public class RestoreHomeComeDataBaseTableKit {
             return;
         }
         if (null == RestoreKit.getInstance().bocLottieCommonDialog) {
-            RestoreKit.getInstance().bocLottieCommonDialog = BocDialogKit.getInstance(appCompatActivity).bocLottieCommonDialogTwo(BocLottieDialogEnum.LOADING_ONE, appCompatActivity.getString(R.string.restoreHomeComeConfig), ValueAnimator.INFINITE, null, null);
+            RestoreKit.getInstance().bocLottieCommonDialog = BocDialogKit.getInstance(appCompatActivity).bocLottieCommonDialogTwo(BocLottieDialogEnum.LOADING_ONE, appCompatActivity.getString(R.string.restoreHomeComeData), ValueAnimator.INFINITE, null, null);
         } else {
-            RestoreKit.getInstance().bocLottieCommonDialog.update(BocLottieDialogEnum.LOADING_ONE, appCompatActivity.getString(R.string.restoreHomeComeConfig), ValueAnimator.INFINITE, null);
+            RestoreKit.getInstance().bocLottieCommonDialog.update(BocLottieDialogEnum.LOADING_ONE, appCompatActivity.getString(R.string.restoreHomeComeData), ValueAnimator.INFINITE, null);
         }
         if (FileUtils.areFileExistByPath(RestoreKit.getInstance().homeComeDataBaseTableFileAbsolutePath)) {
             // 归心数据库表文件存在
@@ -58,7 +58,7 @@ public class RestoreHomeComeDataBaseTableKit {
             if (ListUtils.listIsEmpty(homeComeDataBaseTables)) {
                 // 无归心数据库表文件数据
                 // 下一步
-                next(appCompatActivity, restoreKitListener, BocLottieDialogEnum.EMPTY_ONE, appCompatActivity.getString(R.string.noHomeComeConfigAvailable));
+                next(appCompatActivity, restoreKitListener, BocLottieDialogEnum.EMPTY_ONE, appCompatActivity.getString(R.string.noHomeComeDataAvailable));
             } else {
                 // 有归心数据库表文件数据
                 // 转化存储恢复
@@ -68,13 +68,13 @@ public class RestoreHomeComeDataBaseTableKit {
                 }
                 if (LitePalKit.getInstance().multiSave(homeComeDataBaseTableList)) {
                     // 下一步
-                    next(appCompatActivity, restoreKitListener, BocLottieDialogEnum.SUCCESS_ONE, appCompatActivity.getString(R.string.homeComeConfigHasBeenRestored));
+                    next(appCompatActivity, restoreKitListener, BocLottieDialogEnum.SUCCESS_ONE, appCompatActivity.getString(R.string.homeComeDataHasBeenRestored));
                 }
             }
         } else {
             // 归心数据库表文件不存在
             // 下一步
-            next(appCompatActivity, restoreKitListener, BocLottieDialogEnum.EMPTY_ONE, appCompatActivity.getString(R.string.noHomeComeConfigAvailable));
+            next(appCompatActivity, restoreKitListener, BocLottieDialogEnum.EMPTY_ONE, appCompatActivity.getString(R.string.noHomeComeDataAvailable));
         }
     }
 
