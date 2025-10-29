@@ -497,13 +497,13 @@ public class DatePickerDialog extends Dialog {
             int selectIndex = (currentYear - selectYear);
             if (selectIndex >= 0 && selectIndex < gridLayout.getChildCount()) {
                 View selectedView = gridLayout.getChildAt(selectIndex);
-                if (selectedView != null) {
+                if (null != selectedView) {
                     // 获取选中 View 的实际位置
                     int viewTop = selectedView.getTop();
                     int viewHeight = selectedView.getHeight();
                     int visibleHeight = scrollView.getHeight();
                     // 让选中项在可见区域居中
-                    int scrollY = viewTop - (visibleHeight / 2) + (viewHeight / 2);
+                    int scrollY = (viewTop - (visibleHeight / 2) + (viewHeight / 2));
                     scrollView.scrollTo(0, Math.max(0, scrollY));
                 }
             }
@@ -536,14 +536,14 @@ public class DatePickerDialog extends Dialog {
         gridLayout.requestLayout();
         // 等待布局完成后滚动到选中位置
         scrollView.post(() -> scrollView.post(() -> {
-            int selectIndex = selectMonth - 1;
+            int selectIndex = (selectMonth - 1);
             if (selectIndex >= 0 && selectIndex < gridLayout.getChildCount()) {
                 View selectedView = gridLayout.getChildAt(selectIndex);
-                if (selectedView != null) {
+                if (null != selectedView) {
                     int viewTop = selectedView.getTop();
                     int viewHeight = selectedView.getHeight();
                     int visibleHeight = scrollView.getHeight();
-                    int scrollY = viewTop - (visibleHeight / 2) + (viewHeight / 2);
+                    int scrollY = (viewTop - (visibleHeight / 2) + (viewHeight / 2));
                     scrollView.scrollTo(0, Math.max(0, scrollY));
                 }
             }
@@ -595,10 +595,10 @@ public class DatePickerDialog extends Dialog {
             int rowIndex = (selectDay - 1) / columnCount;
             int itemHeight = (calendarType == CalendarType.SOLAR) ? DensityUtils.dipToPxByInt(45) : DensityUtils.dipToPxByInt(50);
             int itemMargin = DensityUtils.dipToPxByInt(8);
-            int totalItemHeight = itemHeight + itemMargin;
+            int totalItemHeight = (itemHeight + itemMargin);
             int visibleHeight = scrollView.getHeight();
             if (visibleHeight > 0) {
-                int scrollY = (rowIndex * totalItemHeight) - (visibleHeight / 3);
+                int scrollY = ((rowIndex * totalItemHeight) - (visibleHeight / 3));
                 scrollView.scrollTo(0, Math.max(0, scrollY));
             }
         }));
@@ -739,10 +739,10 @@ public class DatePickerDialog extends Dialog {
         this.selectMonth = month;
         this.selectDay = day;
         this.calendarType = calendarType;
-        if (calendarTypeMb != null) {
+        if (null != calendarTypeMb) {
             calendarTypeMb.setText((calendarType == CalendarType.SOLAR) ? CalendarType.LUNAR.getName() : CalendarType.SOLAR.getName());
         }
-        if (currentDateTv != null) {
+        if (null != currentDateTv) {
             updateDateDisplay();
         }
     }
