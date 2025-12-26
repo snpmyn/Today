@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import fragmentation.configure.FragmentationInitConfig;
 import litepal.configure.LitePalInitConfig;
 import litepal.kit.LitePalKit;
 import lottie.configure.LottieInitConfig;
@@ -144,8 +143,6 @@ public class App extends BasePoolApp {
         CrashManager.getInstance(this, Folder.CRASH);
         // LitePal 初始化配置
         LitePalInitConfig.initLitePal(this);
-        // Fragmentation 初始化配置
-        FragmentationInitConfig.initFragmentation(debug());
         // Lottie 初始化配置
         LottieInitConfig.initLottie(this, Folder.LOTTIE_NETWORK_CACHE, true, false);
         // 闪屏页配套元件
