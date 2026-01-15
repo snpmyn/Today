@@ -20,13 +20,13 @@ public class RxBusConstant {
      */
     public static final int MAIN_ACTIVITY_$_SHOW_BOTTOM_NAVIGATION_VIEW_CODE = 0x02;
     /**
-     * 首页子碎片（刷新菜单）
+     * 首页碎片（刷新菜单）
      */
-    public static final String HOME_PAGE_CHILD_FRAGMENT_$_REFRESH_MENU = "HomePageChildFragmentRefreshMenu";
+    public static final String HOME_PAGE_FRAGMENT_$_REFRESH_MENU = "HomePageFragmentRefreshMenu";
     /**
-     * 首页子碎片（刷新菜单码）
+     * 首页碎片（刷新菜单码）
      */
-    public static final int HOME_PAGE_CHILD_FRAGMENT_$_REFRESH_MENU_CODE = 0x03;
+    public static final int HOME_PAGE_FRAGMENT_$_REFRESH_MENU_CODE = 0x03;
     /**
      * 账目主页和二页（刷新账目）
      */
