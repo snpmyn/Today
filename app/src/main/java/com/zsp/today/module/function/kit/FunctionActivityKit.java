@@ -57,7 +57,7 @@ public class FunctionActivityKit {
         // 单个更新
         if (LitePalKit.getInstance().singleUpdate(functionDataBaseTableUpdate, functionDataBaseTableOld.getBaseObjectId()) != 0) {
             // 刷新菜单
-            RxBus.get().post(RxBusConstant.HOME_PAGE_CHILD_FRAGMENT_$_REFRESH_MENU, RxBusConstant.HOME_PAGE_CHILD_FRAGMENT_$_REFRESH_MENU_CODE);
+            RxBus.get().post(RxBusConstant.HOME_PAGE_FRAGMENT_$_REFRESH_MENU, RxBusConstant.HOME_PAGE_FRAGMENT_$_REFRESH_MENU_CODE);
         }
     }
 }
