@@ -2,11 +2,14 @@ package com.zsp.today.kit;
 
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager2.widget.ViewPager2;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.zsp.today.MainActivityFragmentStateAdapter;
 import com.zsp.today.R;
 import com.zsp.today.basic.restore.kit.RestoreKit;
 import com.zsp.today.basic.version.kit.VersionKit;
@@ -30,6 +33,17 @@ import widget.permissionx.listener.PermissionxKitListener;
  * @desc 主页配套元件
  */
 public class MainActivityKit {
+    /**
+     * 开始页面
+     *
+     * @param appCompatActivity 活动
+     * @param viewPager2        ViewPager2
+     */
+    public void startPage(AppCompatActivity appCompatActivity, @NonNull ViewPager2 viewPager2) {
+        viewPager2.setUserInputEnabled(false);
+        viewPager2.setAdapter(new MainActivityFragmentStateAdapter(appCompatActivity));
+    }
+
     /**
      * 执行
      *
