@@ -51,9 +51,9 @@ import widget.kotlin.banner.view.BannerView;
  * Created on 2021/9/15
  *
  * @author zsp
- * @desc 首页子碎片配套元件
+ * @desc 首页碎片配套元件
  */
-public class HomePageChildFragmentKit {
+public class HomePageFragmentKit {
     /**
      * 初始化标题
      *
@@ -143,7 +143,11 @@ public class HomePageChildFragmentKit {
      */
     public void carousel(AppCompatActivity appCompatActivity, RecyclerView recyclerView) {
         // 轮播条目集
-        List<CarouselItem> carouselItemList = new ArrayList<>(9);
+        List<CarouselItem> carouselItemList = new ArrayList<>(13);
+        carouselItemList.add(new CarouselItem(R.drawable.banner_10, "banner_10", "冈仁波齐"));
+        carouselItemList.add(new CarouselItem(R.drawable.banner_11, "banner_11", "珠穆朗玛"));
+        carouselItemList.add(new CarouselItem(R.drawable.banner_12, "banner_12", "康定舞女"));
+        carouselItemList.add(new CarouselItem(R.drawable.banner_13, "banner_13", "康定舞女"));
         carouselItemList.add(new CarouselItem(R.drawable.banner_1, "banner_1", "上木居村"));
         carouselItemList.add(new CarouselItem(R.drawable.banner_2, "banner_2", "火星一号公路"));
         carouselItemList.add(new CarouselItem(R.drawable.banner_3, "banner_3", "那拉提河谷草原"));
@@ -182,8 +186,15 @@ public class HomePageChildFragmentKit {
             // 只存可显示主页菜单
             HomePageMenuEnum[] homePageMenuEnums = HomePageMenuEnum.values();
             List<FunctionDataBaseTable> functionDataBaseTableList = new ArrayList<>(homePageMenuEnums.length);
+            // 可以显示
+            boolean canShow;
             for (HomePageMenuEnum homePageMenuEnum : homePageMenuEnums) {
-                if (homePageMenuEnum.getMenuShow()) {
+                if (TextUtils.equals(homePageMenuEnum.getMenuName(), "知林")) {
+                    canShow = App.getAppInstance().tag();
+                } else {
+                    canShow = homePageMenuEnum.getMenuShow();
+                }
+                if (canShow) {
                     functionDataBaseTableList.add(new FunctionDataBaseTable(App.getAppInstance().getPhoneNumber(), null, homePageMenuEnum.getMenuId(), homePageMenuEnum.getMenuIconResName(), homePageMenuEnum.getMenuName(), true));
                 }
             }
@@ -201,7 +212,16 @@ public class HomePageChildFragmentKit {
      * @param functionDataBaseTableList 功能数据库表集
      * @return 需要保存否
      */
-    public static boolean needSave(List<FunctionDataBaseTable> functionDataBaseTableList) {
+    public static boolean needSave(@NonNull List<FunctionDataBaseTable> functionDataBaseTableList) {
+        if (functionDataBaseTableList.isEmpty()) {
+            return true;
+        }
+        // 手机号
+        // 功能数据库表手机号字段
+        // 不一致
+        if (!TextUtils.equals(App.getAppInstance().getPhoneNumber(), functionDataBaseTableList.get(0).getPhoneNumber())) {
+            return true;
+        }
         // 可显示主页菜单枚举集
         List<HomePageMenuEnum> homePageMenuEnumsCanShow = new ArrayList<>();
         for (HomePageMenuEnum homePageMenuEnum : HomePageMenuEnum.values()) {

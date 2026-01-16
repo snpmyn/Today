@@ -11,7 +11,6 @@
     <string name="check">检查</string>
     <string name="voice">心声</string>
     <string name="pause">暂停</string>
-    <string name="camera">拍照</string>
     <string name="renMinBi">¥</string>
     <string name="resume">恢复</string>
     <string name="amount">金额</string>
@@ -71,7 +70,6 @@
     <string name="everydayAnalysis">每日分析</string>
     <string name="modifySuccessful">修改成功</string>
     <string name="returnToThisYear">回到今年</string>
-    <string name="selectFromAlbum">从相册选择</string>
     <string name="smsDeliverFail">短信送达失败</string>
     <string name="smsHasBeenSent">短信发送成功</string>
     <string name="updatingLocation">更新定位中</string>

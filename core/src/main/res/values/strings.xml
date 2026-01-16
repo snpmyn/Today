@@ -73,8 +73,6 @@
     <string name="toEnsureNormalUseThisVersionMustBeUpdated">为保证正常使用 该版本必须更新</string>
     <string name="userAgreementAndPrivacyPolicyContent">审慎阅读《用户协议》与《隐私政策》条款内容</string>
     <string name="youNeedToAllowNecessaryPermissionInSettingManually">你需要手动在设置中授予该权限</string>
-    <!--fragmentation-->
-    <string name="fragmentationStackView">栈视图 (StackView)</string>
     <!--banner-->
     <string name="bannerNeedAndOnlySetLinearLayoutManagerType">需且只能设线性布局管理器类型</string>
     <string name="bannerContextCorrespondsToTheActivityInstance">上下文对应 Activity 实例</string>
