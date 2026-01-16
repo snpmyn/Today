@@ -1,4 +1,4 @@
-package com.zsp.today.kit;
+package com.zsp.today.main.kit;
 
 import android.view.View;
 
@@ -9,11 +9,11 @@ import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.zsp.today.MainActivityFragmentStateAdapter;
 import com.zsp.today.R;
 import com.zsp.today.basic.restore.kit.RestoreKit;
 import com.zsp.today.basic.version.kit.VersionKit;
 import com.zsp.today.basic.worker.AccountNotificationWorker;
+import com.zsp.today.main.adapter.MainActivityFragmentStateAdapter;
 
 import java.util.concurrent.TimeUnit;
 
