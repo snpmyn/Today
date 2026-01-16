@@ -68,13 +68,13 @@ public class MineFragment extends BasePoolFragment implements View.OnClickListen
     }
 
     /**
-     * 第一次可见
+     * 头次可见
      * <p>
      * 只调一次
      * <p>
      * 网络请求
      * 耗时任务
-     * 初始化数据
+     * 初始数据
      */
     @Override
     protected void onFragmentFirstVisible() {
