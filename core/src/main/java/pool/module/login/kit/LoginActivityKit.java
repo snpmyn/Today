@@ -12,7 +12,6 @@ import java.util.Objects;
 import pool.module.login.listener.LoginActivityListener;
 import pool.value.PoolConstant;
 import util.mmkv.MmkvKit;
-import util.number.NumberFormatUtils;
 import util.validate.RegularUtils;
 
 /**
@@ -28,7 +27,7 @@ public class LoginActivityKit {
      * @param textInputEditTextPhoneNumber 手机号框
      */
     public void phoneNumberPreShow(@NonNull TextInputEditText textInputEditTextPhoneNumber) {
-        textInputEditTextPhoneNumber.setText(NumberFormatUtils.formatPhoneNumberTwo(MmkvKit.defaultMmkv().decodeString(PoolConstant.LOGIN_$_PHONE_NUMBER)));
+        textInputEditTextPhoneNumber.setText(MmkvKit.defaultMmkv().decodeString(PoolConstant.LOGIN_$_PHONE_NUMBER));
         textInputEditTextPhoneNumber.setSelection(Objects.requireNonNull(textInputEditTextPhoneNumber.getText()).length());
     }
 
@@ -44,9 +43,8 @@ public class LoginActivityKit {
         String phoneNumber = Objects.requireNonNull(textInputEditTextPhoneNumber.getText()).toString().replace(" ", "");
         // 手机号（精确）
         if (RegularUtils.allMobile(phoneNumber)) {
-            String formatPhoneNumber = NumberFormatUtils.formatPhoneNumberTwo(phoneNumber);
-            textInputEditTextPhoneNumber.setText(formatPhoneNumber);
-            loginActivityListener.handleWithPhoneNumber(appCompatActivity, formatPhoneNumber);
+            textInputEditTextPhoneNumber.setText(phoneNumber);
+            loginActivityListener.handleWithPhoneNumber(appCompatActivity, phoneNumber);
         } else {
             textInputLayoutInputPhoneNumber.setError(appCompatActivity.getString(R.string.inputCorrectPhoneNumber));
         }
