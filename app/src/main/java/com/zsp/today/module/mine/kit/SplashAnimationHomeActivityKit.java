@@ -1,5 +1,7 @@
 package com.zsp.today.module.mine.kit;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -8,10 +10,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.zsp.today.R;
+import com.zsp.today.module.mine.SplashAnimationDetailActivity;
 import com.zsp.today.module.mine.adapter.SplashAnimationListAdapter;
 import com.zsp.today.module.mine.bean.SplashAnimationListBean;
-import com.zsp.today.module.mine.fragment.SplashAnimationDetailFragment;
-import com.zsp.today.module.mine.fragment.SplashAnimationHomeFragment;
+import com.zsp.today.module.splash.SplashConstant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +21,7 @@ import java.util.Objects;
 
 import pool.application.BasePoolApp;
 import pool.value.PoolConstant;
+import util.intent.IntentJump;
 import util.mmkv.MmkvKit;
 import widget.dialog.bocdialog.kit.BocDialogKit;
 import widget.dialog.bocdialog.lottie.bean.BocLottieDialogEnum;
@@ -32,18 +35,17 @@ import widget.status.manager.StatusManager;
  * Created on 2022/5/7
  *
  * @author zsp
- * @desc 闪屏动画主页碎片配套元件
+ * @desc 闪屏动画主页配套元件
  */
-public class SplashAnimationHomeFragmentKit {
+public class SplashAnimationHomeActivityKit {
     /**
      * 展示闪屏动画
      *
-     * @param appCompatActivity           活动
-     * @param recyclerView                控件
-     * @param statusManager               状态管理器
-     * @param splashAnimationHomeFragment 闪屏动画主页碎片
+     * @param appCompatActivity 活动
+     * @param recyclerView      控件
+     * @param statusManager     状态管理器
      */
-    public void displaySplashAnimation(AppCompatActivity appCompatActivity, RecyclerView recyclerView, @NonNull StatusManager statusManager, SplashAnimationHomeFragment splashAnimationHomeFragment) {
+    public void displaySplashAnimation(AppCompatActivity appCompatActivity, RecyclerView recyclerView, @NonNull StatusManager statusManager) {
         // 状态判断
         StatusManagerKit.statusJudge(statusManager, true, null);
         // 数据
@@ -56,7 +58,7 @@ public class SplashAnimationHomeFragmentKit {
         RecyclerViewConfigure recyclerViewConfigure = new RecyclerViewConfigure(appCompatActivity, recyclerView);
         recyclerViewConfigure.gridLayout(2, 12, true, true, false);
         // 适配器
-        SplashAnimationListAdapter splashAnimationListAdapter = getSplashAnimationListAdapter(appCompatActivity, splashAnimationHomeFragment, splashAnimationListBeanList);
+        SplashAnimationListAdapter splashAnimationListAdapter = getSplashAnimationListAdapter(appCompatActivity, splashAnimationListBeanList);
         // 状态判断
         StatusManagerKit.statusJudge(statusManager, false, splashAnimationListBeanList);
         // 展示
@@ -67,19 +69,22 @@ public class SplashAnimationHomeFragmentKit {
      * 获取闪屏动画列表适配器
      *
      * @param appCompatActivity           活动
-     * @param splashAnimationHomeFragment 闪屏动画主页碎片
      * @param splashAnimationListBeanList 闪屏动画列表数据集
      * @return 闪屏动画列表适配器
      */
     @NonNull
-    private SplashAnimationListAdapter getSplashAnimationListAdapter(AppCompatActivity appCompatActivity, SplashAnimationHomeFragment splashAnimationHomeFragment, List<SplashAnimationListBean> splashAnimationListBeanList) {
+    private SplashAnimationListAdapter getSplashAnimationListAdapter(AppCompatActivity appCompatActivity, List<SplashAnimationListBean> splashAnimationListBeanList) {
         SplashAnimationListAdapter splashAnimationListAdapter = new SplashAnimationListAdapter(appCompatActivity, 2, 144);
         splashAnimationListAdapter.setSplashAnimationData(splashAnimationListBeanList);
         splashAnimationListAdapter.setOnRecyclerViewOnItemClickFullScreenListener(new OnRecyclerViewOnItemClickListener() {
             @Override
             public <T> void onItemClick(View view, int position, T t) {
                 SplashAnimationListBean splashAnimationListBean = (SplashAnimationListBean) t;
-                splashAnimationHomeFragment.start(SplashAnimationDetailFragment.newInstance(splashAnimationListBean.getResName()));
+                Bundle bundle = new Bundle();
+                bundle.putString(SplashConstant.SPLASH_ANIMATION_HOME_FRAGMENT_$_RES_NAME, splashAnimationListBean.getResName());
+                Intent intent = new Intent();
+                intent.putExtra(SplashConstant.SPLASH_ANIMATION_HOME_FRAGMENT_$_RES_NAME, bundle);
+                IntentJump.getInstance().jumpWithAnimation(intent, appCompatActivity, false, SplashAnimationDetailActivity.class, 0, 0);
             }
         });
         return splashAnimationListAdapter;
