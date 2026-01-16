@@ -5,8 +5,8 @@ import android.os.Build;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.color.DynamicColors;
-import com.zsp.today.MainActivity;
 import com.zsp.today.application.App;
+import com.zsp.today.main.MainActivity;
 import com.zsp.today.module.login.UserDataBaseTable;
 import com.zsp.today.module.setting.kit.SharedPreferencesKit;
 import com.zsp.youmeng.UmKit;
