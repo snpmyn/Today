@@ -3,10 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/splashAnimationHomeFragmentMt"
+        android:id="@+id/splashAnimationHomeActivityMt"
         style="@style/Widget.Material3.Toolbar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
@@ -16,7 +17,7 @@
         app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/splashAnimationHomeFragmentRv"
+        android:id="@+id/splashAnimationHomeActivityRv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none" />

@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".MainActivity">
+    tools:context=".main.MainActivity">
 
-    <FrameLayout
-        android:id="@+id/mainActivityFl"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/mainActivityVp2"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0"
         app:layout_constraintBottom_toTopOf="@+id/mainActivityBnv"
