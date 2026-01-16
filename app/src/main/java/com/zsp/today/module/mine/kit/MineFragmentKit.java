@@ -18,14 +18,12 @@ import com.zsp.today.application.App;
 import com.zsp.today.basic.restore.kit.RestoreKit;
 import com.zsp.today.basic.restore.value.RestoreConstant;
 import com.zsp.today.basic.value.PublicConstant;
-import com.zsp.today.basic.value.RxBusConstant;
 import com.zsp.today.basic.version.kit.VersionKit;
 import com.zsp.today.module.account.database.AccountDataBaseTable;
 import com.zsp.today.module.dangerous.database.DangerousDataBaseTable;
 import com.zsp.today.module.homecome.database.HomeComeDataBaseTable;
 import com.zsp.today.module.login.UserDataBaseTable;
-import com.zsp.today.module.mine.fragment.MineChildFragment;
-import com.zsp.today.module.mine.fragment.SplashAnimationHomeFragment;
+import com.zsp.today.module.mine.SplashAnimationHomeActivity;
 import com.zsp.today.module.setting.SettingActivity;
 import com.zsp.youmeng.UmKit;
 
@@ -35,8 +33,8 @@ import java.util.List;
 import litepal.kit.LitePalKit;
 import pool.module.login.LoginActivity;
 import util.cache.CacheManager;
+import util.intent.IntentJump;
 import util.mmkv.MmkvKit;
-import util.rxbus.RxBus;
 import util.timer.TimerKit;
 import widget.adapttemplate.bean.MenuBean;
 import widget.adapttemplate.kit.MenuAdapterKit;
@@ -56,9 +54,9 @@ import widget.transition.kit.TransitionKit;
  * Created on 2021/2/1
  *
  * @author zsp
- * @desc 我的子碎片配套元件
+ * @desc 我的碎片配套元件
  */
-public class MineChildFragmentKit {
+public class MineFragmentKit {
     /**
      * BOC Lottie 普通对话框
      */
@@ -84,10 +82,9 @@ public class MineChildFragmentKit {
      * 展示
      *
      * @param appCompatActivity 活动
-     * @param mineChildFragment 我的子碎片
      * @param recyclerView      控件
      */
-    public void display(@NonNull AppCompatActivity appCompatActivity, MineChildFragment mineChildFragment, RecyclerView recyclerView) {
+    public void display(@NonNull AppCompatActivity appCompatActivity, RecyclerView recyclerView) {
         // 数据
         List<MenuBean> moduleBeanList = new ArrayList<>(7);
         moduleBeanList.add(new MenuBean(1, R.drawable.ic_start_animation_cos_24dp, appCompatActivity.getString(R.string.startAnimation)));
@@ -99,7 +96,7 @@ public class MineChildFragmentKit {
         moduleBeanList.add(new MenuBean(7, R.drawable.ic_log_out_cos_24dp, appCompatActivity.getString(R.string.logOut)));
         // 模块适配器配套元件
         MenuAdapterKit menuAdapterKit = new MenuAdapterKit();
-        menuAdapterKit.display(appCompatActivity, recyclerView, moduleBeanList, 3, 12, 48, false, (view, menuBean) -> distribute(appCompatActivity, view, mineChildFragment, menuBean.getMenuId()));
+        menuAdapterKit.display(appCompatActivity, recyclerView, moduleBeanList, 3, 12, 48, false, (view, menuBean) -> distribute(appCompatActivity, view, menuBean.getMenuId()));
     }
 
     /**
@@ -107,15 +104,13 @@ public class MineChildFragmentKit {
      *
      * @param appCompatActivity 活动
      * @param view              视图
-     * @param mineChildFragment 我的子碎片
      * @param functionId        功能 ID
      */
-    private void distribute(AppCompatActivity appCompatActivity, View view, MineChildFragment mineChildFragment, int functionId) {
+    private void distribute(AppCompatActivity appCompatActivity, View view, int functionId) {
         switch (functionId) {
             // 启动动画
             case 1:
-                RxBus.get().post(RxBusConstant.MAIN_ACTIVITY_$_BOTTOM_NAVIGATION_VIEW, RxBusConstant.MAIN_ACTIVITY_$_HIDE_BOTTOM_NAVIGATION_VIEW_CODE);
-                mineChildFragment.start(SplashAnimationHomeFragment.newInstance());
+                IntentJump.getInstance().jumpWithAnimation(null, appCompatActivity, false, SplashAnimationHomeActivity.class, 0, 0);
                 break;
             // 重置数据
             case 2:
