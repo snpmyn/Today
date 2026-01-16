@@ -11,6 +11,8 @@ import util.value.UtilMagic;
  *
  * @author zsp
  * @desc 数字格式化工具类
+ * <p>
+ * 暂无引用
  */
 public class NumberFormatUtils {
     /**
