@@ -103,7 +103,7 @@ public class AddAccountActivityKit {
     /**
      * 添加账目
      * <p>
-     * 场景一（首页子碎片进入添加账目页）
+     * 场景一（首页碎片进入添加账目页）
      * 场景二（账目详情页添加模式下进入添加账目页）
      *
      * @param appCompatActivity                    活动
@@ -203,12 +203,12 @@ public class AddAccountActivityKit {
      * 提示和刷新账目
      * <p>
      * 场景一
-     * 首页子碎片进入添加账目页
-     * 只需刷新首页子碎片账目
+     * 首页碎片进入添加账目页
+     * 只需刷新首页碎片账目
      * <p>
      * 场景二
      * 账目详情页（添加模式、修改模式）进入添加账目页
-     * 同时刷新首页子碎片和账目详情页账目
+     * 同时刷新首页碎片和账目详情页账目
      *
      * @param appCompatActivity 活动
      */
