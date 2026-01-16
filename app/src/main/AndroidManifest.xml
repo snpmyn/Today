@@ -75,7 +75,7 @@
         <activity android:name=".module.account.AccountSecondActivity" />
         <activity android:name=".module.account.AccountHomeActivity" />
         <activity android:name=".module.function.FunctionActivity" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".main.MainActivity" />
         <activity android:name="pool.module.login.LoginActivity" />
         <activity android:name="pool.module.login.UserAgreementAndPrivacyPolicyActivity" />
         <activity
