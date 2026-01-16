@@ -1,23 +1,22 @@
-package com.zsp.today;
+package com.zsp.today.main;
 
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.zsp.today.BuildConfig;
+import com.zsp.today.R;
 import com.zsp.today.basic.service.PeriodicService;
 import com.zsp.today.basic.service.PeriodicServiceConnection;
 import com.zsp.today.basic.value.RxBusConstant;
-import com.zsp.today.kit.MainActivityKit;
-import com.zsp.today.module.homepage.HomePageFragment;
-import com.zsp.today.module.mine.MineFragment;
+import com.zsp.today.main.kit.MainActivityKit;
 
 import org.jetbrains.annotations.NotNull;
 
 import pool.base.BasePoolActivity;
-import pool.base.BasePoolFragment;
-import timber.log.Timber;
 import util.log.LogUtils;
 import util.rxbus.annotation.Subscribe;
 import util.rxbus.annotation.Tag;
@@ -32,15 +31,9 @@ import widget.transition.kit.TransitionKit;
  * @date: 2025/7/30 11:18
  * @version: v 1.0
  */
-public class MainActivity extends BasePoolActivity implements BasePoolFragment.OnBackToFirstListener {
+public class MainActivity extends BasePoolActivity {
+    private ViewPager2 mainActivityVp2;
     private BottomNavigationView mainActivityBnv;
-    public static final int FIRST = 0;
-    public static final int SECOND = 1;
-    private final BasePoolFragment[] supportFragments = new BasePoolFragment[2];
-    /**
-     * Fragment
-     */
-    private int prePosition;
     /**
      * 主页配套元件
      */
@@ -71,6 +64,7 @@ public class MainActivity extends BasePoolActivity implements BasePoolFragment.O
      */
     @Override
     protected void stepUi() {
+        mainActivityVp2 = findViewById(R.id.mainActivityVp2);
         mainActivityBnv = findViewById(R.id.mainActivityBnv);
         mainActivityBnv.setItemIconTintList(null);
     }
@@ -96,12 +90,20 @@ public class MainActivity extends BasePoolActivity implements BasePoolFragment.O
      */
     @Override
     protected void setListener() {
-        mainActivityBnv.setOnItemSelectedListener(item -> {
-            int itemId = item.getItemId();
+        // ViewPager2
+        mainActivityVp2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                mainActivityBnv.getMenu().getItem(position).setChecked(true);
+            }
+        });
+        // BottomNavigationView
+        mainActivityBnv.setOnItemSelectedListener(menuItem -> {
+            int itemId = menuItem.getItemId();
             if (itemId == com.zsp.core.R.id.bottomNavigationViewMenuHomePage) {
-                showHideFragmentExecute(0, prePosition);
+                mainActivityVp2.setCurrentItem(0, false);
             } else if (itemId == com.zsp.core.R.id.bottomNavigationViewMenuMine) {
-                showHideFragmentExecute(1, prePosition);
+                mainActivityVp2.setCurrentItem(1, false);
             }
             return true;
         });
@@ -112,51 +114,14 @@ public class MainActivity extends BasePoolActivity implements BasePoolFragment.O
      */
     @Override
     protected void startLogic() {
-        // Fragment 显示
-        fragmentShow();
+        // 开始页面
+        mainActivityKit.startPage(this, mainActivityVp2);
         // 执行
         mainActivityKit.execute(this);
         // 开始
         if (BuildConfig.DEBUG) {
             ServiceKit.getInstance().start(this, periodicServiceConnection, PeriodicService.class);
         }
-    }
-
-    /**
-     * Fragment 显示
-     */
-    private void fragmentShow() {
-        BasePoolFragment firstFragment = findFragment(HomePageFragment.class);
-        if (null == firstFragment) {
-            supportFragments[FIRST] = HomePageFragment.newInstance();
-            supportFragments[SECOND] = MineFragment.newInstance();
-            loadMultipleRootFragment(R.id.mainActivityFl, FIRST, supportFragments[FIRST], supportFragments[SECOND]);
-        } else {
-            // 此处库已做 Fragment 恢复（无需额外处理，无重叠问题）
-            // 此处需拿到 mFragments 引用
-            supportFragments[FIRST] = firstFragment;
-            supportFragments[SECOND] = findFragment(MineFragment.class);
-        }
-    }
-
-    private void clickShow(int position, int prePosition) {
-        Timber.d("show %s hide %s ", position, prePosition);
-    }
-
-    public void showHideFragmentExecute(int position, int prePosition) {
-        clickShow(position, prePosition);
-        showHideFragment(supportFragments[position], supportFragments[prePosition]);
-        this.prePosition = position;
-    }
-
-    /**
-     * 回第一 Fragment
-     */
-    @Override
-    public void onBackToFirstFragment() {
-        mainActivityBnv.getMenu().findItem(com.zsp.core.R.id.bottomNavigationViewMenuHomePage).setChecked(true);
-        showHideFragmentExecute(0, prePosition);
-        prePosition = 0;
     }
 
     @Subscribe(thread = EventThread.MAIN_THREAD, tags = {@Tag(RxBusConstant.MAIN_ACTIVITY_$_BOTTOM_NAVIGATION_VIEW)})
