@@ -5,10 +5,10 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.jetbrains.annotations.NotNull;
 
-import fragmentation.support.SupportActivity;
 import util.edittext.EditTextUtils;
 import util.keyboard.KeyboardUtils;
 import util.rxbus.RxBus;
@@ -31,7 +31,7 @@ import util.view.ViewUtils;
  * {@link #setListener()}
  * {@link #startLogic()}
  */
-public abstract class BasePoolActivity extends SupportActivity {
+public abstract class BasePoolActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
