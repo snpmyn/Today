@@ -1,7 +1,6 @@
 package com.zsp.today.module.homepage.bean;
 
 import com.zsp.today.R;
-import com.zsp.today.application.App;
 
 /**
  * Created on 2022/2/8
@@ -37,7 +36,7 @@ public enum HomePageMenuEnum {
     /**
      * 知林
      */
-    ZHI_LIN(7, R.drawable.ic_home_page_menu_zhi_lin_cos_24dp, "HomePageMenuZhiLin@One", "知林", App.getAppInstance().tag());
+    ZHI_LIN(7, R.drawable.ic_home_page_menu_zhi_lin_cos_24dp, "HomePageMenuZhiLin@One", "知林", true);
     /**
      * 菜单 ID
      */
