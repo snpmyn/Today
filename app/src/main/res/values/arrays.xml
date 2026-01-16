@@ -1,8 +1,6 @@
 <resources>
     <!--账目-->
     <string-array name="year">
-        <item>2024</item>
-        <item>2025</item>
         <item>2026</item>
         <item>2027</item>
         <item>2028</item>
