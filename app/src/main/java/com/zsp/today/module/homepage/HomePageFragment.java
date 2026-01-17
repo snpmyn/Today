@@ -134,7 +134,7 @@ public class HomePageFragment extends BasePoolFragment {
     @Subscribe(thread = EventThread.MAIN_THREAD, tags = {@Tag(RxBusConstant.HOME_PAGE_FRAGMENT_$_REFRESH_MENU)})
     public void homePageFragmentRefreshAccount(Integer integer) {
         if (integer == RxBusConstant.HOME_PAGE_FRAGMENT_$_REFRESH_MENU_CODE) {
-            homePageFragmentKit.functionDataBaseTable(baseLazyFragmentAppCompatActivity, homePageFragmentRv);
+            homePageFragmentKit.displayFunctionDataBaseTable(baseLazyFragmentAppCompatActivity, homePageFragmentRv);
         }
     }
 
