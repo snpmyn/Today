@@ -212,16 +212,7 @@ public class HomePageFragmentKit {
      * @param functionDataBaseTableList 功能数据库表集
      * @return 需要保存否
      */
-    public static boolean needSave(@NonNull List<FunctionDataBaseTable> functionDataBaseTableList) {
-        if (functionDataBaseTableList.isEmpty()) {
-            return true;
-        }
-        // 手机号
-        // 功能数据库表手机号字段
-        // 不一致
-        if (!TextUtils.equals(App.getAppInstance().getPhoneNumber(), functionDataBaseTableList.get(0).getPhoneNumber())) {
-            return true;
-        }
+    public static boolean needSave(List<FunctionDataBaseTable> functionDataBaseTableList) {
         // 可显示主页菜单枚举集
         List<HomePageMenuEnum> homePageMenuEnumsCanShow = new ArrayList<>();
         for (HomePageMenuEnum homePageMenuEnum : HomePageMenuEnum.values()) {
@@ -262,7 +253,10 @@ public class HomePageFragmentKit {
                 return true;
             }
         }
-        return false;
+        // 手机号
+        // 功能数据库表手机号字段
+        // 不一致
+        return !TextUtils.equals(App.getAppInstance().getPhoneNumber(), functionDataBaseTableList.get(0).getPhoneNumber());
     }
 
     /**
@@ -271,7 +265,7 @@ public class HomePageFragmentKit {
      * @param appCompatActivity 活动
      * @param recyclerView      控件
      */
-    private void displayFunctionDataBaseTable(AppCompatActivity appCompatActivity, RecyclerView recyclerView) {
+    public void displayFunctionDataBaseTable(AppCompatActivity appCompatActivity, RecyclerView recyclerView) {
         // 获取主页菜单图标资源 ID 集
         Map<String, Integer> homePageMenuIconResIdMap = getHomePageMenuIconResIdMap();
         // 获取功能数据库表可显数据集
