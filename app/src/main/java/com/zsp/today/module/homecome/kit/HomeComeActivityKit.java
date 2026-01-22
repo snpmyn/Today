@@ -85,7 +85,7 @@ public class HomeComeActivityKit {
         carouselItemList.add(new CarouselItem(R.drawable.home_come_1, "home_come_1", "晨光谷"));
         carouselItemList.add(new CarouselItem(R.drawable.home_come_2, "home_come_2", "孤影峰"));
         carouselItemList.add(new CarouselItem(R.drawable.home_come_3, "home_come_3", "余晖线"));
-        carouselItemList.add(new CarouselItem(R.drawable.home_come_4, "home_come_4,", "无尽行"));
+        carouselItemList.add(new CarouselItem(R.drawable.home_come_4, "home_come_4", "无尽行"));
         carouselItemList.add(new CarouselItem(R.drawable.home_come_5, "home_come_5", "星夜画"));
         carouselItemList.add(new CarouselItem(R.drawable.home_come_6, "home_come_6", "春街树"));
         carouselItemList.add(new CarouselItem(R.drawable.home_come_7, "home_come_7", "余晖月"));
