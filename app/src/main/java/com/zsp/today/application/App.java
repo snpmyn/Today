@@ -153,8 +153,8 @@ public class App extends BasePoolApp {
         AmapLocationKit.getInstance().start(App.getAppInstance(), AMapLocationClientOption.AMapLocationPurpose.Transport, true, new AmapLocationKitListener() {
             @Override
             public void locationSuccessful(AMapLocation aMapLocation, String locationInfo) {
-                MmkvKit.defaultMmkv().encode(AmapConstant.AMAP_$_LOCATION_INFO, locationInfo);
                 AmapLocationKit.getInstance().stop();
+                MmkvKit.defaultMmkv().encode(AmapConstant.AMAP_$_LOCATION_INFO, locationInfo);
                 RxBus.get().post(RxBusConstant.DANGEROUS_ACTIVITY_$_UPDATE_LOCATION, RxBusConstant.DANGEROUS_ACTIVITY_$_UPDATE_LOCATION_SUCCESSFUL_CODE);
             }
 
