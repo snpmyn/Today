@@ -16,7 +16,6 @@ import pool.base.BasePoolActivity;
 import util.rxbus.annotation.Subscribe;
 import util.rxbus.annotation.Tag;
 import util.rxbus.thread.EventThread;
-import widget.location.kit.LocationKit;
 import widget.textwatcher.CustomTextWatcher;
 
 /**
@@ -93,8 +92,6 @@ public class DangerousActivity extends BasePoolActivity implements View.OnClickL
      */
     @Override
     protected void startLogic() {
-        // 开始定位
-        LocationKit.getInstance().execute(this, null);
         // 检查发送短信权限
         dangerousActivityKit.checkSendSmsPermission(true);
         // 预显示
@@ -111,10 +108,10 @@ public class DangerousActivity extends BasePoolActivity implements View.OnClickL
         int viewId = v.getId();
         if (viewId == R.id.dangerousActivityMbSaveConfig) {
             // 保存配置
-            dangerousActivityKit.saveConfigOrSend(false, dangerousActivityTilInputDangerousNotice, dangerousActivityTietDangerousNotice, dangerousActivityTilInputEmergencyContactPhoneNumber, dangerousActivityTietEmergencyContactPhoneNumber);
+            dangerousActivityKit.saveConfigOrSend(this, false, dangerousActivityTilInputDangerousNotice, dangerousActivityTietDangerousNotice, dangerousActivityTilInputEmergencyContactPhoneNumber, dangerousActivityTietEmergencyContactPhoneNumber);
         } else if (viewId == R.id.dangerousActivityMbSend) {
             // 发送
-            dangerousActivityKit.saveConfigOrSend(true, dangerousActivityTilInputDangerousNotice, dangerousActivityTietDangerousNotice, dangerousActivityTilInputEmergencyContactPhoneNumber, dangerousActivityTietEmergencyContactPhoneNumber);
+            dangerousActivityKit.saveConfigOrSend(this, true, dangerousActivityTilInputDangerousNotice, dangerousActivityTietDangerousNotice, dangerousActivityTilInputEmergencyContactPhoneNumber, dangerousActivityTietEmergencyContactPhoneNumber);
         }
     }
 
@@ -148,9 +145,7 @@ public class DangerousActivity extends BasePoolActivity implements View.OnClickL
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // 移除更新
-        LocationKit.getInstance().removeUpdates();
-        // 反注册接收器
-        dangerousActivityKit.unregisterReceiver(this);
+        // 销毁执行
+        dangerousActivityKit.executeOnDestroy(this);
     }
 }
