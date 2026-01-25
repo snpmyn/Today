@@ -82,19 +82,19 @@ public class HomeComeActivityKit {
     public void selectBackground(AppCompatActivity appCompatActivity, ImagePicker imagePicker, ImageView homeComeActivityIvBackground) {
         // 轮播条目集
         List<CarouselItem> carouselItemList = new ArrayList<>(13);
-        carouselItemList.add(new CarouselItem(R.drawable.home_come_1, "home_come_1", "晨光谷"));
-        carouselItemList.add(new CarouselItem(R.drawable.home_come_2, "home_come_2", "孤影峰"));
-        carouselItemList.add(new CarouselItem(R.drawable.home_come_3, "home_come_3", "余晖线"));
-        carouselItemList.add(new CarouselItem(R.drawable.home_come_4, "home_come_4", "无尽行"));
-        carouselItemList.add(new CarouselItem(R.drawable.home_come_5, "home_come_5", "星夜画"));
-        carouselItemList.add(new CarouselItem(R.drawable.home_come_6, "home_come_6", "春街树"));
-        carouselItemList.add(new CarouselItem(R.drawable.home_come_7, "home_come_7", "余晖月"));
-        carouselItemList.add(new CarouselItem(R.drawable.home_come_8, "home_come_8", "黎明下"));
-        carouselItemList.add(new CarouselItem(R.drawable.home_come_9, "home_come_9", "山居夜"));
-        carouselItemList.add(new CarouselItem(R.drawable.home_come_10, "home_come_10", "暮雪城"));
-        carouselItemList.add(new CarouselItem(R.drawable.home_come_11, "home_come_11", "黑独山"));
-        carouselItemList.add(new CarouselItem(R.drawable.home_come_12, "home_come_12", "西雅拉"));
-        carouselItemList.add(new CarouselItem(R.drawable.home_come_13, "home_come_13", "雪木屋"));
+        carouselItemList.add(new CarouselItem(true, R.drawable.home_come_1, "home_come_1", "晨光谷"));
+        carouselItemList.add(new CarouselItem(true, R.drawable.home_come_2, "home_come_2", "孤影峰"));
+        carouselItemList.add(new CarouselItem(true, R.drawable.home_come_3, "home_come_3", "余晖线"));
+        carouselItemList.add(new CarouselItem(true, R.drawable.home_come_4, "home_come_4", "无尽行"));
+        carouselItemList.add(new CarouselItem(true, R.drawable.home_come_5, "home_come_5", "星夜画"));
+        carouselItemList.add(new CarouselItem(true, R.drawable.home_come_6, "home_come_6", "春街树"));
+        carouselItemList.add(new CarouselItem(true, R.drawable.home_come_7, "home_come_7", "余晖月"));
+        carouselItemList.add(new CarouselItem(true, R.drawable.home_come_8, "home_come_8", "黎明下"));
+        carouselItemList.add(new CarouselItem(true, R.drawable.home_come_9, "home_come_9", "山居夜"));
+        carouselItemList.add(new CarouselItem(true, R.drawable.home_come_10, "home_come_10", "暮雪城"));
+        carouselItemList.add(new CarouselItem(true, R.drawable.home_come_11, "home_come_11", "黑独山"));
+        carouselItemList.add(new CarouselItem(true, R.drawable.home_come_12, "home_come_12", "西雅拉"));
+        carouselItemList.add(new CarouselItem(true, R.drawable.home_come_13, "home_come_13", "雪木屋"));
         CarouselMaterialAlertDialogKit.getInstance().show(appCompatActivity, carouselItemList, 2, (alertDialog, carouselItem) -> {
             MmkvKit.defaultMmkv().encode(HomeComeConstant.HOME_COME_ACTIVITY_$_BACKGROUND_IMAGE_RESOURCE, carouselItem.getDrawableResName());
             setBackground(appCompatActivity, homeComeActivityIvBackground);
