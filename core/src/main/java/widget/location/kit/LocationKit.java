@@ -92,7 +92,10 @@ public class LocationKit {
      * 移除更新
      */
     public void removeUpdates() {
-        locationManager.removeUpdates(locationListener);
+        if ((null != locationManager) && (null != locationListener)) {
+            locationManager.removeUpdates(locationListener);
+
+        }
     }
 
     private static final class InstanceHolder {
