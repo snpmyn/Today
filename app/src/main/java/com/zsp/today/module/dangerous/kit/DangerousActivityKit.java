@@ -31,6 +31,7 @@ import widget.dialog.bocdialog.lottie.bean.BocLottieDialogEnum;
 import widget.dialog.materialalertdialog.MaterialAlertDialogBuilderKit;
 import widget.dialog.materialalertdialog.UseGuideMaterialAlertDialogKit;
 import widget.emoji.MoodEmojiKit;
+import widget.location.kit.LocationKit;
 import widget.location.value.LocationConstant;
 import widget.permissionx.kit.PermissionKit;
 import widget.permissionx.kit.PermissionxKit;
@@ -146,13 +147,14 @@ public class DangerousActivityKit implements SmsKit.SmsKitSendListener, SmsKit.S
     /**
      * 保存配置或发送
      *
+     * @param appCompatActivity                               活动
      * @param send                                            发送
      * @param textInputLayoutInputDangerousNotice             险情通知输入框
      * @param textInputEditTextDangerousNotice                险情通知框
      * @param textInputLayoutInputEmergencyContactPhoneNumber 紧急联系人手机号输入框
      * @param textInputEditTextEmergencyContactPhoneNumber    紧急联系人手机号框
      */
-    public void saveConfigOrSend(boolean send, TextInputLayout textInputLayoutInputDangerousNotice, @NonNull TextInputEditText textInputEditTextDangerousNotice, TextInputLayout textInputLayoutInputEmergencyContactPhoneNumber, TextInputEditText textInputEditTextEmergencyContactPhoneNumber) {
+    public void saveConfigOrSend(AppCompatActivity appCompatActivity, boolean send, TextInputLayout textInputLayoutInputDangerousNotice, @NonNull TextInputEditText textInputEditTextDangerousNotice, TextInputLayout textInputLayoutInputEmergencyContactPhoneNumber, TextInputEditText textInputEditTextEmergencyContactPhoneNumber) {
         String dangerousNotice = Objects.requireNonNull(textInputEditTextDangerousNotice.getText()).toString();
         // 输入险情通知
         if (TextUtils.isEmpty(dangerousNotice)) {
@@ -171,6 +173,12 @@ public class DangerousActivityKit implements SmsKit.SmsKitSendListener, SmsKit.S
             return;
         }
         if (send) {
+            // 移除高德地图定位信息
+            // 获取定位信息前移除，避免对获取失败场景造成污染。
+            MmkvKit.defaultMmkv().remove(AmapConstant.AMAP_$_LOCATION_INFO);
+            // 移除定位信息
+            // 获取定位信息前移除，避免对获取失败场景造成污染。
+            MmkvKit.defaultMmkv().remove(LocationConstant.LOCATION_INFO);
             // 对话框提示
             bocLottieClickDialog = BocDialogKit.getInstance(appCompatActivity).bocLottieClickDialog(BocLottieDialogEnum.LOADING_ONE, appCompatActivity.getString(R.string.updatingLocation), appCompatActivity.getString(R.string.hurryUpSendTheCoarseLocation), ValueAnimator.INFINITE, null, () -> {
                 bocLottieClickDialog = null;
@@ -185,6 +193,8 @@ public class DangerousActivityKit implements SmsKit.SmsKitSendListener, SmsKit.S
             }, null);
             // 开始
             AmapLocationKit.getInstance().start();
+            // 执行
+            LocationKit.getInstance().execute(appCompatActivity, null);
             // 处理配置
             handleConfig(dangerousNotice, emergencyContactPhoneNumber, false);
         } else {
@@ -313,11 +323,14 @@ public class DangerousActivityKit implements SmsKit.SmsKitSendListener, SmsKit.S
     }
 
     /**
-     * 反注册接收器
+     * 销毁执行
      *
      * @param appCompatActivity 活动
      */
-    public void unregisterReceiver(AppCompatActivity appCompatActivity) {
+    public void executeOnDestroy(AppCompatActivity appCompatActivity) {
+        // 移除更新
+        LocationKit.getInstance().removeUpdates();
+        // 反注册接收器
         smsKit.unregisterReceiver(appCompatActivity);
     }
 
