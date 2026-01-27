@@ -32,10 +32,10 @@ public class PictureInfoMaterialAlertDialogKit {
         View view = appCompatActivity.getLayoutInflater().inflate(R.layout.alert_dialog_picture_info_material, null);
         // ImageView
         ImageView carouselDetailIv = view.findViewById(R.id.progressMaterialAlertDialogIv);
-        carouselDetailIv.setImageResource(carouselItem.getDrawableResId());
+        carouselDetailIv.setImageResource(carouselItem.getCarouselResId());
         // TextView
         TextView carouselDetailTv = view.findViewById(R.id.progressMaterialAlertDialogTv);
-        carouselDetailTv.setText(carouselItem.getDrawableDescribe());
+        carouselDetailTv.setText(carouselItem.getCarouselDescribe());
         new MaterialAlertDialogBuilderKit(appCompatActivity).setView(view).show();
     }
 
