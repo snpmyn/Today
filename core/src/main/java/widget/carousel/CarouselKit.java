@@ -2,6 +2,7 @@ package widget.carousel;
 
 import android.annotation.SuppressLint;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.carousel.CarouselLayoutManager;
@@ -21,6 +22,8 @@ import java.util.List;
  * @desc 轮播配套原件
  */
 public class CarouselKit {
+    private CarouselSnapHelper carouselSnapHelper;
+
     /**
      * 执行
      *
@@ -57,7 +60,7 @@ public class CarouselKit {
         recyclerView.setLayoutManager(carouselLayoutManager);
         recyclerView.setBackgroundResource(debug ? R.drawable.color_outline_stroke_dash_r6 : 0);
         // 轮播吸附辅助器
-        CarouselSnapHelper carouselSnapHelper = new CarouselSnapHelper(!snap);
+        carouselSnapHelper = new CarouselSnapHelper(!snap);
         carouselSnapHelper.attachToRecyclerView(recyclerView);
         // 轮播适配器
         CarouselAdapter carouselAdapter = new CarouselAdapter(left, top, right, bottom, new CarouselListener() {
@@ -92,5 +95,26 @@ public class CarouselKit {
         carouselAdapter.submitList(carouselItemList);
         // RecyclerView 关联适配器
         recyclerView.setAdapter(carouselAdapter);
+    }
+
+    /**
+     * 滑动到位置
+     *
+     * @param recyclerView RecyclerView
+     * @param position     位置
+     */
+    public void scrollToPosition(@NonNull RecyclerView recyclerView, int position) {
+        recyclerView.post(() -> {
+            RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForAdapterPosition(position);
+            RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+            if ((null != viewHolder) && (null != layoutManager)) {
+                int[] distance = carouselSnapHelper.calculateDistanceToFinalSnap(layoutManager, viewHolder.itemView);
+                if (null != distance) {
+                    recyclerView.smoothScrollBy(distance[0], distance[1]);
+                }
+            } else {
+                recyclerView.smoothScrollToPosition(position);
+            }
+        });
     }
 }
