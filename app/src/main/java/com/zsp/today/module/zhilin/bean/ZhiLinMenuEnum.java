@@ -16,25 +16,13 @@ public enum ZhiLinMenuEnum {
      */
     TAB_LAYOUT(1, R.drawable.ic_widget_cos_24dp, "TabLayout", true),
     /**
-     * CardView
-     * <p>
-     * 卡片视图
-     */
-    CARD_VIEW(2, R.drawable.ic_widget_cos_24dp, "CardView", true),
-    /**
-     * SearchView
-     * <p>
-     * 搜索视图
-     */
-    SEARCH_VIEW(3, R.drawable.ic_widget_cos_24dp, "SearchView", true),
-    /**
      * 安卓
      */
-    ANDROID(4, R.drawable.ic_widget_cos_24dp, "安卓", true),
+    ANDROID(2, R.drawable.ic_widget_cos_24dp, "安卓", true),
     /**
      * 面试
      */
-    INTERVIEW(5, R.drawable.ic_widget_cos_24dp, "面试", true);
+    INTERVIEW(3, R.drawable.ic_widget_cos_24dp, "面试", true);
     /**
      * 菜单 ID
      */
