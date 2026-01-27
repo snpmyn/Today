@@ -100,13 +100,13 @@ public class CarouselMaterialAlertDialogKit {
             @Override
             public void onItemClick(CarouselItem carouselItem, int position) {
                 carouselItemResult[0] = carouselItem;
-                carouselMaterialAlertDialogMbUse.setText(carouselItem.getDrawableDescribe());
+                carouselMaterialAlertDialogMbUse.setText(carouselItem.getCarouselDescribe());
             }
 
             @Override
             public void onItemLongClick(CarouselItem carouselItem, int position) {
                 carouselItemResult[0] = carouselItem;
-                carouselMaterialAlertDialogMbUse.setText(carouselItem.getDrawableDescribe());
+                carouselMaterialAlertDialogMbUse.setText(carouselItem.getCarouselDescribe());
             }
         });
         // 设置视图
