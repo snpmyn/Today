@@ -6,7 +6,6 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.zsp.today.R;
 import com.zsp.today.module.zhilin.android.AndroidActivity;
 import com.zsp.today.module.zhilin.bean.ZhiLinMenuEnum;
 import com.zsp.today.module.zhilin.interview.InterviewActivity;
@@ -19,7 +18,6 @@ import widget.adapttemplate.bean.MenuBean;
 import widget.adapttemplate.kit.MenuAdapterKit;
 import widget.status.kit.StatusManagerKit;
 import widget.status.manager.StatusManager;
-import widget.toast.ToastKit;
 import widget.transition.kit.TransitionKit;
 
 /**
@@ -72,18 +70,13 @@ public class ZhiLinActivityKit {
                 Intent fromThisToTabLayoutActivityIntent = new Intent(appCompatActivity, TabLayoutActivity.class);
                 TransitionKit.getInstance().jumpWithTransition(appCompatActivity, view, fromThisToTabLayoutActivityIntent, false);
                 break;
-            // 卡片视图
-            case 2:
-                // 搜索视图
-            case 3:
-                ToastKit.showShort(appCompatActivity.getString(R.string.waitForImplementation));
-                break;
             // 安卓
-            case 4:
+            case 2:
                 Intent fromThisToAndroidActivityIntent = new Intent(appCompatActivity, AndroidActivity.class);
                 TransitionKit.getInstance().jumpWithTransition(appCompatActivity, view, fromThisToAndroidActivityIntent, false);
                 break;
-            case 5:
+            // 面试
+            case 3:
                 Intent fromThisToInterviewActivityIntent = new Intent(appCompatActivity, InterviewActivity.class);
                 TransitionKit.getInstance().jumpWithTransition(appCompatActivity, view, fromThisToInterviewActivityIntent, false);
                 break;
