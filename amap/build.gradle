@@ -26,9 +26,9 @@ android {
     }
     compileOptions {
         // 源代码兼容 Java 11 (可按需设)
-        sourceCompatibility JavaVersion.VERSION_11
+        sourceCompatibility rootProject.ext.sourceCompatibility
         // 生成的字节码兼容 Java 11 (可按需设)
-        targetCompatibility JavaVersion.VERSION_11
+        targetCompatibility rootProject.ext.targetCompatibility
     }
 }
 
