@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.zsp.today.R;
 import com.zsp.today.module.zhilin.android.AndroidActivity;
 import com.zsp.today.module.zhilin.bean.ZhiLinMenuEnum;
+import com.zsp.today.module.zhilin.interview.InterviewActivity;
 import com.zsp.today.module.zhilin.tablayout.TabLayoutActivity;
 
 import java.util.ArrayList;
@@ -81,6 +82,10 @@ public class ZhiLinActivityKit {
             case 4:
                 Intent fromThisToAndroidActivityIntent = new Intent(appCompatActivity, AndroidActivity.class);
                 TransitionKit.getInstance().jumpWithTransition(appCompatActivity, view, fromThisToAndroidActivityIntent, false);
+                break;
+            case 5:
+                Intent fromThisToInterviewActivityIntent = new Intent(appCompatActivity, InterviewActivity.class);
+                TransitionKit.getInstance().jumpWithTransition(appCompatActivity, view, fromThisToInterviewActivityIntent, false);
                 break;
             default:
                 break;
