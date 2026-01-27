@@ -30,7 +30,11 @@ public enum ZhiLinMenuEnum {
     /**
      * 安卓
      */
-    ANDROID(4, R.drawable.ic_widget_cos_24dp, "安卓", true);
+    ANDROID(4, R.drawable.ic_widget_cos_24dp, "安卓", true),
+    /**
+     * 面试
+     */
+    INTERVIEW(5, R.drawable.ic_widget_cos_24dp, "面试", true);
     /**
      * 菜单 ID
      */
