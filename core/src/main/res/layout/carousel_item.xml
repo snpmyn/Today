@@ -8,10 +8,22 @@
     android:foreground="?attr/selectableItemBackground"
     app:shapeAppearance="?attr/shapeAppearanceCornerExtraLarge">
 
+    <TextView
+        android:id="@+id/carouselItemTv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:lineSpacingExtra="@dimen/dp_6"
+        android:textColor="?attr/colorOnSurface"
+        android:textSize="@dimen/sp_14"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
     <ImageView
         android:id="@+id/carouselItemIv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription="@string/carousel"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        android:visibility="gone" />
 </com.google.android.material.carousel.MaskableFrameLayout>
