@@ -120,6 +120,47 @@ public class AmapLocationKit {
 
     /**
      * 获取定位信息
+     * <p>
+     * 导航 scheme
+     * androidamap://navi?sourceApplication=appname&poiname=fangheng&lat=36.547901&lon=104.258354&dev=1&style=2
+     * <p>
+     * 步行导航
+     * amapuri://openFeature?featureName=OnFootNavi&sourceApplication=aaa&lat=110&lon=36
+     * <p>
+     * 骑行导航
+     * amapuri://openFeature?featureName=OnRideNavi&rideType=elebike&sourceApplication=appname&lat=36.547901&lon=104.258354&dev=0
+     * <p>
+     * 地图标注
+     * androidamap://viewMap?sourceApplication=appname&poiname=abc&lat=36.2&lon=116.1&dev=0
+     * <p>
+     * 路径规划
+     * amapuri://route/plan/?sid=&slat=39.92848272&slon=116.39560823&sname=A&did=&dlat=39.98848272&dlon=116.47560823&dname=B&dev=0&t=0&vian=2&vialons=116.8|116.5&vialats=39.5|39.7&vianames=途径点1|途径点2
+     * <p>
+     * 公交线路查询
+     * androidamap://bus?sourceApplication=softname&busname=445&city=010
+     * <p>
+     * 关键词路线规划
+     * androidamap://keywordNavi?sourceApplication=softname&keyword=方恒国际中心&style=2
+     * <p>
+     * 周边分类
+     * androidamap://arroundpoi?sourceApplication=softname&keywords=银行|加油站|电影院&lat=36.2&lon=116.1&dev=0
+     * androidamap://arroundpoi?sourceApplication=softname&keywords=银行|加油站|电影院&dev=0
+     * <p>
+     * 我的位置
+     * androidamap://myLocation?sourceApplication=softname
+     * <p>
+     * 逆地理编码
+     * androidamap://viewReGeo?sourceApplication=softname&lat=39.92&lon=116.46&dev=1
+     * <p>
+     * 搜索地点
+     * androidamap://poi?sourceApplication=softname&keywords=银行|加油站|电影院&lat1=36.1&lon1=116.1&lat2=36.2&lon2=116.2&dev=0
+     * androidamap://poi?sourceApplication=softname&keywords=银行|加油站|电影院&dev=0
+     * <p>
+     * 地铁图
+     * androidamap://openFeature?featureName=Subway&adcode=310000&sourceApplication=softname&page=Subway
+     * <p>
+     * 地图主图
+     * androidamap://rootmap?sourceApplication=applicationName
      *
      * @param aMapLocation BDLocation
      * @return 定位信息
