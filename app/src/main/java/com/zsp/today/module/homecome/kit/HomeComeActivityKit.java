@@ -96,7 +96,7 @@ public class HomeComeActivityKit {
         carouselItemList.add(new CarouselItem(true, R.drawable.home_come_12, "home_come_12", "西雅拉"));
         carouselItemList.add(new CarouselItem(true, R.drawable.home_come_13, "home_come_13", "雪木屋"));
         CarouselMaterialAlertDialogKit.getInstance().show(appCompatActivity, carouselItemList, 2, (alertDialog, carouselItem) -> {
-            MmkvKit.defaultMmkv().encode(HomeComeConstant.HOME_COME_ACTIVITY_$_BACKGROUND_IMAGE_RESOURCE, carouselItem.getDrawableResName());
+            MmkvKit.defaultMmkv().encode(HomeComeConstant.HOME_COME_ACTIVITY_$_BACKGROUND_IMAGE_RESOURCE, carouselItem.getCarouselTitle());
             setBackground(appCompatActivity, homeComeActivityIvBackground);
         });
         /*ButtonMaterialAlertDialogKit.getInstance().show(appCompatActivity, appCompatActivity.getString(R.string.selectFromAlbum), appCompatActivity.getString(R.string.camera), null);*/
