@@ -1,13 +1,14 @@
 package widget.carousel;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.zsp.core.R;
 
@@ -51,12 +52,12 @@ public class CarouselAdapter extends ListAdapter<CarouselItem, CarouselViewHolde
         @Override
         public boolean areItemsTheSame(@NonNull CarouselItem oldItem, @NonNull CarouselItem newItem) {
             // User properties may have changed if reloaded from the DB, but ID is fixed.
-            return oldItem == newItem;
+            return TextUtils.equals(oldItem.getCarouselTitle(), newItem.getCarouselTitle());
         }
 
         @Override
         public boolean areContentsTheSame(@NonNull CarouselItem oldItem, @NonNull CarouselItem newItem) {
-            return false;
+            return oldItem.equals(newItem);
         }
     };
 
@@ -109,7 +110,10 @@ public class CarouselAdapter extends ListAdapter<CarouselItem, CarouselViewHolde
             marginRight = right;
             marginBottom = bottom;
         }
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) carouselViewHolder.itemView.getLayoutParams();
+        if (null == layoutParams) {
+            layoutParams = new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        }
         layoutParams.setMargins(DensityUtils.dipToPxByInt(marginLeft), DensityUtils.dipToPxByInt(marginTop), DensityUtils.dipToPxByInt(marginRight), DensityUtils.dipToPxByInt(marginBottom));
         carouselViewHolder.itemView.setLayoutParams(layoutParams);
         carouselViewHolder.itemView.setOnHoverListener((v, event) -> {
