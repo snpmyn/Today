@@ -25,6 +25,7 @@
     <string name="function">功能</string>
     <string name="category">类目</string>
     <string name="iKnow">我知道啦</string>
+    <string name="interview">面试</string>
     <string name="dangerous">险情</string>
     <string name="twoColumn">两列</string>
     <string name="accountTwo">账单</string>
@@ -52,6 +53,7 @@
     <string name="accountDetail">账目详情</string>
     <string name="monthAnalysis">月度分析</string>
     <string name="hasBeenPlaced">安放过啦</string>
+    <string name="interviewPoint">面试要点</string>
     <string name="aGlimmerOfHope">微光心声</string>
     <string name="startAnimation">启动动画</string>
     <string name="chooseCategory">选择类目</string>
