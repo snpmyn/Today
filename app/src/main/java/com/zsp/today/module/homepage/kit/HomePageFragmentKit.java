@@ -144,19 +144,19 @@ public class HomePageFragmentKit {
     public void carousel(AppCompatActivity appCompatActivity, RecyclerView recyclerView) {
         // 轮播条目集
         List<CarouselItem> carouselItemList = new ArrayList<>(13);
-        carouselItemList.add(new CarouselItem(R.drawable.banner_10, "banner_10", "冈仁波齐"));
-        carouselItemList.add(new CarouselItem(R.drawable.banner_11, "banner_11", "珠穆朗玛"));
-        carouselItemList.add(new CarouselItem(R.drawable.banner_12, "banner_12", "康定舞女"));
-        carouselItemList.add(new CarouselItem(R.drawable.banner_13, "banner_13", "康定舞女"));
-        carouselItemList.add(new CarouselItem(R.drawable.banner_1, "banner_1", "上木居村"));
-        carouselItemList.add(new CarouselItem(R.drawable.banner_2, "banner_2", "火星一号公路"));
-        carouselItemList.add(new CarouselItem(R.drawable.banner_3, "banner_3", "那拉提河谷草原"));
-        carouselItemList.add(new CarouselItem(R.drawable.banner_4, "banner_4", "赛里木湖"));
-        carouselItemList.add(new CarouselItem(R.drawable.banner_5, "banner_5", "禾木村"));
-        carouselItemList.add(new CarouselItem(R.drawable.banner_6, "banner_6", "西府老街"));
-        carouselItemList.add(new CarouselItem(R.drawable.banner_7, "banner_7", "贾村塬"));
-        carouselItemList.add(new CarouselItem(R.drawable.banner_8, "banner_8", "金台区"));
-        carouselItemList.add(new CarouselItem(R.drawable.banner_9, "banner_9", "文昌门"));
+        carouselItemList.add(new CarouselItem(true, R.drawable.banner_10, "banner_10", "冈仁波齐"));
+        carouselItemList.add(new CarouselItem(true, R.drawable.banner_11, "banner_11", "珠穆朗玛"));
+        carouselItemList.add(new CarouselItem(true, R.drawable.banner_12, "banner_12", "康定舞女"));
+        carouselItemList.add(new CarouselItem(true, R.drawable.banner_13, "banner_13", "康定舞女"));
+        carouselItemList.add(new CarouselItem(true, R.drawable.banner_1, "banner_1", "上木居村"));
+        carouselItemList.add(new CarouselItem(true, R.drawable.banner_2, "banner_2", "火星一号公路"));
+        carouselItemList.add(new CarouselItem(true, R.drawable.banner_3, "banner_3", "那拉提河谷草原"));
+        carouselItemList.add(new CarouselItem(true, R.drawable.banner_4, "banner_4", "赛里木湖"));
+        carouselItemList.add(new CarouselItem(true, R.drawable.banner_5, "banner_5", "禾木村"));
+        carouselItemList.add(new CarouselItem(true, R.drawable.banner_6, "banner_6", "西府老街"));
+        carouselItemList.add(new CarouselItem(true, R.drawable.banner_7, "banner_7", "贾村塬"));
+        carouselItemList.add(new CarouselItem(true, R.drawable.banner_8, "banner_8", "金台区"));
+        carouselItemList.add(new CarouselItem(true, R.drawable.banner_9, "banner_9", "文昌门"));
         // 轮播配套原件
         CarouselKit carouselKit = new CarouselKit();
         carouselKit.execute(recyclerView, carouselItemList, new HeroCarouselStrategy(), RecyclerView.HORIZONTAL, false, CarouselLayoutManager.ALIGNMENT_CENTER, false, 4, 0, 4, 0, false, new CarouselListener() {
