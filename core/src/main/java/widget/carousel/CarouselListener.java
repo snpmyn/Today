@@ -14,6 +14,7 @@ public interface CarouselListener {
      * @param position     位置
      */
     default void onItemClick(CarouselItem carouselItem, int position) {
+
     }
 
     /**
@@ -23,5 +24,6 @@ public interface CarouselListener {
      * @param position     位置
      */
     default void onItemLongClick(CarouselItem carouselItem, int position) {
+
     }
 }
