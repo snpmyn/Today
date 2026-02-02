@@ -63,6 +63,7 @@
         <activity android:name=".module.mine.SplashAnimationHomeActivity" />
         <activity android:name=".module.zhilin.interview.InterviewActivity" />
         <activity android:name=".module.zhilin.android.AndroidActivity" />
+        <activity android:name=".module.zhilin.rxjava.RxJavaActivity" />
         <activity android:name=".module.zhilin.tablayout.TabLayoutActivity" />
         <activity android:name=".module.zhilin.ZhiLinActivity" />
         <activity android:name=".module.detect.DetectActivity" />
