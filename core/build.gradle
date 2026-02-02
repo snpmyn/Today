@@ -67,6 +67,8 @@ dependencies {
     api libs.permissionx
     api libs.work.runtime
     api project(':youmeng')
+    api libs.rxjava3.rxjava
+    api libs.rxjava3.rxandroid
     /*api libs.tensorflow.lite*/
     api libs.localbroadcastmanager
     /*api files('libs/TarsosDSP-Android-2.4.jar')*/
