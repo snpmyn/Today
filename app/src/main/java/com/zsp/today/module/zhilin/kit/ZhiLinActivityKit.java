@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.zsp.today.module.zhilin.android.AndroidActivity;
 import com.zsp.today.module.zhilin.bean.ZhiLinMenuEnum;
 import com.zsp.today.module.zhilin.interview.InterviewActivity;
+import com.zsp.today.module.zhilin.rxjava.RxJavaActivity;
 import com.zsp.today.module.zhilin.tablayout.TabLayoutActivity;
 
 import java.util.ArrayList;
@@ -70,13 +71,18 @@ public class ZhiLinActivityKit {
                 Intent fromThisToTabLayoutActivityIntent = new Intent(appCompatActivity, TabLayoutActivity.class);
                 TransitionKit.getInstance().jumpWithTransition(appCompatActivity, view, fromThisToTabLayoutActivityIntent, false);
                 break;
-            // 安卓
+            // 响应式异步框架
             case 2:
+                Intent fromThisToRxJavaActivityIntent = new Intent(appCompatActivity, RxJavaActivity.class);
+                TransitionKit.getInstance().jumpWithTransition(appCompatActivity, view, fromThisToRxJavaActivityIntent, false);
+                break;
+            // 安卓
+            case 3:
                 Intent fromThisToAndroidActivityIntent = new Intent(appCompatActivity, AndroidActivity.class);
                 TransitionKit.getInstance().jumpWithTransition(appCompatActivity, view, fromThisToAndroidActivityIntent, false);
                 break;
             // 面试
-            case 3:
+            case 4:
                 Intent fromThisToInterviewActivityIntent = new Intent(appCompatActivity, InterviewActivity.class);
                 TransitionKit.getInstance().jumpWithTransition(appCompatActivity, view, fromThisToInterviewActivityIntent, false);
                 break;
