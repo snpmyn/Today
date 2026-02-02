@@ -1,6 +1,7 @@
 package widget.carousel;
 
 import android.annotation.SuppressLint;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -102,19 +103,74 @@ public class CarouselKit {
      *
      * @param recyclerView RecyclerView
      * @param position     位置
+     * @param smooth       滑动否
      */
-    public void scrollToPosition(@NonNull RecyclerView recyclerView, int position) {
+    public void scrollToPosition(@NonNull RecyclerView recyclerView, int position, boolean smooth) {
         recyclerView.post(() -> {
-            RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForAdapterPosition(position);
             RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-            if ((null != viewHolder) && (null != layoutManager)) {
+            if ((null == layoutManager) || (null == carouselSnapHelper)) {
+                return;
+            }
+            RecyclerView.ViewHolder viewHolder = recyclerView.findViewHolderForAdapterPosition(position);
+            if (null != viewHolder) {
                 int[] distance = carouselSnapHelper.calculateDistanceToFinalSnap(layoutManager, viewHolder.itemView);
                 if (null != distance) {
-                    recyclerView.smoothScrollBy(distance[0], distance[1]);
+                    if (smooth) {
+                        recyclerView.smoothScrollBy(distance[0], distance[1]);
+                    } else {
+                        recyclerView.scrollBy(distance[0], distance[1]);
+                    }
+                    return;
                 }
-            } else {
+            }
+            // 兜底方案（item 尚未 layout）
+            if (smooth) {
                 recyclerView.smoothScrollToPosition(position);
+            } else {
+                recyclerView.scrollToPosition(position);
             }
         });
+    }
+
+    /**
+     * 监听当前位置
+     *
+     * @param recyclerView             RecyclerView
+     * @param onCarouselScrollListener 轮播滑动监听
+     */
+    public void observeCurrentPosition(@NonNull RecyclerView recyclerView, @NonNull OnCarouselScrollListener onCarouselScrollListener) {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                // 滑动停止时获取最终位置
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+                    if ((null == layoutManager) || (null == carouselSnapHelper)) {
+                        return;
+                    }
+                    // 获取当前吸附的 View
+                    View snapView = carouselSnapHelper.findSnapView(layoutManager);
+                    if (null != snapView) {
+                        int position = layoutManager.getPosition(snapView);
+                        onCarouselScrollListener.onItemPositionChanged(position);
+                    }
+                }
+            }
+        });
+    }
+
+    /**
+     * 轮播滑动监听
+     */
+    public interface OnCarouselScrollListener {
+        /**
+         * 条目位置改变
+         * <p>
+         * 当前居中 / 对齐的条目位置
+         *
+         * @param position 位置
+         */
+        void onItemPositionChanged(int position);
     }
 }
