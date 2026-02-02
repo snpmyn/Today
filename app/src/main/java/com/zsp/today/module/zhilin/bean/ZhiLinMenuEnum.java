@@ -16,13 +16,19 @@ public enum ZhiLinMenuEnum {
      */
     TAB_LAYOUT(1, R.drawable.ic_widget_cos_24dp, "TabLayout", true),
     /**
+     * RxJava
+     * <p>
+     * 响应式异步框架
+     */
+    RX_JAVA(2, R.drawable.ic_widget_cos_24dp, "RxJava", true),
+    /**
      * 安卓
      */
-    ANDROID(2, R.drawable.ic_widget_cos_24dp, "安卓", true),
+    ANDROID(3, R.drawable.ic_widget_cos_24dp, "安卓", true),
     /**
      * 面试
      */
-    INTERVIEW(3, R.drawable.ic_widget_cos_24dp, "面试", true);
+    INTERVIEW(4, R.drawable.ic_widget_cos_24dp, "面试", true);
     /**
      * 菜单 ID
      */
