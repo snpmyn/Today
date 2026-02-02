@@ -10,13 +10,15 @@ espressoCore = "3.7.0"
 appcompat = "1.7.1"
 location = "6.5.1"
 lunar = "1.7.7"
-material = "1.14.0-alpha08"
+material = "1.14.0-alpha09"
 constraintlayout = "2.2.1"
 kotlin = "2.3.0"
 coreKtx = "1.17.0"
 eventbus = "3.3.1"
 palette = "1.0.0"
 preference = "1.2.1"
+rxandroidVersion = "3.0.2"
+rxjavaVersion = "3.1.12"
 tensorflowLite = "2.17.0"
 timber = "5.0.1"
 mmkv = "2.3.0"
@@ -29,7 +31,7 @@ lottie = "6.7.1"
 gson = "2.13.2"
 jxl = "2.6.12"
 uyumao = "1.1.4"
-workRuntime = "2.11.0"
+workRuntime = "2.11.1"
 mpac = "v3.1.0"
 permissionx = "1.8.1"
 lifecycleLivedataKtx = "2.10.0"
@@ -54,6 +56,8 @@ core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx"
 eventbus = { group = "org.greenrobot", name = "eventbus", version.ref = "eventbus" }
 palette = { module = "androidx.palette:palette", version.ref = "palette" }
 preference = { module = "androidx.preference:preference", version.ref = "preference" }
+rxjava3-rxjava = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjavaVersion" }
+rxjava3-rxandroid = { module = "io.reactivex.rxjava3:rxandroid", version.ref = "rxandroidVersion" }
 tensorflow-lite = { module = "org.tensorflow:tensorflow-lite", version.ref = "tensorflowLite" }
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 mmkv = { group = "com.tencent", name = "mmkv", version.ref = "mmkv" }
