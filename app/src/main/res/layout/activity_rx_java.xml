@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/rxJavaActivityMt"
+        style="@style/Widget.Material3.Toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="?attr/colorSurface"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/reactiveAsynchronousFramework"
+        app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/dp_24"
+        android:paddingBottom="@dimen/dp_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rxJavaActivityMt">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/rxJavaActivityExampleOne"
+            style="?attr/materialButtonTonalStyle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_weight="1"
+            android:text="@string/exampleOne"
+            android:textSize="@dimen/sp_12"
+            android:textStyle="bold" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/rxJavaActivityExampleTwo"
+            style="?attr/materialButtonTonalStyle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_marginVertical="@dimen/dp_12"
+            android:layout_weight="1"
+            android:text="@string/exampleTwo"
+            android:textSize="@dimen/sp_12"
+            android:textStyle="bold" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/rxJavaActivityExampleThree"
+            style="?attr/materialButtonTonalStyle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_weight="1"
+            android:text="@string/exampleThree"
+            android:textSize="@dimen/sp_12"
+            android:textStyle="bold" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/rxJavaActivityExampleFour"
+            style="?attr/materialButtonTonalStyle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_marginVertical="@dimen/dp_12"
+            android:layout_weight="1"
+            android:text="@string/exampleFour"
+            android:textSize="@dimen/sp_12"
+            android:textStyle="bold" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/rxJavaActivityExampleFive"
+            style="?attr/materialButtonTonalStyle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_weight="1"
+            android:text="@string/exampleFive"
+            android:textSize="@dimen/sp_12"
+            android:textStyle="bold" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/rxJavaActivityExampleSix"
+            style="?attr/materialButtonTonalStyle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_marginVertical="@dimen/dp_12"
+            android:layout_weight="1"
+            android:text="@string/exampleSix"
+            android:textSize="@dimen/sp_12"
+            android:textStyle="bold" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/rxJavaActivityExampleSeven"
+            style="?attr/materialButtonTonalStyle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0"
+            android:layout_weight="1"
+            android:text="@string/exampleSeven"
+            android:textSize="@dimen/sp_12"
+            android:textStyle="bold" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
