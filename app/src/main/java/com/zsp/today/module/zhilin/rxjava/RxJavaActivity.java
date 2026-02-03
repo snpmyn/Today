@@ -101,19 +101,19 @@ public class RxJavaActivity extends BasePoolActivity implements View.OnClickList
     public void onClick(@NonNull View v) {
         int viewId = v.getId();
         if (viewId == R.id.rxJavaActivityExampleOne) {
-            rxJavaActivityKit.exampleOne();
+            rxJavaActivityKit.exampleOne(this);
         } else if (viewId == R.id.rxJavaActivityExampleTwo) {
-            rxJavaActivityKit.exampleTwo();
+            rxJavaActivityKit.exampleTwo(this);
         } else if (viewId == R.id.rxJavaActivityExampleThree) {
-            rxJavaActivityKit.exampleThree();
+            rxJavaActivityKit.exampleThree(this);
         } else if (viewId == R.id.rxJavaActivityExampleFour) {
-            rxJavaActivityKit.exampleFour();
+            rxJavaActivityKit.exampleFour(this);
         } else if (viewId == R.id.rxJavaActivityExampleFive) {
-            rxJavaActivityKit.exampleFive();
+            rxJavaActivityKit.exampleFive(this);
         } else if (viewId == R.id.rxJavaActivityExampleSix) {
-            rxJavaActivityKit.exampleSix();
+            rxJavaActivityKit.exampleSix(this);
         } else if (viewId == R.id.rxJavaActivityExampleSeven) {
-            rxJavaActivityKit.exampleSeven();
+            rxJavaActivityKit.exampleSeven(this);
         }
     }
 }
