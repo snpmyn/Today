@@ -145,8 +145,10 @@ public class InterviewActivityKit {
         carouselItemList.add(new CarouselItem(true, R.drawable.interview_point_42, "Activity\n启动二", "Activity 启动二"));
         carouselItemList.add(new CarouselItem(true, R.drawable.interview_point_43, "类\n加载一", "类加载一"));
         carouselItemList.add(new CarouselItem(true, R.drawable.interview_point_44, "类\n加载二", "类加载二"));
-        carouselItemList.add(new CarouselItem(true, R.drawable.interview_point_45, "类\n加载三", "类加载三"));
-        carouselItemList.add(new CarouselItem(true, R.drawable.interview_point_46, "ListView\nRecyclerView", "ListView RecyclerView"));
+        carouselItemList.add(new CarouselItem(true, R.drawable.interview_point_45, "ListView\nRecyclerView", "ListView RecyclerView"));
+        carouselItemList.add(new CarouselItem(true, R.drawable.interview_point_46, "冷热温\n启动", "冷热温启动"));
+        carouselItemList.add(new CarouselItem(true, R.drawable.interview_point_47, "JVM\n内存结构一", "JVM 内存结构一"));
+        carouselItemList.add(new CarouselItem(true, R.drawable.interview_point_48, "JVM\n内存结构二", "JVM 内存结构二"));
         return carouselItemList;
     }
 
