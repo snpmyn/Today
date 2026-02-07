@@ -29,9 +29,9 @@ import widget.screen.listener.ScreenHandleListener;
 public class InterviewActivityKit {
     private CarouselKit carouselKit;
     private String defaultSelectCondition;
-    protected String[] conditionTemporary;
-    protected List<CarouselItem> carouselItemList;
-    protected List<String> carouselItemCarouselTitleList;
+    private final String[] conditionTemporary;
+    private final List<CarouselItem> carouselItemList;
+    private final List<String> carouselItemCarouselTitleList;
 
     /**
      * constructor
