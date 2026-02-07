@@ -28,7 +28,11 @@ public enum ZhiLinMenuEnum {
     /**
      * 面试
      */
-    INTERVIEW(4, R.drawable.ic_widget_cos_24dp, "面试", true);
+    INTERVIEW(4, R.drawable.ic_widget_cos_24dp, "面试", true),
+    /**
+     * 自定义视图
+     */
+    CUSTOM_VIEW(5, R.drawable.ic_widget_cos_24dp, "自定义视图", true);
     /**
      * 菜单 ID
      */
