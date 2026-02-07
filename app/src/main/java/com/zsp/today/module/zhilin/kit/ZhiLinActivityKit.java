@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.zsp.today.module.zhilin.android.AndroidActivity;
 import com.zsp.today.module.zhilin.bean.ZhiLinMenuEnum;
+import com.zsp.today.module.zhilin.customview.CustomViewActivity;
 import com.zsp.today.module.zhilin.interview.InterviewActivity;
 import com.zsp.today.module.zhilin.rxjava.RxJavaActivity;
 import com.zsp.today.module.zhilin.tablayout.TabLayoutActivity;
@@ -85,6 +86,11 @@ public class ZhiLinActivityKit {
             case 4:
                 Intent fromThisToInterviewActivityIntent = new Intent(appCompatActivity, InterviewActivity.class);
                 TransitionKit.getInstance().jumpWithTransition(appCompatActivity, view, fromThisToInterviewActivityIntent, false);
+                break;
+            // 自定义视图页
+            case 5:
+                Intent fromThisToCustomViewActivityIntent = new Intent(appCompatActivity, CustomViewActivity.class);
+                TransitionKit.getInstance().jumpWithTransition(appCompatActivity, view, fromThisToCustomViewActivityIntent, false);
                 break;
             default:
                 break;
