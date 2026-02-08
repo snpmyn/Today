@@ -1,4 +1,4 @@
-package com.zsp.today.module.zhilin.customview.kit.point;
+package com.zsp.today.module.zhilin.customview.customview.point;
 
 import android.content.Context;
 import android.graphics.Canvas;

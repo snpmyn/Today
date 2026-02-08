@@ -1,9 +1,8 @@
-package com.zsp.today.module.zhilin.customview.kit.text;
+package com.zsp.today.module.zhilin.customview.customview.line;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -12,24 +11,24 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 /**
- * Created on 2020/7/3.
+ * Created on 2020/7/2.
  *
  * @author zsp
- * @desc 文本
+ * @desc 线
  */
-public class MyText extends View {
+public class MyLine extends View {
     private Paint paint;
 
-    public MyText(Context context) {
+    public MyLine(Context context) {
         super(context);
     }
 
-    public MyText(Context context, @Nullable AttributeSet attrs) {
+    public MyLine(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         paint = new Paint();
     }
 
-    public MyText(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public MyLine(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -43,9 +42,9 @@ public class MyText extends View {
         super.onDraw(canvas);
         paint.setAntiAlias(true);
         paint.setColor(ContextCompat.getColor(getContext(), com.zsp.core.R.color.color_FFEE6002));
-        paint.setTextAlign(Paint.Align.CENTER);
-        paint.setTypeface(Typeface.DEFAULT_BOLD);
-        paint.setTextSize(getResources().getDimensionPixelSize(com.zsp.core.R.dimen.sp_16));
-        canvas.drawText("你好，世界！", Integer.valueOf(getWidth() / 2).floatValue(), Integer.valueOf(getHeight() / 2).floatValue(), paint);
+        paint.setStrokeWidth(24.0F);
+        paint.setStrokeCap(Paint.Cap.ROUND);
+        canvas.drawLine(Integer.valueOf(getWidth() / 2 - 200).floatValue(), Integer.valueOf(getHeight() / 2).floatValue(),
+                Integer.valueOf(getWidth() / 2 + 200).floatValue(), Integer.valueOf(getHeight() / 2).floatValue(), paint);
     }
 }

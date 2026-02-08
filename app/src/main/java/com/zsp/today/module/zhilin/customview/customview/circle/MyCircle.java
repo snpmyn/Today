@@ -1,4 +1,4 @@
-package com.zsp.today.module.zhilin.customview.kit.rect;
+package com.zsp.today.module.zhilin.customview.customview.circle;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -14,21 +14,21 @@ import androidx.core.content.ContextCompat;
  * Created on 2020/7/2.
  *
  * @author zsp
- * @desc 矩形
+ * @desc 圆
  */
-public class MyRect extends View {
+public class MyCircle extends View {
     private Paint paint;
 
-    public MyRect(Context context) {
+    public MyCircle(Context context) {
         super(context);
     }
 
-    public MyRect(Context context, @Nullable AttributeSet attrs) {
+    public MyCircle(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         paint = new Paint();
     }
 
-    public MyRect(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public MyCircle(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -42,7 +42,7 @@ public class MyRect extends View {
         super.onDraw(canvas);
         paint.setAntiAlias(true);
         paint.setColor(ContextCompat.getColor(getContext(), com.zsp.core.R.color.color_FFEE6002));
-        canvas.drawRect(Integer.valueOf(getWidth() / 2 - 240).floatValue(), Integer.valueOf(getHeight() / 2 - 120).floatValue(),
-                Integer.valueOf(getWidth() / 2 + 240).floatValue(), Integer.valueOf(getHeight() / 2 + 120).floatValue(), paint);
+        paint.setAlpha(20);
+        canvas.drawCircle(Integer.valueOf(getWidth() / 2).floatValue(), Integer.valueOf(getHeight() / 2).floatValue(), 240.0F, paint);
     }
 }

@@ -1,8 +1,9 @@
-package com.zsp.today.module.zhilin.customview.kit.rect;
+package com.zsp.today.module.zhilin.customview.customview.text;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -14,21 +15,21 @@ import androidx.core.content.ContextCompat;
  * Created on 2020/7/3.
  *
  * @author zsp
- * @desc 圆角矩形
+ * @desc 文本
  */
-public class MyRoundRect extends View {
+public class MyText extends View {
     private Paint paint;
 
-    public MyRoundRect(Context context) {
+    public MyText(Context context) {
         super(context);
     }
 
-    public MyRoundRect(Context context, @Nullable AttributeSet attrs) {
+    public MyText(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         paint = new Paint();
     }
 
-    public MyRoundRect(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public MyText(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -42,9 +43,9 @@ public class MyRoundRect extends View {
         super.onDraw(canvas);
         paint.setAntiAlias(true);
         paint.setColor(ContextCompat.getColor(getContext(), com.zsp.core.R.color.color_FFEE6002));
-        paint.setAlpha(66);
-        canvas.drawRoundRect(Integer.valueOf(getWidth() / 2 - 240).floatValue(), Integer.valueOf(getHeight() / 2 - 120).floatValue(),
-                Integer.valueOf(getWidth() / 2 + 240).floatValue(), Integer.valueOf(getHeight() / 2 + 120).floatValue(),
-                24.0F, 24.0F, paint);
+        paint.setTextAlign(Paint.Align.CENTER);
+        paint.setTypeface(Typeface.DEFAULT_BOLD);
+        paint.setTextSize(getResources().getDimensionPixelSize(com.zsp.core.R.dimen.sp_16));
+        canvas.drawText("你好，世界！", Integer.valueOf(getWidth() / 2).floatValue(), Integer.valueOf(getHeight() / 2).floatValue(), paint);
     }
 }

@@ -1,4 +1,4 @@
-package com.zsp.today.module.zhilin.customview.kit.arc;
+package com.zsp.today.module.zhilin.customview.customview.oval;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -11,24 +11,24 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 /**
- * Created on 2020/7/6.
+ * Created on 2020/7/3.
  *
  * @author zsp
- * @desc 弧
+ * @desc 椭圆
  */
-public class MyArc extends View {
+public class MyOval extends View {
     private Paint paint;
 
-    public MyArc(Context context) {
+    public MyOval(Context context) {
         super(context);
     }
 
-    public MyArc(Context context, @Nullable AttributeSet attrs) {
+    public MyOval(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         paint = new Paint();
     }
 
-    public MyArc(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public MyOval(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -42,8 +42,7 @@ public class MyArc extends View {
         super.onDraw(canvas);
         paint.setAntiAlias(true);
         paint.setColor(ContextCompat.getColor(getContext(), com.zsp.core.R.color.color_FFEE6002));
-        canvas.drawArc(Integer.valueOf(getWidth() / 2 - 240).floatValue(), Integer.valueOf(getHeight() / 2 - 120).floatValue(),
-                Integer.valueOf(getWidth() / 2 + 240).floatValue(), Integer.valueOf(getHeight() / 2 + 120).floatValue(),
-                45.0F, 45.0F, true, paint);
+        canvas.drawOval(Integer.valueOf(getWidth() / 2 - 240).floatValue(), Integer.valueOf(getHeight() / 2 - 120).floatValue(),
+                Integer.valueOf(getWidth() / 2 + 240).floatValue(), Integer.valueOf(getHeight() / 2 + 120).floatValue(), paint);
     }
 }

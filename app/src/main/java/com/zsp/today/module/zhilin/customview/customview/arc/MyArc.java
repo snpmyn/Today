@@ -1,4 +1,4 @@
-package com.zsp.today.module.zhilin.customview.kit.line;
+package com.zsp.today.module.zhilin.customview.customview.arc;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -11,24 +11,24 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 /**
- * Created on 2020/7/2.
+ * Created on 2020/7/6.
  *
  * @author zsp
- * @desc 线
+ * @desc 弧
  */
-public class MyLine extends View {
+public class MyArc extends View {
     private Paint paint;
 
-    public MyLine(Context context) {
+    public MyArc(Context context) {
         super(context);
     }
 
-    public MyLine(Context context, @Nullable AttributeSet attrs) {
+    public MyArc(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         paint = new Paint();
     }
 
-    public MyLine(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public MyArc(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -42,9 +42,8 @@ public class MyLine extends View {
         super.onDraw(canvas);
         paint.setAntiAlias(true);
         paint.setColor(ContextCompat.getColor(getContext(), com.zsp.core.R.color.color_FFEE6002));
-        paint.setStrokeWidth(24.0F);
-        paint.setStrokeCap(Paint.Cap.ROUND);
-        canvas.drawLine(Integer.valueOf(getWidth() / 2 - 200).floatValue(), Integer.valueOf(getHeight() / 2).floatValue(),
-                Integer.valueOf(getWidth() / 2 + 200).floatValue(), Integer.valueOf(getHeight() / 2).floatValue(), paint);
+        canvas.drawArc(Integer.valueOf(getWidth() / 2 - 240).floatValue(), Integer.valueOf(getHeight() / 2 - 120).floatValue(),
+                Integer.valueOf(getWidth() / 2 + 240).floatValue(), Integer.valueOf(getHeight() / 2 + 120).floatValue(),
+                45.0F, 45.0F, true, paint);
     }
 }
