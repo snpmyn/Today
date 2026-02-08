@@ -10,6 +10,7 @@ import com.zsp.today.module.zhilin.android.AndroidActivity;
 import com.zsp.today.module.zhilin.bean.ZhiLinMenuEnum;
 import com.zsp.today.module.zhilin.customview.CustomViewActivity;
 import com.zsp.today.module.zhilin.interview.InterviewActivity;
+import com.zsp.today.module.zhilin.mvp.MvpActivity;
 import com.zsp.today.module.zhilin.rxjava.RxJavaActivity;
 import com.zsp.today.module.zhilin.tablayout.TabLayoutActivity;
 
@@ -91,6 +92,11 @@ public class ZhiLinActivityKit {
             case 5:
                 Intent fromThisToCustomViewActivityIntent = new Intent(appCompatActivity, CustomViewActivity.class);
                 TransitionKit.getInstance().jumpWithTransition(appCompatActivity, view, fromThisToCustomViewActivityIntent, false);
+                break;
+            // MVP
+            case 6:
+                Intent fromThisToMvpActivityIntent = new Intent(appCompatActivity, MvpActivity.class);
+                TransitionKit.getInstance().jumpWithTransition(appCompatActivity, view, fromThisToMvpActivityIntent, false);
                 break;
             default:
                 break;
