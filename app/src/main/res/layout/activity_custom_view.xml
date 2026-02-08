@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/customViewActivityMt"
+        style="@style/Widget.Material3.Toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="?attr/colorSurface"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="@string/customView"
+        app:titleCentered="true"
+        app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized" />
+
+    <com.zsp.today.module.zhilin.customview.kit.arc.MyArc
+        android:id="@+id/customViewActivityMyArc"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/customViewActivityMt" />
+
+    <com.zsp.today.module.zhilin.customview.kit.circle.MyCircle
+        android:id="@+id/customViewActivityMyCircle"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/customViewActivityMt" />
+
+    <com.zsp.today.module.zhilin.customview.kit.line.MyLine
+        android:id="@+id/customViewActivityMyLine"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/customViewActivityMt" />
+
+    <com.zsp.today.module.zhilin.customview.kit.line.MyLines
+        android:id="@+id/customViewActivityMyLines"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/customViewActivityMt" />
+
+    <com.zsp.today.module.zhilin.customview.kit.oval.MyOval
+        android:id="@+id/customViewActivityMyOval"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/customViewActivityMt" />
+
+    <com.zsp.today.module.zhilin.customview.kit.path.MyPath
+        android:id="@+id/customViewActivityMyPath"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/customViewActivityMt" />
+
+    <com.zsp.today.module.zhilin.customview.kit.point.MyPoint
+        android:id="@+id/customViewActivityMyPoint"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/customViewActivityMt" />
+
+    <com.zsp.today.module.zhilin.customview.kit.rect.MyRect
+        android:id="@+id/customViewActivityMyRect"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/customViewActivityMt" />
+
+    <com.zsp.today.module.zhilin.customview.kit.rect.MyRoundRect
+        android:id="@+id/customViewActivityMyRoundRect"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/customViewActivityMt" />
+
+    <com.zsp.today.module.zhilin.customview.kit.text.MyText
+        android:id="@+id/customViewActivityMyText"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/customViewActivityMt" />
+
+    <widget.floatingactionbutton.DraggableFloatingActionButton
+        android:id="@+id/customViewActivityDfab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_24"
+        android:layout_marginBottom="@dimen/dp_24"
+        android:contentDescription="@string/customView"
+        app:fabSize="auto"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:maxImageSize="@dimen/dp_24"
+        app:srcCompat="@drawable/ic_contents_cos_24dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
