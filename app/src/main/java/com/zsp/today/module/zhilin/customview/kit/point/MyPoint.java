@@ -41,7 +41,11 @@ public class MyPoint extends View {
     @Override
     protected void onDraw(@NonNull Canvas canvas) {
         super.onDraw(canvas);
+        // 开启抗锯齿
+        // 让图形边缘更平滑
         paint.setAntiAlias(true);
+        // 设置像素
+        paint.setStrokeWidth(20);
         paint.setColor(ContextCompat.getColor(getContext(), com.zsp.core.R.color.color_FFEE6002));
         canvas.drawPoint(Integer.valueOf(getWidth() / 2).floatValue(), Integer.valueOf(getHeight() / 2).floatValue(), paint);
     }
