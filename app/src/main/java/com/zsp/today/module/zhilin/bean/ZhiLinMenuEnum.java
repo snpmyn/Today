@@ -32,7 +32,11 @@ public enum ZhiLinMenuEnum {
     /**
      * 自定义视图
      */
-    CUSTOM_VIEW(5, R.drawable.ic_widget_cos_24dp, "自定义视图", true);
+    CUSTOM_VIEW(5, R.drawable.ic_widget_cos_24dp, "自定义视图", true),
+    /**
+     * MVP
+     */
+    MVP(6, R.drawable.ic_widget_cos_24dp, "MVP", true);
     /**
      * 菜单 ID
      */
