@@ -37,5 +37,5 @@
         android:contentDescription="@string/interviewPoint"
         app:fabSize="auto"
         app:maxImageSize="@dimen/dp_24"
-        app:srcCompat="@drawable/ic_point_cos_24dp" />
+        app:srcCompat="@drawable/ic_contents_cos_24dp" />
 </RelativeLayout>
