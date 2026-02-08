@@ -117,5 +117,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:maxImageSize="@dimen/dp_24"
-        app:srcCompat="@drawable/ic_contents_cos_24dp" />
+        app:srcCompat="@drawable/ic_sort_cos_24dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

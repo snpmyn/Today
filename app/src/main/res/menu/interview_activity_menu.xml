@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:contentDescription="@string/interviewPoint"
-        android:icon="@drawable/ic_contents_cos_24dp"
+        android:icon="@drawable/ic_sort_cos_24dp"
         android:title="@string/interviewPoint"
         app:showAsAction="always" />
 </menu>
