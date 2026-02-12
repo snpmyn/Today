@@ -45,7 +45,7 @@ dependencies {
     api libs.lifecycle.livedata.ktx
     api libs.lifecycle.viewmodel.ktx
     /*自带*/
-    implementation libs.core.ktx
+    api libs.core.ktx
     /*kotlin*/
     api libs.jxl
     api libs.ion
