@@ -149,6 +149,8 @@ public class InterviewActivityKit {
         carouselItemList.add(new CarouselItem(true, R.drawable.interview_point_46, "冷热温\n启动", "冷热温启动"));
         carouselItemList.add(new CarouselItem(true, R.drawable.interview_point_47, "JVM\n内存结构一", "JVM 内存结构一"));
         carouselItemList.add(new CarouselItem(true, R.drawable.interview_point_48, "JVM\n内存结构二", "JVM 内存结构二"));
+        carouselItemList.add(new CarouselItem(true, R.drawable.interview_point_49, "进程\n线程", "进程 线程"));
+        carouselItemList.add(new CarouselItem(true, R.drawable.interview_point_50, "内部类\n持有外部引用", "内部类\n持有外部引用"));
         return carouselItemList;
     }
 
