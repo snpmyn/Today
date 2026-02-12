@@ -1,4 +1,4 @@
-package com.zsp.today.module.zhilin.customview.customview.line;
+package com.zsp.today.module.zhilin.customview.line;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

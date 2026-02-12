@@ -1,4 +1,4 @@
-package com.zsp.today.module.zhilin.customview.customview.rect;
+package com.zsp.today.module.zhilin.customview.oval;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -11,24 +11,24 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 /**
- * Created on 2020/7/2.
+ * Created on 2020/7/3.
  *
  * @author zsp
- * @desc 矩形
+ * @desc 椭圆
  */
-public class MyRect extends View {
+public class MyOval extends View {
     private Paint paint;
 
-    public MyRect(Context context) {
+    public MyOval(Context context) {
         super(context);
     }
 
-    public MyRect(Context context, @Nullable AttributeSet attrs) {
+    public MyOval(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         paint = new Paint();
     }
 
-    public MyRect(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public MyOval(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -42,7 +42,7 @@ public class MyRect extends View {
         super.onDraw(canvas);
         paint.setAntiAlias(true);
         paint.setColor(ContextCompat.getColor(getContext(), com.zsp.core.R.color.color_FFEE6002));
-        canvas.drawRect(Integer.valueOf(getWidth() / 2 - 240).floatValue(), Integer.valueOf(getHeight() / 2 - 120).floatValue(),
+        canvas.drawOval(Integer.valueOf(getWidth() / 2 - 240).floatValue(), Integer.valueOf(getHeight() / 2 - 120).floatValue(),
                 Integer.valueOf(getWidth() / 2 + 240).floatValue(), Integer.valueOf(getHeight() / 2 + 120).floatValue(), paint);
     }
 }

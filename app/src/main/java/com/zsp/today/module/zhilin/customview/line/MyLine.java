@@ -1,4 +1,4 @@
-package com.zsp.today.module.zhilin.customview.customview.oval;
+package com.zsp.today.module.zhilin.customview.line;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -11,24 +11,24 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 /**
- * Created on 2020/7/3.
+ * Created on 2020/7/2.
  *
  * @author zsp
- * @desc 椭圆
+ * @desc 线
  */
-public class MyOval extends View {
+public class MyLine extends View {
     private Paint paint;
 
-    public MyOval(Context context) {
+    public MyLine(Context context) {
         super(context);
     }
 
-    public MyOval(Context context, @Nullable AttributeSet attrs) {
+    public MyLine(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         paint = new Paint();
     }
 
-    public MyOval(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public MyLine(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -42,7 +42,9 @@ public class MyOval extends View {
         super.onDraw(canvas);
         paint.setAntiAlias(true);
         paint.setColor(ContextCompat.getColor(getContext(), com.zsp.core.R.color.color_FFEE6002));
-        canvas.drawOval(Integer.valueOf(getWidth() / 2 - 240).floatValue(), Integer.valueOf(getHeight() / 2 - 120).floatValue(),
-                Integer.valueOf(getWidth() / 2 + 240).floatValue(), Integer.valueOf(getHeight() / 2 + 120).floatValue(), paint);
+        paint.setStrokeWidth(24.0F);
+        paint.setStrokeCap(Paint.Cap.ROUND);
+        canvas.drawLine(Integer.valueOf(getWidth() / 2 - 200).floatValue(), Integer.valueOf(getHeight() / 2).floatValue(),
+                Integer.valueOf(getWidth() / 2 + 200).floatValue(), Integer.valueOf(getHeight() / 2).floatValue(), paint);
     }
 }
