@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
 }
 
 // Creates a variable called keystorePropertiesFile, and initializes it to the keystore.properties file.
@@ -107,6 +108,11 @@ android {
         sourceCompatibility rootProject.ext.sourceCompatibility
         // 生成的字节码兼容 Java 11 (可按需设)
         targetCompatibility rootProject.ext.targetCompatibility
+    }
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(rootProject.ext.jvmTarget)
+        }
     }
     buildFeatures {
         viewBinding true
