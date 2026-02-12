@@ -16,7 +16,7 @@
         app:titleCentered="true"
         app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized" />
 
-    <com.zsp.today.module.zhilin.customview.customview.arc.MyArc
+    <com.zsp.today.module.zhilin.customview.arc.MyArc
         android:id="@+id/customViewActivityMyArc"
         android:layout_width="@dimen/dp_0"
         android:layout_height="@dimen/dp_0"
@@ -25,7 +25,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/customViewActivityMt" />
 
-    <com.zsp.today.module.zhilin.customview.customview.circle.MyCircle
+    <com.zsp.today.module.zhilin.customview.circle.MyCircle
         android:id="@+id/customViewActivityMyCircle"
         android:layout_width="@dimen/dp_0"
         android:layout_height="@dimen/dp_0"
@@ -34,7 +34,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/customViewActivityMt" />
 
-    <com.zsp.today.module.zhilin.customview.customview.line.MyLine
+    <com.zsp.today.module.zhilin.customview.line.MyLine
         android:id="@+id/customViewActivityMyLine"
         android:layout_width="@dimen/dp_0"
         android:layout_height="@dimen/dp_0"
@@ -43,7 +43,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/customViewActivityMt" />
 
-    <com.zsp.today.module.zhilin.customview.customview.line.MyLines
+    <com.zsp.today.module.zhilin.customview.line.MyLines
         android:id="@+id/customViewActivityMyLines"
         android:layout_width="@dimen/dp_0"
         android:layout_height="@dimen/dp_0"
@@ -52,7 +52,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/customViewActivityMt" />
 
-    <com.zsp.today.module.zhilin.customview.customview.oval.MyOval
+    <com.zsp.today.module.zhilin.customview.oval.MyOval
         android:id="@+id/customViewActivityMyOval"
         android:layout_width="@dimen/dp_0"
         android:layout_height="@dimen/dp_0"
@@ -61,7 +61,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/customViewActivityMt" />
 
-    <com.zsp.today.module.zhilin.customview.customview.path.MyPath
+    <com.zsp.today.module.zhilin.customview.path.MyPath
         android:id="@+id/customViewActivityMyPath"
         android:layout_width="@dimen/dp_0"
         android:layout_height="@dimen/dp_0"
@@ -70,7 +70,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/customViewActivityMt" />
 
-    <com.zsp.today.module.zhilin.customview.customview.point.MyPoint
+    <com.zsp.today.module.zhilin.customview.point.MyPoint
         android:id="@+id/customViewActivityMyPoint"
         android:layout_width="@dimen/dp_0"
         android:layout_height="@dimen/dp_0"
@@ -79,7 +79,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/customViewActivityMt" />
 
-    <com.zsp.today.module.zhilin.customview.customview.rect.MyRect
+    <com.zsp.today.module.zhilin.customview.rect.MyRect
         android:id="@+id/customViewActivityMyRect"
         android:layout_width="@dimen/dp_0"
         android:layout_height="@dimen/dp_0"
@@ -88,7 +88,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/customViewActivityMt" />
 
-    <com.zsp.today.module.zhilin.customview.customview.rect.MyRoundRect
+    <com.zsp.today.module.zhilin.customview.rect.MyRoundRect
         android:id="@+id/customViewActivityMyRoundRect"
         android:layout_width="@dimen/dp_0"
         android:layout_height="@dimen/dp_0"
@@ -97,7 +97,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/customViewActivityMt" />
 
-    <com.zsp.today.module.zhilin.customview.customview.text.MyText
+    <com.zsp.today.module.zhilin.customview.text.MyText
         android:id="@+id/customViewActivityMyText"
         android:layout_width="@dimen/dp_0"
         android:layout_height="@dimen/dp_0"
