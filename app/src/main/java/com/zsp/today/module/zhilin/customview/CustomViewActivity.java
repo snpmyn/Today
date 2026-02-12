@@ -5,16 +5,16 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 
 import com.zsp.today.R;
-import com.zsp.today.module.zhilin.customview.customview.arc.MyArc;
-import com.zsp.today.module.zhilin.customview.customview.circle.MyCircle;
-import com.zsp.today.module.zhilin.customview.customview.line.MyLine;
-import com.zsp.today.module.zhilin.customview.customview.line.MyLines;
-import com.zsp.today.module.zhilin.customview.customview.oval.MyOval;
-import com.zsp.today.module.zhilin.customview.customview.path.MyPath;
-import com.zsp.today.module.zhilin.customview.customview.point.MyPoint;
-import com.zsp.today.module.zhilin.customview.customview.rect.MyRect;
-import com.zsp.today.module.zhilin.customview.customview.rect.MyRoundRect;
-import com.zsp.today.module.zhilin.customview.customview.text.MyText;
+import com.zsp.today.module.zhilin.customview.arc.MyArc;
+import com.zsp.today.module.zhilin.customview.circle.MyCircle;
+import com.zsp.today.module.zhilin.customview.line.MyLine;
+import com.zsp.today.module.zhilin.customview.line.MyLines;
+import com.zsp.today.module.zhilin.customview.oval.MyOval;
+import com.zsp.today.module.zhilin.customview.path.MyPath;
+import com.zsp.today.module.zhilin.customview.point.MyPoint;
+import com.zsp.today.module.zhilin.customview.rect.MyRect;
+import com.zsp.today.module.zhilin.customview.rect.MyRoundRect;
+import com.zsp.today.module.zhilin.customview.text.MyText;
 import com.zsp.today.module.zhilin.customview.kit.CustomViewActivityKit;
 
 import pool.base.BasePoolActivity;
