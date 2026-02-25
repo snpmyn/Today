@@ -108,6 +108,8 @@ android {
         sourceCompatibility rootProject.ext.sourceCompatibility
         // 生成的字节码兼容 Java 11 (可按需设)
         targetCompatibility rootProject.ext.targetCompatibility
+        // 开启 Java8 desugaring (如用 Java8 API)
+        coreLibraryDesugaringEnabled rootProject.ext.coreLibraryDesugaringEnabled
     }
     kotlin {
         compilerOptions {
@@ -145,4 +147,8 @@ dependencies {
     /*AMap*/
     /*implementation project(':bdmap')*/
     /*BdMap*/
+    coreLibraryDesugaring libs.desugar.jdk.libs
+    /*给旧 Android 系统打补丁*/
+    /*补上系统原本没有的 Java 方法*/
+    /*让低版本 Android 也能用 Java 8 / Java 11 的新 API*/
 }
