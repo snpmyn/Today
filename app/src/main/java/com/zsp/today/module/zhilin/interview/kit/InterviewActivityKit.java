@@ -100,7 +100,7 @@ public class InterviewActivityKit {
      */
     @NonNull
     private List<CarouselItem> prepareCarouselItemList() {
-        List<CarouselItem> carouselItemList = new ArrayList<>(46);
+        List<CarouselItem> carouselItemList = new ArrayList<>(52);
         carouselItemList.add(new CarouselItem(true, R.drawable.interview_point_1, "Android\n坐标系", "Android 坐标系"));
         carouselItemList.add(new CarouselItem(true, R.drawable.interview_point_2, "Glide\n三级缓存", "Glide 三级缓存"));
         carouselItemList.add(new CarouselItem(true, R.drawable.interview_point_3, "TCP\n三次握手", "TCP 三次握手"));
@@ -150,7 +150,9 @@ public class InterviewActivityKit {
         carouselItemList.add(new CarouselItem(true, R.drawable.interview_point_47, "JVM\n内存结构一", "JVM 内存结构一"));
         carouselItemList.add(new CarouselItem(true, R.drawable.interview_point_48, "JVM\n内存结构二", "JVM 内存结构二"));
         carouselItemList.add(new CarouselItem(true, R.drawable.interview_point_49, "进程\n线程", "进程 线程"));
-        carouselItemList.add(new CarouselItem(true, R.drawable.interview_point_50, "内部类\n持有外部引用", "内部类\n持有外部引用"));
+        carouselItemList.add(new CarouselItem(true, R.drawable.interview_point_50, "内部类\n持有外部引用", "内部类持有外部引用"));
+        carouselItemList.add(new CarouselItem(true, R.drawable.interview_point_51, "APK\nAAB", "APK AAB"));
+        carouselItemList.add(new CarouselItem(true, R.drawable.interview_point_52, "Java\n枚举", "Java 枚举"));
         return carouselItemList;
     }
 
