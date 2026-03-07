@@ -26,4 +26,11 @@
         android:contentDescription="@string/carousel"
         android:scaleType="centerCrop"
         android:visibility="gone" />
+
+    <WebView
+        android:id="@+id/carouselItemWv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:visibility="gone" />
 </com.google.android.material.carousel.MaskableFrameLayout>
