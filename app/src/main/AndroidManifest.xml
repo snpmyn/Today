@@ -58,30 +58,81 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Today"
         tools:targetApi="29">
-        <activity android:name=".module.setting.SettingActivity" />
-        <activity android:name=".module.mine.SplashAnimationDetailActivity" />
-        <activity android:name=".module.mine.SplashAnimationHomeActivity" />
-        <activity android:name=".module.zhilin.mvp.MvpActivity" />
-        <activity android:name=".module.zhilin.customview.CustomViewActivity" />
-        <activity android:name=".module.zhilin.interview.InterviewActivity" />
-        <activity android:name=".module.zhilin.android.AndroidActivity" />
-        <activity android:name=".module.zhilin.rxjava.RxJavaActivity" />
-        <activity android:name=".module.zhilin.tablayout.TabLayoutActivity" />
-        <activity android:name=".module.zhilin.ZhiLinActivity" />
-        <activity android:name=".module.detect.DetectActivity" />
-        <activity android:name=".module.lingfang.LingFangActivity" />
-        <activity android:name=".module.homecome.HomeComeActivity" />
-        <activity android:name=".module.heartbox.HeartBoxActivity" />
-        <activity android:name=".module.dangerous.DangerousActivity" />
-        <activity android:name=".module.account.AccountAnalysisActivity" />
-        <activity android:name=".module.account.AddAccountActivity" />
-        <activity android:name=".module.account.AccountDetailActivity" />
-        <activity android:name=".module.account.AccountSecondActivity" />
-        <activity android:name=".module.account.AccountHomeActivity" />
-        <activity android:name=".module.function.FunctionActivity" />
-        <activity android:name=".main.MainActivity" />
-        <activity android:name="pool.module.login.LoginActivity" />
-        <activity android:name="pool.module.login.UserAgreementAndPrivacyPolicyActivity" />
+        <activity
+            android:name=".module.setting.SettingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".module.mine.SplashAnimationDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".module.mine.SplashAnimationHomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".module.zhilin.history.HistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".module.zhilin.mvp.MvpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".module.zhilin.customview.CustomViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".module.zhilin.interview.InterviewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".module.zhilin.android.AndroidActivity"
+            android:exported="false" />
+        <activity
+            android:name=".module.zhilin.rxjava.RxJavaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".module.zhilin.tablayout.TabLayoutActivity"
+            android:exported="false" />
+        <activity
+            android:name=".module.zhilin.ZhiLinActivity"
+            android:exported="false" />
+        <activity
+            android:name=".module.detect.DetectActivity"
+            android:exported="false" />
+        <activity
+            android:name=".module.lingfang.LingFangActivity"
+            android:exported="false" />
+        <activity
+            android:name=".module.homecome.HomeComeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".module.heartbox.HeartBoxActivity"
+            android:exported="false" />
+        <activity
+            android:name=".module.dangerous.DangerousActivity"
+            android:exported="false" />
+        <activity
+            android:name=".module.account.AccountAnalysisActivity"
+            android:exported="false" />
+        <activity
+            android:name=".module.account.AddAccountActivity"
+            android:exported="false" />
+        <activity
+            android:name=".module.account.AccountDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".module.account.AccountSecondActivity"
+            android:exported="false" />
+        <activity
+            android:name=".module.account.AccountHomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".module.function.FunctionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".main.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name="pool.module.login.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name="pool.module.login.UserAgreementAndPrivacyPolicyActivity"
+            android:exported="false" />
         <activity
             android:name="pool.module.splash.SplashActivity"
             android:exported="true"
