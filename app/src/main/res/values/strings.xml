@@ -21,6 +21,7 @@
     <string name="listen">听听</string>
     <string name="zhiLin">知林</string>
     <string name="update">更新</string>
+    <string name="history">历史</string>
     <string name="release">释放</string>
     <string name="app_name">知伴</string>
     <string name="heartBox">心盒</string>
@@ -54,6 +55,7 @@
     <string name="inputAmount">输入金额</string>
     <string name="openAccount">打开账单</string>
     <string name="customView">自定义视图</string>
+    <string name="historyPoint">历史要点</string>
     <string name="monthOnMonth">月度环比</string>
     <string name="todayAccount">今日账目</string>
     <string name="yearAnalysis">年度分析</string>
