@@ -104,7 +104,7 @@ public class ZhiLinActivity extends BasePoolActivity {
      */
     @Override
     protected void startLogic() {
-        zhiLinActivityKit.display(this, zhiLinActivityRv, 2, 12, 36, statusManager);
+        zhiLinActivityKit.display(this, zhiLinActivityRv, 3, 12, 48, statusManager);
     }
 
     /**
@@ -114,14 +114,14 @@ public class ZhiLinActivity extends BasePoolActivity {
      */
     private void menuItemClickToExecute(@NotNull MenuItem menuItem) {
         int itemId = menuItem.getItemId();
-        if (itemId == R.id.zhiLinActivityTwoColumn) {
-            // 两列
-            zhiLinActivityRv.removeItemDecorationAt(0);
-            zhiLinActivityKit.display(this, zhiLinActivityRv, 2, 12, 36, statusManager);
-        } else if (itemId == R.id.zhiLinActivityThreeColumn) {
+        if (itemId == R.id.zhiLinActivityThreeColumn) {
             // 三列
             zhiLinActivityRv.removeItemDecorationAt(0);
             zhiLinActivityKit.display(this, zhiLinActivityRv, 3, 12, 48, statusManager);
+        } else if (itemId == R.id.zhiLinActivityTwoColumn) {
+            // 两列
+            zhiLinActivityRv.removeItemDecorationAt(0);
+            zhiLinActivityKit.display(this, zhiLinActivityRv, 2, 12, 36, statusManager);
         }
     }
 }
