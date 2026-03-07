@@ -36,7 +36,11 @@ public enum ZhiLinMenuEnum {
     /**
      * MVP
      */
-    MVP(6, R.drawable.ic_widget_cos_24dp, "MVP", true);
+    MVP(6, R.drawable.ic_widget_cos_24dp, "MVP", true),
+    /**
+     * 历史
+     */
+    HISTORY(7, R.drawable.ic_widget_cos_24dp, "历史", true);
     /**
      * 菜单 ID
      */
