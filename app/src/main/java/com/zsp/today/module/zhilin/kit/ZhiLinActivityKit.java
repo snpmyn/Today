@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.zsp.today.module.zhilin.android.AndroidActivity;
 import com.zsp.today.module.zhilin.bean.ZhiLinMenuEnum;
 import com.zsp.today.module.zhilin.customview.CustomViewActivity;
+import com.zsp.today.module.zhilin.history.HistoryActivity;
 import com.zsp.today.module.zhilin.interview.InterviewActivity;
 import com.zsp.today.module.zhilin.mvp.MvpActivity;
 import com.zsp.today.module.zhilin.rxjava.RxJavaActivity;
@@ -97,6 +98,11 @@ public class ZhiLinActivityKit {
             case 6:
                 Intent fromThisToMvpActivityIntent = new Intent(appCompatActivity, MvpActivity.class);
                 TransitionKit.getInstance().jumpWithTransition(appCompatActivity, view, fromThisToMvpActivityIntent, false);
+                break;
+            // 历史
+            case 7:
+                Intent fromThisToHistoryActivityIntent = new Intent(appCompatActivity, HistoryActivity.class);
+                TransitionKit.getInstance().jumpWithTransition(appCompatActivity, view, fromThisToHistoryActivityIntent, false);
                 break;
             default:
                 break;
