@@ -2,15 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/zhiLinActivityTwoColumn"
-        android:contentDescription="@string/twoColumn"
-        android:icon="@drawable/ic_table_cos_24dp"
-        android:title="@string/twoColumn"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/zhiLinActivityThreeColumn"
         android:contentDescription="@string/threeColumn"
         android:icon="@drawable/ic_table_chart_cos_24dp"
         android:title="@string/threeColumn"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/zhiLinActivityTwoColumn"
+        android:contentDescription="@string/twoColumn"
+        android:icon="@drawable/ic_table_cos_24dp"
+        android:title="@string/twoColumn"
         app:showAsAction="ifRoom" />
 </menu>
