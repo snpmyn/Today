@@ -12,9 +12,9 @@ import java.util.Objects;
  */
 public class CarouselItem {
     /**
-     * 显示图像
+     * 轮播类型
      */
-    public boolean showImage;
+    public CarouselType carouselType;
     /**
      * 轮播资源 ID
      */
@@ -31,20 +31,20 @@ public class CarouselItem {
     /**
      * constructor
      *
-     * @param showImage        显示图像
+     * @param carouselType     轮播类型
      * @param carouselResId    轮播资源 ID
      * @param carouselTitle    轮播标题
      * @param carouselDescribe 轮播描述
      */
-    public CarouselItem(boolean showImage, int carouselResId, String carouselTitle, String carouselDescribe) {
-        this.showImage = showImage;
+    public CarouselItem(CarouselType carouselType, int carouselResId, String carouselTitle, String carouselDescribe) {
+        this.carouselType = carouselType;
         this.carouselResId = carouselResId;
         this.carouselTitle = carouselTitle;
         this.carouselDescribe = carouselDescribe;
     }
 
-    public boolean isShowImage() {
-        return showImage;
+    public CarouselType getCarouselType() {
+        return carouselType;
     }
 
     public int getCarouselResId() {
@@ -68,11 +68,11 @@ public class CarouselItem {
             return false;
         }
         CarouselItem carouselItem = (CarouselItem) obj;
-        return ((showImage == carouselItem.showImage) && (carouselResId == carouselItem.carouselResId) && Objects.equals(carouselTitle, carouselItem.carouselTitle) && Objects.equals(carouselDescribe, carouselItem.carouselDescribe));
+        return ((carouselType == carouselItem.carouselType) && (carouselResId == carouselItem.carouselResId) && Objects.equals(carouselTitle, carouselItem.carouselTitle) && Objects.equals(carouselDescribe, carouselItem.carouselDescribe));
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(showImage, carouselResId, carouselTitle, carouselDescribe);
+        return Objects.hash(carouselType, carouselResId, carouselTitle, carouselDescribe);
     }
 }
