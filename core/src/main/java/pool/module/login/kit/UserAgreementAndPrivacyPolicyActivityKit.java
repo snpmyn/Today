@@ -2,7 +2,6 @@ package pool.module.login.kit;
 
 import android.content.Intent;
 import android.text.TextUtils;
-import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
 import androidx.annotation.NonNull;
@@ -19,6 +18,7 @@ import pool.module.login.UserAgreementAndPrivacyPolicyActivity;
 import pool.value.PoolConstant;
 import util.intent.IntentJump;
 import util.intent.IntentVerify;
+import widget.webview.WebViewKit;
 
 /**
  * Created on 2021/9/16
@@ -34,14 +34,7 @@ public class UserAgreementAndPrivacyPolicyActivityKit {
      * @param materialToolbar MaterialToolbar
      */
     public void setTitle(@NotNull WebView webView, MaterialToolbar materialToolbar) {
-        WebChromeClient webChromeClient = new WebChromeClient() {
-            @Override
-            public void onReceivedTitle(WebView view, String title) {
-                super.onReceivedTitle(view, title);
-                materialToolbar.setTitle(title);
-            }
-        };
-        webView.setWebChromeClient(webChromeClient);
+        WebViewKit.setWebChromeClient(webView, materialToolbar);
     }
 
     /**
@@ -52,9 +45,9 @@ public class UserAgreementAndPrivacyPolicyActivityKit {
      */
     public void showUserAgreementOrPrivacyPolicy(@NonNull AppCompatActivity appCompatActivity, WebView webView) {
         if (TextUtils.equals(IntentVerify.getStringExtra(appCompatActivity.getIntent(), PoolConstant.USER_AGREEMENT), PoolConstant.USER_AGREEMENT)) {
-            webView.loadUrl(Objects.requireNonNull(BasePoolApp.getConfigMap().get(1)).get(3));
+            WebViewKit.loadUrl(webView, Objects.requireNonNull(BasePoolApp.getConfigMap().get(1)).get(3));
         } else if (TextUtils.equals(IntentVerify.getStringExtra(appCompatActivity.getIntent(), PoolConstant.PRIVACY_POLICY), PoolConstant.PRIVACY_POLICY)) {
-            webView.loadUrl(Objects.requireNonNull(BasePoolApp.getConfigMap().get(1)).get(4));
+            WebViewKit.loadUrl(webView, Objects.requireNonNull(BasePoolApp.getConfigMap().get(1)).get(4));
         }
     }
 
