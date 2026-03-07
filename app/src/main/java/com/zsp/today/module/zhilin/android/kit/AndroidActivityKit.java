@@ -1,6 +1,5 @@
 package com.zsp.today.module.zhilin.android.kit;
 
-import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
 import androidx.annotation.NonNull;
@@ -19,6 +18,7 @@ import java.util.Objects;
 
 import util.list.ListUtils;
 import widget.bottomsheetdialog.SingleChooseBottomSheetDialogKit;
+import widget.webview.WebViewKit;
 
 /**
  * Created on 2025/9/28.
@@ -47,14 +47,7 @@ public class AndroidActivityKit {
      * @param materialToolbar MaterialToolbar
      */
     public void setTitle(@NotNull WebView webView, MaterialToolbar materialToolbar) {
-        WebChromeClient webChromeClient = new WebChromeClient() {
-            @Override
-            public void onReceivedTitle(WebView view, String title) {
-                super.onReceivedTitle(view, title);
-                materialToolbar.setTitle(title);
-            }
-        };
-        webView.setWebChromeClient(webChromeClient);
+        WebViewKit.setWebChromeClient(webView, materialToolbar);
     }
 
     /**
@@ -84,12 +77,9 @@ public class AndroidActivityKit {
      */
     public void showAndroidArticleList(AppCompatActivity appCompatActivity, WebView webView) {
         int defaultSelectPosition = ListUtils.getTargetIndex(articleNameList, appointArticleName);
-        SingleChooseBottomSheetDialogKit.show(appCompatActivity, articleNameList, defaultSelectPosition, new SingleChooseBottomSheetDialogKit.SingleChooseBottomSheetDialogKitListener() {
-            @Override
-            public void singleChoose(String value) {
-                appointArticleName = value;
-                showAndroidArticleContent(webView, articleNameAndArticleUrlMap.get(appointArticleName));
-            }
+        SingleChooseBottomSheetDialogKit.show(appCompatActivity, articleNameList, defaultSelectPosition, value -> {
+            appointArticleName = value;
+            showAndroidArticleContent(webView, articleNameAndArticleUrlMap.get(appointArticleName));
         });
     }
 
@@ -100,6 +90,6 @@ public class AndroidActivityKit {
      * @param url     链接
      */
     public void showAndroidArticleContent(@NonNull WebView webView, String url) {
-        webView.loadUrl(Objects.requireNonNull(url));
+        WebViewKit.loadUrl(webView, Objects.requireNonNull(url));
     }
 }
