@@ -20,6 +20,10 @@ public class CarouselItem {
      */
     public int carouselResId;
     /**
+     * 轮播 HTML
+     */
+    public String carouselHtml;
+    /**
      * 轮播标题
      */
     public String carouselTitle;
@@ -43,12 +47,31 @@ public class CarouselItem {
         this.carouselDescribe = carouselDescribe;
     }
 
+    /**
+     * constructor
+     *
+     * @param carouselType     轮播类型
+     * @param carouselHtml     轮播 HTML
+     * @param carouselTitle    轮播标题
+     * @param carouselDescribe 轮播描述
+     */
+    public CarouselItem(CarouselType carouselType, String carouselHtml, String carouselTitle, String carouselDescribe) {
+        this.carouselType = carouselType;
+        this.carouselHtml = carouselHtml;
+        this.carouselTitle = carouselTitle;
+        this.carouselDescribe = carouselDescribe;
+    }
+
     public CarouselType getCarouselType() {
         return carouselType;
     }
 
     public int getCarouselResId() {
         return carouselResId;
+    }
+
+    public String getCarouselHtml() {
+        return carouselHtml;
     }
 
     public String getCarouselTitle() {
@@ -68,11 +91,11 @@ public class CarouselItem {
             return false;
         }
         CarouselItem carouselItem = (CarouselItem) obj;
-        return ((carouselType == carouselItem.carouselType) && (carouselResId == carouselItem.carouselResId) && Objects.equals(carouselTitle, carouselItem.carouselTitle) && Objects.equals(carouselDescribe, carouselItem.carouselDescribe));
+        return ((carouselType == carouselItem.carouselType) && (carouselResId == carouselItem.carouselResId) && Objects.equals(carouselHtml, carouselItem.carouselHtml) && Objects.equals(carouselTitle, carouselItem.carouselTitle) && Objects.equals(carouselDescribe, carouselItem.carouselDescribe));
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(carouselType, carouselResId, carouselTitle, carouselDescribe);
+        return Objects.hash(carouselType, carouselResId, carouselHtml, carouselTitle, carouselDescribe);
     }
 }
