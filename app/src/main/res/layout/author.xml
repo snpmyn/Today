@@ -17,7 +17,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/email"
+            android:gravity="center"
+            android:lineSpacingExtra="@dimen/dp_6"
+            android:text="@string/emailAndPhoneNumber"
             android:textSize="@dimen/sp_14"
             android:textStyle="bold" />
     </com.google.android.material.card.MaterialCardView>
