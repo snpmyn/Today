@@ -7,8 +7,8 @@ import androidx.lifecycle.MutableLiveData;
 import com.zsp.today.basic.retrofit.ApiService;
 import com.zsp.today.basic.retrofit.RetrofitClient;
 import com.zsp.today.basic.retrofit.TokenManager;
-import com.zsp.today.module.poetry.TokenModel;
 import com.zsp.today.module.poetry.model.PoetryModel;
+import com.zsp.today.module.poetry.model.PoetryTokenModel;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,9 +34,9 @@ public class PoetryRepository {
         MutableLiveData<PoetryModel> mutableLiveData = new MutableLiveData<>();
         // 无 Token 时先获取
         if (!TokenManager.hasToken()) {
-            apiService.getTokenModel().enqueue(new Callback<>() {
+            apiService.getPoetryTokenModel().enqueue(new Callback<>() {
                 @Override
-                public void onResponse(@NonNull Call<TokenModel> call, @NonNull Response<TokenModel> response) {
+                public void onResponse(@NonNull Call<PoetryTokenModel> call, @NonNull Response<PoetryTokenModel> response) {
                     if (null != response.body()) {
                         TokenManager.setToken(response.body().getData());
                         execute(apiService, mutableLiveData);
@@ -44,7 +44,7 @@ public class PoetryRepository {
                 }
 
                 @Override
-                public void onFailure(@NonNull Call<TokenModel> call, @NonNull Throwable t) {
+                public void onFailure(@NonNull Call<PoetryTokenModel> call, @NonNull Throwable t) {
                     Timber.e(t);
                 }
             });
