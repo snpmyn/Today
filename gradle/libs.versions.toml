@@ -1,8 +1,8 @@
 [versions]
-agp = "8.12.0-alpha02"
+agp = "9.1.0-rc01"
 asms = "1.8.7.2"
 baidumapsdk_location_all = "9.6.6.2"
-common = "9.8.9"
+common = "9.9.0"
 desugar_jdk_libs = "2.1.5"
 ion = "3.1.0"
 junit = "4.13.2"
@@ -13,7 +13,6 @@ location = "6.5.1"
 lunar = "1.7.7"
 material = "1.14.0-alpha10"
 constraintlayout = "2.2.1"
-kotlin = "2.3.10"
 coreKtx = "1.18.0"
 eventbus = "3.3.1"
 palette = "1.0.0"
@@ -82,4 +81,3 @@ localbroadcastmanager = { group = "androidx.localbroadcastmanager", name = "loca
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
