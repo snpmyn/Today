@@ -14,7 +14,3 @@ All Rights Reserved.
 
 仅供学习交流使用
 ![下载](user/image/download.png)
-
-<p align="center">
-  <img src="user/image/download.png" width="840" alt="">
-</p>
