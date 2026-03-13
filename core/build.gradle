@@ -49,8 +49,6 @@ dependencies {
     /*kotlin*/
     api libs.jxl
     api libs.ion
-    api libs.okio
-    api libs.gson
     api libs.mpac
     api libs.mmkv
     api libs.lunar
@@ -60,6 +58,7 @@ dependencies {
     api libs.lottie
     api libs.palette
     api libs.relinker
+    api libs.retrofit
     api libs.eventbus
     api libs.rxandroid
     api libs.preference
@@ -67,6 +66,7 @@ dependencies {
     api libs.permissionx
     api libs.work.runtime
     api project(':youmeng')
+    api libs.converter.gson
     api libs.rxjava3.rxjava
     api libs.rxjava3.rxandroid
     /*api libs.tensorflow.lite*/
