@@ -7,6 +7,14 @@ import com.google.gson.annotations.SerializedName;
  *
  * @author 郑少鹏
  * @desc 网络模型
+ * <p>
+ * Gson 在解析 JSON 时
+ * 默认使用字段名直接匹配 JSON key
+ * 如果字段名和 JSON key 不一致，就需要 @SerializedName 指定映射。
+ * <p>
+ * 保证字段映射稳定
+ * 兼容 JSON 命名规范
+ * 防止混淆（Proguard / R8）
  */
 public class NetworkModel {
     @SerializedName("ip")
