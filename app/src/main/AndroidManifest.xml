@@ -92,6 +92,12 @@
             android:name=".module.zhilin.ZhiLinActivity"
             android:exported="false" />
         <activity
+            android:name=".module.network.NetworkActivity"
+            android:exported="false" />
+        <activity
+            android:name=".module.poetry.PoetryActivity"
+            android:exported="false" />
+        <activity
             android:name=".module.detect.DetectActivity"
             android:exported="false" />
         <activity
