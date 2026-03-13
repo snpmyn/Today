@@ -1,8 +1,8 @@
 package com.zsp.today.basic.retrofit;
 
-import com.zsp.today.module.network.NetworkModel;
-import com.zsp.today.module.poetry.PoetryModel;
+import com.zsp.today.module.network.model.NetworkModel;
 import com.zsp.today.module.poetry.TokenModel;
+import com.zsp.today.module.poetry.model.PoetryModel;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
