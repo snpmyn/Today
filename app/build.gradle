@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
 }
 
 // Creates a variable called keystorePropertiesFile, and initializes it to the keystore.properties file.
@@ -120,18 +119,20 @@ android {
         viewBinding true
         buildConfig = true
     }
-    applicationVariants.all { variant ->
-        variant.outputs.all { output ->
+}
+
+androidComponents {
+    onVariants(selector().all()) { variant ->
+        variant.outputs.each { output ->
             def appName = "知伴"
-            def flavorName = variant.flavorName
-            def buildTypeName = variant.buildType.name
-            def versionCode = variant.versionCode
-            // eg
-            // 只拿 versionName "xxx.xxx"
-            // 无 versionNameSuffix "-product"
-            // 无 versionNameSuffix "-release"
-            def mergedFlavorVersionName = variant.mergedFlavor.versionName
-            outputFileName = "${appName}-${flavorName}-${buildTypeName}-${versionCode}-v${mergedFlavorVersionName}.apk"
+            def flavorName = variant.flavorName ?: "default"
+            def buildTypeName = variant.buildType
+            def versionCode = output.versionCode.get()
+            def date = new Date().format("yyyyMMddHHmmss")
+            // 去掉 suffix
+            /*def versionName = output.versionName.get()*/
+            def versionName = output.versionName.get().replace("-${flavorName}", "").replace("-${buildTypeName}", "")
+            output.outputFileName.set("${appName}-${flavorName}-${buildTypeName}-v${versionName}-${versionCode}-${date}.apk")
         }
     }
 }
