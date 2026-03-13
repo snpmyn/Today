@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/detectActivityLl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.card.MaterialCardView
+        style="?attr/materialCardViewFilledStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dp_20"
+        android:layout_marginTop="?actionBarSize"
+        app:contentPaddingLeft="@dimen/dp_20"
+        app:contentPaddingRight="@dimen/dp_20">
+
+        <TextView
+            android:id="@+id/poetryActivityTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingVertical="@dimen/dp_16"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold"
+            tools:text="标题" />
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        style="?attr/materialCardViewFilledStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_20"
+        app:contentPaddingLeft="@dimen/dp_20"
+        app:contentPaddingRight="@dimen/dp_20">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingVertical="@dimen/dp_16">
+
+            <TextView
+                android:id="@+id/poetryActivityAuthor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="@dimen/sp_14"
+                android:textStyle="bold"
+                tools:text="作者" />
+
+            <TextView
+                android:id="@+id/poetryActivityDynasty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:gravity="center"
+                android:textSize="@dimen/sp_14"
+                android:textStyle="bold"
+                tools:text="朝代" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        style="?attr/materialCardViewFilledStyle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0"
+        android:layout_marginHorizontal="@dimen/dp_20"
+        android:layout_marginBottom="@dimen/dp_20"
+        android:layout_weight="1"
+        app:contentPaddingLeft="@dimen/dp_20"
+        app:contentPaddingRight="@dimen/dp_20"
+        tools:ignore="InefficientWeight">
+
+        <TextView
+            android:id="@+id/poetryActivityContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:lineSpacingExtra="@dimen/dp_6"
+            android:paddingVertical="@dimen/dp_16"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold"
+            tools:text="内容" />
+    </com.google.android.material.card.MaterialCardView>
+</LinearLayout>
