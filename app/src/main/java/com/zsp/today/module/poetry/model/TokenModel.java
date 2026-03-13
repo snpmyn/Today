@@ -1,4 +1,4 @@
-package com.zsp.today.module.poetry;
+package com.zsp.today.module.poetry.model;
 
 import com.google.gson.annotations.SerializedName;
 
