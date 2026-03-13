@@ -15,7 +15,7 @@ All Rights Reserved.
 仅供学习交流使用
 
 <p align="center">
-  <img src="user/image/download.png" width="840" alt="下载二维码">
+  <img src="user/image/download.webp" width="94" alt="下载二维码">
 </p>
 
-![下载](user/image/download.png)
+![下载](user/image/download.webp)
