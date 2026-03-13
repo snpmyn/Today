@@ -13,4 +13,4 @@ All Rights Reserved.
 ## 下载
 
 仅供学习交流使用
-[code](user/images/download.png)
+![下载](user/images/download.png)
