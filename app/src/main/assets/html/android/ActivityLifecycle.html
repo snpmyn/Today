@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Activity 生命周期</title>
+
+    <style>
+        body {
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: #fff8f0;
+            color: #444;
+            margin: 0;
+            padding: 0;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        header {
+            background: #ffb347;
+            color: #fff;
+            padding: 12px;
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 12px;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        nav {
+            background: #fff3e0;
+            padding: 8px 12px;
+            border-bottom: 1px solid #f1d1a5;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            font-size: 13px;
+        }
+        nav a {
+            text-decoration: none;
+            color: #ff914d;
+            background: #fff;
+            padding: 6px 10px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        nav a:hover {
+            background: #ffe0c2;
+        }
+        section {
+            padding: 12px 16px;
+        }
+        h2 {
+            color: #ff914d;
+            margin: 20px 0 8px;
+            font-size: 16px;
+        }
+        pre {
+            background: #fff;
+            color: #333;
+            padding: 10px;
+            border-radius: 12px;
+            overflow-x: auto;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+            font-size: 13px;
+        }
+        code {
+            font-family: Consolas, Monaco, monospace;
+        }
+        .cmd {
+            margin-bottom: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>🌸 Activity 生命周期面试速查表 🌸</header>
+
+<nav>
+    <a href="#lifecycle">生命周期</a>
+    <a href="#start">启动流程</a>
+    <a href="#switch">页面跳转</a>
+    <a href="#back">返回键</a>
+    <a href="#home">Home键</a>
+    <a href="#pause">Pause vs Stop</a>
+    <a href="#rotate">屏幕旋转</a>
+    <a href="#save">状态保存</a>
+    <a href="#destroy">Destroy问题</a>
+    <a href="#mode">启动模式</a>
+    <a href="#fragment">Fragment</a>
+    <a href="#answer">面试回答</a>
+</nav>
+
+<section>
+
+    <h2 id="lifecycle">Activity 生命周期</h2>
+    <div class="cmd"><pre><code>onCreate()   # Activity 创建并初始化 UI
+onStart()    # Activity 可见
+onResume()   # Activity 前台运行，可交互
+
+onPause()    # Activity 失去焦点
+onStop()     # Activity 完全不可见
+onDestroy()  # Activity 销毁
+
+onRestart()  # 从 Stop 状态重新启动</code></pre>
+    </div>
+
+
+    <h2 id="start">Activity 启动流程</h2>
+    <div class="cmd"><pre><code>启动 Activity
+
+onCreate
+   ↓
+onStart
+   ↓
+onResume</code></pre>
+    </div>
+
+
+    <h2 id="switch">Activity A 启动 Activity B</h2>
+    <div class="cmd"><pre><code>Activity A
+
+onPause
+onStop
+
+Activity B
+
+onCreate
+onStart
+onResume</code></pre>
+    </div>
+
+
+    <h2 id="back">按返回键</h2>
+    <div class="cmd"><pre><code>当前 Activity
+
+onPause
+onStop
+onDestroy
+
+上一个 Activity
+
+onRestart
+onStart
+onResume</code></pre>
+    </div>
+
+
+    <h2 id="home">Home 键</h2>
+    <div class="cmd"><pre><code>按 Home 键
+
+onPause
+onStop
+
+回到应用
+
+onRestart
+onStart
+onResume</code></pre>
+    </div>
+
+
+    <h2 id="pause">onPause 与 onStop 区别</h2>
+    <div class="cmd"><pre><code>onPause
+
+Activity 失去焦点
+但可能仍然可见
+例如 Dialog / 透明 Activity
+
+常见操作：
+暂停动画
+暂停视频
+保存轻量数据
+
+
+onStop
+
+Activity 完全不可见
+
+常见操作：
+释放 UI 资源
+停止耗时任务</code></pre>
+    </div>
+
+
+    <h2 id="rotate">屏幕旋转</h2>
+    <div class="cmd"><pre><code>默认 Activity 会重建
+
+onPause
+onStop
+onDestroy
+
+onCreate
+onStart
+onResume
+
+原因：
+系统需要重新加载资源
+
+layout/
+layout-land/</code></pre>
+    </div>
+
+
+    <h2 id="save">onSaveInstanceState</h2>
+    <div class="cmd"><pre><code>保存 UI 状态
+
+@Override
+protected void onSaveInstanceState(Bundle outState) {
+    outState.putString("key", value);
+}
+
+恢复位置
+
+onCreate()
+onRestoreInstanceState()</code></pre>
+    </div>
+
+
+    <h2 id="destroy">Activity 不一定执行 onDestroy</h2>
+    <div class="cmd"><pre><code>系统内存不足时
+
+onPause
+onStop
+(进程被系统杀死)
+
+因此不要依赖 onDestroy 保存数据</code></pre>
+    </div>
+
+
+    <h2 id="mode">Activity 启动模式</h2>
+    <div class="cmd"><pre><code>standard
+默认模式，每次创建新实例
+
+singleTop
+栈顶复用
+调用 onNewIntent()
+
+singleTask
+任务栈中只有一个实例
+
+singleInstance
+独立任务栈</code></pre>
+    </div>
+
+
+    <h2 id="fragment">Activity 与 Fragment 生命周期</h2>
+    <div class="cmd"><pre><code>Activity onCreate
+
+Fragment onAttach
+Fragment onCreate
+Fragment onCreateView
+Fragment onStart
+Fragment onResume</code></pre>
+    </div>
+
+
+    <h2 id="answer">面试回答模板</h2>
+    <div class="cmd"><pre><code>Activity 生命周期包括
+
+onCreate
+onStart
+onResume
+onPause
+onStop
+onDestroy
+
+启动 Activity：
+onCreate → onStart → onResume
+
+失去焦点：
+onPause
+
+不可见：
+onStop
+
+销毁：
+onDestroy
+
+配置变化（如旋转屏幕）时
+Activity 会重新创建
+
+通常使用：
+onSaveInstanceState
+ViewModel
+保存数据</code></pre>
+    </div>
+
+</section>
+
+</body>
+</html>
