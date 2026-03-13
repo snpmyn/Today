@@ -6,6 +6,7 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewbinding.ViewBinding;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -20,25 +21,32 @@ import util.view.ViewUtils;
  * @author zsp
  * @desc BasePoolActivity
  * 优点：
- * 方便代码编写，减重复代码，加快开发；
+ * 提代码可读性，显井井有条、优美；
  * 优化代码结构，降耦合度，方便修改；
- * 提代码可读性，显井井有条、优美。
+ * 方便代码编写，减重复代码，加快开发。
  * <p>
  * 下抽象法子类须实现：
- * {@link #layoutResId()}
  * {@link #stepUi()}
  * {@link #initConfiguration()}
  * {@link #setListener()}
  * {@link #startLogic()}
  */
 public abstract class BasePoolActivity extends AppCompatActivity {
+    protected ViewBinding viewBinding;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // 注册事件
         RxBus.get().register(this);
         // 加载视图
-        setContentView(layoutResId());
+        // 优先使用 ViewBinding
+        viewBinding = viewBinding();
+        if (null != viewBinding) {
+            setContentView(viewBinding.getRoot());
+        } else {
+            setContentView(layoutResId());
+        }
         // 初始控件
         stepUi();
         // 初始配置
@@ -50,11 +58,36 @@ public abstract class BasePoolActivity extends AppCompatActivity {
     }
 
     /**
+     * ViewBinding
+     * <p>
+     * Java 动态绑定
+     * Java 运行时多态
+     * Java 动态分派机制
+     * <p>
+     * 如果子类重写 viewBinding()
+     * 那么 onCreate() 中调用时会优先执行子类的方法
+     *
+     * @return ViewBinding
+     */
+    protected ViewBinding viewBinding() {
+        return null;
+    }
+
+    /**
      * 布局资源 ID
+     * <p>
+     * Java 动态绑定
+     * Java 运行时多态
+     * Java 动态分派机制
+     * <p>
+     * 如果子类重写 layoutResId()
+     * 那么 onCreate() 中调用时会优先执行子类的方法
      *
      * @return 布局资源 ID
      */
-    protected abstract int layoutResId();
+    protected int layoutResId() {
+        return 0;
+    }
 
     /**
      * 初始控件
