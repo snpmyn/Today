@@ -60,7 +60,6 @@
     <string name="todayAccount">今日账目</string>
     <string name="yearAnalysis">年度分析</string>
     <string name="moreFunction">更多功能</string>
-    <string name="email">snpmyn@126.com</string>
     <string name="exportAccount">导出账单</string>
     <string name="accountDetail">账目详情</string>
     <string name="monthAnalysis">月度分析</string>
@@ -135,6 +134,7 @@
     <string name="failToObtainVersionInformation">获取版本信息失败</string>
     <string name="sendSmsAreBasedOnThePermission">发送短信需要该权限</string>
     <string name="accountNotificationEnglish">account notification</string>
+    <string name="emailAndPhoneNumber">snpmyn@126.com\n13673541527</string>
     <string name="readImageAreBasedOnThePermission">读取图片需要该权限</string>
     <string name="periodicNotificationEnglish">periodic notification</string>
     <string name="inputEmergencyContactPhoneNumber">输入紧急联系人手机号</string>
