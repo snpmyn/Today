@@ -3,21 +3,24 @@ package com.zsp.today.module.zhilin.mvp.contract;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.zsp.today.module.zhilin.mvp.base.BasePresenter;
-import com.zsp.today.module.zhilin.mvp.base.BaseView;
-import com.zsp.today.module.zhilin.mvp.callback.CallBack;
+import mvp.base.BasePresenter;
+import mvp.base.BaseView;
+import mvp.callback.CallBack;
 
 /**
  * Created on 2020-09-07
  *
  * @author zsp
  * @desc MVP 页契约
+ * <p>
+ * Contract 只是一个命名空间
+ * 并不会创建对象
  */
 public interface MvpActivityContract {
     class MvpActivityModel {
-        private final CallBack callBack;
+        private final CallBack<String> callBack;
 
-        MvpActivityModel(CallBack callBack) {
+        MvpActivityModel(CallBack<String> callBack) {
             this.callBack = callBack;
         }
 
