@@ -25,6 +25,8 @@ import com.zsp.today.module.heartbox.HeartBoxActivity;
 import com.zsp.today.module.homecome.HomeComeActivity;
 import com.zsp.today.module.homepage.bean.HomePageMenuEnum;
 import com.zsp.today.module.lingfang.LingFangActivity;
+import com.zsp.today.module.network.NetworkActivity;
+import com.zsp.today.module.poetry.PoetryActivity;
 import com.zsp.today.module.zhilin.ZhiLinActivity;
 
 import org.jetbrains.annotations.NotNull;
@@ -332,8 +334,16 @@ public class HomePageFragmentKit {
             case 6:
                 IntentJump.getInstance().jump(null, appCompatActivity, false, DetectActivity.class);
                 break;
-            // 知林
+            // 诗词
             case 7:
+                IntentJump.getInstance().jump(null, appCompatActivity, false, PoetryActivity.class);
+                break;
+            // 网络
+            case 8:
+                IntentJump.getInstance().jump(null, appCompatActivity, false, NetworkActivity.class);
+                break;
+            // 知林
+            case 9:
                 IntentJump.getInstance().jump(null, appCompatActivity, false, ZhiLinActivity.class);
                 break;
             default:
