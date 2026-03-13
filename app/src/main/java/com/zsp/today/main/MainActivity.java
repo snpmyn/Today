@@ -51,6 +51,13 @@ public class MainActivity extends BasePoolActivity {
 
     /**
      * 布局资源 ID
+     * <p>
+     * Java 动态绑定
+     * Java 运行时多态
+     * Java 动态分派机制
+     * <p>
+     * 如果子类重写 layoutResId()
+     * 那么 onCreate() 中调用时会优先执行子类的方法
      *
      * @return 布局资源 ID
      */
@@ -162,7 +169,7 @@ public class MainActivity extends BasePoolActivity {
      * @param resultCode  The integer result code returned by the child activity
      *                    through its setResult().
      * @param data        An Intent, which can return result data to the caller
-     *                    (various data can be attached to Intent "extras").
+     *                    (various data can be attached to Intend "extras").
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

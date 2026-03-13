@@ -39,6 +39,13 @@ public class DangerousActivity extends BasePoolActivity implements View.OnClickL
 
     /**
      * 布局资源 ID
+     * <p>
+     * Java 动态绑定
+     * Java 运行时多态
+     * Java 动态分派机制
+     * <p>
+     * 如果子类重写 layoutResId()
+     * 那么 onCreate() 中调用时会优先执行子类的方法
      *
      * @return 布局资源 ID
      */

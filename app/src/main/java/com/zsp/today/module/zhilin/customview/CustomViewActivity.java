@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import com.zsp.today.R;
 import com.zsp.today.module.zhilin.customview.arc.MyArc;
 import com.zsp.today.module.zhilin.customview.circle.MyCircle;
+import com.zsp.today.module.zhilin.customview.kit.CustomViewActivityKit;
 import com.zsp.today.module.zhilin.customview.line.MyLine;
 import com.zsp.today.module.zhilin.customview.line.MyLines;
 import com.zsp.today.module.zhilin.customview.oval.MyOval;
@@ -15,7 +16,6 @@ import com.zsp.today.module.zhilin.customview.point.MyPoint;
 import com.zsp.today.module.zhilin.customview.rect.MyRect;
 import com.zsp.today.module.zhilin.customview.rect.MyRoundRect;
 import com.zsp.today.module.zhilin.customview.text.MyText;
-import com.zsp.today.module.zhilin.customview.kit.CustomViewActivityKit;
 
 import pool.base.BasePoolActivity;
 import widget.floatingactionbutton.DraggableFloatingActionButton;
@@ -53,6 +53,13 @@ public class CustomViewActivity extends BasePoolActivity {
 
     /**
      * 布局资源 ID
+     * <p>
+     * Java 动态绑定
+     * Java 运行时多态
+     * Java 动态分派机制
+     * <p>
+     * 如果子类重写 layoutResId()
+     * 那么 onCreate() 中调用时会优先执行子类的方法
      *
      * @return 布局资源 ID
      */
