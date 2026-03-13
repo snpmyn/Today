@@ -6,9 +6,9 @@ import com.google.gson.annotations.SerializedName;
  * Created on 2026/3/10.
  *
  * @author 郑少鹏
- * @desc token 模型
+ * @desc 诗词 token 模型
  */
-public class TokenModel {
+public class PoetryTokenModel {
     @SerializedName("status")
     private String status;
     @SerializedName("data")
