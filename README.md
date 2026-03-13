@@ -16,6 +16,6 @@ All Rights Reserved.
 
 ![下载](user/image/download.png)
 
-<p align="center">
-  <img src="user/image/download.png" width="320" alt="">
+<p style="text-align:center;">
+  <img src="user/image/download.png" style="width:320px;" alt="下载二维码">
 </p>
