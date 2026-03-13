@@ -26,7 +26,11 @@ public enum AndroidArticleEnum {
     /**
      * 重载与重写
      */
-    OVERLOAD_AND_OVERRIDE(5, "重载与重写", "file:///android_asset/html/android/OverloadAndOverride.html");
+    OVERLOAD_AND_OVERRIDE(5, "重载与重写", "file:///android_asset/html/android/OverloadAndOverride.html"),
+    /**
+     * Activity 生命周期
+     */
+    ACTIVITY_LIFECYCLE(6, "Activity 生命周期", "file:///android_asset/html/android/ActivityLifecycle.html");
     /**
      * 文章 ID
      */
