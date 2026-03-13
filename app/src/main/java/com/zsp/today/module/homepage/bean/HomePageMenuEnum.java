@@ -34,9 +34,17 @@ public enum HomePageMenuEnum {
      */
     DETECT(6, R.drawable.ic_home_page_menu_detect_cos_24dp, "HomePageMenuDetect@One", "探测", true),
     /**
+     * 诗词
+     */
+    POETRY(7, R.drawable.ic_home_page_menu_poetry_cos_24dp, "HomePageMenuPoetry@One", "诗词", true),
+    /**
+     * 网络
+     */
+    NETWORK(8, R.drawable.ic_home_page_menu_network_cos_24dp, "HomePageMenuNetwork@One", "网络", true),
+    /**
      * 知林
      */
-    ZHI_LIN(7, R.drawable.ic_home_page_menu_zhi_lin_cos_24dp, "HomePageMenuZhiLin@One", "知林", true);
+    ZHI_LIN(9, R.drawable.ic_home_page_menu_zhi_lin_cos_24dp, "HomePageMenuZhiLin@One", "知林", true);
     /**
      * 菜单 ID
      */
