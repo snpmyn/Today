@@ -1,8 +1,8 @@
 package com.zsp.today.basic.retrofit;
 
 import com.zsp.today.module.network.model.NetworkModel;
-import com.zsp.today.module.poetry.TokenModel;
 import com.zsp.today.module.poetry.model.PoetryModel;
+import com.zsp.today.module.poetry.model.PoetryTokenModel;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -35,12 +35,12 @@ public interface ApiService {
     Call<NetworkModel> getNetworkModel();
 
     /**
-     * 获取 token 模型
+     * 获取诗词 token 模型
      *
-     * @return token 模型
+     * @return 诗词 token 模型
      */
     @GET("token")
-    Call<TokenModel> getTokenModel();
+    Call<PoetryTokenModel> getPoetryTokenModel();
 
     /**
      * 获取诗词模型
