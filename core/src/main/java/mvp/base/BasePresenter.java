@@ -1,4 +1,4 @@
-package com.zsp.today.module.zhilin.mvp.base;
+package mvp.base;
 
 import androidx.annotation.UiThread;
 
@@ -21,5 +21,9 @@ public abstract class BasePresenter<V extends BaseView> {
         if (null != view) {
             view = null;
         }
+    }
+
+    protected V getView() {
+        return view;
     }
 }

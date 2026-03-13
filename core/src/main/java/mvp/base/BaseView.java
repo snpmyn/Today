@@ -1,4 +1,4 @@
-package com.zsp.today.module.zhilin.mvp.base;
+package mvp.base;
 
 /**
  * Created on 2020-09-07
