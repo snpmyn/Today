@@ -169,8 +169,8 @@ public class ScreenHandleKit implements View.OnClickListener {
     /**
      * 默选
      * <p>
-     * 单选仅呈现默选一条件
-     * 多选可呈现默选多条件
+     * 单选仅呈现默选单一条件
+     * 多选可呈现默选多个条件
      *
      * @param classification 类别
      * @param conditions     条件
