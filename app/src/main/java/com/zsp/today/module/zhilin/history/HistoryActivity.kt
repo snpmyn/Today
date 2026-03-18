@@ -36,7 +36,7 @@ class HistoryActivity : BasePoolActivity() {
      */
     override fun viewBinding(): ViewBinding {
         activityHistoryBinding = ActivityHistoryBinding.inflate(layoutInflater)
-        return activityHistoryBinding;
+        return activityHistoryBinding
     }
 
     /**
