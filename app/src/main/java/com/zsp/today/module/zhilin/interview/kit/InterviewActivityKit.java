@@ -101,7 +101,7 @@ public class InterviewActivityKit {
      */
     @NonNull
     private List<CarouselItem> prepareCarouselItemList() {
-        List<CarouselItem> carouselItemList = new ArrayList<>(55);
+        List<CarouselItem> carouselItemList = new ArrayList<>(60);
         carouselItemList.add(new CarouselItem(CarouselType.IMAGE, R.drawable.interview_point_1, "Android\n坐标系", "Android 坐标系"));
         carouselItemList.add(new CarouselItem(CarouselType.IMAGE, R.drawable.interview_point_2, "Glide\n三级缓存", "Glide 三级缓存"));
         carouselItemList.add(new CarouselItem(CarouselType.IMAGE, R.drawable.interview_point_3, "TCP\n三次握手", "TCP 三次握手"));
@@ -157,6 +157,9 @@ public class InterviewActivityKit {
         carouselItemList.add(new CarouselItem(CarouselType.IMAGE, R.drawable.interview_point_53, "数组\n内存泄露", "数组内存泄露"));
         carouselItemList.add(new CarouselItem(CarouselType.IMAGE, R.drawable.interview_point_54, "JAR\nAAR", "JAR AAR"));
         carouselItemList.add(new CarouselItem(CarouselType.IMAGE, R.drawable.interview_point_55, "RESTful\nAPI", "RESTful API"));
+        carouselItemList.add(new CarouselItem(CarouselType.IMAGE, R.drawable.interview_point_56, "Preference\nScreen", "Preferen Screen"));
+        carouselItemList.add(new CarouselItem(CarouselType.IMAGE, R.drawable.interview_point_57, "DEBUG", "DEBUG"));
+        carouselItemList.add(new CarouselItem(CarouselType.IMAGE, R.drawable.interview_point_58, "MVI", "MVI"));
         return carouselItemList;
     }
 
