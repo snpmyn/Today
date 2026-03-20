@@ -93,8 +93,8 @@ android {
         }
         // 生产环境
         product {
-            versionCode 7
-            versionName "1.260212"
+            versionCode 8
+            versionName "1.260320"
             dimension "dimension"
             versionNameSuffix "-product"
             applicationId "com.zsp.today.product"
