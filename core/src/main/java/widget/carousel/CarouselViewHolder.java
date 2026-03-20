@@ -1,6 +1,7 @@
 package widget.carousel;
 
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.zsp.core.R;
 
 import util.view.ViewUtils;
+import widget.webview.WebViewKit;
 
 /**
  * @decs: 轮播视图持有器
@@ -21,6 +23,7 @@ import util.view.ViewUtils;
 public class CarouselViewHolder extends RecyclerView.ViewHolder {
     private final TextView textView;
     private final ImageView imageView;
+    private final WebView webView;
     private final CarouselListener carouselListener;
 
     /**
@@ -33,6 +36,7 @@ public class CarouselViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         this.textView = itemView.findViewById(R.id.carouselItemTv);
         this.imageView = itemView.findViewById(R.id.carouselItemIv);
+        this.webView = itemView.findViewById(R.id.carouselItemWv);
         this.carouselListener = carouselListener;
     }
 
@@ -42,8 +46,9 @@ public class CarouselViewHolder extends RecyclerView.ViewHolder {
      * @param carouselItem 轮播条目
      */
     public void bind(@NonNull CarouselItem carouselItem) {
-        if (carouselItem.isShowImage()) {
+        if (carouselItem.getCarouselType() == CarouselType.IMAGE) {
             ViewUtils.hideView(textView, View.GONE);
+            ViewUtils.hideView(webView, View.GONE);
             ViewUtils.showView(imageView);
             Glide.with(imageView.getContext()).load(carouselItem.getCarouselResId()).centerCrop().into(imageView);
             // 短点
@@ -53,14 +58,27 @@ public class CarouselViewHolder extends RecyclerView.ViewHolder {
                 carouselListener.onItemLongClick(carouselItem, getBindingAdapterPosition());
                 return true;
             });
-        } else {
+        } else if (carouselItem.getCarouselType() == CarouselType.TEXT) {
             ViewUtils.hideView(imageView, View.GONE);
+            ViewUtils.hideView(webView, View.GONE);
             ViewUtils.showView(textView);
             textView.setText(carouselItem.getCarouselDescribe());
             // 短点
             textView.setOnClickListener(v -> carouselListener.onItemClick(carouselItem, getBindingAdapterPosition()));
             // 长点
             textView.setOnLongClickListener(v -> {
+                carouselListener.onItemLongClick(carouselItem, getBindingAdapterPosition());
+                return true;
+            });
+        } else if (carouselItem.getCarouselType() == CarouselType.HTML) {
+            ViewUtils.hideView(textView, View.GONE);
+            ViewUtils.hideView(imageView, View.GONE);
+            ViewUtils.showView(webView);
+            WebViewKit.loadUrl(webView, carouselItem.getCarouselHtml());
+            // 短点
+            webView.setOnClickListener(v -> carouselListener.onItemClick(carouselItem, getBindingAdapterPosition()));
+            // 长点
+            webView.setOnLongClickListener(v -> {
                 carouselListener.onItemLongClick(carouselItem, getBindingAdapterPosition());
                 return true;
             });
