@@ -4,7 +4,6 @@
 
 * [code](user/code)
 * [permission](user/permission)
-* [token](user/token)
 * [Signature File](user/SignatureFile)
 
 ## 排查
