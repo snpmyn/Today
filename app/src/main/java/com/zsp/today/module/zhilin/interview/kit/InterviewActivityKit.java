@@ -160,6 +160,8 @@ public class InterviewActivityKit {
         carouselItemList.add(new CarouselItem(CarouselType.IMAGE, R.drawable.interview_point_56, "Preference\nScreen", "Preferen Screen"));
         carouselItemList.add(new CarouselItem(CarouselType.IMAGE, R.drawable.interview_point_57, "DEBUG", "DEBUG"));
         carouselItemList.add(new CarouselItem(CarouselType.IMAGE, R.drawable.interview_point_58, "MVI", "MVI"));
+        carouselItemList.add(new CarouselItem(CarouselType.IMAGE, R.drawable.interview_point_59, "Flutter\nDartCompose", "Flutter Dart Compose"));
+        carouselItemList.add(new CarouselItem(CarouselType.IMAGE, R.drawable.interview_point_60, "scale\nType", "scaleType"));
         return carouselItemList;
     }
 
