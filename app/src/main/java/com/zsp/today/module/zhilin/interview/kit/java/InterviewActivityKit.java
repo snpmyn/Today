@@ -1,4 +1,4 @@
-package com.zsp.today.module.zhilin.interview.kit;
+package com.zsp.today.module.zhilin.interview.kit.java;
 
 import android.text.TextUtils;
 import android.view.View;
@@ -26,6 +26,8 @@ import widget.screen.listener.ScreenHandleListener;
  *
  * @author 郑少鹏
  * @desc 面试页配套原件
+ * <p>
+ * 暂无引用
  */
 public class InterviewActivityKit {
     private CarouselKit carouselKit;
