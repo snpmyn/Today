@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.zsp.today.R;
-import com.zsp.today.module.zhilin.interview.kit.InterviewActivityKit;
+import com.zsp.today.module.zhilin.interview.kit.kotlin.InterviewActivityKit;
 
 import pool.base.BasePoolActivity;
 import widget.floatingactionbutton.DraggableFloatingActionButton;
