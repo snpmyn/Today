@@ -5,6 +5,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.zsp.today.module.zhilin.android.AndroidActivity
+import com.zsp.today.module.zhilin.bean.ZhiLinMenuAction
 import com.zsp.today.module.zhilin.bean.ZhiLinMenuEnum
 import com.zsp.today.module.zhilin.customview.CustomViewActivity
 import com.zsp.today.module.zhilin.history.HistoryActivity
@@ -52,7 +53,9 @@ class ZhiLinActivityKit {
             if (zhiLinMenuEnum.menuShow) {
                 menuBeanList.add(
                     MenuBean(
-                        zhiLinMenuEnum.menuId, zhiLinMenuEnum.menuIconResId, zhiLinMenuEnum.menuName
+                        ZhiLinMenuAction.getMenuIdFromZhiLinMenuAction(zhiLinMenuEnum.zhiLinMenuAction),
+                        zhiLinMenuEnum.menuIconResId,
+                        zhiLinMenuEnum.menuName
                     )
                 )
             }
