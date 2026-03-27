@@ -14,37 +14,37 @@ public enum ZhiLinMenuEnum {
      * <p>
      * 标签布局
      */
-    TAB_LAYOUT(1, R.drawable.ic_widget_cos_24dp, "TabLayout", true),
+    TAB_LAYOUT(ZhiLinMenuAction.TabLayout.INSTANCE, R.drawable.ic_widget_cos_24dp, "TabLayout", true),
     /**
      * RxJava
      * <p>
      * 响应式异步框架
      */
-    RX_JAVA(2, R.drawable.ic_widget_cos_24dp, "RxJava", true),
+    RX_JAVA(ZhiLinMenuAction.RxJava.INSTANCE, R.drawable.ic_widget_cos_24dp, "RxJava", true),
     /**
      * 安卓
      */
-    ANDROID(3, R.drawable.ic_widget_cos_24dp, "安卓", true),
+    ANDROID(ZhiLinMenuAction.Android.INSTANCE, R.drawable.ic_widget_cos_24dp, "安卓", true),
     /**
      * 面试
      */
-    INTERVIEW(4, R.drawable.ic_widget_cos_24dp, "面试", true),
+    INTERVIEW(ZhiLinMenuAction.Interview.INSTANCE, R.drawable.ic_widget_cos_24dp, "面试", true),
     /**
      * 自定义视图
      */
-    CUSTOM_VIEW(5, R.drawable.ic_widget_cos_24dp, "自定义视图", true),
+    CUSTOM_VIEW(ZhiLinMenuAction.CustomView.INSTANCE, R.drawable.ic_widget_cos_24dp, "自定义视图", true),
     /**
      * MVP
      */
-    MVP(6, R.drawable.ic_widget_cos_24dp, "MVP", true),
+    MVP(ZhiLinMenuAction.Mvp.INSTANCE, R.drawable.ic_widget_cos_24dp, "MVP", true),
     /**
      * 历史
      */
-    HISTORY(7, R.drawable.ic_widget_cos_24dp, "历史", true);
+    HISTORY(ZhiLinMenuAction.History.INSTANCE, R.drawable.ic_widget_cos_24dp, "历史", true);
     /**
      * 菜单 ID
      */
-    private final int menuId;
+    private final ZhiLinMenuAction zhiLinMenuAction;
     /**
      * 菜单图标资源 ID
      */
@@ -61,20 +61,20 @@ public enum ZhiLinMenuEnum {
     /**
      * constructor
      *
-     * @param menuId        菜单 ID
-     * @param menuIconResId 菜单图标资源 ID
-     * @param menuName      菜单名称
-     * @param menuShow      菜单显示
+     * @param zhiLinMenuAction 知林菜单动作
+     * @param menuIconResId    菜单图标资源 ID
+     * @param menuName         菜单名称
+     * @param menuShow         菜单显示
      */
-    ZhiLinMenuEnum(int menuId, int menuIconResId, String menuName, Boolean menuShow) {
-        this.menuId = menuId;
+    ZhiLinMenuEnum(ZhiLinMenuAction zhiLinMenuAction, int menuIconResId, String menuName, Boolean menuShow) {
+        this.zhiLinMenuAction = zhiLinMenuAction;
         this.menuIconResId = menuIconResId;
         this.menuName = menuName;
         this.menuShow = menuShow;
     }
 
-    public int getMenuId() {
-        return menuId;
+    public ZhiLinMenuAction getZhiLinMenuAction() {
+        return zhiLinMenuAction;
     }
 
     public int getMenuIconResId() {
