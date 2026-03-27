@@ -1,4 +1,4 @@
-package com.zsp.today.module.zhilin.kit;
+package com.zsp.today.module.zhilin.kit.java;
 
 import android.content.Intent;
 import android.view.View;
@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.zsp.today.module.zhilin.android.AndroidActivity;
+import com.zsp.today.module.zhilin.bean.ZhiLinMenuAction;
 import com.zsp.today.module.zhilin.bean.ZhiLinMenuEnum;
 import com.zsp.today.module.zhilin.customview.CustomViewActivity;
 import com.zsp.today.module.zhilin.history.HistoryActivity;
@@ -29,6 +30,8 @@ import widget.transition.kit.TransitionKit;
  *
  * @author 郑少鹏
  * @desc 知林页配套原件
+ * <p>
+ * 暂无引用
  */
 public class ZhiLinActivityKit {
     /**
@@ -50,7 +53,7 @@ public class ZhiLinActivityKit {
         List<MenuBean> menuBeanList = new ArrayList<>(zhiLinMenuEnums.length);
         for (ZhiLinMenuEnum zhiLinMenuEnum : zhiLinMenuEnums) {
             if (zhiLinMenuEnum.getMenuShow()) {
-                menuBeanList.add(new MenuBean(zhiLinMenuEnum.getMenuId(), zhiLinMenuEnum.getMenuIconResId(), zhiLinMenuEnum.getMenuName()));
+                menuBeanList.add(new MenuBean(ZhiLinMenuAction.Companion.getMenuIdFromZhiLinMenuAction(zhiLinMenuEnum.getZhiLinMenuAction()), zhiLinMenuEnum.getMenuIconResId(), zhiLinMenuEnum.getMenuName()));
             }
         }
         // 状态判断
