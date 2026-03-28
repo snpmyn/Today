@@ -1,4 +1,4 @@
-package com.zsp.today.module.zhilin.interview.kit.kotlin
+package com.zsp.today.module.zhilin.interview.kit
 
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -128,7 +128,7 @@ class InterviewActivityKit {
      * @return 轮播条目集
      */
     private fun prepareCarouselItemList(): MutableList<CarouselItem> {
-        val carouselItemList: MutableList<CarouselItem> = ArrayList(60)
+        val carouselItemList: MutableList<CarouselItem> = ArrayList(66)
         carouselItemList.add(
             CarouselItem(
                 CarouselType.IMAGE,
@@ -484,6 +484,51 @@ class InterviewActivityKit {
         carouselItemList.add(
             CarouselItem(
                 CarouselType.IMAGE, R.drawable.interview_point_60, "scale\nType", "scaleType"
+            )
+        )
+        carouselItemList.add(
+            CarouselItem(
+                CarouselType.HTML, "file:///android_asset/html/android/git.html", "Git", "Git"
+            )
+        )
+        carouselItemList.add(
+            CarouselItem(
+                CarouselType.HTML,
+                "file:///android_asset/html/android/operator.html",
+                "运算符",
+                "运算符"
+            )
+        )
+        carouselItemList.add(
+            CarouselItem(
+                CarouselType.HTML,
+                "file:///android_asset/html/android/AbstractMethod.html",
+                "抽象\n方法",
+                "抽象方法"
+            )
+        )
+        carouselItemList.add(
+            CarouselItem(
+                CarouselType.HTML,
+                "file:///android_asset/html/android/SdkVersion.html",
+                "SDK\n版本",
+                "SDK 版本"
+            )
+        )
+        carouselItemList.add(
+            CarouselItem(
+                CarouselType.HTML,
+                "file:///android_asset/html/android/OverloadAndOverride.html",
+                "重载\n重写",
+                "重载重写"
+            )
+        )
+        carouselItemList.add(
+            CarouselItem(
+                CarouselType.HTML,
+                "file:///android_asset/html/android/ActivityLifecycle.html",
+                "声明\n周期",
+                "声明周期"
             )
         )
         return carouselItemList
