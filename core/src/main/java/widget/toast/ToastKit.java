@@ -9,6 +9,8 @@ import pool.application.BasePoolApp;
  *
  * @author zsp
  * @desc ToastKit
+ * <p>
+ * todo Kotlin 已替代
  */
 public class ToastKit {
     private static Toast toast;
