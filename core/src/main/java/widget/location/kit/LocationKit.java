@@ -17,7 +17,7 @@ import java.util.Locale;
 import util.mmkv.MmkvKit;
 import widget.location.listener.LocationKitListener;
 import widget.location.value.LocationConstant;
-import widget.toast.ToastKit;
+import widget.toast.ToastKt;
 
 /**
  * Created on 2019/4/24.
@@ -84,7 +84,7 @@ public class LocationKit {
         } else if (areNetworkEnabled) {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 10, locationListener);
         } else {
-            ToastKit.showShort(appCompatActivity.getString(R.string.needTurnOnLocationServices));
+            ToastKt.showToast(R.string.needTurnOnLocationServices);
         }
     }
 
