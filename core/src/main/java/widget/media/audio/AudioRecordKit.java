@@ -42,7 +42,7 @@ import widget.media.MediaFileDirectoryEnum;
 import widget.media.MediaFileInfo;
 import widget.media.MediaFileInfoHelper;
 import widget.media.MediaFileTypeEnum;
-import widget.toast.ToastKit;
+import widget.toast.ToastKt;
 
 /**
  * @decs: 音频录制配套原件
@@ -712,7 +712,7 @@ public class AudioRecordKit {
      * @param message 消息
      */
     private void postToast(@NonNull final String message) {
-        mainHandler.post(() -> ToastKit.showShort(message));
+        mainHandler.post(() -> ToastKt.showToast(message));
     }
 
     /**
