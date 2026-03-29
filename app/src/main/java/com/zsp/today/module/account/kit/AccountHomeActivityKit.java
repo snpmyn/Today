@@ -49,7 +49,7 @@ import widget.recyclerview.listener.OnRecyclerViewOnItemLongClickListener;
 import widget.status.kit.StatusManagerKit;
 import widget.status.manager.StatusManager;
 import widget.textview.DrawableCenterTextView;
-import widget.toast.ToastKit;
+import widget.toast.ToastKt;
 
 /**
  * Created on 2021/6/13 0013
@@ -194,7 +194,7 @@ public class AccountHomeActivityKit {
     public void exportAccount(AppCompatActivity appCompatActivity) {
         List<AccountDataBaseTable> accountDataBaseTableList = LitePalKit.getInstance().queryByWhereAndOrderAndSelect(AccountDataBaseTable.class, new String[]{AccountCondition.ACCOUNT_PHONE_NUMBER, App.getAppInstance().getPhoneNumber()}, "date", false, "date", "category", "amount");
         if (ListUtils.listIsEmpty(accountDataBaseTableList)) {
-            ToastKit.showShort(appCompatActivity.getString(R.string.noAccountDataAvailable));
+            ToastKt.showToast(R.string.noAccountDataAvailable);
             return;
         }
         // 日期
