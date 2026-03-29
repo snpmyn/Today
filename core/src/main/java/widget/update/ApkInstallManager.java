@@ -11,7 +11,7 @@ import util.intent.IntentOther;
 import widget.permissionx.kit.PermissionKit;
 import widget.permissionx.kit.PermissionxKit;
 import widget.permissionx.listener.PermissionxKitListener;
-import widget.toast.ToastKit;
+import widget.toast.ToastKt;
 
 /**
  * @decs: APK 安装管理器
@@ -46,7 +46,7 @@ public class ApkInstallManager {
 
             @Override
             public void allGrantedContrary() {
-                ToastKit.showShort(appCompatActivity.getString(R.string.installApplicationAreBasedOnThePermission));
+                ToastKt.showToast(R.string.installApplicationAreBasedOnThePermission);
             }
         });
     }
