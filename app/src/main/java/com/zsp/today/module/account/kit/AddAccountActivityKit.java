@@ -30,7 +30,7 @@ import util.list.ListUtils;
 import util.rxbus.RxBus;
 import widget.dialog.materialalertdialog.SingleChooseMaterialAlertDialogKit;
 import widget.materialdatepicker.MaterialDatePickerKit;
-import widget.toast.ToastKit;
+import widget.toast.ToastKt;
 
 /**
  * Created on 2020/12/23
@@ -214,7 +214,7 @@ public class AddAccountActivityKit {
      */
     private void hintAndRefreshAccount(@NonNull AppCompatActivity appCompatActivity) {
         appCompatActivity.finish();
-        ToastKit.showShort(areFromAccountDetailActivityWithModify(appCompatActivity) ? appCompatActivity.getString(R.string.modifySuccessful) : appCompatActivity.getString(R.string.enterIntoAccountSuccessful));
+        ToastKt.showToast(areFromAccountDetailActivityWithModify(appCompatActivity) ? appCompatActivity.getString(R.string.modifySuccessful) : appCompatActivity.getString(R.string.enterIntoAccountSuccessful));
         RxBus.get().post(RxBusConstant.ACCOUNT_HOME_ACTIVITY_AND_SECOND_ACTIVITY_$_REFRESH_ACCOUNT, RxBusConstant.ACCOUNT_HOME_ACTIVITY_AND_SECOND_ACTIVITY_$_REFRESH_ACCOUNT_CODE);
         // 账目详情页（添加模式、修改模式）
         if (areFromAccountDetailActivityWithAdd(appCompatActivity) || areFromAccountDetailActivityWithModify(appCompatActivity)) {
