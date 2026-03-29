@@ -17,7 +17,7 @@ import timber.log.Timber;
 import util.datetime.CurrentTimeMillisClock;
 import util.handler.HandlerKit;
 import widget.media.MediaFileTypeEnum;
-import widget.toast.ToastKit;
+import widget.toast.ToastKt;
 
 /**
  * Created on 2025/9/20.
@@ -89,7 +89,7 @@ public class ScreenshotHelper {
      */
     private static void postToast(Context context, String message) {
         if (null != context) {
-            HandlerKit.getInstance().post(() -> ToastKit.showShort(message));
+            HandlerKit.getInstance().post(() -> ToastKt.showToast(message));
         }
     }
 }
