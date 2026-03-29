@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import widget.toast.ToastKit;
+import widget.toast.ToastKt;
 
 /**
  * Created on 2025/9/8.
@@ -79,7 +79,7 @@ public class OpenFileKit {
      */
     public static void openFile(Context context, @NonNull File file) {
         if (!file.exists()) {
-            ToastKit.showShort(context.getString(R.string.fileNotExit));
+            ToastKt.showToast(R.string.fileNotExit);
             return;
         }
         Uri fileUri;
@@ -106,7 +106,7 @@ public class OpenFileKit {
         try {
             context.startActivity(intent);
         } catch (ActivityNotFoundException e) {
-            ToastKit.showShort(context.getString(R.string.noApplicationFoundThatCanOpenThisFile));
+            ToastKt.showToast(R.string.noApplicationFoundThatCanOpenThisFile);
         }
     }
 
