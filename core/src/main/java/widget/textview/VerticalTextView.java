@@ -38,7 +38,7 @@ import util.statusbar.StatusBarUtils;
 import util.vibrator.VibratorUtils;
 import widget.textview.menu.ActionMenu;
 import widget.textview.menu.ActionMenuCallBack;
-import widget.toast.ToastKit;
+import widget.toast.ToastKt;
 import widget.value.WidgetMagic;
 
 /**
@@ -210,7 +210,7 @@ public class VerticalTextView extends androidx.appcompat.widget.AppCompatTextVie
                 invalidate();
             } else if (menuItemTitle.equals(ActionMenu.DEFAULT_ACTION_MENU_ITEM_TITLE_COPY)) {
                 KeyboardUtils.copyText(mContext, mSelectedText);
-                ToastKit.showShort(mContext.getString(R.string.copySuccessful));
+                ToastKt.showToast(R.string.copySuccessful);
                 hideActionMenu();
             } else {
                 if (null != mActionMenuCallBack) {
