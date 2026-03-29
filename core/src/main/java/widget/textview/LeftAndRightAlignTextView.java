@@ -36,7 +36,7 @@ import util.validate.CheckOutUtils;
 import util.vibrator.VibratorUtils;
 import widget.textview.menu.ActionMenu;
 import widget.textview.menu.ActionMenuCallBack;
-import widget.toast.ToastKit;
+import widget.toast.ToastKt;
 import widget.value.WidgetMagic;
 
 /**
@@ -157,7 +157,7 @@ public class LeftAndRightAlignTextView extends AppCompatEditText {
                 // 复制
                 case ActionMenu.DEFAULT_ACTION_MENU_ITEM_TITLE_COPY:
                     KeyboardUtils.copyText(mContext, selectedStr);
-                    ToastKit.showShort(mContext.getString(R.string.copySuccessful));
+                    ToastKt.showToast(R.string.copySuccessful);
                     hideActionMenu();
                     break;
                 default:
@@ -484,7 +484,7 @@ public class LeftAndRightAlignTextView extends AppCompatEditText {
         int lineHeight = getLineHeight();
         int paddingTop = getPaddingTop();
         int paddingLeft = getPaddingLeft();
-        // 创三矩形（所有选中行对应矩形、起始行左侧未选中文字对应的矩形、结束行右侧未选中文字对应的矩形）
+        // 创建三个矩形（所有选中行对应矩形、起始行左侧未选中文字对应的矩形、结束行右侧未选中文字对应的矩形）
         RectF rectAll, rectLt, rectRb;
         // 版本控制
         if (mStartTextOffset < mCurrentTextOffset) {
@@ -496,7 +496,7 @@ public class LeftAndRightAlignTextView extends AppCompatEditText {
             rectLt = new RectF(paddingLeft, mCurrentLine * lineHeight + paddingTop, currentToLeftPosition, (mCurrentLine + 1) * lineHeight + paddingTop);
             rectRb = new RectF(startToLeftPosition, mStartLine * lineHeight + paddingTop, mViewTextWidth + paddingLeft, (mStartLine + 1) * lineHeight + paddingTop);
         }
-        // 创三路径（分对应上三矩形）
+        // 创建三条路径（分对应上三个矩形）
         Path pathAll = new Path();
         Path pathLt = new Path();
         Path pathRb = new Path();
@@ -546,7 +546,7 @@ public class LeftAndRightAlignTextView extends AppCompatEditText {
             for (int i = 0; i < lineWords.length; i++) {
                 // 分割后每单词为纯英文则按纯英文单词处理，直接在画布画出单词。
                 // 分割后每单词含汉字则按汉字字符处理，逐绘字符。
-                // 仅一单词则按中文处理
+                // 仅一个单词则按中文处理
                 // 末单词按纯英文单词处理
                 String iOfWord = lineWords[i] + " ";
                 boolean flag = (lineWords.length == 1) || (CheckOutUtils.areContainChinese(iOfWord) && (i < lineWords.length - 1));
@@ -623,7 +623,7 @@ public class LeftAndRightAlignTextView extends AppCompatEditText {
     /**
      * 段首行否
      * <p>
-     * 一汉字等同一字符，字符长大 3 且前两字符为空格。
+     * 一汉字等同一个字符，字符长大 3 且前两字符为空格。
      *
      * @param line 行
      * @return 首行否
