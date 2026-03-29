@@ -47,7 +47,7 @@ import widget.dialog.materialalertdialog.MaterialAlertDialogBuilderKit;
 import widget.dialog.materialalertdialog.UseGuideMaterialAlertDialogKit;
 import widget.emoji.MoodEmojiKit;
 import widget.media.audio.AudioPlayKit;
-import widget.toast.ToastKit;
+import widget.toast.ToastKt;
 import widget.transition.kit.TransitionKit;
 
 /**
@@ -197,11 +197,11 @@ public class MineFragmentKit {
     private void cleanCache(AppCompatActivity appCompatActivity) {
         String totalCacheSize = CacheManager.totalCacheSize(appCompatActivity);
         if (TextUtils.equals(CacheManager.STRING_ZERO_K, totalCacheSize)) {
-            ToastKit.showShort(appCompatActivity.getString(R.string.noCacheAvailable));
+            ToastKt.showToast(R.string.noCacheAvailable);
         } else {
             AudioPlayKit.CacheHelper.clearCache(appCompatActivity);
             CacheManager.clearAllCache(appCompatActivity);
-            ToastKit.showShort(String.format("已清理 %1$s", totalCacheSize));
+            ToastKt.showToast(String.format("已清理 %1$s", totalCacheSize));
             DebugMaterialAlertDialogKit.getInstance().show(appCompatActivity, String.format("已清理 %1$s", totalCacheSize), BuildConfig.DEBUG);
         }
     }
