@@ -23,7 +23,7 @@ import java.util.List;
 import timber.log.Timber;
 import util.datetime.CurrentTimeMillisClock;
 import util.list.ListUtils;
-import widget.toast.ToastKit;
+import widget.toast.ToastKt;
 
 /**
  * Created on 2017/9/19.
@@ -162,7 +162,7 @@ public class ActivitySuperviseManager {
             appExit();
         } else {
             touchDownTime = CurrentTimeMillisClock.getInstance().now();
-            ToastKit.showShort(exitHint);
+            ToastKt.showToast(exitHint);
         }
     }
 
