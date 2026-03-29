@@ -22,6 +22,7 @@ import java.util.Comparator;
 
 import timber.log.Timber;
 import widget.toast.ToastKit;
+import widget.toast.ToastKt;
 
 /**
  * @decs: 音频播放配套原件
@@ -128,7 +129,7 @@ public class AudioPlayKit {
                     if (playId != currentPlayId) {
                         return;
                     }
-                    errorHandle(context);
+                    errorHandle();
                 }, downloadProgressListener, playId, startPositionMs);
             } else {
                 // assets
@@ -139,7 +140,7 @@ public class AudioPlayKit {
             }
         } catch (Exception e) {
             if (playId == currentPlayId) {
-                errorHandle(context);
+                errorHandle();
             }
         }
     }
@@ -162,18 +163,16 @@ public class AudioPlayKit {
             mediaPlayer.setDataSource(context, uri);
             prepareAndPlay(context, mediaPlayer, playId, startPositionMs);
         } catch (Exception e) {
-            if (playId == currentPlayId) errorHandle(context);
+            if (playId == currentPlayId) errorHandle();
         }
     }
 
     /**
      * 错误处理
-     *
-     * @param context 上下文
      */
-    private static void errorHandle(@NonNull Context context) {
+    private static void errorHandle() {
         release();
-        mainHandler.post(() -> ToastKit.showShort(context.getString(R.string.playFail)));
+        mainHandler.post(() -> ToastKt.showToast(R.string.playFail));
         if (null != playStateListener) {
             playStateListener.onError(-1, -1);
         }
