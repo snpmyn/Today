@@ -19,7 +19,7 @@ import util.list.ListUtils;
 import util.theme.ThemeUtils;
 import util.view.ViewUtils;
 import widget.dialog.materialalertdialog.SingleChooseMaterialAlertDialogKit;
-import widget.toast.ToastKit;
+import widget.toast.ToastKt;
 
 /**
  * Created on 2021/6/13 0013
@@ -41,7 +41,7 @@ public class AccountAnalysisActivityKit {
         if (ListUtils.listIsNotEmpty(yearRemoveDuplicationWithSortList)) {
             SingleChooseMaterialAlertDialogKit.getInstance().show(appCompatActivity, yearRemoveDuplicationWithSortList.toArray(new CharSequence[0]), value -> execute(appCompatActivity, lineChartMonthAnalysis, LineDataSet.Mode.CUBIC_BEZIER, appCompatActivity.getString(R.string.noMonthAnalysisDataAvailable), AccountDateKit.getInstance().getAccountDateListBeanListByMonthRemoveDuplicationWithSort(value, true)));
         } else {
-            ToastKit.showShort(appCompatActivity.getString(R.string.noYearDataAvailable));
+            ToastKt.showToast(R.string.noYearDataAvailable);
         }
     }
 
