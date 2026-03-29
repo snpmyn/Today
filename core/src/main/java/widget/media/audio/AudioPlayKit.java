@@ -21,7 +21,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 import timber.log.Timber;
-import widget.toast.ToastKit;
 import widget.toast.ToastKt;
 
 /**
@@ -122,7 +121,7 @@ public class AudioPlayKit {
             if (localFile.exists()) {
                 // 本地
                 mediaPlayer.setDataSource(path);
-                prepareAndPlay(context, mediaPlayer, playId, startPositionMs);
+                prepareAndPlay(mediaPlayer, playId, startPositionMs);
             } else if (path.startsWith("http://") || path.startsWith("https://")) {
                 // 网络
                 CacheHelper.prepareNetworkSource(context, path, mediaPlayer, () -> {
@@ -136,7 +135,7 @@ public class AudioPlayKit {
                 AssetFileDescriptor assetFileDescriptor = context.getAssets().openFd(path);
                 mediaPlayer.setDataSource(assetFileDescriptor.getFileDescriptor(), assetFileDescriptor.getStartOffset(), assetFileDescriptor.getLength());
                 assetFileDescriptor.close();
-                prepareAndPlay(context, mediaPlayer, playId, startPositionMs);
+                prepareAndPlay(mediaPlayer, playId, startPositionMs);
             }
         } catch (Exception e) {
             if (playId == currentPlayId) {
@@ -161,7 +160,7 @@ public class AudioPlayKit {
         final int playId = currentPlayId;
         try {
             mediaPlayer.setDataSource(context, uri);
-            prepareAndPlay(context, mediaPlayer, playId, startPositionMs);
+            prepareAndPlay(mediaPlayer, playId, startPositionMs);
         } catch (Exception e) {
             if (playId == currentPlayId) errorHandle();
         }
@@ -355,13 +354,12 @@ public class AudioPlayKit {
     /**
      * 准备并播放
      *
-     * @param context         上下文
      * @param mp              MediaPlayer
      * @param playId          播放 ID
      * @param startPositionMs 开始位置毫秒
      *                        传 0 表示从头开始
      */
-    private static void prepareAndPlay(@NonNull Context context, @NonNull MediaPlayer mp, int playId, int startPositionMs) {
+    private static void prepareAndPlay(@NonNull MediaPlayer mp, int playId, int startPositionMs) {
         arePlayingOrPreparing = true;
         mp.setOnPreparedListener(mediaPlayer -> {
             if (playId != currentPlayId) {
@@ -401,7 +399,7 @@ public class AudioPlayKit {
             }
             arePlayingOrPreparing = false;
             release();
-            mainHandler.post(() -> ToastKit.showShort(context.getString(R.string.playFail)));
+            mainHandler.post(() -> ToastKt.showToast(R.string.playFail));
             if (null != playStateListener) {
                 playStateListener.onError(what, extra);
             }
@@ -594,7 +592,7 @@ public class AudioPlayKit {
                         return;
                     }
                     mediaPlayer.setDataSource(cacheFile.getAbsolutePath());
-                    AudioPlayKit.prepareAndPlay(context, mediaPlayer, playId, startPositionMs);
+                    AudioPlayKit.prepareAndPlay(mediaPlayer, playId, startPositionMs);
                     if ((null != downloadProgressListener) && playId == currentPlayId) {
                         mainHandler.post(downloadProgressListener::onDownloadComplete);
                     }
@@ -614,7 +612,7 @@ public class AudioPlayKit {
                             return;
                         }
                         mediaPlayer.setDataSource(downloaded.getAbsolutePath());
-                        AudioPlayKit.prepareAndPlay(context, mediaPlayer, playId, startPositionMs);
+                        AudioPlayKit.prepareAndPlay(mediaPlayer, playId, startPositionMs);
                     } catch (Exception e) {
                         if (playId == currentPlayId) {
                             mainHandler.post(errorRunnable);
