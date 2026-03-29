@@ -38,7 +38,7 @@ import widget.permissionx.kit.PermissionxKit;
 import widget.permissionx.listener.PermissionxKitListener;
 import widget.recyclerview.custom.SmartFlexibleRecyclerView;
 import widget.recyclerview.listener.OnRecyclerViewOnItemInnerClickListener;
-import widget.toast.ToastKit;
+import widget.toast.ToastKt;
 import widget.view.DatePickerDialog;
 
 /**
@@ -108,7 +108,7 @@ public class HomeComeActivityKit {
                 public void allGranted() {
                     imagePicker.single().start((ImagePicker.OnImageSingleSelectListener) uri -> {
                         if (null != uri) {
-                            ToastKit.showShort(uri.toString());
+                            ToastKt.showToast(uri.toString());
                         }
                     });
                 }
@@ -126,7 +126,7 @@ public class HomeComeActivityKit {
                 public void allGranted() {
                     imagePicker.camera().start((ImagePicker.OnImageSingleSelectListener) uri -> {
                         if (null != uri) {
-                            ToastKit.showShort(uri.toString());
+                            ToastKt.showToast(uri.toString());
                         }
                     });
                 }
@@ -224,12 +224,12 @@ public class HomeComeActivityKit {
                     // 修改
                     if (areAlreadyExist(content, calendarType.getName(), year, month, day)) {
                         // 已存在
-                        ToastKit.showShort(appCompatActivity.getString(R.string.hasBeenPlaced));
+                        ToastKt.showToast(R.string.hasBeenPlaced);
                         return;
                     }
                     if (!areChange) {
                         // 无变动
-                        ToastKit.showShort(appCompatActivity.getString(R.string.myThoughtsHaveNotChanged));
+                        ToastKt.showToast(R.string.myThoughtsHaveNotChanged);
                     }
                     // 不存在且有变动
                     modify(appCompatActivity, smartFlexibleRecyclerView, originalCall, originalCalendarType, originalDeathYear, originalDeathMonth, originalDeathDay, content, calendarType.getName(), year, month, day);
@@ -256,7 +256,7 @@ public class HomeComeActivityKit {
      */
     private void place(AppCompatActivity appCompatActivity, SmartFlexibleRecyclerView smartFlexibleRecyclerView, String call, String calendarType, int deathYear, int deathMonth, int deathDay) {
         if (areAlreadyExist(call, calendarType, deathYear, deathMonth, deathDay)) {
-            ToastKit.showShort(appCompatActivity.getString(R.string.hasBeenPlaced));
+            ToastKt.showToast(R.string.hasBeenPlaced);
             return;
         }
         HomeComeDataBaseTable homeComeDataBaseTable = new HomeComeDataBaseTable(App.getAppInstance().getPhoneNumber(), null, call, calendarType, deathYear, deathMonth, deathDay);
