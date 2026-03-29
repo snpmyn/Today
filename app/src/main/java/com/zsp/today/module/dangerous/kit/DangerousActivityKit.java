@@ -37,7 +37,7 @@ import widget.permissionx.kit.PermissionKit;
 import widget.permissionx.kit.PermissionxKit;
 import widget.permissionx.listener.PermissionxKitListener;
 import widget.sms.kit.SmsKit;
-import widget.toast.ToastKit;
+import widget.toast.ToastKt;
 
 /**
  * Created on 2025/8/19.
@@ -281,7 +281,7 @@ public class DangerousActivityKit implements SmsKit.SmsKitSendListener, SmsKit.S
         DangerousDataBaseTable dangerousDataBaseTableOld = dangerousDataBaseTableList.get(0);
         if (TextUtils.equals(dangerousNotice, dangerousDataBaseTableOld.getDangerousNotice()) && TextUtils.equals(emergencyContactPhoneNumber, dangerousDataBaseTableOld.getEmergencyContactPhoneNumber())) {
             if (hint) {
-                ToastKit.showShort(appCompatActivity.getString(R.string.configNoChange));
+                ToastKt.showToast(R.string.configNoChange);
             }
             return;
         }
@@ -339,7 +339,7 @@ public class DangerousActivityKit implements SmsKit.SmsKitSendListener, SmsKit.S
      */
     @Override
     public void deliverResultOk() {
-        ToastKit.showShort(appCompatActivity.getString(R.string.smsHasBeenDelivered));
+        ToastKt.showToast(R.string.smsHasBeenDelivered);
     }
 
     /**
@@ -347,7 +347,7 @@ public class DangerousActivityKit implements SmsKit.SmsKitSendListener, SmsKit.S
      */
     @Override
     public void deliverResultErrorCenericFailure() {
-        ToastKit.showShort(appCompatActivity.getString(R.string.smsDeliverFail));
+        ToastKt.showToast(R.string.smsDeliverFail);
     }
 
     /**
@@ -355,7 +355,7 @@ public class DangerousActivityKit implements SmsKit.SmsKitSendListener, SmsKit.S
      */
     @Override
     public void sendResultOk() {
-        ToastKit.showShort(appCompatActivity.getString(R.string.smsHasBeenSent));
+        ToastKt.showToast(R.string.smsHasBeenSent);
     }
 
     /**
@@ -363,6 +363,6 @@ public class DangerousActivityKit implements SmsKit.SmsKitSendListener, SmsKit.S
      */
     @Override
     public void sendResultErrorCenericFailure() {
-        ToastKit.showShort(appCompatActivity.getString(R.string.smsSendFail));
+        ToastKt.showToast(R.string.smsSendFail);
     }
 }
