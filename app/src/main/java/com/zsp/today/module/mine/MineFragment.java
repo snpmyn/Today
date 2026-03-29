@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 
 import pool.base.BasePoolFragment;
 import widget.appbarlayout.listener.BaseAppBarLayoutStateChangeListener;
-import widget.toast.ToastKit;
+import widget.toast.ToastKt;
 
 /**
  * Created on 2020/12/17
@@ -113,7 +113,7 @@ public class MineFragment extends BasePoolFragment implements View.OnClickListen
     @Override
     public void onClick(@NonNull View v) {
         if (v.getId() == R.id.mineFragmentLavHeadPortrait) {
-            ToastKit.showShort(getString(R.string.app_name));
+            ToastKt.showToast(R.string.app_name);
         }
     }
 }
