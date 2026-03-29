@@ -11,7 +11,7 @@ import com.zsp.today.basic.value.Folder;
 import litepal.kit.LitePalKit;
 import util.file.FileUtils;
 import util.json.JsonFormat;
-import widget.toast.ToastKit;
+import widget.toast.ToastKt;
 
 /**
  * Created on 2022/6/20
@@ -40,9 +40,9 @@ public class BackupKit {
         boolean externalBackupState = FileUtils.saveStringAsFile(appCompatActivity, JsonFormat.formatJson(json), Folder.EXTERNAL_BACKUP, modelClass.getSimpleName() + BuildConfig.BACKUP_SUFFIX + ".json");
         if (null == backupKitListener) {
             if (!internalBackupState) {
-                ToastKit.showShort(appCompatActivity.getString(R.string.internalBackupFail));
+                ToastKt.showToast(R.string.internalBackupFail);
             } else if (!externalBackupState) {
-                ToastKit.showShort(appCompatActivity.getString(R.string.externalBackupFail));
+                ToastKt.showToast(R.string.externalBackupFail);
             }
             return;
         }
