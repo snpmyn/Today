@@ -22,6 +22,13 @@ import util.density.DensityUtils;
  */
 public class CarouselAdapter extends ListAdapter<CarouselItem, CarouselViewHolder> {
     /**
+     * 方向
+     * <p>
+     * {@link RecyclerView#HORIZONTAL}
+     * {@link RecyclerView#VERTICAL}
+     */
+    private final int orientation;
+    /**
      * 左边距
      */
     private final int left;
@@ -64,14 +71,18 @@ public class CarouselAdapter extends ListAdapter<CarouselItem, CarouselViewHolde
     /**
      * constructor
      *
+     * @param orientation      方向
+     *                         {@link RecyclerView#HORIZONTAL}
+     *                         {@link RecyclerView#VERTICAL}
      * @param left             左边距
      * @param top              上边距
      * @param right            右边距
      * @param bottom           下边距
      * @param carouselListener 轮播监听
      */
-    public CarouselAdapter(int left, int top, int right, int bottom, CarouselListener carouselListener) {
+    public CarouselAdapter(int orientation, int left, int top, int right, int bottom, CarouselListener carouselListener) {
         super(carouselItemCallback);
+        this.orientation = orientation;
         this.left = left;
         this.top = top;
         this.right = right;
@@ -88,7 +99,7 @@ public class CarouselAdapter extends ListAdapter<CarouselItem, CarouselViewHolde
 
     @Override
     public void onBindViewHolder(@NonNull CarouselViewHolder carouselViewHolder, int pos) {
-        carouselViewHolder.bind(getItem(pos));
+        carouselViewHolder.bind(getItem(pos), orientation);
         // 适配横 / 竖向
         int itemCount = getItemCount();
         int marginLeft = 0, marginTop = 0, marginRight = 0, marginBottom = 0;
