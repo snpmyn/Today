@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.zsp.today.R;
-import com.zsp.today.module.zhilin.kit.kotlin.ZhiLinActivityKit;
+import com.zsp.today.module.zhilin.kit.ZhiLinActivityKit;
 
 import org.jetbrains.annotations.NotNull;
 
