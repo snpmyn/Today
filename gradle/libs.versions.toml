@@ -90,4 +90,4 @@ localbroadcastmanager = { group = "androidx.localbroadcastmanager", name = "loca
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version = "2.3.20" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version = "2.1.0" }
