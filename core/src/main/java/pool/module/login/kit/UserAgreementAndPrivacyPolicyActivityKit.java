@@ -34,7 +34,7 @@ public class UserAgreementAndPrivacyPolicyActivityKit {
      * @param materialToolbar MaterialToolbar
      */
     public void setTitle(@NotNull WebView webView, MaterialToolbar materialToolbar) {
-        WebViewKit.setWebChromeClient(webView, materialToolbar);
+        WebViewKit.Companion.setWebChromeClient(webView, materialToolbar);
     }
 
     /**
@@ -45,9 +45,9 @@ public class UserAgreementAndPrivacyPolicyActivityKit {
      */
     public void showUserAgreementOrPrivacyPolicy(@NonNull AppCompatActivity appCompatActivity, WebView webView) {
         if (TextUtils.equals(IntentVerify.getStringExtra(appCompatActivity.getIntent(), PoolConstant.USER_AGREEMENT), PoolConstant.USER_AGREEMENT)) {
-            WebViewKit.loadUrl(webView, Objects.requireNonNull(BasePoolApp.getConfigMap().get(1)).get(3));
+            WebViewKit.Companion.loadUrl(webView, Objects.requireNonNull(BasePoolApp.getConfigMap().get(1)).get(3));
         } else if (TextUtils.equals(IntentVerify.getStringExtra(appCompatActivity.getIntent(), PoolConstant.PRIVACY_POLICY), PoolConstant.PRIVACY_POLICY)) {
-            WebViewKit.loadUrl(webView, Objects.requireNonNull(BasePoolApp.getConfigMap().get(1)).get(4));
+            WebViewKit.Companion.loadUrl(webView, Objects.requireNonNull(BasePoolApp.getConfigMap().get(1)).get(4));
         }
     }
 
