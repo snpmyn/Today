@@ -12,7 +12,6 @@
 TODO:
 assert
 暂无引用
-todo Kotlin 已替代
 @SuppressLint("NewApi")
 @SuppressLint("InlinedApi")
 @SuppressWarnings("rawtypes")
