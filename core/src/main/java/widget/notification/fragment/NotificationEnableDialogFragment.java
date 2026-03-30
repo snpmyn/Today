@@ -95,7 +95,7 @@ public class NotificationEnableDialogFragment extends DialogFragment {
             return;
         }
         // 设置背景位图资源透明
-        WindowKit.setBackgroundDrawableResourceTransparent(window);
+        WindowKit.Companion.setBackgroundDrawableResourceTransparent(window);
         // 设置窗口管理器布局参数
         LayoutParamsUtils.setWindowManagerLayoutParams(window, true, (int) (ScreenUtils.screenWidth(getContext()) * 0.8), false, 0);
         // 下次吧
