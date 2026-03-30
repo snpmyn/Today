@@ -8,7 +8,7 @@ package com.zsp.today.module.zhilin.bean
 sealed class ZhiLinMenuAction {
     object TabLayout : ZhiLinMenuAction()
     object RxJava : ZhiLinMenuAction()
-    object Android : ZhiLinMenuAction()
+    object Compose : ZhiLinMenuAction()
     object Interview : ZhiLinMenuAction()
     object CustomView : ZhiLinMenuAction()
     object Mvp : ZhiLinMenuAction()
@@ -19,7 +19,7 @@ sealed class ZhiLinMenuAction {
             return when (zhiLinMenuAction) {
                 is TabLayout -> 1
                 is RxJava -> 2
-                is Android -> 3
+                is Compose -> 3
                 is Interview -> 4
                 is CustomView -> 5
                 is Mvp -> 6
