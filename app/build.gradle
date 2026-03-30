@@ -111,11 +111,6 @@ android {
         // 开启 Java8 desugaring (如用 Java8 API)
         coreLibraryDesugaringEnabled rootProject.ext.coreLibraryDesugaringEnabled
     }
-    kotlin {
-        compilerOptions {
-            jvmTarget.set(rootProject.ext.jvmTarget)
-        }
-    }
     buildFeatures {
         compose true
         viewBinding true
