@@ -215,7 +215,7 @@ public class DatePickerDialog extends Dialog {
         Window window = getWindow();
         if (null != window) {
             window.setGravity(Gravity.CENTER);
-            WindowKit.setBackgroundDrawableResourceTransparent(window);
+            WindowKit.Companion.setBackgroundDrawableResourceTransparent(window);
             LayoutParamsUtils.setWindowManagerLayoutParams(window, true, DensityUtils.dipToPxByInt(320), true, ViewGroup.LayoutParams.WRAP_CONTENT);
         }
         // 更新 UI
