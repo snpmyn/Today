@@ -79,9 +79,7 @@
         <activity
             android:name=".module.zhilin.interview.InterviewActivity"
             android:exported="false" />
-        <activity
-            android:name=".module.zhilin.android.AndroidActivity"
-            android:exported="false" />
+        <activity android:name=".module.zhilin.compose.ComposeActivity" />
         <activity
             android:name=".module.zhilin.rxjava.RxJavaActivity"
             android:exported="false" />
