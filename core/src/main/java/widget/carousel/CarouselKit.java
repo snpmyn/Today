@@ -64,7 +64,7 @@ public class CarouselKit {
         carouselSnapHelper = new CarouselSnapHelper(!snap);
         carouselSnapHelper.attachToRecyclerView(recyclerView);
         // 轮播适配器
-        CarouselAdapter carouselAdapter = new CarouselAdapter(left, top, right, bottom, new CarouselListener() {
+        CarouselAdapter carouselAdapter = new CarouselAdapter(orientation, left, top, right, bottom, new CarouselListener() {
             @Override
             public void onItemClick(CarouselItem carouselItem, int position) {
                 if (useInDialog) {
