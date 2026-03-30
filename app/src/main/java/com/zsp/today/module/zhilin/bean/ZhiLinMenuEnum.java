@@ -22,9 +22,9 @@ public enum ZhiLinMenuEnum {
      */
     RX_JAVA(ZhiLinMenuAction.RxJava.INSTANCE, R.drawable.ic_widget_cos_24dp, "RxJava", true),
     /**
-     * 安卓
+     * COMPOSE
      */
-    ANDROID(ZhiLinMenuAction.Android.INSTANCE, R.drawable.ic_widget_cos_24dp, "安卓", true),
+    COMPOSE(ZhiLinMenuAction.Compose.INSTANCE, R.drawable.ic_widget_cos_24dp, "COMPOSE", true),
     /**
      * 面试
      */
