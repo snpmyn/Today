@@ -70,7 +70,6 @@
     <string name="chooseCategory">选择类目</string>
     <string name="restoreDefault">恢复默认</string>
     <string name="restoreAccount">恢复账目</string>
-    <string name="androidArticle">安卓文章</string>
     <string name="smsSendFail">短信发送失败</string>
     <string name="metalDetected">探测到金属</string>
     <string name="largestConsumer">最大消费</string>
