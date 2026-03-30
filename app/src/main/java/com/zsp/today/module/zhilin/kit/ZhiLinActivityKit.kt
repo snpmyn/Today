@@ -1,12 +1,12 @@
-package com.zsp.today.module.zhilin.kit.kotlin
+package com.zsp.today.module.zhilin.kit
 
 import android.content.Intent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.zsp.today.module.zhilin.android.AndroidActivity
 import com.zsp.today.module.zhilin.bean.ZhiLinMenuAction
 import com.zsp.today.module.zhilin.bean.ZhiLinMenuEnum
+import com.zsp.today.module.zhilin.compose.ComposeActivity
 import com.zsp.today.module.zhilin.customview.CustomViewActivity
 import com.zsp.today.module.zhilin.history.HistoryActivity
 import com.zsp.today.module.zhilin.interview.InterviewActivity
@@ -99,10 +99,10 @@ class ZhiLinActivityKit {
             }
 
             3 -> {
-                val fromThisToAndroidActivityIntent =
-                    Intent(appCompatActivity, AndroidActivity::class.java)
+                val fomThisToComposeActivityIntent =
+                    Intent(appCompatActivity, ComposeActivity::class.java)
                 TransitionKit.getInstance().jumpWithTransition(
-                    appCompatActivity, view, fromThisToAndroidActivityIntent, false
+                    appCompatActivity, view, fomThisToComposeActivityIntent, false
                 )
             }
 
