@@ -136,7 +136,7 @@ public class PermissionDialog extends RationaleDialog {
         super.onCreate(savedInstanceState);
         Window window = getWindow();
         // 设置背景位图资源透明
-        WindowKit.setBackgroundDrawableResourceTransparent(window);
+        WindowKit.Companion.setBackgroundDrawableResourceTransparent(window);
         setContentView(R.layout.dialog_permission);
         // 设置窗口管理器布局参数
         LayoutParamsUtils.setWindowManagerLayoutParams(window, true, (int) (ScreenUtils.screenWidth(getContext()) * 0.8), false, 0);
