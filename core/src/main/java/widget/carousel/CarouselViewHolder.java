@@ -1,5 +1,7 @@
 package widget.carousel;
 
+import android.annotation.SuppressLint;
+import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -25,6 +27,7 @@ public class CarouselViewHolder extends RecyclerView.ViewHolder {
     private final ImageView imageView;
     private final WebView webView;
     private final CarouselListener carouselListener;
+    private final NestedScrollConflictHelper nestedScrollConflictHelper;
 
     /**
      * constructor
@@ -38,14 +41,19 @@ public class CarouselViewHolder extends RecyclerView.ViewHolder {
         this.imageView = itemView.findViewById(R.id.carouselItemIv);
         this.webView = itemView.findViewById(R.id.carouselItemWv);
         this.carouselListener = carouselListener;
+        this.nestedScrollConflictHelper = new NestedScrollConflictHelper(itemView);
     }
 
     /**
      * 绑定
      *
      * @param carouselItem 轮播条目
+     * @param orientation  方向
+     *                     {@link RecyclerView#HORIZONTAL}
+     *                     {@link RecyclerView#VERTICAL}
      */
-    public void bind(@NonNull CarouselItem carouselItem) {
+    @SuppressLint("ClickableViewAccessibility")
+    public void bind(@NonNull CarouselItem carouselItem, int orientation) {
         if (carouselItem.getCarouselType() == CarouselType.IMAGE) {
             ViewUtils.hideView(textView, View.GONE);
             ViewUtils.hideView(webView, View.GONE);
@@ -74,13 +82,23 @@ public class CarouselViewHolder extends RecyclerView.ViewHolder {
             ViewUtils.hideView(textView, View.GONE);
             ViewUtils.hideView(imageView, View.GONE);
             ViewUtils.showView(webView);
-            WebViewKit.loadUrl(webView, carouselItem.getCarouselHtml());
+            WebViewKit.Companion.loadUrl(webView, carouselItem.getCarouselHtml());
             // 短点
             webView.setOnClickListener(v -> carouselListener.onItemClick(carouselItem, getBindingAdapterPosition()));
             // 长点
             webView.setOnLongClickListener(v -> {
                 carouselListener.onItemLongClick(carouselItem, getBindingAdapterPosition());
                 return true;
+            });
+            // 触摸监听
+            webView.setOnTouchListener((v, event) -> {
+                // 处理触摸冲突
+                nestedScrollConflictHelper.handleTouch(v, event, orientation == RecyclerView.VERTICAL);
+                // 点击事件（防止丢失）
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    carouselListener.onItemClick(carouselItem, getBindingAdapterPosition());
+                }
+                return false;
             });
         }
     }
