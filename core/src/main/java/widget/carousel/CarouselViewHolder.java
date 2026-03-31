@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.zsp.core.R;
 
 import util.view.ViewUtils;
+import widget.nest.NestScrollConflictHelper;
 import widget.webview.WebViewKit;
 
 /**
@@ -27,7 +28,7 @@ public class CarouselViewHolder extends RecyclerView.ViewHolder {
     private final ImageView imageView;
     private final WebView webView;
     private final CarouselListener carouselListener;
-    private final NestedScrollConflictHelper nestedScrollConflictHelper;
+    private final NestScrollConflictHelper nestScrollConflictHelper;
 
     /**
      * constructor
@@ -41,7 +42,7 @@ public class CarouselViewHolder extends RecyclerView.ViewHolder {
         this.imageView = itemView.findViewById(R.id.carouselItemIv);
         this.webView = itemView.findViewById(R.id.carouselItemWv);
         this.carouselListener = carouselListener;
-        this.nestedScrollConflictHelper = new NestedScrollConflictHelper(itemView);
+        this.nestScrollConflictHelper = new NestScrollConflictHelper(itemView);
     }
 
     /**
@@ -93,7 +94,7 @@ public class CarouselViewHolder extends RecyclerView.ViewHolder {
             // 触摸监听
             webView.setOnTouchListener((v, event) -> {
                 // 处理触摸冲突
-                nestedScrollConflictHelper.handleTouch(v, event, orientation == RecyclerView.VERTICAL);
+                nestScrollConflictHelper.handleTouch(v, event, orientation == RecyclerView.VERTICAL);
                 // 点击事件（防止丢失）
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     carouselListener.onItemClick(carouselItem, getBindingAdapterPosition());
