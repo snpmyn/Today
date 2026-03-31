@@ -41,8 +41,6 @@ dependencies {
     api libs.appcompat
     api libs.material
     api libs.constraintlayout
-    api libs.lifecycle.livedata.ktx
-    api libs.lifecycle.viewmodel.ktx
     /*自带*/
     api libs.core.ktx
     /*kotlin*/
@@ -71,4 +69,14 @@ dependencies {
     /*api libs.tensorflow.lite*/
     api libs.localbroadcastmanager
     /*api files('libs/TarsosDSP-Android-2.4.jar')*/
+    api libs.material3
+    api libs.activity.compose
+    api libs.ui
+    debugApi libs.ui.tooling
+    api libs.ui.tooling.preview
+    /*compose*/
+    api libs.lifecycle.livedata.ktx
+    /*LiveData*/
+    api libs.lifecycle.viewmodel.ktx
+    /*ViewModel*/
 }
