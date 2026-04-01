@@ -31,7 +31,7 @@ public class PopupMenuKit {
     @SuppressLint("RestrictedApi")
     public void popupMenu(AppCompatActivity appCompatActivity, View view, @MenuRes int menuResId, PopupMenuKitListener popupMenuKitListener) {
         PopupMenu popupMenu = new PopupMenu(appCompatActivity, view);
-        // Inflating the Popup using xml file.
+        // Inflating the Popup using XML file.
         popupMenu.getMenuInflater().inflate(menuResId, popupMenu.getMenu());
         // There is no public API to make icons show on menus.
         // IF you need the icons to show this works however it's discouraged to rely on library only APIs since they might disappear in future versions.
