@@ -29,10 +29,6 @@ public class RecyclerViewConfigure {
      * 控件
      */
     private final RecyclerView recyclerView;
-    /**
-     * SpruceKit
-     */
-    private final SpruceKit spruceKit;
     private long interObjectDelay;
     private long duration;
     private boolean reversed;
@@ -47,7 +43,6 @@ public class RecyclerViewConfigure {
     public RecyclerViewConfigure(Context context, RecyclerView recyclerView) {
         this.context = context;
         this.recyclerView = recyclerView;
-        this.spruceKit = new SpruceKit();
         this.interObjectDelay = 100;
         this.duration = 800;
         this.reversed = false;
@@ -93,7 +88,7 @@ public class RecyclerViewConfigure {
         // false 头至尾 / true 尾至头（默 false）
         recyclerView.setLayoutManager(new MyLinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false, (recycler, state) -> {
             if (spruce) {
-                spruceKit.defaultSort(recyclerView, interObjectDelay, duration);
+                SpruceKit.Companion.defaultSort(recyclerView, interObjectDelay, duration);
             }
         }));
         // 固定 RecyclerView 高（避 RecyclerView 重 measure）
@@ -122,7 +117,7 @@ public class RecyclerViewConfigure {
         // 设置布局管理器
         recyclerView.setLayoutManager(new MyLinearLayoutManager(context, (recycler, state) -> {
             if (spruce) {
-                spruceKit.defaultSort(recyclerView, interObjectDelay, duration);
+                SpruceKit.Companion.defaultSort(recyclerView, interObjectDelay, duration);
             }
         }));
         // 固定 RecyclerView 高（避 RecyclerView 重 measure）
@@ -151,7 +146,7 @@ public class RecyclerViewConfigure {
         // 设置布局管理器
         recyclerView.setLayoutManager(new MyGridLayoutManager(context, spanCount, (recycler, state) -> {
             if (spruce) {
-                spruceKit.linearSort(recyclerView, interObjectDelay, reversed, direction, duration);
+                SpruceKit.Companion.linearSort(recyclerView, interObjectDelay, reversed, direction, duration);
             }
         }));
         // 固定 RecyclerView 高（避 RecyclerView 重 measure）
