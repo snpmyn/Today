@@ -95,11 +95,11 @@ public class AccountAnalysisActivity extends BasePoolActivity {
             accountAnalysisActivityKit.chooseDateAndShowMonthAnalysis(this, accountAnalysisActivityTv, accountAnalysisActivityLcMonthAnalysis);
         } else if (itemId == R.id.accountAnalysisActivityMenuMonthAnalysis) {
             // 月度分析
-            MenuItemKit.getInstance().show(accountAnalysisActivityMt.getMenu().findItem(R.id.accountAnalysisActivityMenuChooseDate));
+            MenuItemKit.Companion.show(accountAnalysisActivityMt.getMenu().findItem(R.id.accountAnalysisActivityMenuChooseDate));
             accountAnalysisActivityKit.monthAnalysis(this, accountAnalysisActivityTv, accountAnalysisActivityLcMonthAnalysis, accountAnalysisActivityLcYearAnalysis);
         } else if (itemId == R.id.accountAnalysisActivityMenuYearAnalysis) {
             // 年度分析
-            MenuItemKit.getInstance().hide(accountAnalysisActivityMt.getMenu().findItem(R.id.accountAnalysisActivityMenuChooseDate));
+            MenuItemKit.Companion.hide(accountAnalysisActivityMt.getMenu().findItem(R.id.accountAnalysisActivityMenuChooseDate));
             accountAnalysisActivityKit.yearAnalysis(this, accountAnalysisActivityTv, accountAnalysisActivityLcYearAnalysis, accountAnalysisActivityLcMonthAnalysis);
         }
     }
