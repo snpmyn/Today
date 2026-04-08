@@ -378,7 +378,7 @@ public class FileUtils {
      * Gets the extension of a file name, like ".png" or ".jpg".
      *
      * @param uri String
-     * @return Extension including the dot("."); "" if there is no extension; null if uri was null.
+     * @return Extension including the dot "."; "" if there is no extension; null if uri was null.
      */
     private static String getExtension(String uri) {
         if ((null == uri)) {
@@ -548,7 +548,7 @@ public class FileUtils {
     /**
      * Get a file path from a uri.
      * <p>
-     * This will get the the path for storage access framework documents, as well as the _data field for the MediaStore and other file-based ContentProviders.
+     * This will get the path for storage access framework documents, as well as the _data field for the MediaStore and other file-based ContentProviders.
      * Callers should check whether the path is local before assuming it represents a local file.
      *
      * @param context   Context
@@ -662,7 +662,8 @@ public class FileUtils {
     public static File getFile(Context context, String authority, Uri uri) {
         if (null != uri) {
             String path = getPath(context, authority, uri);
-            if (UrlUtils.areLocal(path)) {
+            if (UrlUtils.Companion.areLocal(path)) {
+                assert path != null;
                 return new File(path);
             }
         }
