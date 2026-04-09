@@ -125,10 +125,10 @@ public class BocLottieClickDialog extends BaseBocInstanceDialog {
         bocLottieClickDialogLav.setLayoutParams(layoutParams);
         if (repeatCount == ValueAnimator.INFINITE) {
             // 无限次数重复
-            LottieKit.getInstance().useWithAsset(bocLottieClickDialogLav, assetName, repeatCount, null);
+            LottieKit.useWithAsset(bocLottieClickDialogLav, assetName, repeatCount, null);
         } else {
             // 限定次数重复
-            LottieKit.getInstance().useWithAsset(bocLottieClickDialogLav, assetName, repeatCount, new Animator.AnimatorListener() {
+            LottieKit.useWithAsset(bocLottieClickDialogLav, assetName, repeatCount, new Animator.AnimatorListener() {
                 @Override
                 public void onAnimationStart(@NonNull Animator animation) {
 
@@ -182,7 +182,7 @@ public class BocLottieClickDialog extends BaseBocInstanceDialog {
         bocLottieClickDialogLav.removeAllAnimatorListeners();
         // 结束动画
         // 移除原有动画监听后设
-        LottieKit.getInstance().endAnimation(bocLottieClickDialogLav);
+        LottieKit.endAnimation(bocLottieClickDialogLav);
         // 设置动画
         setAnimation(bocLottieDialogEnum, repeatCount, bocLottieDialogAnimationEndListener);
     }
