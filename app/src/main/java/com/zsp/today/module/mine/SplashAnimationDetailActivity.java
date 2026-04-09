@@ -92,6 +92,6 @@ public class SplashAnimationDetailActivity extends BasePoolActivity implements V
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LottieKit.getInstance().endAnimation(splashAnimationDetailActivityLav);
+        LottieKit.endAnimation(splashAnimationDetailActivityLav);
     }
 }
