@@ -51,9 +51,9 @@ public class SplashActivityKit {
      */
     public void execute(@NonNull AppCompatActivity appCompatActivity, LottieAnimationView lottieAnimationView, @NonNull TextView textView) {
         textView.setText(Objects.requireNonNull(BasePoolApp.getConfigMap().get(1)).get(2));
-        LottieKit.getInstance().useWithAsset(lottieAnimationView, getAnimationAssetName() + ".json", ValueAnimator.INFINITE, null);
+        LottieKit.useWithAsset(lottieAnimationView, getAnimationAssetName() + ".json", ValueAnimator.INFINITE, null);
         HandlerKit.getInstance().postDelayed(() -> {
-            LottieKit.getInstance().endAnimation(lottieAnimationView);
+            LottieKit.endAnimation(lottieAnimationView);
             if (MmkvKit.defaultMmkv().decodeBool(PoolConstant.USER_AGREEMENT_AND_PRIVACY_POLICY)) {
                 UmKit.getInstance().submitPolicyGrantResult(appCompatActivity, true);
                 UmKit.getInstance().init(appCompatActivity, "68f2e0a2644c9e2c2058e7cf", "product");
