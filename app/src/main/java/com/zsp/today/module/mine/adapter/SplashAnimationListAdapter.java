@@ -75,7 +75,7 @@ public class SplashAnimationListAdapter extends RecyclerView.Adapter<SplashAnima
         holder.itemView.setTag(position);
         SplashAnimationListBean splashAnimationListBean = splashAnimationListBeans.get(position);
         // 动画
-        LottieKit.getInstance().useWithAsset(holder.splashAnimationListItemLav, splashAnimationListBean.getResName() + ".json", ValueAnimator.INFINITE, null);
+        LottieKit.useWithAsset(holder.splashAnimationListItemLav, splashAnimationListBean.getResName() + ".json", ValueAnimator.INFINITE, null);
         // 全屏
         holder.splashAnimationListItemIb.setOnClickListener(v -> onRecyclerViewOnItemClickFullScreenListener.onItemClick(v, holder.getBindingAdapterPosition(), splashAnimationListBean));
     }
