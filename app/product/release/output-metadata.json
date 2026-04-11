@@ -11,9 +11,9 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 7,
-      "versionName": "1.260212-product-release",
-      "outputFile": "知伴-product-release-v1.260212-7-20260313194800.apk"
+      "versionCode": 8,
+      "versionName": "1.260320-product-release",
+      "outputFile": "知伴-product-release-v1.260320-8-20260330142259.apk"
     }
   ],
   "elementType": "File",
@@ -22,14 +22,14 @@
       "minApi": 28,
       "maxApi": 30,
       "baselineProfiles": [
-        "baselineProfiles/1/知伴-product-release-v1.260212-7-20260313194800.dm"
+        "baselineProfiles/1/知伴-product-release-v1.260320-8-20260330142259.dm"
       ]
     },
     {
       "minApi": 31,
       "maxApi": 2147483647,
       "baselineProfiles": [
-        "baselineProfiles/0/知伴-product-release-v1.260212-7-20260313194800.dm"
+        "baselineProfiles/0/知伴-product-release-v1.260320-8-20260330142259.dm"
       ]
     }
   ],
