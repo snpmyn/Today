@@ -32,7 +32,7 @@ public class SplashAnimationDetailActivityKit {
         if (null == bundle) {
             return;
         }
-        LottieKit.getInstance().useWithAsset(lottieAnimationView, bundle.getString(SplashConstant.SPLASH_ANIMATION_HOME_FRAGMENT_$_RES_NAME) + ".json", ValueAnimator.INFINITE, null);
+        LottieKit.useWithAsset(lottieAnimationView, bundle.getString(SplashConstant.SPLASH_ANIMATION_HOME_FRAGMENT_$_RES_NAME) + ".json", ValueAnimator.INFINITE, null);
     }
 
     /**
