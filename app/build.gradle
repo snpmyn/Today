@@ -82,6 +82,7 @@ android {
     // 定义一维度即单层分类
     // 定义多维度即多层组合
     // flavorDimensions 声明顺序决定最终生成 APK 的命名顺序
+    // 顺序 + 穷举
     flavorDimensions += ["dimension"]
     productFlavors {
         // 开发环境
