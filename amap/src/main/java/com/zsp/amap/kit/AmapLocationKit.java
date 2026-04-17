@@ -28,47 +28,6 @@ public class AmapLocationKit {
     }
 
     /**
-     * 开始
-     *
-     * @param application             应用
-     * @param aMapLocationPurpose     高德地图定位客户端配置
-     * @param start                   开始
-     * @param amapLocationKitListener 高德地图定位配套原件监听
-     */
-    public void start(Application application, AMapLocationClientOption.AMapLocationPurpose aMapLocationPurpose, boolean start, AmapLocationKitListener amapLocationKitListener) {
-        WeakReference<Context> weakReference = new WeakReference<>(application);
-        // 隐私权政策包含高德开平台隐私权政策
-        // 隐私权政策弹窗展示告知用户
-        AMapLocationClient.updatePrivacyShow(weakReference.get(), true, true);
-        // 隐私权政策征得用户同意
-        AMapLocationClient.updatePrivacyAgree(weakReference.get(), true);
-        // 高德地图定位客户端
-        try {
-            aMapLocationClient = new AMapLocationClient(weakReference.get());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        // 高德地图定位客户端配置
-        AMapLocationClientOption aMapLocationClientOption = getAMapLocationClientOption(aMapLocationPurpose);
-        // 给定位客户端对象设置定位参数
-        aMapLocationClient.setLocationOption(aMapLocationClientOption);
-        // 设置定位监听
-        aMapLocationClient.setLocationListener(aMapLocation -> {
-            if (null != aMapLocation) {
-                if (aMapLocation.getErrorCode() == 0) {
-                    amapLocationKitListener.locationSuccessful(aMapLocation, getLocationInfo(aMapLocation));
-                } else {
-                    amapLocationKitListener.locationFail(aMapLocation);
-                }
-            }
-        });
-        // 开始定位
-        if (start) {
-            aMapLocationClient.startLocation();
-        }
-    }
-
-    /**
      * 获取高德地图定位客户端配置
      *
      * @param aMapLocationPurpose 高德地图定位客户端配置
@@ -116,6 +75,47 @@ public class AmapLocationKit {
         // 高精度定位模式：会同时使用网络定位和 GPS 定位，优先返回最高精度的定位结果，以及对应的地址描述信息。
         aMapLocationClientOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
         return aMapLocationClientOption;
+    }
+
+    /**
+     * 开始
+     *
+     * @param application             应用
+     * @param aMapLocationPurpose     高德地图定位客户端配置
+     * @param start                   开始
+     * @param amapLocationKitListener 高德地图定位配套原件监听
+     */
+    public void start(Application application, AMapLocationClientOption.AMapLocationPurpose aMapLocationPurpose, boolean start, AmapLocationKitListener amapLocationKitListener) {
+        WeakReference<Context> weakReference = new WeakReference<>(application);
+        // 隐私权政策包含高德开平台隐私权政策
+        // 隐私权政策弹窗展示告知用户
+        AMapLocationClient.updatePrivacyShow(weakReference.get(), true, true);
+        // 隐私权政策征得用户同意
+        AMapLocationClient.updatePrivacyAgree(weakReference.get(), true);
+        // 高德地图定位客户端
+        try {
+            aMapLocationClient = new AMapLocationClient(weakReference.get());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        // 高德地图定位客户端配置
+        AMapLocationClientOption aMapLocationClientOption = getAMapLocationClientOption(aMapLocationPurpose);
+        // 给定位客户端对象设置定位参数
+        aMapLocationClient.setLocationOption(aMapLocationClientOption);
+        // 设置定位监听
+        aMapLocationClient.setLocationListener(aMapLocation -> {
+            if (null != aMapLocation) {
+                if (aMapLocation.getErrorCode() == 0) {
+                    amapLocationKitListener.locationSuccessful(aMapLocation, getLocationInfo(aMapLocation));
+                } else {
+                    amapLocationKitListener.locationFail(aMapLocation);
+                }
+            }
+        });
+        // 开始定位
+        if (start) {
+            aMapLocationClient.startLocation();
+        }
     }
 
     /**
