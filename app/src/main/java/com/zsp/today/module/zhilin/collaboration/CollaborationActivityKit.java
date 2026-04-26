@@ -38,7 +38,7 @@ public class CollaborationActivityKit {
         // 适配器
         classificationAdapter = new ClassificationAdapter();
         classificationAdapter.attachRecyclerView(activityCollaborationBinding.classificationActivityRv);
-        classificationAdapter.setData(studentBeanList);
+        classificationAdapter.setData(studentBeanList, 0);
         classificationAdapter.setOnSelectListener(new ClassificationAdapter.OnSelectListener() {
             @Override
             public void onSelect(StudentBean studentBean, int position) {
