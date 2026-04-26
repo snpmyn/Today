@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * @decs: 分类适配器
@@ -58,6 +57,8 @@ public class ClassificationAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     private boolean childItemClickEnable = true;
     /**
      * 默认展开识别状态
+     * <p>
+     * 默认无展开
      */
     private int defaultExpandRecognizeState = -1;
 
@@ -70,14 +71,24 @@ public class ClassificationAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         this.recyclerView = recyclerView;
     }
 
-    @Override
-    public int getItemCount() {
-        return listItemList.size();
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return listItemList.get(position).getType();
+    /**
+     * 设置数据
+     *
+     * @param studentBeanList             学生数据集
+     * @param defaultExpandRecognizeState 默认展开识别状态
+     *                                    默认无展开
+     */
+    @SuppressLint("NotifyDataSetChanged")
+    public void setData(@NonNull List<StudentBean> studentBeanList, int defaultExpandRecognizeState) {
+        this.defaultExpandRecognizeState = defaultExpandRecognizeState;
+        for (StudentBean studentBean : studentBeanList) {
+            // putIfAbsent
+            // recognizeState 不存在时放进去 + 已存在则什么都不做
+            classificationChildItemMap.computeIfAbsent(studentBean.getRecognizeState(), k -> new ArrayList<>()).add(new ChildItem(studentBean));
+        }
+        rebuild();
+        // 全量刷新
+        notifyDataSetChanged();
     }
 
     @NotNull
@@ -85,7 +96,7 @@ public class ClassificationAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         if (viewType == ListItem.TYPE_HEADER) {
-            return new HeaderViewHolder(layoutInflater.inflate(R.layout.item_classification_header, parent, false));
+            return new HeadViewHolder(layoutInflater.inflate(R.layout.item_classification_header, parent, false));
         } else {
             return new ChildViewHolder(layoutInflater.inflate(R.layout.item_classification_child, parent, false));
         }
@@ -98,11 +109,11 @@ public class ClassificationAdapter extends RecyclerView.Adapter<RecyclerView.Vie
      * 渲染时快照
      * 非实时数据
      * <p>
-     * 这些局部变量（如 select）在 onBind 时计算
+     * 这些局部变量（如 select）在 {@link #onBindViewHolder} 时计算
      * 属于该时刻的数据快照
      * <p>
-     * 在局部刷新（notifyItemChanged）场景
-     * 数据可能已经发生变化（例如 currentSelectedStudentId 改变）
+     * 在局部刷新 - notifyItemChanged 场景
+     * 数据可能已发生变化（例如 currentSelectedStudentId 改变）
      * 但这些局部变量不会自动更新
      * 除非指定条目重新触发 {@link #onBindViewHolder}
      * <p>
@@ -117,12 +128,12 @@ public class ClassificationAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ListItem listItem = listItemList.get(position);
-        if (holder instanceof HeaderViewHolder) {
-            HeaderItem headerItem = (HeaderItem) listItem;
-            HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
-            headerViewHolder.classificationHeadItemTv.setText(headerItem.getTitle());
-            headerViewHolder.classificationHeadItemMcv.setChecked(defaultExpandRecognizeState == headerItem.recognizeState);
-            headerViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+        if (holder instanceof HeadViewHolder) {
+            HeadItem headItem = (HeadItem) listItem;
+            HeadViewHolder headViewHolder = (HeadViewHolder) holder;
+            headViewHolder.classificationHeadItemTv.setText(headItem.getTitle());
+            headViewHolder.classificationHeadItemMcv.setChecked(defaultExpandRecognizeState == headItem.recognizeState);
+            headViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @SuppressLint("NotifyDataSetChanged")
                 @Override
                 public void onClick(View v) {
@@ -132,7 +143,7 @@ public class ClassificationAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     // 场景二
                     // 头条目 A 展开 + 点击头条目 B
                     // defaultExpandRecognizeState != headerItem.recognizeState
-                    defaultExpandRecognizeState = (defaultExpandRecognizeState == headerItem.recognizeState ? -1 : headerItem.recognizeState);
+                    defaultExpandRecognizeState = (defaultExpandRecognizeState == headItem.recognizeState ? -1 : headItem.recognizeState);
                     // 重建
                     rebuild();
                     // 全量刷新
@@ -146,75 +157,45 @@ public class ClassificationAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             ChildViewHolder childViewHolder = (ChildViewHolder) holder;
             childViewHolder.classificationChildItemTv.setText(studentBean.getStudentName());
             childViewHolder.classificationChildItemMcv.setChecked(studentBean.getStudentId() == currentSelectedStudentId);
-            childViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!childItemClickEnable) {
-                        // 子条目不可点 + 直接 return
-                        return;
-                    }
-                    if (studentBean.getStudentId() == currentSelectedStudentId) {
-                        // 取消选中
-                        currentSelectedStudentId = -1;
-                        notifyItemChanged(childViewHolder.getBindingAdapterPosition());
-                        if (null != onSelectListener) {
-                            onSelectListener.onUnSelect(studentBean, childViewHolder.getBindingAdapterPosition());
-                        }
-                        return;
-                    }
-                    // 子旧位置
-                    int oldChildPosition = findPositionByStudentId(currentSelectedStudentId);
-                    // 当前已选学生 ID 赋值为当前学生 ID
-                    currentSelectedStudentId = studentBean.getStudentId();
-                    // 局部刷新子旧位置
-                    if (oldChildPosition != -1) {
-                        notifyItemChanged(oldChildPosition);
-                    }
-                    // 局部刷新子新位置
+            childViewHolder.itemView.setOnClickListener(v -> {
+                if (!childItemClickEnable) {
+                    // 子条目不可点 + 直接 return
+                    return;
+                }
+                if (studentBean.getStudentId() == currentSelectedStudentId) {
+                    // 取消选中
+                    currentSelectedStudentId = -1;
                     notifyItemChanged(childViewHolder.getBindingAdapterPosition());
                     if (null != onSelectListener) {
-                        onSelectListener.onSelect(studentBean, childViewHolder.getBindingAdapterPosition());
+                        onSelectListener.onUnSelect(studentBean, childViewHolder.getBindingAdapterPosition());
                     }
+                    return;
+                }
+                // 子条目旧位置
+                int oldChildItemPosition = findPositionByStudentId(currentSelectedStudentId);
+                // 局部刷新子条目旧位置
+                if (oldChildItemPosition != -1) {
+                    notifyItemChanged(oldChildItemPosition);
+                }
+                // 局部刷新子条目新位置
+                notifyItemChanged(childViewHolder.getBindingAdapterPosition());
+                // 当前已选学生 ID 赋值为当前学生 ID
+                currentSelectedStudentId = studentBean.getStudentId();
+                if (null != onSelectListener) {
+                    onSelectListener.onSelect(studentBean, childViewHolder.getBindingAdapterPosition());
                 }
             });
         }
     }
 
-    /**
-     * 设置数据
-     *
-     * @param studentBeanList 学生数据集
-     */
-    @SuppressLint("NotifyDataSetChanged")
-    public void setData(@NonNull List<StudentBean> studentBeanList) {
-        clearAll();
-        // 默认展开识别状态 0
-        defaultExpandRecognizeState = 0;
-        for (StudentBean studentBean : studentBeanList) {
-            // 识别状态
-            int recognizeState = studentBean.getRecognizeState();
-            // putIfAbsent
-            // recognizeState 不存在时放进去
-            // 已存在则什么都不做
-            classificationChildItemMap.putIfAbsent(recognizeState, new ArrayList<>());
-            Objects.requireNonNull(classificationChildItemMap.get(recognizeState)).add(new ChildItem(studentBean));
-        }
-        rebuild();
-        // 全量刷新
-        // TODO: 2026/4/24 notifyDataSetChanged() 待优化
-        notifyDataSetChanged();
+    @Override
+    public int getItemCount() {
+        return listItemList.size();
     }
 
-    /**
-     * 清空全部
-     */
-    private void clearAll() {
-        // 列表条目集清空
-        listItemList.clear();
-        // 分类子条目集清空
-        classificationChildItemMap.clear();
-        // 重置当前已选学生 ID
-        currentSelectedStudentId = -1;
+    @Override
+    public int getItemViewType(int position) {
+        return listItemList.get(position).getType();
     }
 
     /**
@@ -224,7 +205,7 @@ public class ClassificationAdapter extends RecyclerView.Adapter<RecyclerView.Vie
      * <p>
      * 第一
      * 设置数据
-     * {@link #setData(List)}
+     * {@link #setData(List, int)}
      * <p>
      * 第二
      * 点同一头条目 -> 展开 / 折叠
@@ -245,16 +226,16 @@ public class ClassificationAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             // 上一步查询三种识别状态
             // 查询到识别状态下存在子条目时
             // 为该组子条目创建一个头条目
-            HeaderItem headerItem = new HeaderItem(i);
+            HeadItem headItem = new HeadItem(i);
             // 头条目显示数量 = 头条目下子条目数量
-            headerItem.count = childItemList.size();
+            headItem.count = childItemList.size();
             // 默认展开识别状态 = 当前识别状态
             // 判定需要展开
-            headerItem.needExpand = (defaultExpandRecognizeState == i);
+            headItem.needExpand = (defaultExpandRecognizeState == i);
             // 自上而下依次排版
             // 先添加头条目
-            listItemList.add(headerItem);
-            if (headerItem.needExpand) {
+            listItemList.add(headItem);
+            if (headItem.needExpand) {
                 // 需要展开
                 // 后添加子条目
                 listItemList.addAll(childItemList);
@@ -304,24 +285,54 @@ public class ClassificationAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 if (needExpandRecognizeState == -1) {
                     return;
                 }
-                // 需要展开识别状态赋值给默认展开识别状态
-                defaultExpandRecognizeState = needExpandRecognizeState;
-                // 重建
-                rebuild();
-                if (autoSelect) {
+                // 头条目是否需要更新
+                boolean headItemNeedUpdate = defaultExpandRecognizeState != needExpandRecognizeState;
+                // 子条目是否需要更新
+                boolean childItemNeedUpdate = (autoSelect && (currentSelectedStudentId != studentId));
+
+                // 旧的已选学生 ID
+                int oldSelectedStudentId = currentSelectedStudentId;
+                if (childItemNeedUpdate) {
                     // 自动选择
                     // 先改数据 + 暂不刷新
                     currentSelectedStudentId = studentId;
                 }
-                // 全量刷新
-                // TODO: 2026/4/24 notifyDataSetChanged() 待优化
-                notifyDataSetChanged();
-                // 子位置
-                int childPosition = findPositionByStudentId(studentId);
-                if (childPosition != -1) {
-                    // 查询到对应 studentId 的子位置 + 滚动居中
-                    recyclerView.scrollToPosition(childPosition);
+
+                if (!headItemNeedUpdate && !childItemNeedUpdate) {
+                    // 头条目无需更新 + 子条目无需更新
+                    return;
                 }
+
+                if (headItemNeedUpdate) {
+                    // 头条目需更新
+                    // 需要展开识别状态赋值给默认展开识别状态
+                    defaultExpandRecognizeState = needExpandRecognizeState;
+                    // 重建
+                    rebuild();
+                    // 全量刷新
+                    // TODO: 2026/4/24 notifyDataSetChanged() 待优化
+                    notifyDataSetChanged();
+                } else {
+                    // 头条目无需更新 + 子条目需更新
+                    // 局部刷新旧子条目
+                    int oldChildItemPosition = findPositionByStudentId(oldSelectedStudentId);
+                    if (oldChildItemPosition != -1) {
+                        notifyItemChanged(oldChildItemPosition);
+                    }
+                    // 局部刷新新子条目
+                    int newChildItemPosition = findPositionByStudentId(currentSelectedStudentId);
+                    if (newChildItemPosition != -1) {
+                        notifyItemChanged(newChildItemPosition);
+                    }
+                }
+                recyclerView.post(() -> {
+                    // 子位置
+                    int childPosition = findPositionByStudentId(studentId);
+                    if (childPosition != -1) {
+                        // 查询到对应 studentId 的子位置 + 滚动居中
+                        recyclerView.scrollToPosition(childPosition);
+                    }
+                });
             }
         });
     }
@@ -429,11 +440,11 @@ public class ClassificationAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     /**
      * 头 ViewHolder
      */
-    static class HeaderViewHolder extends RecyclerView.ViewHolder {
+    static class HeadViewHolder extends RecyclerView.ViewHolder {
         MaterialCardView classificationHeadItemMcv;
         TextView classificationHeadItemTv;
 
-        public HeaderViewHolder(@NonNull @NotNull View itemView) {
+        public HeadViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             classificationHeadItemMcv = itemView.findViewById(R.id.classificationHeadItemMcv);
             classificationHeadItemTv = itemView.findViewById(R.id.classificationHeadItemTv);
