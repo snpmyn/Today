@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/classificationChildItemMcv"
+    style="?attr/materialCardViewFilledStyle"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_48"
+    android:checkable="true"
+    app:rippleColor="?attr/colorPrimary">
+
+    <TextView
+        android:id="@+id/classificationChildItemTv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textSize="@dimen/sp_12"
+        tools:text="子条目" />
+</com.google.android.material.card.MaterialCardView>
