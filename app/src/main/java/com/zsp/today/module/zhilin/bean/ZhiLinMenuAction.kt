@@ -13,6 +13,7 @@ sealed class ZhiLinMenuAction {
     object CustomView : ZhiLinMenuAction()
     object Mvp : ZhiLinMenuAction()
     object History : ZhiLinMenuAction()
+    object COLLABORATION : ZhiLinMenuAction()
 
     companion object {
         fun getMenuIdFromZhiLinMenuAction(zhiLinMenuAction: ZhiLinMenuAction): Int {
@@ -24,6 +25,7 @@ sealed class ZhiLinMenuAction {
                 is CustomView -> 5
                 is Mvp -> 6
                 is History -> 7
+                is COLLABORATION -> 8
             }
         }
     }
