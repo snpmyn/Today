@@ -6,7 +6,7 @@ package com.zsp.today.module.zhilin.collaboration;
  * @author 郑少鹏
  * @desc 头条目
  */
-public class HeaderItem extends ListItem {
+public class HeadItem extends ListItem {
     /**
      * 识别状态
      */
@@ -25,7 +25,7 @@ public class HeaderItem extends ListItem {
      *
      * @param recognizeState 识别状态
      */
-    public HeaderItem(int recognizeState) {
+    public HeadItem(int recognizeState) {
         this.recognizeState = recognizeState;
     }
 
