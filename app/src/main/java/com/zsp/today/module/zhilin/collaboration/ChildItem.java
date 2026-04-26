@@ -1,0 +1,33 @@
+package com.zsp.today.module.zhilin.collaboration;
+
+/**
+ * Created on 2026/4/23.
+ *
+ * @author 郑少鹏
+ * @desc 子条目
+ */
+public class ChildItem extends ListItem {
+    /**
+     * 学生数据
+     */
+    public StudentBean studentBean;
+
+    /**
+     * constructor
+     *
+     * @param studentBean 学生数据
+     */
+    public ChildItem(StudentBean studentBean) {
+        this.studentBean = studentBean;
+    }
+
+    /**
+     * 获取类型
+     *
+     * @return 类型
+     */
+    @Override
+    public int getType() {
+        return TYPE_CHILD;
+    }
+}
