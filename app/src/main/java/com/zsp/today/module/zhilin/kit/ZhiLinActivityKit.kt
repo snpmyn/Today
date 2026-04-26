@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.zsp.today.module.zhilin.bean.ZhiLinMenuAction
 import com.zsp.today.module.zhilin.bean.ZhiLinMenuEnum
+import com.zsp.today.module.zhilin.collaboration.CollaborationActivity
 import com.zsp.today.module.zhilin.compose.ComposeActivity
 import com.zsp.today.module.zhilin.customview.CustomViewActivity
 import com.zsp.today.module.zhilin.history.HistoryActivity
@@ -133,6 +134,14 @@ class ZhiLinActivityKit {
                     Intent(appCompatActivity, HistoryActivity::class.java)
                 TransitionKit.getInstance().jumpWithTransition(
                     appCompatActivity, view, fromThisToHistoryActivityIntent, false
+                )
+            }
+
+            8 -> {
+                val fromThisToCollaborationActivityIntent =
+                    Intent(appCompatActivity, CollaborationActivity::class.java)
+                TransitionKit.getInstance().jumpWithTransition(
+                    appCompatActivity, view, fromThisToCollaborationActivityIntent, false
                 )
             }
 
