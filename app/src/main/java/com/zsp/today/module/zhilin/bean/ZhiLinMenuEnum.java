@@ -40,7 +40,11 @@ public enum ZhiLinMenuEnum {
     /**
      * 历史
      */
-    HISTORY(ZhiLinMenuAction.History.INSTANCE, R.drawable.ic_widget_cos_24dp, "历史", true);
+    HISTORY(ZhiLinMenuAction.History.INSTANCE, R.drawable.ic_widget_cos_24dp, "历史", true),
+    /**
+     * 联动
+     */
+    COLLABORATION(ZhiLinMenuAction.COLLABORATION.INSTANCE, R.drawable.ic_widget_cos_24dp, "联动", true);
     /**
      * 菜单 ID
      */
