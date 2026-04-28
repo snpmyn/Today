@@ -1,6 +1,7 @@
 package widget.recyclerview.controller;
 
 import android.graphics.PointF;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -78,7 +79,7 @@ public class RecyclerViewScrollController {
      *                       {@link LinearSmoothScroller#SNAP_TO_END}
      *                       子视图右侧或底部对齐父视图右侧面或底部。
      *                       {@link LinearSmoothScroller#SNAP_TO_ANY}
-     *                       据子视图当前位与父布局关系定子视图从头到尾跟随否。
+     *                       据子视图当前位于父布局关系定子视图从头到尾跟随否。
      *                       子视图实际于 RecyclerView 左侧，SNAP_TO_ANY 和 SNAP_TO_START 无差别。
      */
     public void smoothScrollToTargetPositionWithScrollMode(@NonNull RecyclerView recyclerView, int targetPosition, int scrollMode) {
@@ -104,12 +105,12 @@ public class RecyclerViewScrollController {
     }
 
     /**
-     * 条目滑至居中
+     * 水平方向条目滑至居中
      *
      * @param recyclerView 控件
      * @param position     位
      */
-    public void itemScrollToCenter(@NonNull RecyclerView recyclerView, int position) {
+    public void itemScrollToCenterInHorizontal(@NonNull RecyclerView recyclerView, int position) {
         LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
         if (null != linearLayoutManager) {
             int firstPosition = linearLayoutManager.findFirstVisibleItemPosition();
@@ -118,5 +119,38 @@ public class RecyclerViewScrollController {
             int right = recyclerView.getChildAt(lastPosition - position).getLeft();
             recyclerView.scrollBy((left - right) / 2, 0);
         }
+    }
+
+    /**
+     * 垂直方向条目滑至居中
+     *
+     * @param recyclerView 控件
+     * @param position     位
+     */
+    public void itemScrollToCenterInVertical(@NonNull RecyclerView recyclerView, int position) {
+        RecyclerView.LayoutManager recyclerViewLayoutManager = recyclerView.getLayoutManager();
+        if (!(recyclerViewLayoutManager instanceof LinearLayoutManager)) {
+            return;
+        }
+        LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerViewLayoutManager;
+        LinearSmoothScroller linearSmoothScroller = new LinearSmoothScroller(recyclerView.getContext()) {
+            @Override
+            protected int getVerticalSnapPreference() {
+                return SNAP_TO_START;
+            }
+
+            @Override
+            protected void onTargetFound(@NonNull View targetView, RecyclerView.State state, Action action) {
+                int recyclerCenter = (recyclerView.getHeight() / 2);
+                int viewCenter = ((targetView.getTop() + targetView.getBottom()) / 2);
+                int dy = (viewCenter - recyclerCenter);
+                int time = calculateTimeForDeceleration(Math.abs(dy));
+                if (time > 0) {
+                    action.update(0, dy, time, mDecelerateInterpolator);
+                }
+            }
+        };
+        linearSmoothScroller.setTargetPosition(position);
+        layoutManager.startSmoothScroll(linearSmoothScroller);
     }
 }
