@@ -57,7 +57,8 @@ public class RecyclerViewScrollController {
                     // 此处第二次滚动
                     if (move) {
                         move = false;
-                        // 所置顶项于当前屏幕位，mIndex 记录所置顶于 RecyclerView 中位
+                        // 所置顶项于当前屏幕位
+                        // mIndex 记录所置顶于 RecyclerView 中位
                         int n = (index - manager.findFirstVisibleItemPosition());
                         if ((0 <= n) && (n < recyclerView.getChildCount())) {
                             // 所置顶项顶距 RecyclerView 顶距离
@@ -122,39 +123,6 @@ public class RecyclerViewScrollController {
             int right = recyclerView.getChildAt(lastPosition - position).getLeft();
             recyclerView.scrollBy((left - right) / 2, 0);
         }
-    }
-
-    /**
-     * 垂直方向条目滑至居中
-     *
-     * @param recyclerView 控件
-     * @param position     位
-     */
-    public void itemScrollToCenterInVertical(@NonNull RecyclerView recyclerView, int position) {
-        RecyclerView.LayoutManager recyclerViewLayoutManager = recyclerView.getLayoutManager();
-        if (!(recyclerViewLayoutManager instanceof LinearLayoutManager)) {
-            return;
-        }
-        LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerViewLayoutManager;
-        LinearSmoothScroller linearSmoothScroller = new LinearSmoothScroller(recyclerView.getContext()) {
-            @Override
-            protected int getVerticalSnapPreference() {
-                return SNAP_TO_START;
-            }
-
-            @Override
-            protected void onTargetFound(@NonNull View targetView, RecyclerView.State state, Action action) {
-                int recyclerCenter = (recyclerView.getHeight() / 2);
-                int viewCenter = ((targetView.getTop() + targetView.getBottom()) / 2);
-                int dy = (viewCenter - recyclerCenter);
-                int time = calculateTimeForDeceleration(Math.abs(dy));
-                if (time > 0) {
-                    action.update(0, dy, time, mDecelerateInterpolator);
-                }
-            }
-        };
-        linearSmoothScroller.setTargetPosition(position);
-        layoutManager.startSmoothScroll(linearSmoothScroller);
     }
 
     /**
