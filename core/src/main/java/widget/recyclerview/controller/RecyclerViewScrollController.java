@@ -1,12 +1,15 @@
 package widget.recyclerview.controller;
 
 import android.graphics.PointF;
+import android.util.DisplayMetrics;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.jetbrains.annotations.Contract;
 
 /**
  * Created on 2018/6/28.
@@ -122,21 +125,26 @@ public class RecyclerViewScrollController {
     }
 
     /**
-     * 垂直方向条目滑至居中
-     *
      * @param recyclerView 控件
      * @param position     位
+     * @param smooth       是否平滑滚动
      */
-    public void itemScrollToCenterInVertical(@NonNull RecyclerView recyclerView, int position) {
+    public void itemScrollToCenterInVertical(@NonNull RecyclerView recyclerView, int position, boolean smooth) {
         RecyclerView.LayoutManager recyclerViewLayoutManager = recyclerView.getLayoutManager();
         if (!(recyclerViewLayoutManager instanceof LinearLayoutManager)) {
             return;
         }
-        LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerViewLayoutManager;
+        LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerViewLayoutManager;
+        if (!smooth) {
+            // 无动画
+            // 直接跳到位置
+            linearLayoutManager.scrollToPositionWithOffset(position, recyclerView.getHeight() / 2);
+            return;
+        }
         LinearSmoothScroller linearSmoothScroller = new LinearSmoothScroller(recyclerView.getContext()) {
             @Override
             protected int getVerticalSnapPreference() {
-                return SNAP_TO_START;
+                return SNAP_TO_ANY;
             }
 
             @Override
@@ -149,8 +157,16 @@ public class RecyclerViewScrollController {
                     action.update(0, dy, time, mDecelerateInterpolator);
                 }
             }
+
+            @Contract(pure = true)
+            @Override
+            protected float calculateSpeedPerPixel(@NonNull DisplayMetrics displayMetrics) {
+                // 控制滑动速度
+                // 数值越大越慢
+                return (90F / displayMetrics.densityDpi);
+            }
         };
         linearSmoothScroller.setTargetPosition(position);
-        layoutManager.startSmoothScroll(linearSmoothScroller);
+        linearLayoutManager.startSmoothScroll(linearSmoothScroller);
     }
 }
