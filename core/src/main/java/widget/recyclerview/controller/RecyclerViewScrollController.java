@@ -125,6 +125,41 @@ public class RecyclerViewScrollController {
     }
 
     /**
+     * 垂直方向条目滑至居中
+     *
+     * @param recyclerView 控件
+     * @param position     位
+     */
+    public void itemScrollToCenterInVertical(@NonNull RecyclerView recyclerView, int position) {
+        RecyclerView.LayoutManager recyclerViewLayoutManager = recyclerView.getLayoutManager();
+        if (!(recyclerViewLayoutManager instanceof LinearLayoutManager)) {
+            return;
+        }
+        LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerViewLayoutManager;
+        LinearSmoothScroller linearSmoothScroller = new LinearSmoothScroller(recyclerView.getContext()) {
+            @Override
+            protected int getVerticalSnapPreference() {
+                return SNAP_TO_START;
+            }
+
+            @Override
+            protected void onTargetFound(@NonNull View targetView, RecyclerView.State state, Action action) {
+                int recyclerCenter = (recyclerView.getHeight() / 2);
+                int viewCenter = ((targetView.getTop() + targetView.getBottom()) / 2);
+                int dy = (viewCenter - recyclerCenter);
+                int time = calculateTimeForDeceleration(Math.abs(dy));
+                if (time > 0) {
+                    action.update(0, dy, time, mDecelerateInterpolator);
+                }
+            }
+        };
+        linearSmoothScroller.setTargetPosition(position);
+        layoutManager.startSmoothScroll(linearSmoothScroller);
+    }
+
+    /**
+     * 垂直方向条目滑至居中
+     *
      * @param recyclerView 控件
      * @param position     位
      * @param smooth       是否平滑滚动
