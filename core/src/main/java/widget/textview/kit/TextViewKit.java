@@ -53,6 +53,7 @@ public class TextViewKit {
     public static void setDrawable(Context context, TextView textView, int drawableResId, int position, int padding) {
         Drawable drawable = ContextCompat.getDrawable(context, drawableResId);
         if (null != drawable) {
+            // Drawable 原始尺寸
             drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
             switch (position) {
                 case 1:
