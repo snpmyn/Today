@@ -53,7 +53,7 @@ public class TextViewKit {
     public static void setDrawable(Context context, TextView textView, int drawableResId, int position, int padding) {
         Drawable drawable = ContextCompat.getDrawable(context, drawableResId);
         if (null != drawable) {
-            drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
             switch (position) {
                 case 1:
                     textView.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
