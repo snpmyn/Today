@@ -492,7 +492,7 @@ public class StatusBarUtils {
      * @return 半透明 View
      */
     private static @NotNull View createTranslucentStatusBarView(AppCompatActivity appCompatActivity, int alpha) {
-        // 绘一状态栏等高矩形
+        // 绘制一个状态栏等高矩形
         View statusBarView = new View(appCompatActivity);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getStatusBarHeight(appCompatActivity));
         statusBarView.setLayoutParams(layoutParams);
