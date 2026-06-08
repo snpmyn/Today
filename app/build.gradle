@@ -62,12 +62,14 @@ android {
             shrinkResources rootProject.ext.shrinkResources
             // 调试
             debuggable false
+            // 签名配置
             signingConfig signingConfigs.release
             versionNameSuffix "-release"
             manifestPlaceholders = [app_name: "知伴",
                                     AMAP_KEY: "1088cc04ecd157e5709046d340d05ed2"]
         }
         debug {
+            // 签名配置
             signingConfig signingConfigs.debug
             versionNameSuffix "-debug"
             manifestPlaceholders = [app_name: "知伴D",
