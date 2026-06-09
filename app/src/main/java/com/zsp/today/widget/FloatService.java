@@ -30,11 +30,11 @@ public class FloatService extends Service {
     /**
      * 外部控制悬浮窗显示的 Action
      */
-    public static final String ACTION_SHOW_FLOAT = "com.qtone.action.SHOW_FLOAT";
+    public static final String ACTION_SHOW_FLOAT = "com.zsp.today.action.SHOW_FLOAT";
     /**
      * 外部控制悬浮窗隐藏的 Action
      */
-    public static final String ACTION_HIDE_FLOAT = "com.qtone.action.HIDE_FLOAT";
+    public static final String ACTION_HIDE_FLOAT = "com.zsp.today.action.HIDE_FLOAT";
     /**
      * 悬浮点击监听
      */
