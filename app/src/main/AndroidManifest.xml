@@ -129,7 +129,7 @@
             <!--用来向系统和应用商店简述为什么要用该特殊类型-->
             <property
                 android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
-                android:value="Floating window for quick access to today tasks and system shortcuts" />
+                android:value="用于后台维持桌面交互悬浮挂件的正常显示与生命周期管理" />
         </service>
 
         <provider

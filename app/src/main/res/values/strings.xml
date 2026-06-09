@@ -98,6 +98,7 @@
     <string name="internalBackupFail">内备份失败</string>
     <string name="externalBackupFail">外备份失败</string>
     <string name="inPeriodicOperation">周期运行中</string>
+    <string name="inFloatingOperation">悬浮运行中</string>
     <string name="smsHasBeenDelivered">短信已送达</string>
     <string name="releaseYourInnerVoice">释放心声</string>
     <string name="updateLocationFail">更新定位失败</string>
@@ -119,6 +120,7 @@
     <string name="noHomeComeDataAvailable">暂无归心数据</string>
     <string name="wantToDeleteTheThought">想要删除思念吗</string>
     <string name="periodicNotificationChinese">周期通知</string>
+    <string name="floatingNotificationChinese">悬浮通知</string>
     <string name="updateLocationSuccessful">更新定位成功</string>
     <string name="canNotGetLocationInfo">无法获取定位信息</string>
     <string name="yourHeartFeelsLighter">你的心轻了一点儿</string>
@@ -141,6 +143,7 @@
     <string name="emailAndPhoneNumber">snpmyn@126.com\n13673541527</string>
     <string name="readImageAreBasedOnThePermission">读取图片需要该权限</string>
     <string name="periodicNotificationEnglish">periodic notification</string>
+    <string name="floatingNotificationEnglish">floating notification</string>
     <string name="inputEmergencyContactPhoneNumber">输入紧急联系人手机号</string>
     <string name="hurryUpSendTheCoarseLocation">来不及了\n使用粗略位置发送</string>
     <string name="recordReadAudioAreBasedOnThePermission">录制读取音频需要该权限</string>

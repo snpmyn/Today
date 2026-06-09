@@ -58,4 +58,27 @@ public class NotificationKit {
     public static int periodicNotificationId() {
         return 2;
     }
+
+    /**
+     * 悬浮通知信息
+     *
+     * @param context 上下文
+     * @return 周期通知信息数组
+     */
+    @NonNull
+    public static String[] floatingNotificationInfo(@NonNull Context context) {
+        String channelId = "ChannelIdFloatingNotification";
+        String channelName = context.getString(R.string.floatingNotificationChinese);
+        String channelDescription = context.getString(R.string.floatingNotificationEnglish);
+        return new String[]{channelId, channelName, channelDescription};
+    }
+
+    /**
+     * 悬浮通知 ID
+     *
+     * @return 周期通知 ID
+     */
+    public static int floatingNotificationId() {
+        return 3;
+    }
 }
