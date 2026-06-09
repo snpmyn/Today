@@ -62,7 +62,6 @@ public class AppListener {
         for (Callback callback : callbackSet) {
             callback.onStateChange(areForeground);
         }
-        LogUtils.d(TAG, "唤醒前台 " + areForeground);
     }
 
     /**
@@ -108,7 +107,7 @@ public class AppListener {
             // Java 前置自增运算符
             if (++activityCount == 1) {
                 notifyForeground(true);
-                LogUtils.d(TAG, "启动 " + activity.getClass().getSimpleName());
+                LogUtils.d(TAG, "唤醒前台 " + activity.getClass().getSimpleName() + " || " + activity.getPackageName());
             }
         }
 
@@ -129,6 +128,7 @@ public class AppListener {
             }
             if (activityCount == 0) {
                 notifyForeground(false);
+                LogUtils.d(TAG, "回到后台 " + activity.getClass().getSimpleName() + " || " + activity.getPackageName());
             }
         }
 
