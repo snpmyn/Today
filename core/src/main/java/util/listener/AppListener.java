@@ -7,8 +7,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 import util.log.LogUtils;
 
@@ -20,7 +20,15 @@ import util.log.LogUtils;
  */
 public class AppListener {
     private final String TAG = AppListener.class.getSimpleName();
-    private final Set<Callback> callbackSet = new HashSet<>();
+    /**
+     * 回调集
+     * <p>
+     * HashSet 非线程安全
+     * 如果应用在某些特殊情况下从不同线程（比如子线程）去注册或解绑回调
+     * 可能触发 ConcurrentModificationException
+     * 可将其替换为线程安全的 CopyOnWriteArraySet
+     */
+    private final Set<Callback> callbackSet = new CopyOnWriteArraySet<>();
     private boolean hasInitConfiguration = false;
     private boolean areForeground = false;
     private int activityCount = 0;
@@ -66,6 +74,8 @@ public class AppListener {
 
     /**
      * 注册回调
+     * <p>
+     * {@link Activity} 中配对调用
      *
      * @param callback 回调
      */
@@ -75,6 +85,8 @@ public class AppListener {
 
     /**
      * 反注册回调
+     * <p>
+     * {@link Activity} 中配对调用
      *
      * @param callback 回调
      */

@@ -7,7 +7,9 @@ import android.app.Service;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -17,8 +19,6 @@ import android.view.WindowManager;
 import androidx.core.app.NotificationCompat;
 
 import com.zsp.today.R;
-
-import widget.toast.ToastKt;
 
 /**
  * Created on 2026/6/8.
@@ -30,14 +30,27 @@ public class FloatService extends Service {
     /**
      * 外部控制悬浮窗显示的 Action
      */
-    public static final String ACTION_SHOW_FLOAT = "com.zsp.today.action.SHOW_FLOAT";
+    public static final String ACTION_SHOW_FLOAT = "com.qtone.action.SHOW_FLOAT";
     /**
      * 外部控制悬浮窗隐藏的 Action
      */
-    public static final String ACTION_HIDE_FLOAT = "com.zsp.today.action.HIDE_FLOAT";
+    public static final String ACTION_HIDE_FLOAT = "com.qtone.action.HIDE_FLOAT";
+    /**
+     * 悬浮点击监听
+     */
+    private static OnFloatClickListener onFloatClickListener;
     private View floatView;
     private WindowManager windowManager;
     private WindowManager.LayoutParams layoutParams;
+
+    /**
+     * 设置悬浮点击监听
+     *
+     * @param onFloatClickListener 悬浮点击监听
+     */
+    public static void setOnFloatClickListener(OnFloatClickListener onFloatClickListener) {
+        FloatService.onFloatClickListener = onFloatClickListener;
+    }
 
     @Override
     public void onCreate() {
@@ -81,8 +94,14 @@ public class FloatService extends Service {
 
     private void createFloatView() {
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
+        // FloatService 自身的 Context 没有携带 AppTheme
+        // 导致 MaterialButton 在检查 Theme 时失败
+        // ContextThemeWrapper 给它手动套上 AppTheme
+        // 故可正常创建
+        // 将 R.style.Theme.Today 改为 R.style.Theme_Today
+        /*ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(this, R.style.Theme_Today);*/
         //noinspection AndroidLintInflateParams
-        floatView = LayoutInflater.from(this).inflate(R.layout.layout_float_button, null);
+        floatView = LayoutInflater.from(this).inflate(R.layout.float_service, null);
         layoutParams = new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT, Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY : WindowManager.LayoutParams.TYPE_PHONE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
         layoutParams.gravity = Gravity.TOP | Gravity.START;
         layoutParams.x = 100;
@@ -92,12 +111,27 @@ public class FloatService extends Service {
     }
 
     private void initTouch() {
-        View btn = floatView.findViewById(R.id.float_btn);
+        View btn = floatView.findViewById(R.id.floatServiceMb);
+        final int tagKey = R.id.floatServiceMb;
         btn.setOnTouchListener(new View.OnTouchListener() {
             // 点击位移阈值
             private static final int CLICK_ACTION_THRESHOLD = 10;
+            // 双击判定的最大时间间隔（毫秒）
+            // 300ms 比较符合人类手速
+            private static final long DOUBLE_CLICK_DELAY = 300;
+            private final Handler handler = new Handler(Looper.getMainLooper());
             int startX, startY;
             float touchX, touchY;
+            // 用于处理双击逻辑的变量
+            private int clickCount = 0;
+            // 单击的延迟任务
+            private final Runnable singleClickRunnable = () -> {
+                btn.setTag(tagKey, "single");
+                btn.performClick();
+                // 记得重置计数器
+                clickCount = 0;
+            };
+            private long firstClickTime = 0;
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -120,17 +154,48 @@ public class FloatService extends Service {
                     case MotionEvent.ACTION_UP:
                         float deltaX = event.getRawX() - touchX;
                         float deltaY = event.getRawY() - touchY;
+                        // 先判断当前触摸轨迹是否属于“点击”而非“拖拽”
                         if (Math.abs(deltaX) < CLICK_ACTION_THRESHOLD && Math.abs(deltaY) < CLICK_ACTION_THRESHOLD) {
-                            // 触发点击
-                            v.performClick();
+                            clickCount++;
+                            if (clickCount == 1) {
+                                // 第一次点击
+                                // 记录时间并启动一个延时任务
+                                firstClickTime = System.currentTimeMillis();
+                                handler.postDelayed(singleClickRunnable, DOUBLE_CLICK_DELAY);
+                            } else if (clickCount == 2) {
+                                long secondClickTime = System.currentTimeMillis();
+                                // 如果第二次点击的时间与第一次在阈值内
+                                if (secondClickTime - firstClickTime < DOUBLE_CLICK_DELAY) {
+                                    // 核心
+                                    // 取消之前排队的单击延时任务，防止单击、双击同时触发。
+                                    handler.removeCallbacks(singleClickRunnable);
+                                    btn.setTag(tagKey, "double");
+                                    btn.performClick();
+                                }
+                                // 重置计数器
+                                clickCount = 0;
+                            }
                         }
                         return true;
                 }
                 return false;
             }
         });
-        // 可以在这里或外部直接设置点击监听
-        btn.setOnClickListener(v -> ToastKt.showToast("悬浮"));
+        // 设置点击监听器接收由 performClick() 触发的系统通知
+        btn.setOnClickListener(v -> {
+            if (onFloatClickListener == null) {
+                return;
+            }
+            Object tag = v.getTag(tagKey);
+            if ("double".equals(tag)) {
+                onFloatClickListener.onDoubleClick(v);
+            } else {
+                // 如果 tag 没拿到或者为 "single"
+                // 一律视为单击走安全降级
+                onFloatClickListener.onSingleClick(v);
+            }
+            v.setTag(tagKey, null);
+        });
     }
 
     private void startForegroundServiceCompat() {
@@ -159,5 +224,24 @@ public class FloatService extends Service {
         if ((null != windowManager) && (null != floatView)) {
             windowManager.removeView(floatView);
         }
+    }
+
+    /**
+     * 悬浮点击监听
+     */
+    public interface OnFloatClickListener {
+        /**
+         * 单击
+         *
+         * @param view 视图
+         */
+        void onSingleClick(View view);
+
+        /**
+         * 双击
+         *
+         * @param view 视图
+         */
+        void onDoubleClick(View view);
     }
 }

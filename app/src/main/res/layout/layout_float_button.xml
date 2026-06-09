@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/float_btn"
-    android:layout_width="?actionBarSize"
-    android:layout_height="?actionBarSize"
-    android:background="@color/color_FFF44336"
-    android:contentDescription="悬浮"
-    android:src="@android:drawable/ic_input_add" />
