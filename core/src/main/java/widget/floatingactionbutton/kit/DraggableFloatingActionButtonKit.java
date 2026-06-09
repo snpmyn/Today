@@ -15,10 +15,12 @@ public class DraggableFloatingActionButtonKit {
      * 执行
      *
      * @param draggableFloatingActionButton 可拖动浮动操作按钮
+     * @param marginX                       左右边缘距离
+     * @param marginY                       上下边缘距离
      */
-    public static void execute(@NonNull DraggableFloatingActionButton draggableFloatingActionButton) {
+    public static void execute(@NonNull DraggableFloatingActionButton draggableFloatingActionButton, float marginX, float marginY) {
         draggableFloatingActionButton.setEdgeMode(DraggableFloatingActionButton.EdgeMode.NONE);
-        draggableFloatingActionButton.setEdgeMarginX(50.0F);
-        draggableFloatingActionButton.setEdgeMarginY(100.0F);
+        draggableFloatingActionButton.setEdgeMarginX(marginX);
+        draggableFloatingActionButton.setEdgeMarginY(marginY);
     }
 }

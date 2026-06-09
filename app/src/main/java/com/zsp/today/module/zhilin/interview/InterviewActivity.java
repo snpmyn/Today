@@ -60,7 +60,7 @@ public class InterviewActivity extends BasePoolActivity {
         interviewActivityMt = findViewById(R.id.interviewActivityMt);
         interviewActivityRv = findViewById(R.id.interviewActivityRv);
         interviewActivityDfab = findViewById(R.id.interviewActivityDfab);
-        DraggableFloatingActionButtonKit.execute(interviewActivityDfab);
+        DraggableFloatingActionButtonKit.execute(interviewActivityDfab, 50.0F, 100.0F);
     }
 
     /**

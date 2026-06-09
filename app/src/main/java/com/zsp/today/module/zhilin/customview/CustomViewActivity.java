@@ -84,7 +84,7 @@ public class CustomViewActivity extends BasePoolActivity {
         customViewActivityMyRoundRect = findViewById(R.id.customViewActivityMyRoundRect);
         customViewActivityMyText = findViewById(R.id.customViewActivityMyText);
         customViewActivityDfab = findViewById(R.id.customViewActivityDfab);
-        DraggableFloatingActionButtonKit.execute(customViewActivityDfab);
+        DraggableFloatingActionButtonKit.execute(customViewActivityDfab, 50.0F, 100.0F);
     }
 
     /**

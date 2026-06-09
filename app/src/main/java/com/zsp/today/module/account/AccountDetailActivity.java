@@ -87,7 +87,7 @@ public class AccountDetailActivity extends BasePoolActivity {
         accountDetailActivityMt = findViewById(R.id.accountDetailActivityMt);
         accountDetailActivityRv = findViewById(R.id.accountDetailActivityRv);
         accountDetailActivityDfab = findViewById(R.id.accountDetailActivityDfab);
-        DraggableFloatingActionButtonKit.execute(accountDetailActivityDfab);
+        DraggableFloatingActionButtonKit.execute(accountDetailActivityDfab, 50.0F, 100.0F);
         accountDetailActivityMcv = findViewById(R.id.accountDetailActivityMcv);
         accountDetailActivityLl = findViewById(R.id.accountDetailActivityLl);
         accountDetailActivityNcv = findViewById(R.id.accountDetailActivityNcv);

@@ -152,6 +152,7 @@ public class MainActivity extends BasePoolActivity {
 
     private void startFloatService() {
         Intent intent = new Intent(this, FloatService.class);
+        intent.setAction(FloatService.ACTION_SHOW_FLOAT);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startForegroundService(intent);
         } else {

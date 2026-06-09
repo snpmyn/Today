@@ -43,7 +43,9 @@ class HistoryActivity : BasePoolActivity() {
      * 初始控件
      */
     override fun stepUi() {
-        DraggableFloatingActionButtonKit.execute(activityHistoryBinding.historyActivityDfab)
+        DraggableFloatingActionButtonKit.execute(
+            activityHistoryBinding.historyActivityDfab, 50.0F, 100.0F
+        )
     }
 
     /**
