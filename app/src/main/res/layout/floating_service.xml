@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.button.MaterialButton xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/floatServiceMb"
+    android:id="@+id/floatingServiceMb"
     android:layout_width="@dimen/dp_50"
     android:layout_height="@dimen/dp_50"
     android:backgroundTint="@color/basic"
@@ -14,7 +14,8 @@
     android:textColor="@android:color/white"
     android:textSize="@dimen/sp_8"
     app:cornerRadius="@dimen/dp_360"
-    app:icon="@drawable/ic_add_cos_24dp"
+    app:icon="@drawable/ic_widget_cos_24dp"
     app:iconGravity="textTop"
-    app:iconPadding="@dimen/dp_1"
-    app:iconSize="@dimen/dp_20" />
+    app:iconPadding="@dimen/dp_2"
+    app:iconSize="@dimen/dp_20"
+    app:iconTint="@android:color/white" />

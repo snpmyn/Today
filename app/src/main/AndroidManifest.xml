@@ -42,8 +42,11 @@
     <!--Android 9 (API 28) 开始，Google 要求开发者在启动前台服务时，必须指定前台服务类型-->
     <!--前台服务声明 foregroundServiceType="dataSync" 时清单文件必须添加权限-->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+    <!--前台服务声明 foregroundServiceType="specialUse" 时清单文件必须添加权限-->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
     <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" />
 
+    <!--悬浮窗权限-->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
@@ -116,9 +119,18 @@
             android:exported="false"
             android:foregroundServiceType="dataSync" />
         <service
-            android:name=".widget.FloatService"
+            android:name=".widget.FloatingService"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <!--从 Android 14 开始-->
+            <!--使用 SPECIAL_USE 类型时-->
+            <!--必须在 service 内部定义一个 property-->
+            <!--用来向系统和应用商店简述为什么要用该特殊类型-->
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Floating window for quick access to today tasks and system shortcuts" />
+        </service>
 
         <provider
             android:name="androidx.core.content.FileProvider"

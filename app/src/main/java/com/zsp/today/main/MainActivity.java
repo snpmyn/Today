@@ -19,7 +19,7 @@ import com.zsp.today.basic.service.PeriodicServiceConnection;
 import com.zsp.today.basic.value.RxBusConstant;
 import com.zsp.today.main.kit.MainActivityKit;
 import com.zsp.today.module.heartbox.ImageViewerOverlay;
-import com.zsp.today.widget.FloatService;
+import com.zsp.today.widget.FloatingService;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -148,14 +148,14 @@ public class MainActivity extends BasePoolActivity {
                 if (areForeground) {
                     // App 回到前台
                     // 显示悬浮视图
-                    Intent showIntent = new Intent(MainActivity.this, FloatService.class);
-                    showIntent.setAction(FloatService.ACTION_SHOW_FLOAT);
+                    Intent showIntent = new Intent(MainActivity.this, FloatingService.class);
+                    showIntent.setAction(FloatingService.ACTION_SHOW_FLOATING);
                     startService(showIntent);
                 } else {
                     // App 退到后台
                     // 隐藏悬浮视图
-                    Intent hideIntent = new Intent(MainActivity.this, FloatService.class);
-                    hideIntent.setAction(FloatService.ACTION_HIDE_FLOAT);
+                    Intent hideIntent = new Intent(MainActivity.this, FloatingService.class);
+                    hideIntent.setAction(FloatingService.ACTION_HIDE_FLOATING);
                     startService(hideIntent);
                 }
             });
@@ -163,7 +163,7 @@ public class MainActivity extends BasePoolActivity {
             // 没权限时只能引导用户去设置页
             requestOverlayPermission();
         }
-        FloatService.setOnFloatClickListener(new FloatService.OnFloatClickListener() {
+        FloatingService.setOnFloatingClickListener(new FloatingService.OnFloatingClickListener() {
             @Override
             public void onSingleClick(View view) {
                 ToastKt.showToast("单击");
@@ -181,8 +181,8 @@ public class MainActivity extends BasePoolActivity {
     }
 
     private void startFloatService() {
-        Intent intent = new Intent(this, FloatService.class);
-        intent.setAction(FloatService.ACTION_SHOW_FLOAT);
+        Intent intent = new Intent(this, FloatingService.class);
+        intent.setAction(FloatingService.ACTION_SHOW_FLOATING);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startForegroundService(intent);
         } else {
