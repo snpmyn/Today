@@ -7,7 +7,7 @@ Intent intent = new Intent(context, FloatService.class);
 intent.setAction(FloatService.ACTION_HIDE_FLOAT);
 context.startService(intent);
 
-重新显示悬浮窗
+显示悬浮窗
 Intent intent = new Intent(context, FloatService.class);
 intent.setAction(FloatService.ACTION_SHOW_FLOAT);
 context.startService(intent);
