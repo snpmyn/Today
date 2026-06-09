@@ -19,10 +19,11 @@ import util.log.LogUtils;
  * @desc 应用监听
  */
 public class AppListener {
-    private final String TAG = this.getClass().getSimpleName();
+    private final String TAG = AppListener.class.getSimpleName();
     private final Set<Callback> callbackSet = new HashSet<>();
     private boolean hasInitConfiguration = false;
     private boolean areForeground = false;
+    private int activityCount = 0;
 
     public static AppListener getInstance() {
         return AppListenerHolder.APP_LISTENER;
@@ -33,6 +34,9 @@ public class AppListener {
             return;
         }
         hasInitConfiguration = true;
+        // Application 和整个应用进程同生命周期
+        // ActivityLifecycleCallbacks 也是跟着 Application 一直存在
+        // 当应用进程被杀死时，Application 和回调都会一起释放。
         application.registerActivityLifecycleCallbacks(new ActivityLifecycle());
     }
 
@@ -70,6 +74,15 @@ public class AppListener {
         callbackSet.add(callback);
     }
 
+    /**
+     * 反注册回调
+     *
+     * @param callback 回调
+     */
+    public void unregisterCallback(Callback callback) {
+        callbackSet.remove(callback);
+    }
+
     public interface Callback {
         /**
          * 状态变化
@@ -84,27 +97,24 @@ public class AppListener {
     }
 
     private class ActivityLifecycle implements Application.ActivityLifecycleCallbacks {
-        private final Set<Activity> activitySet = new HashSet<>();
-
         @Override
         public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle bundle) {
-            if (activitySet.isEmpty() && !areForeground) {
+
+        }
+
+        @Override
+        public void onActivityStarted(@NonNull Activity activity) {
+            // ++activityCount == 1 等同于 activityCount = activityCount + 1
+            // Java 前置自增运算符
+            if (++activityCount == 1) {
                 notifyForeground(true);
                 LogUtils.d(TAG, "启动 " + activity.getClass().getSimpleName());
             }
         }
 
         @Override
-        public void onActivityStarted(@NonNull Activity activity) {
-
-        }
-
-        @Override
         public void onActivityResumed(@NonNull Activity activity) {
-            activitySet.add(activity);
-            if (!areForeground) {
-                notifyForeground(true);
-            }
+
         }
 
         @Override
@@ -114,8 +124,10 @@ public class AppListener {
 
         @Override
         public void onActivityStopped(@NonNull Activity activity) {
-            activitySet.remove(activity);
-            if (activitySet.isEmpty()) {
+            if (activityCount > 0) {
+                activityCount--;
+            }
+            if (activityCount == 0) {
                 notifyForeground(false);
             }
         }

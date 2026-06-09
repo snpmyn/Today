@@ -1,7 +1,10 @@
 package com.zsp.today.main;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
@@ -15,6 +18,7 @@ import com.zsp.today.basic.service.PeriodicServiceConnection;
 import com.zsp.today.basic.value.RxBusConstant;
 import com.zsp.today.main.kit.MainActivityKit;
 import com.zsp.today.module.heartbox.ImageViewerOverlay;
+import com.zsp.today.widget.FloatService;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -133,14 +137,32 @@ public class MainActivity extends BasePoolActivity {
             ServiceKit.getInstance().start(this, periodicServiceConnection, PeriodicService.class);
         }
 
+        // 不能直接弹悬浮窗 + 只能启动服务
+        if (Settings.canDrawOverlays(this)) {
+            startFloatService();
+        } else {
+            // 没权限时只能引导用户去设置页
+            requestOverlayPermission();
+        }
+
         ImageViewerOverlay imageViewerOverlay = new ImageViewerOverlay(this);
         imageViewerOverlay.show((ViewGroup) getWindow().getDecorView(), "https://gips0.baidu.com/it/u=1690853528,2506870245&fm=3028&app=3028&f=JPEG&fmt=auto?w=1024&h=1024");
-        imageViewerOverlay.setOnCloseListener(new ImageViewerOverlay.OnCloseListener() {
-            @Override
-            public void onClose() {
-                ToastKt.showToast("关闭");
-            }
-        });
+        imageViewerOverlay.setOnCloseListener(() -> ToastKt.showToast("关闭"));
+    }
+
+    private void startFloatService() {
+        Intent intent = new Intent(this, FloatService.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(intent);
+        } else {
+            startService(intent);
+        }
+    }
+
+    private void requestOverlayPermission() {
+        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     @Subscribe(thread = EventThread.MAIN_THREAD, tags = {@Tag(RxBusConstant.MAIN_ACTIVITY_$_BOTTOM_NAVIGATION_VIEW)})

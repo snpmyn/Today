@@ -23,17 +23,6 @@ import util.statusbar.StatusBarUtils;
  * @version: v 1.0
  */
 public class DraggableFloatingActionButton extends FloatingActionButton {
-    private float dX, dY;
-    private float downX, downY;
-    private int lastAction;
-    /**
-     * 左右边距
-     */
-    private float edgeMarginX = 20;
-    /**
-     * 上下边距
-     */
-    private float edgeMarginY = 20;
     /**
      * 点击判定最大移动距离
      */
@@ -46,22 +35,17 @@ public class DraggableFloatingActionButton extends FloatingActionButton {
      * 点击动画时长
      */
     private static final long CLICK_ANIM_DURATION = 100;
-
-    public enum EdgeMode {
-        /**
-         * 不吸附
-         */
-        NONE,
-        /**
-         * 吸附左右边缘
-         */
-        LEFT_RIGHT,
-        /**
-         * 四角吸附
-         */
-        FOUR_CORNER
-    }
-
+    private float dX, dY;
+    private float downX, downY;
+    private int lastAction;
+    /**
+     * 左右边距
+     */
+    private float edgeMarginX = 20;
+    /**
+     * 上下边距
+     */
+    private float edgeMarginY = 20;
     private EdgeMode edgeMode = EdgeMode.FOUR_CORNER;
 
     public DraggableFloatingActionButton(Context context) {
@@ -167,5 +151,20 @@ public class DraggableFloatingActionButton extends FloatingActionButton {
 
     public void setEdgeMarginY(float marginY) {
         this.edgeMarginY = marginY;
+    }
+
+    public enum EdgeMode {
+        /**
+         * 不吸附
+         */
+        NONE,
+        /**
+         * 吸附左右边缘
+         */
+        LEFT_RIGHT,
+        /**
+         * 四角吸附
+         */
+        FOUR_CORNER
     }
 }

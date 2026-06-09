@@ -85,15 +85,15 @@ public class LineChartKit implements OnChartValueSelectedListener {
         // Sets the text color to use for the labels.
         // Make sure to use getResources().getColor(...) when using a color from the resources.
         lineChart.getDescription().setTextColor(ThemeUtils.getColorPrimaryColorFromAttrResIdWithTypedArray(weakReference.get()));
-        // Set this to false to disable all gestures and touches on the chart.
+        // Set this false to disable all gestures and touches on the chart.
         // Default: true
         /*lineChart.setTouchEnabled(true);*/
-        // If set to true, both x and y axis can be scaled simultaneously with 2 fingers, if false, x and y axis can be scaled separately.
+        // If set to true, both x-axis and y-axis can be scaled simultaneously with 2 fingers, if false, x-axis and y-axis can be scaled separately.
         // Default: false
         lineChart.setPinchZoom(true);
-        // Set this to true to enable dragging (moving the chart with the finger) for the chart (this does not effect scaling).
+        // Set this to true to enable dragging (moving the chart with the finger) for the chart (this does not affect scaling).
         /*lineChart.setDragEnabled(true);*/
-        // Sets this to false to prohibit scaling (zooming in and out by gesture) for the chart (this does not effect dragging) on both X- Axis.
+        // Sets this to false to prohibit scaling (zooming in and out by gesture) for the chart (this does not affect dragging) on both X- Axis.
         lineChart.setScaleXEnabled(false);
         // Set this to true to draw the grid background, false if not.
         /*lineChart.setDrawGridBackground(false);*/

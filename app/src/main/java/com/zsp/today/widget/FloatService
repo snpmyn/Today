@@ -1,0 +1,13 @@
+你可以在任何 Activity、BroadcastReceiver 或其他组件中
+通过发送带有不同 Action 的 Intent 来轻松控制悬浮窗的显示和隐藏
+甚至不需要去绑定（bindService）服务
+
+隐藏悬浮窗
+Intent intent = new Intent(context, FloatService.class);
+intent.setAction(FloatService.ACTION_HIDE_FLOAT);
+context.startService(intent);
+
+重新显示悬浮窗
+Intent intent = new Intent(context, FloatService.class);
+intent.setAction(FloatService.ACTION_SHOW_FLOAT);
+context.startService(intent);
