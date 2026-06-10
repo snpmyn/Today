@@ -93,7 +93,7 @@ public class IntentOther {
             // PDF file
             intent.setDataAndType(uri, "application/pdf");
         } else if (url.contains(UtilMagic.STRING_DOT_PPT) || url.contains(UtilMagic.STRING_DOT_PPTX)) {
-            // Powerpoint file
+            // PowerPoint file
             intent.setDataAndType(uri, "application/vnd.ms-powerpoint");
         } else if (url.contains(UtilMagic.STRING_DOT_XLS) || url.contains(UtilMagic.STRING_DOT_XLSX)) {
             // Excel file
@@ -138,7 +138,7 @@ public class IntentOther {
         final Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         // the mime data type filter
         intent.setType("*/*");
-        // only return uris that can be opened with ContentResolver
+        // only return Uris that can be opened with ContentResolver
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         return intent;
     }
