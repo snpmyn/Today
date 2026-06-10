@@ -17,6 +17,7 @@ import widget.transition.kit.TransitionKit
 class HistoryActivity : BasePoolActivity() {
     private lateinit var activityHistoryBinding: ActivityHistoryBinding
     private lateinit var historyActivityKit: HistoryActivityKit
+
     override fun onCreate(savedInstanceState: Bundle?) {
         TransitionKit.getInstance().startPageSetting(this)
         super.onCreate(savedInstanceState)

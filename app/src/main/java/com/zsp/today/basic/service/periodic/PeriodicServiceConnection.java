@@ -1,4 +1,4 @@
-package com.zsp.today.basic.service;
+package com.zsp.today.basic.service.periodic;
 
 import android.content.ComponentName;
 import android.os.IBinder;

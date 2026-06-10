@@ -10,8 +10,8 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.zsp.today.BuildConfig;
 import com.zsp.today.R;
-import com.zsp.today.basic.service.PeriodicService;
-import com.zsp.today.basic.service.PeriodicServiceConnection;
+import com.zsp.today.basic.service.periodic.PeriodicService;
+import com.zsp.today.basic.service.periodic.PeriodicServiceConnection;
 import com.zsp.today.basic.value.RxBusConstant;
 import com.zsp.today.main.kit.MainActivityKit;
 import com.zsp.today.module.heartbox.ImageViewerOverlay;
@@ -132,8 +132,6 @@ public class MainActivity extends BasePoolActivity {
         if (BuildConfig.DEBUG) {
             ServiceKit.getInstance().start(this, periodicServiceConnection, PeriodicService.class);
         }
-
-        mainActivityKit.initFloatService(this);
 
         ImageViewerOverlay imageViewerOverlay = new ImageViewerOverlay(this);
         imageViewerOverlay.show((ViewGroup) getWindow().getDecorView(), "https://gips0.baidu.com/it/u=1690853528,2506870245&fm=3028&app=3028&f=JPEG&fmt=auto?w=1024&h=1024");

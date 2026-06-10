@@ -9,6 +9,7 @@ import com.zsp.today.module.zhilin.bean.ZhiLinMenuEnum
 import com.zsp.today.module.zhilin.collaboration.CollaborationActivity
 import com.zsp.today.module.zhilin.compose.ComposeActivity
 import com.zsp.today.module.zhilin.customview.CustomViewActivity
+import com.zsp.today.module.zhilin.floating.FloatingActivity
 import com.zsp.today.module.zhilin.history.HistoryActivity
 import com.zsp.today.module.zhilin.interview.InterviewActivity
 import com.zsp.today.module.zhilin.mvp.MvpActivity
@@ -142,6 +143,14 @@ class ZhiLinActivityKit {
                     Intent(appCompatActivity, CollaborationActivity::class.java)
                 TransitionKit.getInstance().jumpWithTransition(
                     appCompatActivity, view, fromThisToCollaborationActivityIntent, false
+                )
+            }
+
+            9 -> {
+                val fromThisToFloatingActivityIntent =
+                    Intent(appCompatActivity, FloatingActivity::class.java)
+                TransitionKit.getInstance().jumpWithTransition(
+                    appCompatActivity, view, fromThisToFloatingActivityIntent, false
                 )
             }
 

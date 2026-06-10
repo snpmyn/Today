@@ -44,7 +44,11 @@ public enum ZhiLinMenuEnum {
     /**
      * 联动
      */
-    COLLABORATION(ZhiLinMenuAction.COLLABORATION.INSTANCE, R.drawable.ic_widget_cos_24dp, "联动", true);
+    COLLABORATION(ZhiLinMenuAction.COLLABORATION.INSTANCE, R.drawable.ic_widget_cos_24dp, "联动", true),
+    /**
+     * 悬浮
+     */
+    FLOATING(ZhiLinMenuAction.FLOATING.INSTANCE, R.drawable.ic_widget_cos_24dp, "悬浮", true);
     /**
      * 菜单 ID
      */

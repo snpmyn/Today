@@ -37,6 +37,7 @@
         android:name="android.permission.READ_MEDIA_IMAGES"
         tools:ignore="PhotoAndVideoPolicy" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!--Android 9 (API 28) 开始，Google 要求开发者在启动前台服务时，必须指定前台服务类型-->
@@ -45,9 +46,6 @@
     <!--前台服务声明 foregroundServiceType="specialUse" 时清单文件必须添加权限-->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
     <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" />
-
-    <!--悬浮窗权限-->
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:name=".application.App"
@@ -66,6 +64,7 @@
         <activity android:name=".module.setting.SettingActivity" />
         <activity android:name=".module.mine.SplashAnimationDetailActivity" />
         <activity android:name=".module.mine.SplashAnimationHomeActivity" />
+        <activity android:name=".module.zhilin.floating.FloatingActivity" />
         <activity android:name=".module.zhilin.collaboration.CollaborationActivity" />
         <activity android:name=".module.zhilin.history.HistoryActivity" />
         <activity android:name=".module.zhilin.mvp.MvpActivity" />
@@ -114,12 +113,12 @@
         </activity>
 
         <service
-            android:name=".basic.service.PeriodicService"
+            android:name=".basic.service.periodic.PeriodicService"
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="dataSync" />
         <service
-            android:name=".widget.FloatingService"
+            android:name=".basic.service.floating.FloatingService"
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="specialUse">

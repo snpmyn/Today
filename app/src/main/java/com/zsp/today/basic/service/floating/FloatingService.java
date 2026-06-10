@@ -1,4 +1,4 @@
-package com.zsp.today.widget;
+package com.zsp.today.basic.service.floating;
 
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
