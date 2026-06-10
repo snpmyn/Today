@@ -21,9 +21,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import timber.log.Timber;
-import util.datetime.CurrentTimeMillisClock;
+import util.click.DoubleClickKit;
 import util.list.ListUtils;
-import widget.toast.ToastKt;
 
 /**
  * Created on 2017/9/19.
@@ -38,8 +37,6 @@ import widget.toast.ToastKt;
  * 基类之 {@link AppCompatActivity#onCreate(Bundle, PersistableBundle)} 推当前 Activity 至 Activity 管理容器，需时遍历容器并 finish 所有 Activity。
  */
 public class ActivitySuperviseManager {
-    private long touchDownTime = 0L;
-    private static final long WAIT_TIME = 2000L;
     private final List<Activity> ACTIVITIES = Collections.synchronizedList(new LinkedList<>());
 
     public static ActivitySuperviseManager getInstance() {
@@ -158,12 +155,7 @@ public class ActivitySuperviseManager {
      * @param exitHint 退出提示
      */
     public void twoClickToExit(String exitHint) {
-        if ((CurrentTimeMillisClock.getInstance().now() - touchDownTime) < WAIT_TIME) {
-            appExit();
-        } else {
-            touchDownTime = CurrentTimeMillisClock.getInstance().now();
-            ToastKt.showToast(exitHint);
-        }
+        DoubleClickKit.doubleClick(exitHint, true, this::appExit);
     }
 
     /**

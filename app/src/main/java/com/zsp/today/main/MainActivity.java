@@ -1,11 +1,7 @@
 package com.zsp.today.main;
 
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
@@ -19,12 +15,10 @@ import com.zsp.today.basic.service.PeriodicServiceConnection;
 import com.zsp.today.basic.value.RxBusConstant;
 import com.zsp.today.main.kit.MainActivityKit;
 import com.zsp.today.module.heartbox.ImageViewerOverlay;
-import com.zsp.today.widget.FloatingService;
 
 import org.jetbrains.annotations.NotNull;
 
 import pool.base.BasePoolActivity;
-import util.listener.AppListener;
 import util.log.LogUtils;
 import util.rxbus.annotation.Subscribe;
 import util.rxbus.annotation.Tag;
@@ -139,61 +133,11 @@ public class MainActivity extends BasePoolActivity {
             ServiceKit.getInstance().start(this, periodicServiceConnection, PeriodicService.class);
         }
 
-        // 不可直弹悬浮视图 + 只能启动服务
-        if (Settings.canDrawOverlays(this)) {
-            // 1. 先确保服务已经启动（如果是首次启动）
-            startFloatService();
-            AppListener.getInstance().registerCallback(areForeground -> {
-                // 2. 根据前后台状态控制显示或隐藏
-                if (areForeground) {
-                    // App 回到前台
-                    // 显示悬浮视图
-                    Intent showIntent = new Intent(MainActivity.this, FloatingService.class);
-                    showIntent.setAction(FloatingService.ACTION_SHOW_FLOATING);
-                    startService(showIntent);
-                } else {
-                    // App 退到后台
-                    // 隐藏悬浮视图
-                    Intent hideIntent = new Intent(MainActivity.this, FloatingService.class);
-                    hideIntent.setAction(FloatingService.ACTION_HIDE_FLOATING);
-                    startService(hideIntent);
-                }
-            });
-        } else {
-            // 没权限时只能引导用户去设置页
-            requestOverlayPermission();
-        }
-        FloatingService.setOnFloatingClickListener(new FloatingService.OnFloatingClickListener() {
-            @Override
-            public void onSingleClick(View view) {
-                ToastKt.showToast("单击");
-            }
-
-            @Override
-            public void onDoubleClick(View view) {
-                ToastKt.showToast("双击");
-            }
-        });
+        mainActivityKit.initFloatService(this);
 
         ImageViewerOverlay imageViewerOverlay = new ImageViewerOverlay(this);
         imageViewerOverlay.show((ViewGroup) getWindow().getDecorView(), "https://gips0.baidu.com/it/u=1690853528,2506870245&fm=3028&app=3028&f=JPEG&fmt=auto?w=1024&h=1024");
         imageViewerOverlay.setOnCloseListener(() -> ToastKt.showToast("关闭"));
-    }
-
-    private void startFloatService() {
-        Intent intent = new Intent(this, FloatingService.class);
-        intent.setAction(FloatingService.ACTION_SHOW_FLOATING);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForegroundService(intent);
-        } else {
-            startService(intent);
-        }
-    }
-
-    private void requestOverlayPermission() {
-        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
     }
 
     @Subscribe(thread = EventThread.MAIN_THREAD, tags = {@Tag(RxBusConstant.MAIN_ACTIVITY_$_BOTTOM_NAVIGATION_VIEW)})
