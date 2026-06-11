@@ -80,7 +80,7 @@ public class ImageViewerOverlay extends FrameLayout {
      * 主线程调度器
      * <p>
      * 绑定主线程 Looper
-     * 用于安全分发异步加载成功的 Bitmap 资产
+     * 用于 safe 分发异步加载成功的 Bitmap 资产
      */
     private final Handler handler = new Handler(Looper.getMainLooper());
     /**
@@ -460,6 +460,11 @@ public class ImageViewerOverlay extends FrameLayout {
         springBack();
     }
 
+    /**
+     * 获取当前缩放
+     *
+     * @return 当前缩放
+     */
     public float getCurrentScale() {
         return getMatrixScale(matrix);
     }
@@ -665,7 +670,7 @@ public class ImageViewerOverlay extends FrameLayout {
                         // 超过阈值 + 直接自卸载销毁
                         dismiss();
                     } else {
-                        animateBgAlpha(imageViewerOverlayFl.getAlpha());
+                        animateBackgroundAlpha(imageViewerOverlayFl.getAlpha());
                         // 放弃退出 + 回弹重置
                         animateMatrix(matrix, savedMatrix);
                     }
@@ -769,7 +774,7 @@ public class ImageViewerOverlay extends FrameLayout {
         valueAnimator.start();
     }
 
-    private void animateBgAlpha(float startAlpha) {
+    private void animateBackgroundAlpha(float startAlpha) {
         ValueAnimator valueAnimator = ValueAnimator.ofFloat(startAlpha, (float) 1.0);
         valueAnimator.setDuration(200);
         valueAnimator.addUpdateListener(a -> imageViewerOverlayFl.setAlpha((float) a.getAnimatedValue()));
@@ -936,24 +941,33 @@ public class ImageViewerOverlay extends FrameLayout {
     void onImageLoaded(Bitmap bitmap) {
         imageViewerOverlayPb.setVisibility(View.GONE);
         if (bitmap == null) {
-            imageViewerOverlayTv.setText("图片加载失败");
+            imageViewerOverlayTv.setText(getContext().getString(R.string.loadImageFail));
             imageViewerOverlayTv.setVisibility(View.VISIBLE);
             return;
         }
-        imageViewerOverlayView.setImageBitmap(bitmap);
-        imageViewerOverlayView.post(() -> {
-            if ((getWidth() > 0) && (getHeight() > 0)) {
-                centerAndFit(bitmap.getWidth(), bitmap.getHeight());
-            } else {
-                imageViewerOverlayView.addOnLayoutChangeListener(new OnLayoutChangeListener() {
-                    @Override
-                    public void onLayoutChange(View v, int l, int t, int r, int b, int oldL, int oldT, int oldR, int oldB) {
-                        imageViewerOverlayView.removeOnLayoutChangeListener(this);
-                        centerAndFit(bitmap.getWidth(), bitmap.getHeight());
-                    }
-                });
-            }
-        });
+        // 消灭闪烁核心修复点
+        // 判定当前宿主组件是否已经完成了全屏物理尺寸测量
+        if ((getWidth() > 0) && (getHeight() > 0)) {
+            // 尺寸就绪：必须先计算并注入自适应核心矩阵状态，最后才允许进行 Bitmap 渲染上屏。
+            centerAndFit(bitmap.getWidth(), bitmap.getHeight());
+            imageViewerOverlayView.setImageBitmap(bitmap);
+        } else {
+            // 异步兜底
+            // 此时宿主可能处于初次挂载未测量阶段
+            // 先将视窗隐藏（避免原图拉伸残影）
+            imageViewerOverlayView.setVisibility(View.INVISIBLE);
+            imageViewerOverlayView.setImageBitmap(bitmap);
+            imageViewerOverlayView.addOnLayoutChangeListener(new OnLayoutChangeListener() {
+                @Override
+                public void onLayoutChange(View v, int l, int t, int r, int b, int oldL, int oldT, int oldR, int oldB) {
+                    imageViewerOverlayView.removeOnLayoutChangeListener(this);
+                    // 动态测绘结束后重新执行完美的矩阵排版映射
+                    centerAndFit(bitmap.getWidth(), bitmap.getHeight());
+                    // 抹除首帧闪烁间隙 + 大方展示
+                    imageViewerOverlayView.setVisibility(View.VISIBLE);
+                }
+            });
+        }
     }
 
     private static float spacing(@NonNull MotionEvent motionEvent) {
