@@ -142,7 +142,7 @@ public class ActivitySuperviseManager {
     /**
      * 结束所有 Activity
      */
-    private void finishAllActivity() {
+    public void finishAllActivity() {
         for (Activity activity : ACTIVITIES) {
             activity.finish();
         }
