@@ -149,6 +149,8 @@ public class App extends BasePoolApp {
         splashActivityKit.setSplashActivityListener(AppKit::distribute);
         // 登录页
         LoginActivity.setLoginActivityListener(AppKit::login);
+        // 初始化跨 APP 双向通信广播
+        AppKit.initCrossAppBroadcast(this);
         // 高德地图定位配套原件
         AmapLocationKit.getInstance().start(App.getAppInstance(), AMapLocationClientOption.AMapLocationPurpose.Transport, true, new AmapLocationKitListener() {
             @Override

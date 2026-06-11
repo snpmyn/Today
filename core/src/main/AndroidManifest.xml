@@ -4,4 +4,22 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <!--CrossAppBroadcastHelper-->
+    <permission
+        android:name="com.permission.RECEIVE_CROSS_APP_MSG"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="com.permission.RECEIVE_CROSS_APP_MSG" />
+
+    <application>
+        <receiver
+            android:name="widget.broadcast.CrossAppBroadcastHelper"
+            android:exported="true"
+            android:permission="com.permission.RECEIVE_CROSS_APP_MSG">
+            <intent-filter>
+                <action android:name="com.broadcast.ACTION_TO_A" />
+                <action android:name="com.broadcast.ACTION_TO_B" />
+            </intent-filter>
+        </receiver>
+    </application>
+
 </manifest>
