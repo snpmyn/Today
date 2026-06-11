@@ -64,6 +64,7 @@
         <activity android:name=".module.setting.SettingActivity" />
         <activity android:name=".module.mine.SplashAnimationDetailActivity" />
         <activity android:name=".module.mine.SplashAnimationHomeActivity" />
+        <activity android:name=".module.zhilin.image.OverlayActivity" />
         <activity android:name=".module.zhilin.floating.FloatingActivity" />
         <activity android:name=".module.zhilin.collaboration.CollaborationActivity" />
         <activity android:name=".module.zhilin.history.HistoryActivity" />

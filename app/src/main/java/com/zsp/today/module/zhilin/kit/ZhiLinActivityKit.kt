@@ -11,6 +11,7 @@ import com.zsp.today.module.zhilin.compose.ComposeActivity
 import com.zsp.today.module.zhilin.customview.CustomViewActivity
 import com.zsp.today.module.zhilin.floating.FloatingActivity
 import com.zsp.today.module.zhilin.history.HistoryActivity
+import com.zsp.today.module.zhilin.image.OverlayActivity
 import com.zsp.today.module.zhilin.interview.InterviewActivity
 import com.zsp.today.module.zhilin.mvp.MvpActivity
 import com.zsp.today.module.zhilin.rxjava.RxJavaActivity
@@ -151,6 +152,14 @@ class ZhiLinActivityKit {
                     Intent(appCompatActivity, FloatingActivity::class.java)
                 TransitionKit.getInstance().jumpWithTransition(
                     appCompatActivity, view, fromThisToFloatingActivityIntent, false
+                )
+            }
+
+            10 -> {
+                val fromThisToOverlayActivityIntent =
+                    Intent(appCompatActivity, OverlayActivity::class.java)
+                TransitionKit.getInstance().jumpWithTransition(
+                    appCompatActivity, view, fromThisToOverlayActivityIntent, false
                 )
             }
 

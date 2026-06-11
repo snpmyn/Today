@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/imageViewerOverlayFl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_DC000000"
+    android:clickable="true"
+    android:focusable="true">
+
+    <view
+        android:id="@+id/imageViewerOverlayView"
+        class="widget.image.ImageViewerOverlay$AccessibleImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@null"
+        android:scaleType="matrix" />
+
+    <ProgressBar
+        android:id="@+id/imageViewerOverlayPb"
+        android:layout_width="@dimen/dp_48"
+        android:layout_height="@dimen/dp_48"
+        android:layout_gravity="center"
+        android:indeterminate="true" />
+
+    <TextView
+        android:id="@+id/imageViewerOverlayTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/sp_12"
+        android:visibility="gone" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/imageViewerOverlayMbClose"
+        style="?attr/materialIconButtonFilledTonalStyle"
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="@dimen/dp_30"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="?actionBarSize"
+        android:layout_marginEnd="?actionBarSize"
+        android:contentDescription="@string/close"
+        android:filterTouchesWhenObscured="true"
+        android:insetLeft="@dimen/dp_0"
+        android:insetTop="@dimen/dp_0"
+        android:insetRight="@dimen/dp_0"
+        android:insetBottom="@dimen/dp_0"
+        app:icon="@drawable/ic_close_cos_24dp"
+        app:iconGravity="textStart"
+        app:iconSize="@dimen/dp_15"
+        app:iconTint="@color/color_FFEE6002" />
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginHorizontal="@dimen/dp_24"
+        android:layout_marginBottom="@dimen/dp_24"
+        android:gravity="center"
+        android:spacing="@dimen/dp_10"
+        app:singleSelection="true">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/imageViewerOverlayMbShrink"
+            style="?attr/materialButtonTonalStyle"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="?actionBarSize"
+            android:layout_weight="1"
+            android:filterTouchesWhenObscured="true"
+            android:insetLeft="@dimen/dp_0"
+            android:insetTop="@dimen/dp_0"
+            android:insetRight="@dimen/dp_0"
+            android:insetBottom="@dimen/dp_0"
+            android:text="@string/shrink"
+            android:textSize="@dimen/sp_12"
+            android:textStyle="bold" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/imageViewerOverlayMbTurnLeft"
+            style="?attr/materialButtonTonalStyle"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="?actionBarSize"
+            android:layout_weight="1"
+            android:filterTouchesWhenObscured="true"
+            android:insetLeft="@dimen/dp_0"
+            android:insetTop="@dimen/dp_0"
+            android:insetRight="@dimen/dp_0"
+            android:insetBottom="@dimen/dp_0"
+            android:text="@string/turnLeft"
+            android:textSize="@dimen/sp_12"
+            android:textStyle="bold" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/imageViewerOverlayMbTurnRight"
+            style="?attr/materialButtonTonalStyle"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="?actionBarSize"
+            android:layout_weight="1"
+            android:filterTouchesWhenObscured="true"
+            android:insetLeft="@dimen/dp_0"
+            android:insetTop="@dimen/dp_0"
+            android:insetRight="@dimen/dp_0"
+            android:insetBottom="@dimen/dp_0"
+            android:text="@string/turnRight"
+            android:textSize="@dimen/sp_12"
+            android:textStyle="bold" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/imageViewerOverlayMbEnlarge"
+            style="?attr/materialButtonTonalStyle"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="?actionBarSize"
+            android:layout_weight="1"
+            android:filterTouchesWhenObscured="true"
+            android:insetLeft="@dimen/dp_0"
+            android:insetTop="@dimen/dp_0"
+            android:insetRight="@dimen/dp_0"
+            android:insetBottom="@dimen/dp_0"
+            android:text="@string/enlarge"
+            android:textSize="@dimen/sp_12"
+            android:textStyle="bold" />
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+</FrameLayout>

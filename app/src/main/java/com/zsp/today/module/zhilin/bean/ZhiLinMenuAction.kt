@@ -15,6 +15,7 @@ sealed class ZhiLinMenuAction {
     object History : ZhiLinMenuAction()
     object COLLABORATION : ZhiLinMenuAction()
     object FLOATING : ZhiLinMenuAction()
+    object OVERLAY : ZhiLinMenuAction()
 
     companion object {
         fun getMenuIdFromZhiLinMenuAction(zhiLinMenuAction: ZhiLinMenuAction): Int {
@@ -28,6 +29,7 @@ sealed class ZhiLinMenuAction {
                 is History -> 7
                 is COLLABORATION -> 8
                 is FLOATING -> 9
+                is OVERLAY -> 10
             }
         }
     }

@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/floatingActivityMb"
+        android:id="@+id/overlayActivityMb"
         style="?attr/materialButtonTonalStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,7 +16,7 @@
         android:insetRight="@dimen/dp_0"
         android:insetBottom="@dimen/dp_0"
         android:lines="4"
-        android:text="@string/floating"
+        android:text="@string/show"
         android:textColor="?attr/colorOnSurface"
         android:textSize="@dimen/sp_14"
         android:textStyle="bold"

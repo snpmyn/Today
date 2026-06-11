@@ -2,7 +2,6 @@ package com.zsp.today.main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 import androidx.viewpager2.widget.ViewPager2;
@@ -14,7 +13,6 @@ import com.zsp.today.basic.service.periodic.PeriodicService;
 import com.zsp.today.basic.service.periodic.PeriodicServiceConnection;
 import com.zsp.today.basic.value.RxBusConstant;
 import com.zsp.today.main.kit.MainActivityKit;
-import com.zsp.today.module.heartbox.ImageViewerOverlay;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -25,7 +23,6 @@ import util.rxbus.annotation.Tag;
 import util.rxbus.thread.EventThread;
 import widget.notification.kit.NotificationKit;
 import widget.service.kit.ServiceKit;
-import widget.toast.ToastKt;
 import widget.transition.kit.TransitionKit;
 
 /**
@@ -132,10 +129,6 @@ public class MainActivity extends BasePoolActivity {
         if (BuildConfig.DEBUG) {
             ServiceKit.getInstance().start(this, periodicServiceConnection, PeriodicService.class);
         }
-
-        ImageViewerOverlay imageViewerOverlay = new ImageViewerOverlay(this);
-        imageViewerOverlay.show((ViewGroup) getWindow().getDecorView(), "https://gips0.baidu.com/it/u=1690853528,2506870245&fm=3028&app=3028&f=JPEG&fmt=auto?w=1024&h=1024");
-        imageViewerOverlay.setOnCloseListener(() -> ToastKt.showToast("关闭"));
     }
 
     @Subscribe(thread = EventThread.MAIN_THREAD, tags = {@Tag(RxBusConstant.MAIN_ACTIVITY_$_BOTTOM_NAVIGATION_VIEW)})

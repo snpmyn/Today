@@ -6,6 +6,7 @@
     <color name="color_228B22">#228B22</color>
     <color name="color_FFF44336">#FFF44336</color>
     <color name="color_FFEE6002">#FFEE6002</color>
+    <color name="color_DC000000">#DC000000</color>
     <integer-array name="color_loading_indicator">
         <item>@color/color_FFEE6002</item>
         <item>@color/color_06FDDB</item>
