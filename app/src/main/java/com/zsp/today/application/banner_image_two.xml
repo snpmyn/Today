@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingHorizontal="@dimen/dp_2">
+
+    <FrameLayout
+        android:id="@+id/bannerImageFl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY" />
+
+        <TextView
+            android:id="@+id/bannerImageTvAlreadySelect"
+            android:layout_width="@dimen/dp_36"
+            android:layout_height="@dimen/dp_14"
+            android:layout_gravity="top|end"
+            android:layout_marginTop="@dimen/dp_12"
+            android:background="@drawable/color_0cc8ba_solid_lbr20"
+            android:gravity="center"
+            android:text="已选"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_6"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/bannerImageTvAlreadyGiveUp"
+            android:layout_width="@dimen/dp_36"
+            android:layout_height="@dimen/dp_14"
+            android:layout_gravity="top|end"
+            android:layout_marginTop="@dimen/dp_12"
+            android:background="@drawable/color_f44336_solid_lbr20"
+            android:gravity="center"
+            android:text="已放弃"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_6"
+            android:visibility="gone" />
+    </FrameLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/bannerImageAcbGiveUp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_18"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginHorizontal="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_16"
+        android:background="@drawable/color_f44336_solid_r180"
+        android:text="放弃"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_8" />
+</FrameLayout>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CarouselView">
+        <!-- 是否自动轮播 -->
+        <attr name="autoScroll" format="boolean" />
+        <!-- 自动轮播间隔 - ms -->
+        <attr name="autoScrollInterval" format="integer" />
+        <!-- 最小缩放比例 -->
+        <attr name="minScale" format="float" />
+        <!-- 最小透明度 -->
+        <attr name="minAlpha" format="float" />
+        <!-- 是否无限循环 -->
+        <attr name="infiniteLoop" format="boolean" />
+        <!-- 左右露出的宽度 -->
+        <attr name="sideVisibleWidth" format="dimension" />
+        <!-- 是否启用缩放 -->
+        <attr name="enableScale" format="boolean" />
+        <!-- 是否启用透明度渐变 -->
+        <attr name="enableAlpha" format="boolean" />
+    </declare-styleable>
+</resources>
