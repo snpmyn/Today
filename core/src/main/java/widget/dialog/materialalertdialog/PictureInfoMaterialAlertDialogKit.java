@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.zsp.core.R;
 
-import widget.carousel.CarouselItem;
+import widget.carousel.one.CarouselItem;
 
 /**
  * Created on 2025/9/26.

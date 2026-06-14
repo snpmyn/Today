@@ -19,9 +19,9 @@ import util.animation.AnimationManager;
 import util.density.DensityUtils;
 import util.layoutparams.LayoutParamsUtils;
 import util.screen.ScreenUtils;
-import widget.carousel.CarouselItem;
-import widget.carousel.CarouselKit;
-import widget.carousel.CarouselListener;
+import widget.carousel.one.CarouselItem;
+import widget.carousel.one.CarouselKit;
+import widget.carousel.one.CarouselListener;
 
 /**
  * Created on 2025/10/14.
