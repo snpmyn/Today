@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.zsp.today.module.zhilin.bean.ZhiLinMenuAction
 import com.zsp.today.module.zhilin.bean.ZhiLinMenuEnum
+import com.zsp.today.module.zhilin.carousel.CarouselActivity
 import com.zsp.today.module.zhilin.collaboration.CollaborationActivity
 import com.zsp.today.module.zhilin.compose.ComposeActivity
 import com.zsp.today.module.zhilin.customview.CustomViewActivity
@@ -160,6 +161,14 @@ class ZhiLinActivityKit {
                     Intent(appCompatActivity, OverlayActivity::class.java)
                 TransitionKit.getInstance().jumpWithTransition(
                     appCompatActivity, view, fromThisToOverlayActivityIntent, false
+                )
+            }
+
+            11 -> {
+                val fromThisToCarouselActivityIntent =
+                    Intent(appCompatActivity, CarouselActivity::class.java)
+                TransitionKit.getInstance().jumpWithTransition(
+                    appCompatActivity, view, fromThisToCarouselActivityIntent, false
                 )
             }
 

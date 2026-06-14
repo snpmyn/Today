@@ -7,9 +7,9 @@ import com.google.android.material.carousel.CarouselLayoutManager
 import com.google.android.material.carousel.FullScreenCarouselStrategy
 import com.zsp.today.R
 import util.list.ListUtils
-import widget.carousel.CarouselItem
-import widget.carousel.CarouselKit
-import widget.carousel.CarouselType
+import widget.carousel.one.CarouselItem
+import widget.carousel.one.CarouselKit
+import widget.carousel.one.CarouselType
 import widget.screen.kit.ScreenHandleKit
 import widget.screen.listener.ScreenHandleListener
 
