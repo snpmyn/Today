@@ -52,7 +52,11 @@ public enum ZhiLinMenuEnum {
     /**
      * 浮层
      */
-    OVERLAY(ZhiLinMenuAction.OVERLAY.INSTANCE, R.drawable.ic_widget_cos_24dp, "浮层", true);
+    OVERLAY(ZhiLinMenuAction.OVERLAY.INSTANCE, R.drawable.ic_widget_cos_24dp, "浮层", true),
+    /**
+     * 轮播
+     */
+    CAROUSEL(ZhiLinMenuAction.CAROUSEL.INSTANCE, R.drawable.ic_widget_cos_24dp, "轮播", true);
     /**
      * 菜单 ID
      */
