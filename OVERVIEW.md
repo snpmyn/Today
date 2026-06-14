@@ -15,14 +15,17 @@ assert
 @SuppressLint("NewApi")
 @SuppressLint("InlinedApi")
 @SuppressWarnings("rawtypes")
+@SuppressWarnings("unchecked")
 @SuppressLint("RestrictedApi")
 @SuppressLint("InflateParams")
 @SuppressLint("DrawAllocation")
 @SuppressLint("MissingPermission")
+@SuppressLint("NotifyDataSetChanged")
 @SuppressLint("ClickableViewAccessibility")
 @SuppressLint({"SetJavaScriptEnabled", "JavascriptInterface"})
 @SuppressLint({"ClickableViewAccessibility", "MissingPermission"})
 tools:targetApi="29"
+tools:ignore="DiscouragedApi"
 tools:ignore="RelativeOverlap"
 tools:ignore="InefficientWeight"
 tools:ignore="UseCompatTextViewDrawableXml"
