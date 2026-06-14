@@ -1,4 +1,4 @@
-package widget.carousel;
+package widget.carousel.one;
 
 /**
  * @decs: 轮播监听

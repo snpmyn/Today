@@ -1,4 +1,4 @@
-package widget.carousel;
+package widget.carousel.one;
 
 import android.annotation.SuppressLint;
 import android.view.MotionEvent;

@@ -1,4 +1,4 @@
-package widget.carousel;
+package widget.carousel.one;
 
 /**
  * Created on 2026/3/7.
