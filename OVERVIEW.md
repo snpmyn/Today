@@ -22,6 +22,7 @@ assert
 @SuppressLint("MissingPermission")
 @SuppressLint("NotifyDataSetChanged")
 @SuppressLint("ClickableViewAccessibility")
+@SuppressLint("SourceLockedOrientationActivity")
 @SuppressLint({"SetJavaScriptEnabled", "JavascriptInterface"})
 @SuppressLint({"ClickableViewAccessibility", "MissingPermission"})
 tools:targetApi="29"

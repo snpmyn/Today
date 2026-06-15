@@ -5,6 +5,8 @@ import static android.content.Context.WINDOW_SERVICE;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
@@ -100,5 +102,64 @@ public class ScreenUtils {
         WindowManager.LayoutParams layoutParams = window.getAttributes();
         layoutParams.systemUiVisibility = (View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE);
         window.setAttributes(layoutParams);
+    }
+
+    /**
+     * 切换竖屏
+     * <p>
+     * 第一次点击
+     * 调 setRequestedOrientation()
+     * Activity 开始重建
+     * 后面代码来不及执行（或执行了也立刻被销毁）
+     * <p>
+     * 第二次点击
+     * 此时已是目标方向
+     * 不再触发重建
+     * 后面代码正常执行
+     *
+     * @param appCompatActivity 活动
+     */
+    @SuppressLint("SourceLockedOrientationActivity")
+    public static void switchPortrait(@NonNull AppCompatActivity appCompatActivity) {
+        appCompatActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    }
+
+    /**
+     * 切换横屏
+     * <p>
+     * 第一次点击
+     * 调 setRequestedOrientation()
+     * Activity 开始重建
+     * 后面代码来不及执行（或执行了也立刻被销毁）
+     * <p>
+     * 第二次点击
+     * 此时已是目标方向
+     * 不再触发重建
+     * 后面代码正常执行
+     *
+     * @param appCompatActivity 活动
+     */
+    public static void switchLandscape(@NonNull AppCompatActivity appCompatActivity) {
+        appCompatActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+    }
+
+    /**
+     * 是否为竖屏
+     *
+     * @param context 上下文
+     * @return 是否为竖屏
+     */
+    public static boolean isPortrait(@NonNull Context context) {
+        return context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+    }
+
+    /**
+     * 是否为横屏
+     *
+     * @param context 上下文
+     * @return 是否为横屏
+     */
+    public static boolean isLandscape(@NonNull Context context) {
+        return context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
 }

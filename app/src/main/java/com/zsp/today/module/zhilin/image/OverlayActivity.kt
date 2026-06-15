@@ -56,7 +56,16 @@ class OverlayActivity : BasePoolActivity() {
      * 设置监听
      */
     override fun setListener() {
-        activityOverlayBinding.overlayActivityMb.setOnClickListener { overlayActivityKit.show(this) }
+        activityOverlayBinding.overlayActivityMbPortrait.setOnClickListener {
+            overlayActivityKit.portraitShow(
+                this
+            )
+        }
+        activityOverlayBinding.overlayActivityMbLandscape.setOnClickListener {
+            overlayActivityKit.landscapeShow(
+                this
+            )
+        }
     }
 
     /**
