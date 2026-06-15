@@ -44,50 +44,40 @@ import timber.log.Timber;
  *
  * @author 郑少鹏
  * @desc 图片查看浮层
- * <p>
- * 采用仿射变换矩阵（Matrix）实现的图片预览核心交互组件
- * 完美融合了高频点击防变斜机制、多轮动画抖动对冲算法以及多点触摸阻尼
  */
-public class ImageViewerOverlay extends FrameLayout {
+public class ImageViewerOverlay extends FrameLayout implements View.OnTouchListener {
     /**
      * 线程池句柄
      * <p>
      * 固定容量为 4 的并行线程池
-     * 用于原生网络流加载
+     * 用于原生网络 (NATIVE) 字节流异步拉取
      */
     private static final ExecutorService EXECUTOR_SERVICE = Executors.newFixedThreadPool(4);
     /**
-     * 空闲
-     * <p>
-     * 触摸状态
+     * 空闲状态
      */
     private static final int TOUCH_NONE = 0;
     /**
-     * 单指拖拽平移
-     * <p>
-     * 触摸状态
+     * 单指平移拖拽状态
      */
     private static final int TOUCH_DRAG = 1;
     /**
-     * 双指多点缩放
-     * <p>
-     * 触摸状态
+     * 双指多点缩放捏合状态
      */
     private static final int TOUCH_PINCH = 2;
     /**
-     * 单指下拉退出
-     * <p>
-     * 触摸状态
+     * 单指下拉退出交互状态
      */
     private static final int TOUCH_EXIT_DRAG = 3;
     /**
      * 双击判定死区时间间隔上限
+     * <p>
+     * 毫秒
      */
     private static final long DOUBLE_TAP_MS = 300;
     /**
      * 主线程调度器
      * <p>
-     * 绑定主线程 Looper
      * 用于 safe 分发异步加载成功的 Bitmap 资产
      */
     private final Handler handler = new Handler(Looper.getMainLooper());
@@ -100,12 +90,12 @@ public class ImageViewerOverlay extends FrameLayout {
     /**
      * 矩阵状态快照缓存
      * <p>
-     * 手势初次按下 (ACTION_DOWN / ACTION_POINTER_DOWN) 时捕获的干净矩阵
+     * 手势初次按下时捕获的干净矩阵
      * 作为差分计算的绝对基准
      */
     private final Matrix savedMatrix = new Matrix();
     /**
-     * 手势落点绝对坐标
+     * 手势落点绝对起始坐标点
      */
     private final PointF downTouch = new PointF();
     /**
@@ -113,59 +103,61 @@ public class ImageViewerOverlay extends FrameLayout {
      */
     private final PointF lastTouch = new PointF();
     /**
-     * 双指中心坐标点
+     * 双指触控的中心物理坐标点
      */
     private final PointF midPoint = new PointF();
     /**
      * 系统级触发拖拽动作的滑行死区阈值
+     * <p>
+     * 用于过滤微小颤抖
      */
     private final float touchSlop;
     /**
-     * 核心资产网络加载策略
+     * 核心资产加载策略分流器
      */
     private LoadStrategy loadStrategy = LoadStrategy.NATIVE;
     /**
      * 异步任务持有句柄
      * <p>
-     * 用于在组件销毁或重置时
-     * 强行中断未完成的异步网络流
+     * 用于在组件销毁或重置时强行中断未完成的网络流
      */
     private Future<?> loadFuture;
     /**
-     * 最小缩放阈值
+     * 最小缩放绝对限制阈值
      */
-    private float minScale = 0.5f;
+    private float minScale = 0.3f;
     /**
-     * 最大缩放阈值
+     * 最大缩放绝对限制阈值
      */
     private float maxScale = 6.0f;
     /**
-     * 双击放大的目标比例倍数
+     * 双击放大的目标缩放基准比例倍数
      */
     private float doubleTapTargetScale = 2.5f;
     /**
-     * 最大拖拽越界像素
-     * <p>
      * 在单指平移时
+     * <p>
      * 允许图片超出视窗边界的最大安全物理阻尼距离
      */
     private float overscrollLimit = 120f;
     /**
-     * 回弹动画耗时
+     * 越界拖拽或缩放释放后
      * <p>
-     * 释放越界拖拽或缩放后
-     * 弹性复原动画的持续时间（毫秒）
+     * 弹性复原动画的持续时间
+     * 毫秒
      */
     private int springDuration = 260;
     /**
-     * 按钮缩放动画耗时
+     * 控制按钮响应或双击缩放矩阵平滑过渡的动画持续时间
+     * <p>
+     * 毫秒
      */
     private int zoomAnimDuration = 300;
     /**
-     * 下拉退出临界阈值
+     * 单指处于下拉退出状态时
      * <p>
-     * 当单指处于下拉退出状态时
-     * 位移超过视窗总高度的比例即触发销毁 (0.0f - 1.0f)
+     * 纵向位移超过视窗总高度的临界比例
+     * 0.0f - 1.0f
      */
     private float exitDragThreshold = 0.35f;
     /**
@@ -174,54 +166,71 @@ public class ImageViewerOverlay extends FrameLayout {
     private View imageViewerOverlayFl;
     /**
      * 自定义高级变换图像视窗
+     * <p>
+     * 承载矩阵变化的核心 View
      */
     private AccessibleImageView imageViewerOverlayView;
     /**
      * 当前视图的绝对旋转角度值
      * <p>
-     * 仅在 0f、90f、180f、270f 间干净流转
-     * 不累加动画中间态的浮点数误差
+     * 在 0f、90f、180f、270f 间流转
+     * 消除浮点数累加误差
      */
     private float currentRotation = 0f;
     /**
      * 长图鉴别标识
      * <p>
-     * 当图片的宽高比超过 2.2 时激活
-     * 激活后图片初始化展示将顶部对齐
-     * 且允许单轴自适应
+     * 宽高比 >= 2.2 时激活
+     * 初始化展示将顶部对齐并改变平移边界机制
      */
     private boolean isLongImage = false;
     /**
      * 全屏自适应基准缩放比
      * <p>
-     * 根据图片宽高与宿主视窗宽高适配后的初始缩放系数
-     * 其余高级缩放均以此值为 1.0f 基准进行演变
+     * 根据图片宽高与宿主视窗宽高解算后的初始无损缩放系数
      */
     private float baseScale = 1.0f;
     /**
      * 当前手势交互所处的引擎模式
+     * <p>
+     * TOUCH_NONE、TOUCH_DRAG 等
      */
     private int touchMode = TOUCH_NONE;
     /**
-     * 双指初次落点时的物理跨度物理距离
+     * 双指初次落点时的物理跨度跨两点间直线距离
      */
     private float initDist = 1f;
     /**
      * 上一次单击触发的时间戳
+     * <p>
+     * 用于双击判定
      */
     private long lastTapTime = 0;
     /**
-     * 销毁事件外置回调监听器
+     * 销毁及关闭事件外置回调监听器
      */
     private OnCloseListener onCloseListener;
     /**
      * 旋转动画专用调度控制柄
      * <p>
-     * 用于全局跟踪并管控正在运行的自动旋转变换
-     * 连续快速点击时通过强制打断此句柄
-     * 消灭两套引擎重叠导致的残影与抖动
+     * 用于快速连续点击旋转时强行中断前置未完动画
+     * 规避残影
      */
     private ValueAnimator rotationAnimator;
+    /**
+     * 缩放动画专用调度控制柄
+     * <p>
+     * 用于快速连续点击缩放时强行中断前置未完动画
+     * 规避因状态锁导致的响应延迟
+     */
+    private ValueAnimator zoomAnimator;
+    /**
+     * 动画执行锁状态机
+     * <p>
+     * 用于拦截矩阵平滑过渡期间产生的高频微调请求
+     * 避免物理越界与过渡死锁
+     */
+    private boolean isAnimating = false;
     /**
      * 骨架层级加载反馈加载条
      */
@@ -230,8 +239,9 @@ public class ImageViewerOverlay extends FrameLayout {
      * 骨架层级错误状态文本提示器
      */
     private TextView imageViewerOverlayTv;
+
     /**
-     * constructor
+     * 构造函数
      *
      * @param context 上下文
      */
@@ -240,38 +250,47 @@ public class ImageViewerOverlay extends FrameLayout {
     }
 
     /**
-     * constructor
+     * 构造函数
      *
      * @param context      上下文
      * @param attributeSet AttributeSet
      */
     public ImageViewerOverlay(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
+        // 获取系统级滑动死区
         touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         inflate(context);
     }
 
+    /**
+     * 计算多点触控两点间的直线物理跨度距离
+     *
+     * @param motionEvent 触控事件
+     * @return 跨度距离值
+     */
     private static float spacing(@NonNull MotionEvent motionEvent) {
         float dx = (motionEvent.getX(0) - motionEvent.getX(1));
         float dy = (motionEvent.getY(0) - motionEvent.getY(1));
         return (float) Math.sqrt(dx * dx + dy * dy);
     }
 
+    /**
+     * 动态解算双指触控的中点物理坐标
+     *
+     * @param pointF      承载结果的容器点
+     * @param motionEvent 触控事件
+     */
     private static void midPoint(@NonNull PointF pointF, @NonNull MotionEvent motionEvent) {
         pointF.set((motionEvent.getX(0) + motionEvent.getX(1)) / 2f, (motionEvent.getY(0) + motionEvent.getY(1)) / 2f);
     }
 
     /**
-     * 矩阵缩放解算公式
+     * 矩阵缩放比例提取算法
      * <p>
-     * 由于 Matrix 经过 postRotate 旋转后
-     * MSCALE_X 和 MSCALE_Y 不再能代表纯粹的拉伸比例
-     * 而是会与旋转角度的正余弦复合混淆
-     * 此处提取 X 轴的主缩放分量与 Y 轴的切变分量
-     * 通过经典的欧几里得勾股定理
-     * 计算出无视旋转干扰的真实绝对复合缩放因子
+     * 提取 X 轴的主缩放分量与 Y 轴的切变分量
+     * 通过勾股定理计算出无视旋转角度干扰的真实绝对复合缩放因子
      *
-     * @param matrix 矩阵
+     * @param matrix 变换矩阵
      * @return 当前 Matrix 产生的物理图像真实拉伸比例
      */
     private static float getMatrixScale(@NonNull Matrix matrix) {
@@ -280,6 +299,13 @@ public class ImageViewerOverlay extends FrameLayout {
         return (float) Math.sqrt(v[Matrix.MSCALE_X] * v[Matrix.MSCALE_X] + v[Matrix.MSKEW_Y] * v[Matrix.MSKEW_Y]);
     }
 
+    /**
+     * 工作线程同步读取网络文件字节流并解码为 Bitmap 资产
+     *
+     * @param urlString     图片链接
+     * @param weakReference 弱引用持有
+     *                      防止内存泄漏
+     */
     private static void loadUrlInBackground(String urlString, WeakReference<ImageViewerOverlay> weakReference) {
         Bitmap bitmap;
         HttpURLConnection httpURLConnection = null;
@@ -328,7 +354,7 @@ public class ImageViewerOverlay extends FrameLayout {
     }
 
     /**
-     * 初始化视图并绑定核心控制按钮交互事件
+     * 初始化视图并绑定各交互控制单元的点击拦截总线
      *
      * @param context 上下文
      */
@@ -341,14 +367,31 @@ public class ImageViewerOverlay extends FrameLayout {
         if (imageViewerOverlayFl == null) {
             imageViewerOverlayFl = this;
         }
+        // 控制按钮点击分发
         findViewById(R.id.imageViewerOverlayMbClose).setOnClickListener(v -> dismiss());
-        findViewById(R.id.imageViewerOverlayMbShrink).setOnClickListener(v -> zoomOutByButton(0.5f));
+        findViewById(R.id.imageViewerOverlayMbShrink).setOnClickListener(v -> zoomOutByButton(0.3f));
         findViewById(R.id.imageViewerOverlayMbTurnLeft).setOnClickListener(v -> rotateByMatrix(-90));
         findViewById(R.id.imageViewerOverlayMbTurnRight).setOnClickListener(v -> rotateByMatrix(90));
-        findViewById(R.id.imageViewerOverlayMbEnlarge).setOnClickListener(v -> zoomInByButton(0.5f));
-        imageViewerOverlayView.setOnTouchListener(this::handleImageTouch);
+        findViewById(R.id.imageViewerOverlayMbEnlarge).setOnClickListener(v -> zoomInByButton(0.3f));
+        // 显式将本类手势内核挂载到图像视窗的触摸反馈总线上
+        imageViewerOverlayView.setOnTouchListener(this);
     }
 
+    /**
+     * View.OnTouchListener 触摸事件拦截总线实现
+     */
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        return handleImageTouch(v, event);
+    }
+
+    /**
+     * 控制按钮对外公开接口
+     * <p>
+     * 步进放大
+     *
+     * @param stepFactor 放大比例步进增量系数
+     */
     public void zoomInByButton(float stepFactor) {
         if (imageViewerOverlayView.getDrawable() == null) {
             return;
@@ -358,22 +401,25 @@ public class ImageViewerOverlay extends FrameLayout {
         executeSmoothZoom(targetScale);
     }
 
+    /**
+     * 控制按钮对外公开接口
+     * <p>
+     * 步进缩小
+     *
+     * @param stepFactor 缩小比例步进减量系数
+     */
     public void zoomOutByButton(float stepFactor) {
         if (imageViewerOverlayView.getDrawable() == null) {
             return;
         }
         float currentScale = getMatrixScale(matrix);
-        float targetScale = Math.max(minScale, currentScale - (baseScale * stepFactor));
+        // 核心对齐修改点：计算按钮缩小的绝对限制极限
+        float targetScale = Math.max(baseScale * 0.4f, currentScale - (baseScale * stepFactor));
         executeSmoothZoom(targetScale);
     }
 
     /**
-     * 触发围绕中心点的平滑矩阵缩放
-     * <p>
-     * 计算缩放形变后
-     * 预估图片边界变化情况
-     * 如发现缩放导致内容脱离视窗边界
-     * 将自动计算平移矩阵将其纠正拉回
+     * 触发围绕中心点的平滑矩阵自适应缩放过渡
      *
      * @param targetScale 绝对目标缩放比系数
      */
@@ -382,19 +428,17 @@ public class ImageViewerOverlay extends FrameLayout {
         if (currentScale <= 0) {
             return;
         }
-        // 计算差分比
         float factor = (targetScale / currentScale);
         PointF center = getImageCenter();
-        // 建立沙盒矩阵预演变化后的几何包围盒
         Matrix targetMatrix = new Matrix(matrix);
         targetMatrix.postScale(factor, factor, center.x, center.y);
-        // 检测由于缩放造成的局部越界
-        // 并对沙盒矩阵施加瞬时修正平移
+        boolean oldAnimating = isAnimating;
+        isAnimating = false;
         RectF targetRect = getImageRect(targetMatrix);
         float overX = calcOverscroll(targetRect, true);
         float overY = calcOverscroll(targetRect, false);
         targetMatrix.postTranslate(-overX, -overY);
-        // 交付矩阵插值动画器无缝过渡
+        isAnimating = oldAnimating;
         animateMatrix(matrix, targetMatrix);
     }
 
@@ -431,14 +475,16 @@ public class ImageViewerOverlay extends FrameLayout {
     }
 
     /**
-     * 装载并拉起大图浮层展示窗口
+     * 装载并拉起大图预览浮层
      *
-     * @param rootView 根视图
-     * @param imageUrl 图片链接
+     * @param rootView 上层挂载的根容器视图
+     * @param imageUrl 大图的目标网络 URL
      */
     public void show(ViewGroup rootView, String imageUrl) {
         resetState();
         if (getParent() == null) {
+            this.setClickable(true);
+            this.setFocusable(true);
             rootView.addView(this, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         }
         if ((null != loadFuture) && !loadFuture.isDone()) {
@@ -451,11 +497,21 @@ public class ImageViewerOverlay extends FrameLayout {
         }
     }
 
+    /**
+     * 执行原生线程池流式下载及解码任务
+     *
+     * @param imageUrl 图片链接
+     */
     private void executeNativeLoad(String imageUrl) {
         WeakReference<ImageViewerOverlay> weakOverlay = new WeakReference<>(this);
         loadFuture = EXECUTOR_SERVICE.submit(() -> loadUrlInBackground(imageUrl, weakOverlay));
     }
 
+    /**
+     * 执行三方库 Glide 的图片拓扑加载逻辑
+     *
+     * @param imageUrl 图片链接
+     */
     private void executeGlideLoad(String imageUrl) {
         Glide.with(getContext()).asBitmap().load(imageUrl).into(new com.bumptech.glide.request.target.CustomTarget<Bitmap>() {
             @Override
@@ -479,14 +535,19 @@ public class ImageViewerOverlay extends FrameLayout {
 
     /**
      * 强行优雅中断并离架销毁当前图片组件
+     * <p>
+     * 解绑资源保护内存
      */
     public void dismiss() {
         if (rotationAnimator != null) {
             rotationAnimator.cancel();
         }
+        if (zoomAnimator != null) {
+            zoomAnimator.cancel();
+        }
         handler.removeCallbacksAndMessages(null);
         if (loadStrategy == LoadStrategy.GLIDE) {
-            com.bumptech.glide.Glide.with(getContext()).clear(imageViewerOverlayView);
+            Glide.with(getContext()).clear(imageViewerOverlayView);
         } else {
             if (loadFuture != null) {
                 loadFuture.cancel(true);
@@ -500,14 +561,21 @@ public class ImageViewerOverlay extends FrameLayout {
         }
     }
 
+    /**
+     * 设置关闭监听
+     *
+     * @param onCloseListener 关闭监听
+     */
     public void setOnCloseListener(OnCloseListener onCloseListener) {
         this.onCloseListener = onCloseListener;
     }
 
     /**
-     * 设置缩放
+     * 指定绝对数值进行缩放重组
+     * <p>
+     * 并自动拉起物理修正弹回动画
      *
-     * @param targetScale 目标缩放
+     * @param targetScale 绝对目标缩放值
      */
     public void setScale(float targetScale) {
         targetScale = Math.max(minScale, Math.min(maxScale, targetScale));
@@ -523,23 +591,16 @@ public class ImageViewerOverlay extends FrameLayout {
     }
 
     /**
-     * 获取当前缩放
-     *
-     * @return 当前缩放
+     * 获取当前图像绝对复合真实拉伸比例
      */
     public float getCurrentScale() {
         return getMatrixScale(matrix);
     }
 
     /**
-     * 核心旋转控制引擎（防变斜、防抖动）
+     * 核心旋转控制引擎
      * <p>
-     * 针对高频快速连续点击进行架构优化
-     * 1. 取消正在运行的旧动画，清理 Handler 延迟队列，杜绝两套动画互相踩踏产生的剧烈闪烁抖动。
-     * 2. 锁定此时最纯净的矩阵 `startMatrix` 与中心点，拒绝动画演进中产生的中点漂移误差。
-     * 3. 核心修复：一阶无形变叠加算法。
-     * 在每一帧刷新时，先全量恢复成无污染的 `startMatrix`，再做绝对增量旋转。
-     * 从而彻底消灭了多次连续 postRotate 运算带来的 Matrix 切变分量精度累积（Skew 误差），图片永不变斜。
+     * 防变斜、防多层动画叠加闪烁抖动
      *
      * @param degrees 相对当前的旋转步进角度值
      *                例如 90f 或 -90f
@@ -548,53 +609,37 @@ public class ImageViewerOverlay extends FrameLayout {
         if (imageViewerOverlayView.getDrawable() == null) {
             return;
         }
-        // 防抖动
-        // 拦截未完成的动画实体
-        // 避免并行的两个矩阵刷新流冲突
         if ((rotationAnimator != null) && rotationAnimator.isRunning()) {
             rotationAnimator.cancel();
         }
-        // 清理由于旧框架 postDelayed 留下的潜在回弹归位任务死锁
         handler.removeCallbacksAndMessages(null);
-        // 防变斜
-        // 锁定本次动画周期的绝对纯净基准快照
-        // 避免基于“脏矩阵”继续做叠乘
         final Matrix startMatrix = new Matrix(matrix);
-        // 瞬间锁定几何包围盒中心
-        // 防动画运动中因边界回弹干扰导致中点计算位置跑偏
         final PointF imgCenter = getImageCenter();
-        // 维护绝对角度状态机
-        // 确保在 0, 90, 180, 270 度范围内精准闭环
         currentRotation = (currentRotation + degrees) % 360;
         if (currentRotation < 0) {
             currentRotation += 360;
         }
-        // 构建非滚雪球式一阶矩阵过渡动画
         rotationAnimator = ValueAnimator.ofFloat(0f, degrees);
         rotationAnimator.setDuration(280);
         rotationAnimator.setInterpolator(new DecelerateInterpolator());
         rotationAnimator.addUpdateListener(anim -> {
             float curDelta = (float) anim.getAnimatedValue();
-            // 防变斜核心
-            // 擦除上一帧可能带有微小浮点误差的旧数据
-            // 全量还原为 startMatrix 快照
             matrix.set(startMatrix);
-            // 施加纯粹的一阶旋转
-            // 彻底杜绝切变（Skew_X / Skew_Y）产生的累积倾斜形变
             matrix.postRotate(curDelta, imgCenter.x, imgCenter.y);
             imageViewerOverlayView.setImageMatrix(matrix);
         });
         rotationAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-                // 自动旋转动画安全着陆后
-                // 再稳健启动边界回弹机制
                 springBack();
             }
         });
         rotationAnimator.start();
     }
 
+    /**
+     * 获取当前图片包围盒的物理中心坐标
+     */
     @NonNull
     private PointF getImageCenter() {
         RectF rect = getImageRect(matrix);
@@ -604,25 +649,21 @@ public class ImageViewerOverlay extends FrameLayout {
     /**
      * 多点触控与手势交互调度内核
      *
-     * @param v     View
-     * @param event MotionEvent
-     * @return 是否消费
+     * @param v     视图
+     * @param event 触摸事件
+     * @return 是否触摸消费
      */
     private boolean handleImageTouch(View v, MotionEvent event) {
         if (imageViewerOverlayView.getDrawable() == null) {
             return false;
         }
-        // 当自动旋转动画正在运转时
-        // 强行劫持触摸反馈
-        // 保护矩阵状态机步调一致
-        if ((rotationAnimator != null) && rotationAnimator.isRunning()) {
+        if (((rotationAnimator != null) && rotationAnimator.isRunning()) || isAnimating) {
             return true;
         }
         boolean handled = false;
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
                 long now = System.currentTimeMillis();
-                // 判定双击
                 if (now - lastTapTime < DOUBLE_TAP_MS) {
                     touchMode = TOUCH_NONE;
                     handleDoubleTapZoom(event.getX(), event.getY());
@@ -637,7 +678,6 @@ public class ImageViewerOverlay extends FrameLayout {
                 handled = true;
                 break;
             case MotionEvent.ACTION_POINTER_DOWN:
-                // 判定双指切入缩放模式
                 if (event.getPointerCount() >= 2) {
                     initDist = spacing(event);
                     if (initDist > 5f) {
@@ -651,25 +691,16 @@ public class ImageViewerOverlay extends FrameLayout {
             case MotionEvent.ACTION_MOVE:
                 float dx = event.getX() - lastTouch.x;
                 float dy = event.getY() - lastTouch.y;
-                // 核心状态分支一
-                // 处理单指平移 / 单指下拉退出判定
                 if (touchMode == TOUCH_DRAG) {
                     float curScale = getMatrixScale(matrix);
-                    // 满足未放大、纵向手势向下、且手势夹角偏向垂直时
-                    // 切入下拉退出渲染分支
-                    if (curScale <= baseScale * 1.02f && (event.getY() - downTouch.y) > 0 && Math.abs(event.getY() - downTouch.y) > Math.abs(event.getX() - downTouch.x) * 1.5f) {
+                    if ((curScale <= baseScale * 1.02f) && ((event.getY() - downTouch.y) > 0) && (Math.abs(event.getY() - downTouch.y) > Math.abs(event.getX() - downTouch.x) * 1.5f)) {
                         touchMode = TOUCH_EXIT_DRAG;
                     } else {
-                        // 正常的单指平移
-                        // 建立物理包围盒阻尼机制
                         Matrix testMatrix = new Matrix(matrix);
                         testMatrix.postTranslate(dx, dy);
                         RectF currentRect = getImageRect(testMatrix);
                         float overX = calcOverscroll(currentRect, true);
                         float overY = calcOverscroll(currentRect, false);
-                        // 越界距离越深
-                        // 反向抗性越大
-                        // 产生橡皮筋粘滞效果
                         if (overX != 0) {
                             dx = dx * (1.0f - Math.min(0.85f, Math.abs(overX) / (overscrollLimit * 2f)));
                         }
@@ -682,35 +713,30 @@ public class ImageViewerOverlay extends FrameLayout {
                     lastTouch.set(event.getX(), event.getY());
                     handled = true;
                 }
-                // 核心状态分支二
-                // 单指下拉退出执行中
-                // 执行同步视窗等比例缩放变小及背景淡化
                 if (touchMode == TOUCH_EXIT_DRAG) {
-                    float totalDeltaY = event.getY() - downTouch.y;
+                    float totalDeltaY = (event.getY() - downTouch.y);
                     float translationY = Math.max(0, totalDeltaY);
-                    float exitScale = 1.0f - (translationY / getHeight()) * 0.5f;
-                    // 锁定最小下拉缩放边界
+                    float exitScale = (1.0f - (translationY / getHeight()) * 0.5f);
                     exitScale = Math.max(0.618f, exitScale);
                     matrix.set(savedMatrix);
                     matrix.postScale(exitScale, exitScale, downTouch.x, downTouch.y);
                     matrix.postTranslate(event.getX() - downTouch.x, translationY);
                     imageViewerOverlayView.setImageMatrix(matrix);
-                    // 改变背景全屏遮罩的 Alpha 透明度
-                    float alpha = 1.0f - (translationY / (getHeight() * 0.4f));
+                    float alpha = (1.0f - (translationY / (getHeight() * 0.4f)));
                     imageViewerOverlayFl.setAlpha(Math.max(0f, Math.min(1.0f, alpha)));
                     handled = true;
-                }
-                // 核心状态分支三
-                // 双指多点缩放处理
-                else if (touchMode == TOUCH_PINCH && event.getPointerCount() >= 2) {
+                } else if (touchMode == TOUCH_PINCH && event.getPointerCount() >= 2) {
                     float newDist = spacing(event);
                     if (newDist > 5f) {
                         float scale = (newDist / initDist);
                         float curScale = getMatrixScale(savedMatrix);
                         float next = (curScale * scale);
-                        // 强行约束在安全软边界阈值内
-                        if (next < minScale) {
-                            scale = minScale / curScale;
+                        // 核心对齐修改点
+                        // 统一使用 baseScale * 0.4f 作为双指捏合的物理绝对下限
+                        // 确保手势跟按钮锁死完全一致
+                        float dynamicMinScale = baseScale * 0.4f;
+                        if (next < dynamicMinScale) {
+                            scale = dynamicMinScale / curScale;
                         }
                         if (next > maxScale) {
                             scale = maxScale / curScale;
@@ -724,30 +750,21 @@ public class ImageViewerOverlay extends FrameLayout {
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_POINTER_UP:
-                // 触摸释放收尾
-                // 单指下拉状态
                 if (touchMode == TOUCH_EXIT_DRAG) {
                     float moveY = (event.getY() - downTouch.y);
                     if (moveY > getHeight() * exitDragThreshold) {
-                        // 超过阈值 + 直接自卸载销毁
                         dismiss();
                     } else {
                         animateBackgroundAlpha(imageViewerOverlayFl.getAlpha());
-                        // 放弃退出 + 回弹重置
                         animateMatrix(matrix, savedMatrix);
                     }
                     handled = true;
-                }
-                // 触摸释放收尾
-                // 单指普通拖拽
-                else if (touchMode == TOUCH_DRAG) {
+                } else if (touchMode == TOUCH_DRAG) {
                     float totalX = (event.getX() - downTouch.x);
                     float totalY = (event.getY() - downTouch.y);
-                    // 在判定死区内 + 视作原生点击分发
                     if ((Math.abs(totalX) < touchSlop) && (Math.abs(totalY) < touchSlop)) {
                         v.performClick();
                     } else {
-                        // 超出死区 + 执行平移碰撞回弹
                         springBack();
                     }
                     handled = true;
@@ -765,6 +782,8 @@ public class ImageViewerOverlay extends FrameLayout {
 
     /**
      * 双击行为响应逻辑
+     * <p>
+     * 自适应双击放大或多尺寸恢复原状
      *
      * @param clickX X 轴点击坐标
      * @param clickY Y 轴点击坐标
@@ -775,10 +794,7 @@ public class ImageViewerOverlay extends FrameLayout {
         }
         float currentScale = getMatrixScale(matrix);
         Matrix targetMatrix = new Matrix();
-        // 状态判定
-        // 如果是已放大状态
-        // 双击行为定义为复原回全屏自适应状态
-        if (currentScale > baseScale * 1.05f) {
+        if (currentScale > (baseScale * 1.05f)) {
             int bmpW = imageViewerOverlayView.getDrawable().getIntrinsicWidth();
             int bmpH = imageViewerOverlayView.getDrawable().getIntrinsicHeight();
             if (isLongImage) {
@@ -793,39 +809,41 @@ public class ImageViewerOverlay extends FrameLayout {
             }
             currentRotation = 0f;
         } else {
-            // 状态判定
-            // 如果是自适应状态
-            // 双击以当前点击落点为靶心进行深度放大
             float targetScale = baseScale * doubleTapTargetScale;
             float factor = (targetScale / currentScale);
             targetMatrix.set(matrix);
             targetMatrix.postScale(factor, factor, clickX, clickY);
-            // 预估放大后的包围盒形变
-            // 提前进行视窗边界对齐修正
+            boolean oldAnimating = isAnimating;
+            isAnimating = false;
             RectF targetRect = getImageRect(targetMatrix);
             float overX = calcOverscroll(targetRect, true);
             float overY = calcOverscroll(targetRect, false);
+            isAnimating = oldAnimating;
             targetMatrix.postTranslate(-overX, -overY);
         }
         animateMatrix(matrix, targetMatrix);
     }
 
     /**
-     * 基于矩阵九宫格参数直接进行插值的平滑动画执行器
+     * 基于矩阵九宫格参数直接进行插值的全属性平滑过渡动画执行器
      *
-     * @param startMatrix  起始矩阵
+     * @param startMatrix  变换起始矩阵
      * @param targetMatrix 目标终点绝对矩阵
      */
     private void animateMatrix(@NonNull Matrix startMatrix, @NonNull Matrix targetMatrix) {
+        if (zoomAnimator != null && zoomAnimator.isRunning()) {
+            zoomAnimator.cancel();
+        }
         float[] startVals = new float[9];
         float[] targetVals = new float[9];
         startMatrix.getValues(startVals);
         targetMatrix.getValues(targetVals);
         float[] currentVals = new float[9];
-        ValueAnimator valueAnimator = ValueAnimator.ofFloat(0f, 1f);
-        valueAnimator.setDuration(zoomAnimDuration);
-        valueAnimator.setInterpolator(new DecelerateInterpolator(1.5f));
-        valueAnimator.addUpdateListener(animation -> {
+        isAnimating = true;
+        zoomAnimator = ValueAnimator.ofFloat(0f, 1f);
+        zoomAnimator.setDuration(zoomAnimDuration);
+        zoomAnimator.setInterpolator(new DecelerateInterpolator(1.5f));
+        zoomAnimator.addUpdateListener(animation -> {
             float fraction = (float) animation.getAnimatedValue();
             for (int i = 0; i < 9; i++) {
                 currentVals[i] = startVals[i] + (targetVals[i] - startVals[i]) * fraction;
@@ -833,9 +851,23 @@ public class ImageViewerOverlay extends FrameLayout {
             matrix.setValues(currentVals);
             imageViewerOverlayView.setImageMatrix(matrix);
         });
-        valueAnimator.start();
+        zoomAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                isAnimating = false;
+                springBack();
+            }
+        });
+        zoomAnimator.start();
     }
 
+    /**
+     * 下拉未成功退出时
+     * <p>
+     * 全屏容器背景不透明度的平滑回弹动画
+     *
+     * @param startAlpha 开始透明度
+     */
     private void animateBackgroundAlpha(float startAlpha) {
         ValueAnimator valueAnimator = ValueAnimator.ofFloat(startAlpha, (float) 1.0);
         valueAnimator.setDuration(200);
@@ -843,6 +875,12 @@ public class ImageViewerOverlay extends FrameLayout {
         valueAnimator.start();
     }
 
+    /**
+     * 映射出图片当前缩放 / 旋转状态下的实际物理边界矩形围盒 (RectF)
+     *
+     * @param matrix 矩阵
+     * @return 图片当前缩放 / 旋转状态下的实际物理边界矩形围盒 (RectF)
+     */
     @NonNull
     private RectF getImageRect(Matrix matrix) {
         if (imageViewerOverlayView.getDrawable() == null) {
@@ -854,22 +892,22 @@ public class ImageViewerOverlay extends FrameLayout {
     }
 
     /**
-     * 计算图片物理边界在当前视窗规格中的越界值
+     * 计算图片物理边界在当前宿主视窗规格中的绝对越界溢出值
      *
      * @param imageRect  待校验的图片围盒矩形
      * @param horizontal 轴向选择
-     *                   true 为 X 轴
-     *                   false 为 Y 轴
-     * @return 越界物理像素值
-     * 0f 代表未越界
-     * 正负值代表脱离视窗的边缘偏离量
+     *                   true 为水平 X 轴
+     *                   false 为纵向 Y 轴
+     * @return 溢出的物理像素绝对值
+     * 0f 代表内容完美契合视窗 -> 未出现物理过边界
      */
     private float calcOverscroll(RectF imageRect, boolean horizontal) {
+        if ((touchMode == TOUCH_PINCH) || isAnimating) {
+            return 0f;
+        }
         if (horizontal) {
             float imgW = imageRect.width();
             float viewW = getWidth();
-            // 宽度小于视窗
-            // 计算居中对齐所需的微调平移量
             if (imgW <= viewW) {
                 return (imageRect.left - (viewW - imgW) / 2f);
             } else {
@@ -883,9 +921,7 @@ public class ImageViewerOverlay extends FrameLayout {
         } else {
             float imgH = imageRect.height();
             float viewH = getHeight();
-            // 高度小于视窗
             if (imgH <= viewH) {
-                // 特殊规约：长图在初始或未放大的基础状态下，强制顶部对齐，不触发垂直居中。
                 if (isLongImage && getMatrixScale(matrix) <= baseScale * 1.05f) {
                     return imageRect.top;
                 }
@@ -903,20 +939,21 @@ public class ImageViewerOverlay extends FrameLayout {
     }
 
     /**
-     * 执行平移归位弹性动画
+     * 执行位置及比例溢出的自适应归位弹性恢复动画
      * <p>
-     * 检测当前矩阵在 X 和 Y 轴上的越界量
-     * 如果有任意单轴脱离了完美宿主视窗的范围
-     * 自动开启平滑反向弹回
+     * Spring Back
      */
     private void springBack() {
+        if (isAnimating) return;
         RectF imgRect = getImageRect(matrix);
+        int oldMode = touchMode;
+        touchMode = TOUCH_NONE;
         float overX = calcOverscroll(imgRect, true);
         float overY = calcOverscroll(imgRect, false);
+        touchMode = oldMode;
         if ((overX == 0f) && (overY == 0f)) {
             return;
         }
-        // 取得反向目标修补位移
         final float fixDx = -overX;
         final float fixDy = -overY;
         final Matrix startMatrix = new Matrix(matrix);
@@ -933,17 +970,12 @@ public class ImageViewerOverlay extends FrameLayout {
     }
 
     /**
-     * 核心排版引擎
+     * 核心自适应排版映射引擎
      * <p>
-     * 自适应测算全屏展示位
-     * <p>
-     * 对高宽比超过 2.2 的图片标记为“超长图”
-     * 使其宽度撑满屏幕、顶部对齐
-     * 对其余标准纵横比图片
-     * 执行完美等比例全视角居中裁剪自适应
+     * 全面适配普通宽高图与非标准比例的长卷试卷对齐
      *
-     * @param bitmapWith   源图片的物理原色宽度
-     * @param bitmapHeight 源图片的物理原色高度
+     * @param bitmapWith   源位图资产的真实像素宽度
+     * @param bitmapHeight 源位图资产的真实像素高度
      */
     private void centerAndFit(int bitmapWith, int bitmapHeight) {
         if ((bitmapWith <= 0) || (bitmapHeight <= 0) || (getWidth() <= 0) || (getHeight() <= 0)) {
@@ -953,23 +985,18 @@ public class ImageViewerOverlay extends FrameLayout {
         float viewH = getHeight();
         float scaleW = viewW / bitmapWith;
         float scaleH = viewH / bitmapHeight;
-        // 设定长图判定规范
         isLongImage = (((float) bitmapHeight / bitmapWith) >= 2.2f);
         matrix.reset();
         if (isLongImage) {
-            // 长图横向撑满
             baseScale = scaleW;
             matrix.postScale(baseScale, baseScale);
             float dx = (viewW - bitmapWith * baseScale) / 2f;
-            // 垂直轴向对齐顶部
             matrix.postTranslate(dx, 0f);
         } else {
-            // 缩放较小者以完全展示整图
             baseScale = Math.min(scaleW, scaleH);
             matrix.postScale(baseScale, baseScale);
             float dx = (viewW - bitmapWith * baseScale) / 2f;
             float dy = (viewH - bitmapHeight * baseScale) / 2f;
-            // 完美居中
             matrix.postTranslate(dx, dy);
         }
         imageViewerOverlayView.setImageMatrix(matrix);
@@ -977,11 +1004,16 @@ public class ImageViewerOverlay extends FrameLayout {
     }
 
     /**
-     * 干净抹除状态机参数
+     * 干净抹除状态机全量参数
+     * <p>
+     * 初始化环境
      */
     private void resetState() {
         if (rotationAnimator != null) {
             rotationAnimator.cancel();
+        }
+        if (zoomAnimator != null) {
+            zoomAnimator.cancel();
         }
         handler.removeCallbacksAndMessages(null);
         matrix.reset();
@@ -989,6 +1021,7 @@ public class ImageViewerOverlay extends FrameLayout {
         isLongImage = false;
         baseScale = 1.0f;
         touchMode = TOUCH_NONE;
+        isAnimating = false;
         imageViewerOverlayFl.setAlpha(1.0f);
         imageViewerOverlayView.setImageBitmap(null);
         imageViewerOverlayPb.setVisibility(View.VISIBLE);
@@ -996,7 +1029,7 @@ public class ImageViewerOverlay extends FrameLayout {
     }
 
     /**
-     * 接收并映射位图资源到画布
+     * 接收并渲染异步加载完毕的位图实体
      *
      * @param bitmap Bitmap
      */
@@ -1007,25 +1040,17 @@ public class ImageViewerOverlay extends FrameLayout {
             imageViewerOverlayTv.setVisibility(View.VISIBLE);
             return;
         }
-        // 消灭闪烁核心修复点
-        // 判定当前宿主组件是否已经完成了全屏物理尺寸测量
         if ((getWidth() > 0) && (getHeight() > 0)) {
-            // 尺寸就绪：必须先计算并注入自适应核心矩阵状态，最后才允许进行 Bitmap 渲染上屏。
             centerAndFit(bitmap.getWidth(), bitmap.getHeight());
             imageViewerOverlayView.setImageBitmap(bitmap);
         } else {
-            // 异步兜底
-            // 此时宿主可能处于初次挂载未测量阶段
-            // 先将视窗隐藏（避免原图拉伸残影）
             imageViewerOverlayView.setVisibility(View.INVISIBLE);
             imageViewerOverlayView.setImageBitmap(bitmap);
             imageViewerOverlayView.addOnLayoutChangeListener(new OnLayoutChangeListener() {
                 @Override
                 public void onLayoutChange(View v, int l, int t, int r, int b, int oldL, int oldT, int oldR, int oldB) {
                     imageViewerOverlayView.removeOnLayoutChangeListener(this);
-                    // 动态测绘结束后重新执行完美的矩阵排版映射
                     centerAndFit(bitmap.getWidth(), bitmap.getHeight());
-                    // 抹除首帧闪烁间隙 + 大方展示
                     imageViewerOverlayView.setVisibility(View.VISIBLE);
                 }
             });
@@ -1041,12 +1066,18 @@ public class ImageViewerOverlay extends FrameLayout {
         NATIVE, GLIDE
     }
 
+    /**
+     * 外置浮层销毁监听拦截接口
+     */
     public interface OnCloseListener {
+        /**
+         * 关闭
+         */
         void onClose();
     }
 
     /**
-     * 专为 TalkBack 读屏优化重写的 ImageView 交互单元
+     * 专为 TalkBack 读屏及无障碍焦点点击优化重写的 ImageView 交互单元
      */
     public static class AccessibleImageView extends androidx.appcompat.widget.AppCompatImageView {
         public AccessibleImageView(Context context) {

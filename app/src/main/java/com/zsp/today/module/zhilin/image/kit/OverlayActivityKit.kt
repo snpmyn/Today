@@ -31,6 +31,7 @@ class OverlayActivityKit {
     fun landscapeShow(appCompatActivity: AppCompatActivity) {
         ScreenUtils.switchLandscape(appCompatActivity)
         val imageViewerOverlay = ImageViewerOverlay(appCompatActivity)
+        imageViewerOverlay.setLoadStrategy(ImageViewerOverlay.LoadStrategy.GLIDE)
         imageViewerOverlay.show(
             appCompatActivity.window.decorView as ViewGroup,
             "https://gips0.baidu.com/it/u=1690853528,2506870245&fm=3028&app=3028&f=JPEG&fmt=auto?w=1024&h=1024"
