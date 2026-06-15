@@ -50,19 +50,6 @@ import timber.log.Timber;
  */
 public class ImageViewerOverlay extends FrameLayout {
     /**
-     * 加载策略
-     * <p>
-     * 提供给上层的架构分流设计
-     */
-    public enum LoadStrategy {
-        NATIVE, GLIDE
-    }
-
-    /**
-     * 核心资产网络加载策略
-     */
-    private LoadStrategy loadStrategy = LoadStrategy.NATIVE;
-    /**
      * 线程池句柄
      * <p>
      * 固定容量为 4 的并行线程池
@@ -70,12 +57,33 @@ public class ImageViewerOverlay extends FrameLayout {
      */
     private static final ExecutorService EXECUTOR_SERVICE = Executors.newFixedThreadPool(4);
     /**
-     * 异步任务持有句柄
+     * 空闲
      * <p>
-     * 用于在组件销毁或重置时
-     * 强行中断未完成的异步网络流
+     * 触摸状态
      */
-    private Future<?> loadFuture;
+    private static final int TOUCH_NONE = 0;
+    /**
+     * 单指拖拽平移
+     * <p>
+     * 触摸状态
+     */
+    private static final int TOUCH_DRAG = 1;
+    /**
+     * 双指多点缩放
+     * <p>
+     * 触摸状态
+     */
+    private static final int TOUCH_PINCH = 2;
+    /**
+     * 单指下拉退出
+     * <p>
+     * 触摸状态
+     */
+    private static final int TOUCH_EXIT_DRAG = 3;
+    /**
+     * 双击判定死区时间间隔上限
+     */
+    private static final long DOUBLE_TAP_MS = 300;
     /**
      * 主线程调度器
      * <p>
@@ -83,6 +91,46 @@ public class ImageViewerOverlay extends FrameLayout {
      * 用于 safe 分发异步加载成功的 Bitmap 资产
      */
     private final Handler handler = new Handler(Looper.getMainLooper());
+    /**
+     * 全局核心变换矩阵
+     * <p>
+     * 承载当前视图渲染的最终位置、缩放比例及旋转状态
+     */
+    private final Matrix matrix = new Matrix();
+    /**
+     * 矩阵状态快照缓存
+     * <p>
+     * 手势初次按下 (ACTION_DOWN / ACTION_POINTER_DOWN) 时捕获的干净矩阵
+     * 作为差分计算的绝对基准
+     */
+    private final Matrix savedMatrix = new Matrix();
+    /**
+     * 手势落点绝对坐标
+     */
+    private final PointF downTouch = new PointF();
+    /**
+     * 上一次触摸触发的局部坐标点
+     */
+    private final PointF lastTouch = new PointF();
+    /**
+     * 双指中心坐标点
+     */
+    private final PointF midPoint = new PointF();
+    /**
+     * 系统级触发拖拽动作的滑行死区阈值
+     */
+    private final float touchSlop;
+    /**
+     * 核心资产网络加载策略
+     */
+    private LoadStrategy loadStrategy = LoadStrategy.NATIVE;
+    /**
+     * 异步任务持有句柄
+     * <p>
+     * 用于在组件销毁或重置时
+     * 强行中断未完成的异步网络流
+     */
+    private Future<?> loadFuture;
     /**
      * 最小缩放阈值
      */
@@ -121,30 +169,6 @@ public class ImageViewerOverlay extends FrameLayout {
      */
     private float exitDragThreshold = 0.35f;
     /**
-     * 空闲
-     * <p>
-     * 触摸状态
-     */
-    private static final int TOUCH_NONE = 0;
-    /**
-     * 单指拖拽平移
-     * <p>
-     * 触摸状态
-     */
-    private static final int TOUCH_DRAG = 1;
-    /**
-     * 双指多点缩放
-     * <p>
-     * 触摸状态
-     */
-    private static final int TOUCH_PINCH = 2;
-    /**
-     * 单指下拉退出
-     * <p>
-     * 触摸状态
-     */
-    private static final int TOUCH_EXIT_DRAG = 3;
-    /**
      * 全屏容器根布局
      */
     private View imageViewerOverlayFl;
@@ -152,19 +176,6 @@ public class ImageViewerOverlay extends FrameLayout {
      * 自定义高级变换图像视窗
      */
     private AccessibleImageView imageViewerOverlayView;
-    /**
-     * 全局核心变换矩阵
-     * <p>
-     * 承载当前视图渲染的最终位置、缩放比例及旋转状态
-     */
-    private final Matrix matrix = new Matrix();
-    /**
-     * 矩阵状态快照缓存
-     * <p>
-     * 手势初次按下 (ACTION_DOWN / ACTION_POINTER_DOWN) 时捕获的干净矩阵
-     * 作为差分计算的绝对基准
-     */
-    private final Matrix savedMatrix = new Matrix();
     /**
      * 当前视图的绝对旋转角度值
      * <p>
@@ -192,33 +203,13 @@ public class ImageViewerOverlay extends FrameLayout {
      */
     private int touchMode = TOUCH_NONE;
     /**
-     * 手势落点绝对坐标
-     */
-    private final PointF downTouch = new PointF();
-    /**
-     * 上一次触摸触发的局部坐标点
-     */
-    private final PointF lastTouch = new PointF();
-    /**
-     * 双指中心坐标点
-     */
-    private final PointF midPoint = new PointF();
-    /**
      * 双指初次落点时的物理跨度物理距离
      */
     private float initDist = 1f;
     /**
-     * 系统级触发拖拽动作的滑行死区阈值
-     */
-    private final float touchSlop;
-    /**
      * 上一次单击触发的时间戳
      */
     private long lastTapTime = 0;
-    /**
-     * 双击判定死区时间间隔上限
-     */
-    private static final long DOUBLE_TAP_MS = 300;
     /**
      * 销毁事件外置回调监听器
      */
@@ -239,7 +230,6 @@ public class ImageViewerOverlay extends FrameLayout {
      * 骨架层级错误状态文本提示器
      */
     private TextView imageViewerOverlayTv;
-
     /**
      * constructor
      *
@@ -259,6 +249,82 @@ public class ImageViewerOverlay extends FrameLayout {
         super(context, attributeSet);
         touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         inflate(context);
+    }
+
+    private static float spacing(@NonNull MotionEvent motionEvent) {
+        float dx = (motionEvent.getX(0) - motionEvent.getX(1));
+        float dy = (motionEvent.getY(0) - motionEvent.getY(1));
+        return (float) Math.sqrt(dx * dx + dy * dy);
+    }
+
+    private static void midPoint(@NonNull PointF pointF, @NonNull MotionEvent motionEvent) {
+        pointF.set((motionEvent.getX(0) + motionEvent.getX(1)) / 2f, (motionEvent.getY(0) + motionEvent.getY(1)) / 2f);
+    }
+
+    /**
+     * 矩阵缩放解算公式
+     * <p>
+     * 由于 Matrix 经过 postRotate 旋转后
+     * MSCALE_X 和 MSCALE_Y 不再能代表纯粹的拉伸比例
+     * 而是会与旋转角度的正余弦复合混淆
+     * 此处提取 X 轴的主缩放分量与 Y 轴的切变分量
+     * 通过经典的欧几里得勾股定理
+     * 计算出无视旋转干扰的真实绝对复合缩放因子
+     *
+     * @param matrix 矩阵
+     * @return 当前 Matrix 产生的物理图像真实拉伸比例
+     */
+    private static float getMatrixScale(@NonNull Matrix matrix) {
+        float[] v = new float[9];
+        matrix.getValues(v);
+        return (float) Math.sqrt(v[Matrix.MSCALE_X] * v[Matrix.MSCALE_X] + v[Matrix.MSKEW_Y] * v[Matrix.MSKEW_Y]);
+    }
+
+    private static void loadUrlInBackground(String urlString, WeakReference<ImageViewerOverlay> weakReference) {
+        Bitmap bitmap;
+        HttpURLConnection httpURLConnection = null;
+        InputStream inputStream = null;
+        try {
+            URL url = new URL(urlString);
+            httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpURLConnection.setConnectTimeout(10_000);
+            httpURLConnection.setReadTimeout(15_000);
+            httpURLConnection.setDoInput(true);
+            httpURLConnection.connect();
+            if (Thread.currentThread().isInterrupted()) {
+                return;
+            }
+            inputStream = httpURLConnection.getInputStream();
+            bitmap = BitmapFactory.decodeStream(inputStream);
+        } catch (Exception e) {
+            bitmap = null;
+        } finally {
+            try {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+            } catch (Exception ignored) {
+            }
+            try {
+                if (httpURLConnection != null) {
+                    httpURLConnection.disconnect();
+                }
+            } catch (Exception exception) {
+                Timber.e(exception);
+            }
+        }
+        if (Thread.currentThread().isInterrupted()) {
+            return;
+        }
+        final Bitmap resultBitmap = bitmap;
+        ImageViewerOverlay imageViewerOverlay = weakReference.get();
+        if (imageViewerOverlay != null) {
+            imageViewerOverlay.handler.post(() -> {
+                if (imageViewerOverlay.isAttachedToWindow()) {
+                    imageViewerOverlay.onImageLoaded(resultBitmap);
+                }
+            });
+        }
     }
 
     /**
@@ -405,7 +471,7 @@ public class ImageViewerOverlay extends FrameLayout {
             @Override
             public void onLoadFailed(@Nullable Drawable errorDrawable) {
                 imageViewerOverlayPb.setVisibility(View.GONE);
-                imageViewerOverlayTv.setText("图片加载失败");
+                imageViewerOverlayTv.setText(getContext().getString(R.string.loadImageFail));
                 imageViewerOverlayTv.setVisibility(View.VISIBLE);
             }
         });
@@ -436,10 +502,6 @@ public class ImageViewerOverlay extends FrameLayout {
 
     public void setOnCloseListener(OnCloseListener onCloseListener) {
         this.onCloseListener = onCloseListener;
-    }
-
-    public interface OnCloseListener {
-        void onClose();
     }
 
     /**
@@ -970,80 +1032,17 @@ public class ImageViewerOverlay extends FrameLayout {
         }
     }
 
-    private static float spacing(@NonNull MotionEvent motionEvent) {
-        float dx = (motionEvent.getX(0) - motionEvent.getX(1));
-        float dy = (motionEvent.getY(0) - motionEvent.getY(1));
-        return (float) Math.sqrt(dx * dx + dy * dy);
-    }
-
-    private static void midPoint(@NonNull PointF pointF, @NonNull MotionEvent motionEvent) {
-        pointF.set((motionEvent.getX(0) + motionEvent.getX(1)) / 2f, (motionEvent.getY(0) + motionEvent.getY(1)) / 2f);
-    }
-
     /**
-     * 矩阵缩放解算公式
+     * 加载策略
      * <p>
-     * 由于 Matrix 经过 postRotate 旋转后
-     * MSCALE_X 和 MSCALE_Y 不再能代表纯粹的拉伸比例
-     * 而是会与旋转角度的正余弦复合混淆
-     * 此处提取 X 轴的主缩放分量与 Y 轴的切变分量
-     * 通过经典的欧几里得勾股定理
-     * 计算出无视旋转干扰的真实绝对复合缩放因子
-     *
-     * @param matrix 矩阵
-     * @return 当前 Matrix 产生的物理图像真实拉伸比例
+     * 提供给上层的架构分流设计
      */
-    private static float getMatrixScale(@NonNull Matrix matrix) {
-        float[] v = new float[9];
-        matrix.getValues(v);
-        return (float) Math.sqrt(v[Matrix.MSCALE_X] * v[Matrix.MSCALE_X] + v[Matrix.MSKEW_Y] * v[Matrix.MSKEW_Y]);
+    public enum LoadStrategy {
+        NATIVE, GLIDE
     }
 
-    private static void loadUrlInBackground(String urlString, WeakReference<ImageViewerOverlay> weakReference) {
-        Bitmap bitmap;
-        HttpURLConnection httpURLConnection = null;
-        InputStream inputStream = null;
-        try {
-            URL url = new URL(urlString);
-            httpURLConnection = (HttpURLConnection) url.openConnection();
-            httpURLConnection.setConnectTimeout(10_000);
-            httpURLConnection.setReadTimeout(15_000);
-            httpURLConnection.setDoInput(true);
-            httpURLConnection.connect();
-            if (Thread.currentThread().isInterrupted()) {
-                return;
-            }
-            inputStream = httpURLConnection.getInputStream();
-            bitmap = BitmapFactory.decodeStream(inputStream);
-        } catch (Exception e) {
-            bitmap = null;
-        } finally {
-            try {
-                if (inputStream != null) {
-                    inputStream.close();
-                }
-            } catch (Exception ignored) {
-            }
-            try {
-                if (httpURLConnection != null) {
-                    httpURLConnection.disconnect();
-                }
-            } catch (Exception exception) {
-                Timber.e(exception);
-            }
-        }
-        if (Thread.currentThread().isInterrupted()) {
-            return;
-        }
-        final Bitmap resultBitmap = bitmap;
-        ImageViewerOverlay imageViewerOverlay = weakReference.get();
-        if (imageViewerOverlay != null) {
-            imageViewerOverlay.handler.post(() -> {
-                if (imageViewerOverlay.isAttachedToWindow()) {
-                    imageViewerOverlay.onImageLoaded(resultBitmap);
-                }
-            });
-        }
+    public interface OnCloseListener {
+        void onClose();
     }
 
     /**
