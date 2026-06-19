@@ -2,16 +2,10 @@ package com.zsp.today.application;
 
 import android.text.TextUtils;
 
-import com.amap.api.location.AMapLocation;
-import com.amap.api.location.AMapLocationClientOption;
 import com.umeng.analytics.MobclickAgent;
-import com.zsp.amap.kit.AmapLocationKit;
-import com.zsp.amap.listener.AmapLocationKitListener;
-import com.zsp.amap.value.AmapConstant;
 import com.zsp.today.BuildConfig;
 import com.zsp.today.application.kit.AppKit;
 import com.zsp.today.basic.value.Folder;
-import com.zsp.today.basic.value.RxBusConstant;
 import com.zsp.today.module.login.UserDataBaseTable;
 import com.zsp.youmeng.UmKit;
 
@@ -28,8 +22,6 @@ import pool.module.login.LoginActivity;
 import pool.module.splash.kit.SplashActivityKit;
 import timber.log.Timber;
 import util.list.ListUtils;
-import util.mmkv.MmkvKit;
-import util.rxbus.RxBus;
 import widget.crash.CrashManager;
 import widget.permissionx.kit.PermissionKit;
 import widget.status.manager.StatusManager;
@@ -152,7 +144,7 @@ public class App extends BasePoolApp {
         // 初始化跨 APP 双向通信广播
         AppKit.initCrossAppBroadcast(this);
         // 高德地图定位配套原件
-        AmapLocationKit.getInstance().start(App.getAppInstance(), AMapLocationClientOption.AMapLocationPurpose.Transport, true, new AmapLocationKitListener() {
+        /*AmapLocationKit.getInstance().start(App.getAppInstance(), AMapLocationClientOption.AMapLocationPurpose.Transport, true, new AmapLocationKitListener() {
             @Override
             public void locationSuccessful(AMapLocation aMapLocation, String locationInfo) {
                 AmapLocationKit.getInstance().stop();
@@ -164,6 +156,6 @@ public class App extends BasePoolApp {
             public void locationFail(AMapLocation aMapLocation) {
                 RxBus.get().post(RxBusConstant.DANGEROUS_ACTIVITY_$_UPDATE_LOCATION, RxBusConstant.DANGEROUS_ACTIVITY_$_UPDATE_LOCATION_FAIL_CODE);
             }
-        });
+        });*/
     }
 }
