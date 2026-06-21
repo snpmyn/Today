@@ -62,23 +62,12 @@ public class CollaborationActivity extends BasePoolActivity {
      */
     @Override
     protected void setListener() {
-        // 按钮选中监听
-        activityCollaborationBinding.classificationActivityMbtg.addOnButtonCheckedListener((materialButtonToggleGroup, i, b) -> {
-            if (b) {
-                if (i == activityCollaborationBinding.classificationActivityMbQingHai.getId()) {
-                    collaborationActivityKit.getClassificationAdapter().focus(1006, true);
-                } else if (i == activityCollaborationBinding.classificationActivityMbXinJiang.getId()) {
-                    collaborationActivityKit.getClassificationAdapter().focus(1016, true);
-                } else if (i == activityCollaborationBinding.classificationActivityMbXiZang.getId()) {
-                    collaborationActivityKit.getClassificationAdapter().focus(1030, true);
-                } else if (i == activityCollaborationBinding.classificationActivityMbDisable.getId()) {
-                    collaborationActivityKit.getClassificationAdapter().setChildItemClickEnable(false);
-                }
-            } else if (i == activityCollaborationBinding.classificationActivityMbDisable.getId()) {
-                collaborationActivityKit.getClassificationAdapter().setChildItemClickEnable(true);
-            } else {
-                collaborationActivityKit.getClassificationAdapter().clearSelect();
-            }
+        activityCollaborationBinding.classificationActivityMbQingHai.setOnClickListener(v -> collaborationActivityKit.execute(CollaborationActivity.this, activityCollaborationBinding, collaborationActivityKit.getFirstStudentBeans(), true));
+        activityCollaborationBinding.classificationActivityMbXinJiang.setOnClickListener(v -> collaborationActivityKit.execute(CollaborationActivity.this, activityCollaborationBinding, collaborationActivityKit.getSecondStudentBeans(), true));
+        activityCollaborationBinding.classificationActivityMbXiZang.setOnClickListener(v -> collaborationActivityKit.execute(CollaborationActivity.this, activityCollaborationBinding, collaborationActivityKit.getThirdStudentBeans(), true));
+        activityCollaborationBinding.classificationActivityMbDisable.setOnClickListener(v -> {
+            collaborationActivityKit.classificationAdapter.clearSelect();
+            collaborationActivityKit.classificationAdapter.setChildItemClickEnable(!collaborationActivityKit.classificationAdapter.isChildItemClickEnable());
         });
     }
 
@@ -87,6 +76,6 @@ public class CollaborationActivity extends BasePoolActivity {
      */
     @Override
     protected void startLogic() {
-        collaborationActivityKit.execute(this, activityCollaborationBinding);
+        collaborationActivityKit.execute(this, activityCollaborationBinding, collaborationActivityKit.getFirstStudentBeans(), true);
     }
 }
