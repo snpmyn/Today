@@ -38,13 +38,13 @@ public class HeadItem extends ListItem {
         String title;
         switch (recognizeState) {
             case 0:
-                title = "青海";
+                title = "未识别";
                 break;
             case 1:
-                title = "新疆";
+                title = "已识别";
                 break;
             case 2:
-                title = "西藏";
+                title = "已提交";
                 break;
             default:
                 title = "";
