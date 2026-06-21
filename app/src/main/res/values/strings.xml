@@ -164,4 +164,5 @@
     <!-- format -->
     <string name="formatSsWithSpace">%1$s %2$s</string>
     <string name="formatSsWithLineBreak">%1$s\n%2$s</string>
+    <string name="formatSdStudentCount">%1$s ( %2$d )</string>
 </resources>
