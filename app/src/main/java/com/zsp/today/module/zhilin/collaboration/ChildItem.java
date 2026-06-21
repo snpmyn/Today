@@ -22,6 +22,15 @@ public class ChildItem extends ListItem {
     }
 
     /**
+     * 是否选中
+     *
+     * @return 是否选中
+     */
+    public boolean isSelected() {
+        return (studentBean.getCheckStatus() == 2) || (studentBean.getCheckStatus() == 3);
+    }
+
+    /**
      * 获取类型
      *
      * @return 类型
