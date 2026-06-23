@@ -1,4 +1,4 @@
-package com.zsp.today.module.zhilin.collaboration;
+package com.zsp.today.module.zhilin.collaboration.bean;
 
 /**
  * @decs: 学生数据

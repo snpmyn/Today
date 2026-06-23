@@ -1,4 +1,4 @@
-package com.zsp.today.module.zhilin.collaboration;
+package com.zsp.today.module.zhilin.collaboration.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
 import com.zsp.today.R;
+import com.zsp.today.module.zhilin.collaboration.bean.StudentBean;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -172,9 +173,9 @@ public class ClassificationAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             // 展开
             // 1. 默认展开识别状态 = 当前头条目识别状态
             // 2. 当前头条目下有子条目
-            /*boolean expand = (defaultExpandRecognizeState == headItem.recognizeState) && (!Objects.requireNonNull(childItemClassificationMap.get(headItem.recognizeState)).isEmpty());*/
-            // 头条目图标
-            /*headerViewHolder.classificationHeadItemAciv.setRotation(expand ? 180F : 0F);*/
+            boolean expand = (defaultExpandRecognizeState == headItem.recognizeState) && (!Objects.requireNonNull(childItemClassificationMap.get(headItem.recognizeState)).isEmpty());
+            // 头条目选态
+            headerViewHolder.classificationHeadItemMcv.setChecked(expand);
             // 头条目点击
             headerViewHolder.itemView.setOnClickListener(v -> {
                 // 场景一
@@ -186,13 +187,8 @@ public class ClassificationAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 // defaultExpandRecognizeState != headerItem.recognizeState
                 // 最终 defaultExpandRecognizeState = headItem.recognizeState
                 defaultExpandRecognizeState = (defaultExpandRecognizeState == headItem.recognizeState ? -1 : headItem.recognizeState);
-                /*if (defaultExpandRecognizeState == -1) {
-                    // 折叠
-                    AnimationManager.rotation(headerViewHolder.classificationHeadItemAciv, 300, 180F, 0F, null);
-                } else {
-                    // 展开
-                    AnimationManager.rotation(headerViewHolder.classificationHeadItemAciv, 300, 0F, 180F, null);
-                }*/
+                // 头条目选态
+                headerViewHolder.classificationHeadItemMcv.setChecked(defaultExpandRecognizeState != -1);
                 // 构建并通知
                 buildAndNotify();
             });
@@ -201,19 +197,20 @@ public class ClassificationAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             StudentBean studentBean = childItem.studentBean;
             ChildViewHolder childViewHolder = (ChildViewHolder) holder;
             // 已选
-            /*boolean selected = Boolean.TRUE.equals(childItemSelectStateMap.get(studentBean.getStudentId()));*/
-            // 子条目名称
-            /*childViewHolder.itemView.setBackground(ContextCompat.getDrawable(childViewHolder.itemView.getContext(), selected ? R.drawable.shape_stu_checked : R.drawable.shape_stu_uncheck));*/
-            // 子条目图标
-            /*childViewHolder.ivDui.setVisibility(selected ? View.VISIBLE : View.GONE);*/
+            boolean selected = Boolean.TRUE.equals(childItemSelectStateMap.get(studentBean.getStudentId()));
+            // 子条目选态
+            childViewHolder.classificationChildItemMcv.setChecked(selected);
             // 子条目选择数量
             Integer integer = childItemSelectCountMap.get(studentBean.getStudentId());
             if (null == integer) {
+                // 子条目名称
                 childViewHolder.classificationChildItemTv.setText(studentBean.getStudentName());
             } else {
                 if (integer > 0) {
+                    // 子条目名称
                     childViewHolder.classificationChildItemTv.setText(String.format(context.getString(R.string.formatSdStudentCount), studentBean.getStudentName(), integer));
                 } else {
+                    // 子条目名称
                     childViewHolder.classificationChildItemTv.setText(studentBean.getStudentName());
                 }
             }
@@ -534,15 +531,6 @@ public class ClassificationAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             }
         }
         return -1;
-    }
-
-    /**
-     * 子条目是否可点
-     *
-     * @return 子条目是否可点
-     */
-    public boolean isChildItemClickEnable() {
-        return childItemClickEnable;
     }
 
     /**

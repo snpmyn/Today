@@ -1,4 +1,4 @@
-package com.zsp.today.module.zhilin.collaboration;
+package com.zsp.today.module.zhilin.collaboration.adapter;
 
 /**
  * Created on 2026/4/23.

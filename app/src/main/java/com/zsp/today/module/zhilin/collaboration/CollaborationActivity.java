@@ -3,6 +3,7 @@ package com.zsp.today.module.zhilin.collaboration;
 import androidx.viewbinding.ViewBinding;
 
 import com.zsp.today.databinding.ActivityCollaborationBinding;
+import com.zsp.today.module.zhilin.collaboration.kit.CollaborationActivityKit;
 
 import pool.base.BasePoolActivity;
 
@@ -53,7 +54,6 @@ public class CollaborationActivity extends BasePoolActivity {
      */
     @Override
     protected void initConfiguration() {
-        // 联动页配套原件
         collaborationActivityKit = new CollaborationActivityKit();
     }
 
@@ -62,13 +62,7 @@ public class CollaborationActivity extends BasePoolActivity {
      */
     @Override
     protected void setListener() {
-        activityCollaborationBinding.classificationActivityMbQingHai.setOnClickListener(v -> collaborationActivityKit.execute(CollaborationActivity.this, activityCollaborationBinding, collaborationActivityKit.getFirstStudentBeans(), true));
-        activityCollaborationBinding.classificationActivityMbXinJiang.setOnClickListener(v -> collaborationActivityKit.execute(CollaborationActivity.this, activityCollaborationBinding, collaborationActivityKit.getSecondStudentBeans(), true));
-        activityCollaborationBinding.classificationActivityMbXiZang.setOnClickListener(v -> collaborationActivityKit.execute(CollaborationActivity.this, activityCollaborationBinding, collaborationActivityKit.getThirdStudentBeans(), true));
-        activityCollaborationBinding.classificationActivityMbDisable.setOnClickListener(v -> {
-            collaborationActivityKit.classificationAdapter.clearSelect();
-            collaborationActivityKit.classificationAdapter.setChildItemClickEnable(!collaborationActivityKit.classificationAdapter.isChildItemClickEnable());
-        });
+
     }
 
     /**
@@ -76,6 +70,6 @@ public class CollaborationActivity extends BasePoolActivity {
      */
     @Override
     protected void startLogic() {
-        collaborationActivityKit.execute(this, activityCollaborationBinding, collaborationActivityKit.getFirstStudentBeans(), true);
+        collaborationActivityKit.preHandle(this, activityCollaborationBinding);
     }
 }

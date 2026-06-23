@@ -1,4 +1,6 @@
-package com.zsp.today.module.zhilin.collaboration;
+package com.zsp.today.module.zhilin.collaboration.adapter;
+
+import com.zsp.today.module.zhilin.collaboration.bean.StudentBean;
 
 /**
  * Created on 2026/4/23.
