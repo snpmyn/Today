@@ -1,6 +1,12 @@
 plugins {
     alias(libs.plugins.android.library)
+    /*发布*/
+    id 'maven-publish'
 }
+
+/*发布*/
+group = "io.github.snpmyn"
+version = "1.0.0"
 
 android {
     // 编译期用
@@ -29,6 +35,13 @@ android {
     kotlin {
         compilerOptions {
             jvmTarget.set(rootProject.ext.jvmTarget)
+        }
+    }
+
+    /*发布*/
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
         }
     }
 }
@@ -76,3 +89,73 @@ dependencies {
     api libs.lifecycle.viewmodel.ktx
     /*ViewModel*/
 }
+
+/*发布*/
+publishing {
+    publications {
+        release(MavenPublication) {
+            groupId = project.group
+            artifactId = "core"
+            version = project.version
+
+            afterEvaluate {
+                from components.release
+            }
+
+            pom {
+                name = "core"
+                description = "Today Android Core Library"
+                url = "https://github.com/snpmyn/Today"
+
+                licenses {
+                    license {
+                        name = "Apache License, Version 2.0"
+                        url = "https://www.apache.org/licenses/LICENSE-2.0.txt"
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = "snpmyn"
+                        name = "snpmyn"
+                        /*email = "snpmyn@126.com"*/
+                    }
+                }
+
+                scm {
+                    connection = "scm:git:https://github.com/snpmyn/Today.git"
+                    developerConnection = "scm:git:ssh://git@github.com:snpmyn/Today.git"
+                    url = "https://github.com/snpmyn/Today"
+                }
+            }
+        }
+    }
+
+    repositories {
+        // 本地测试仓库
+        maven {
+            name = "localTest"
+            url = layout.buildDirectory.dir("repo")
+        }
+
+        // 如果以后发 Nexus
+        /*
+        maven {
+            name = "nexus"
+            url = uri("https://nexus.xxx.com/repository/releases")
+
+            credentials {
+                username = nexusUser
+                password = nexusPassword
+            }
+        }
+        */
+    }
+}
+
+/*本地 Maven 仓库*/
+/*./gradlew :core:publishToMavenLocal*/
+/*依赖*/
+/*implementation "io.github.snpmyn:core:1.0.0"*/
+/*路径*/
+/*~/.m2/repository/io/github/snpmyn/core/1.0.0/*/
