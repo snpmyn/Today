@@ -21,6 +21,8 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        // 本地 Maven 仓库
+        mavenLocal()
         // JitPack
         maven { url "https://jitpack.io" }
         // 友盟
