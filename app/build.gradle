@@ -141,6 +141,7 @@ dependencies {
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
     /*自带*/
+    /*implementation libs.core*/
     implementation project(':core')
     /*core*/
     implementation project(':amap')
