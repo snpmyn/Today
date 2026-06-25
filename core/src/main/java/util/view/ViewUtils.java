@@ -14,10 +14,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.ref.WeakReference;
 
-import util.datetime.CurrentTimeMillisClock;
 import util.handler.HandlerKit;
 import util.theme.ThemeUtils;
-import util.value.UtilMagic;
 
 /**
  * Created on 2018/12/21.
@@ -26,9 +24,6 @@ import util.value.UtilMagic;
  * @desc ViewUtils
  */
 public class ViewUtils {
-    private static boolean alreadyClick;
-    private static long clickTime;
-
     /**
      * 显示视图
      *
@@ -99,26 +94,6 @@ public class ViewUtils {
     }
 
     /**
-     * 双重点击检测
-     *
-     * @param view                  视图
-     * @param onDoubleClickListener 双重点击监听
-     */
-    public static void doubleClickCheck(@NotNull View view, final OnDoubleClickListener onDoubleClickListener) {
-        view.setOnClickListener(view1 -> {
-            if (alreadyClick) {
-                if (((CurrentTimeMillisClock.getInstance().now() - clickTime) < UtilMagic.INT_TWO_HUNDRED) && (null != onDoubleClickListener)) {
-                    onDoubleClickListener.onDoubleClick();
-                }
-                alreadyClick = false;
-            } else {
-                clickTime = CurrentTimeMillisClock.getInstance().now();
-                alreadyClick = true;
-            }
-        });
-    }
-
-    /**
      * 触摸指定 View 否（过滤控件）
      *
      * @param views       视图
@@ -181,15 +156,5 @@ public class ViewUtils {
             flashView.setBackgroundColor(Color.RED);
             HandlerKit.getInstance().postDelayed(() -> flashView.setBackgroundColor(ThemeUtils.getColorSurfaceColorFromAttrResIdWithTypedArray(context)), delayMillis);
         }
-    }
-
-    /**
-     * 双重点击监听
-     */
-    public interface OnDoubleClickListener {
-        /**
-         * 双重点击
-         */
-        void onDoubleClick();
     }
 }
