@@ -5,6 +5,8 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
+import com.zsp.core.R;
+
 /**
  * @decs: 视图点击配套原件
  * @author: 郑少鹏
@@ -12,6 +14,27 @@ import androidx.annotation.NonNull;
  * @version: v 1.0
  */
 public class ViewClickKit {
+    /**
+     * 是否是快速点击
+     * <p>
+     * 间隔 1200 毫秒
+     *
+     * @param view 视图
+     * @return 是否是快速点击
+     */
+    public static boolean isFastClick(@NonNull View view) {
+        // 当前时间
+        // Android 官方用于计算时间间隔的标准方案
+        long currentTime = SystemClock.elapsedRealtime();
+        Object tag = view.getTag(R.id.view_click_time);
+        long lastClickTime = (tag instanceof Long) ? (Long) tag : 0L;
+        if ((currentTime - lastClickTime) < 1200) {
+            return true;
+        }
+        view.setTag(R.id.view_click_time, currentTime);
+        return false;
+    }
+
     /**
      * 单击
      *

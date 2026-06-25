@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--视图点击时间-->
+    <item name="view_click_time" type="id" />
     <!--fragmentation-->
     <item name="fragmentationAreExpand" type="id" />
     <item name="fragmentationHierarchy" type="id" />
