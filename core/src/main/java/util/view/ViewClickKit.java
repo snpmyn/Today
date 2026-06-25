@@ -66,7 +66,7 @@ public class ViewClickKit {
      * 双击
      *
      * @param view                  视图
-     * @param onDoubleClickListener 双重点击监听
+     * @param onDoubleClickListener 双击监听
      */
     public static void doubleClick(@NonNull View view, @NonNull OnDoubleClickListener onDoubleClickListener) {
         view.setOnClickListener(new View.OnClickListener() {
