@@ -19,7 +19,7 @@ import pool.application.BasePoolApp;
 import pool.module.login.kit.UserAgreementAndPrivacyPolicyActivityKit;
 import pool.module.splash.listener.SplashActivityListener;
 import pool.value.PoolConstant;
-import util.activity.ActivitySuperviseManager;
+import util.app.AppKit;
 import util.handler.HandlerKit;
 import util.mmkv.MmkvKit;
 import util.net.NetManager;
@@ -144,7 +144,7 @@ public class SplashActivityKit {
 
             @Override
             public void allGrantedContrary() {
-                ActivitySuperviseManager.getInstance().appExit();
+                AppKit.getInstance().killApp();
             }
         });
     }

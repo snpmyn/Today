@@ -11,8 +11,6 @@ import android.os.PersistableBundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.zsp.youmeng.UmKit;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,7 +19,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import timber.log.Timber;
-import util.click.DoubleClickKit;
 import util.list.ListUtils;
 
 /**
@@ -147,27 +144,6 @@ public class ActivitySuperviseManager {
             activity.finish();
         }
         ACTIVITIES.clear();
-    }
-
-    /**
-     * 双击退出
-     *
-     * @param exitHint 退出提示
-     */
-    public void twoClickToExit(String exitHint) {
-        DoubleClickKit.doubleClick(exitHint, true, this::appExit);
-    }
-
-    /**
-     * 退应用
-     */
-    public void appExit() {
-        try {
-            UmKit.getInstance().onKillProcess(getTopActivityInstance());
-            finishAllActivity();
-        } catch (Exception e) {
-            Timber.e(e);
-        }
     }
 
     private static final class InstanceHolder {

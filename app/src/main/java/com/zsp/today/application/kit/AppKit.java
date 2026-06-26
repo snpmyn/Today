@@ -23,7 +23,6 @@ import util.mmkv.MmkvKit;
 import widget.broadcast.CrossAppBroadcastHelper;
 import widget.broadcast.value.CrossAppBroadcastConstant;
 import widget.dialog.bocdialog.kit.BocDialogKit;
-import widget.toast.ToastKt;
 
 /**
  * Created on 2021/9/22
@@ -98,10 +97,8 @@ public class AppKit {
      * 初始化跨 APP 双向通信广播
      * <p>
      * 正式版发送 KILL_APP
-     * 测试版收到 KILL_APP -> 测试版向正式版发送 LAUNCH_APP -> 测试版自身 KILL
-     * 正式版收到 LAUNCH_APP -> 延迟 500ms -> 启动测试版 -> 正式版自身 KILL
-     * <p>
-     * 正式版延迟 500ms 是为避开测试版自身 KILL
+     * 测试版收到 KILL_APP -> 测试版向正式版发送 LAUNCH_APP -> 延迟 100ms -> 测试版自身 KILL
+     * 正式版收到 LAUNCH_APP -> 启动测试版 -> 正式版自身 KILL
      *
      * @param app App
      */
@@ -117,12 +114,20 @@ public class AppKit {
         // 设置广播消息接收的对外暴露回调接口
         CrossAppBroadcastHelper.setBroadcastCallback((action, message) -> {
             if (TextUtils.equals(message, CrossAppBroadcastConstant.KILL_APP)) {
+                // 场景 - 测试版在后台
+                // 收到前台正式版发来的 KILL_APP
+                // 1. 立刻向前台正式版反馈：我要准备启动了！
                 CrossAppBroadcastHelper.sendMessage(app, CrossAppBroadcastConstant.LAUNCH_APP);
-                ToastKt.showToast(app.getPackageName());
+                // 2. 延迟 100ms 自身暴毙，仅为确保上面的回复广播成功冲出 Binder 通道。
+                new Handler(Looper.getMainLooper()).postDelayed(() -> util.app.AppKit.getInstance().killApp(), 100);
             } else if (TextUtils.equals(message, CrossAppBroadcastConstant.LAUNCH_APP)) {
-                new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                    ToastKt.showToast(app.getPackageName());
-                }, 500);
+                // 场景 - 正式版在前台
+                // 收到后台测试版自身暴毙前传回的 LAUNCH_APP 确认信号
+                // 此时后台测试版已自身暴毙，扫描仪硬件句柄已完全释放。
+                // 1. 趁着在前台拥有最高 Activity 启动特权，立刻向系统挂号拉起目标版本，即后台测试版。
+                util.app.AppKit.getInstance().launchApp(App.getAppInstance(), targetPackageName);
+                // 2. 毋须任何延迟！立刻解绑扫描仪并自杀，腾出干净的硬件环境。
+                util.app.AppKit.getInstance().killApp();
             }
         });
     }
