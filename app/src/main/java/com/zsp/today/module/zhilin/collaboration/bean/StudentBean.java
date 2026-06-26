@@ -7,18 +7,6 @@ package com.zsp.today.module.zhilin.collaboration.bean;
  * @version: v 1.0
  */
 public class StudentBean {
-    String className;
-    Integer classId;
-    String studentName;
-    int studentId;
-    /**
-     * 选择状态
-     * <p>
-     * 1 - 未选择
-     * 2 - 已被选择匹配
-     * 3 - 已被选择未匹配
-     */
-    int checkStatus;
     /**
      * 识别状态
      * <p>
@@ -27,6 +15,22 @@ public class StudentBean {
      * 2 - 已提交
      */
     private final int recognizeState;
+    /**
+     * 班级名称
+     */
+    String className;
+    /**
+     * 班级 ID
+     */
+    Integer classId;
+    /**
+     * 学生姓名
+     */
+    String studentName;
+    /**
+     * 学生 ID
+     */
+    int studentId;
 
     /**
      * constructor
@@ -35,15 +39,13 @@ public class StudentBean {
      * @param classId        班级 ID
      * @param studentName    学生姓名
      * @param studentId      学生 ID
-     * @param checkStatus    选择状态
      * @param recognizeState 识别状态
      */
-    public StudentBean(String className, Integer classId, String studentName, int studentId, int checkStatus, int recognizeState) {
+    public StudentBean(String className, Integer classId, String studentName, int studentId, int recognizeState) {
         this.className = className;
         this.classId = classId;
         this.studentName = studentName;
         this.studentId = studentId;
-        this.checkStatus = checkStatus;
         this.recognizeState = recognizeState;
     }
 
@@ -53,10 +55,6 @@ public class StudentBean {
 
     public int getStudentId() {
         return studentId;
-    }
-
-    public int getCheckStatus() {
-        return checkStatus;
     }
 
     public int getRecognizeState() {
