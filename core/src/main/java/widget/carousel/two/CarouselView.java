@@ -42,7 +42,7 @@ public class CarouselView extends FrameLayout {
      * <p>
      * 逆向
      * <p>
-     * 向左 / 向上滑动 -> 递减）
+     * 向左 / 向上滑动 -> 递减
      */
     public static final int DIRECTION_BACKWARD = -1;
     /**
@@ -171,13 +171,6 @@ public class CarouselView extends FrameLayout {
             handler.postDelayed(this, interval);
         }
     };
-
-    /**
-     * 页面精准对齐切换后的事件监听回调接口
-     */
-    public interface OnPageChangeListener {
-        void onPageSelected(int position);
-    }
 
     /**
      * constructor
@@ -731,5 +724,12 @@ public class CarouselView extends FrameLayout {
         // 视窗销毁时立刻拔掉计时器
         // 阻断内存泄漏防御
         pauseAutoScroll();
+    }
+
+    /**
+     * 页面精准对齐切换后的事件监听回调接口
+     */
+    public interface OnPageChangeListener {
+        void onPageSelected(int position);
     }
 }

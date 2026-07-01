@@ -13,7 +13,7 @@ import timber.log.Timber;
  * Created on 2026/6/13.
  *
  * @author 郑少鹏
- * @desc 轮播布局管理器（精简轻量版）
+ * @desc 轮播布局管理器
  */
 public class CarouselLayoutManager extends LinearLayoutManager {
     /**
@@ -55,12 +55,12 @@ public class CarouselLayoutManager extends LinearLayoutManager {
         super(context, HORIZONTAL, false);
     }
 
-    public void setItemWidth(int itemWidth) {
-        this.itemWidth = itemWidth;
-    }
-
     public int getItemWidth() {
         return itemWidth;
+    }
+
+    public void setItemWidth(int itemWidth) {
+        this.itemWidth = itemWidth;
     }
 
     @Override
