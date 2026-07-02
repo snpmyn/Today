@@ -2,7 +2,7 @@ package com.zsp.today.module.zhilin.carousel.kit
 
 import com.zsp.today.R
 import com.zsp.today.databinding.ActivityCarouselBinding
-import com.zsp.today.module.zhilin.carousel.adapter.CarouselItemAdapter
+import com.zsp.today.module.zhilin.carousel.CarouselItemAdapter
 import com.zsp.today.module.zhilin.carousel.bean.CarouselBean
 import widget.carousel.two.CarouselView
 import widget.toast.showToast
@@ -25,11 +25,16 @@ class CarouselActivityKit {
         )
         // 轮播条目适配器
         val carouselItemAdapter = CarouselItemAdapter()
-        carouselItemAdapter.addCarouselData(list)
+        /*carouselItemAdapter.addCarouselData(list)*/
+        carouselItemAdapter.setCarouselData(list)
         carouselItemAdapter.setOnItemClickListener { _, _, _ ->
             "点击".showToast()
         }
-        activityCarouselBinding.carouselActivityCv.setOnPageChangeListener {
+        /*activityCarouselBinding.carouselActivityCv.setOnPageChangeListener {
+            "选中".showToast()
+        }*/
+        activityCarouselBinding.carouselActivityCv.setOnPageChangeListener { i, _ ->
+            carouselItemAdapter.setCurrentSelectPosition(i)
             "选中".showToast()
         }
         // CarouselView
