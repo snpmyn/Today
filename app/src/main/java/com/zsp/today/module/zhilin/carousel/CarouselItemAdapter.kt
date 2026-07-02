@@ -103,6 +103,7 @@ class CarouselItemAdapter : CarouselAdapter<CarouselBean>() {
         carouselItemMb.isClickable = isCurrentFocus
         // 放弃按钮 - 显示 / 隐藏
         carouselItemMb.visibility = if (isCurrentFocus) View.VISIBLE else View.INVISIBLE
+        carouselItemMb.alpha = if (isCurrentFocus) 1.0f else 0.0f
     }
 
     companion object {
