@@ -146,6 +146,16 @@ public abstract class CarouselAdapter<T> extends RecyclerView.Adapter<CarouselAd
         onBindItem(holder, item, position);
     }
 
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        // 强行关闭 RecyclerView 变更闪烁动画器
+        // 允许表层业务直接、任性地调用 notifyItemChanged 且不会引发任何视觉闪烁、掉帧和位移
+        if (recyclerView.getItemAnimator() instanceof androidx.recyclerview.widget.SimpleItemAnimator) {
+            ((androidx.recyclerview.widget.SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+        }
+    }
+
     /**
      * 设置条目点击监听
      *
