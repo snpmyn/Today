@@ -13,7 +13,7 @@ import pool.base.BasePoolActivity;
 import util.handler.HandlerKit;
 import util.layoutparams.LayoutParamsUtils;
 import util.screen.ScreenUtils;
-import util.view.ViewAntiBruteForceClickKit;
+import util.view.ViewClickKit;
 import widget.view.EmotionWaveView;
 import widget.view.PaperCrushView;
 
@@ -114,9 +114,9 @@ public class HeartBoxActivity extends BasePoolActivity {
      */
     @Override
     protected void setListener() {
-        ViewAntiBruteForceClickKit.setViewAntiBruteForceClickListener(heartBoxActivityMbPauseOrResume, 200, v -> heartBoxActivityKit.pauseOrResume(HeartBoxActivity.this));
-        ViewAntiBruteForceClickKit.setViewAntiBruteForceClickListener(heartBoxActivityMbStartOrStop, 200, v -> heartBoxActivityKit.startOrStop(HeartBoxActivity.this, heartBoxActivityMbPauseOrResume));
-        ViewAntiBruteForceClickKit.setViewAntiBruteForceClickListener(heartBoxActivityMbCancel, 200, v -> heartBoxActivityKit.cancel(HeartBoxActivity.this));
+        ViewClickKit.singleClick(heartBoxActivityMbPauseOrResume, 200, v -> heartBoxActivityKit.pauseOrResume(HeartBoxActivity.this));
+        ViewClickKit.singleClick(heartBoxActivityMbStartOrStop, 200, v -> heartBoxActivityKit.startOrStop(HeartBoxActivity.this, heartBoxActivityMbPauseOrResume));
+        ViewClickKit.singleClick(heartBoxActivityMbCancel, 200, v -> heartBoxActivityKit.cancel(HeartBoxActivity.this));
     }
 
     /**

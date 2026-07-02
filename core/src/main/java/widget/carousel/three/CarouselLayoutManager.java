@@ -1,4 +1,4 @@
-package widget.carousel.two;
+package widget.carousel.three;
 
 import android.content.Context;
 import android.view.View;

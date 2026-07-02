@@ -20,7 +20,7 @@ import java.util.Objects;
 
 import pool.application.BasePoolApp;
 import timber.log.Timber;
-import util.activity.ActivitySuperviseManager;
+import util.app.AppKit;
 import util.datetime.DateUtils;
 import util.file.FileUtils;
 
@@ -95,7 +95,7 @@ public class CrashManager implements Thread.UncaughtExceptionHandler {
         } else {
             SystemClock.sleep(200);
             // 退应用
-            ActivitySuperviseManager.getInstance().appExit();
+            AppKit.getInstance().killApp();
             // 杀已崩进程
             android.os.Process.killProcess(android.os.Process.myPid());
         }

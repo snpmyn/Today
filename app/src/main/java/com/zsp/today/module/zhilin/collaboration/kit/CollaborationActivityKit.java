@@ -140,13 +140,13 @@ public class CollaborationActivityKit {
     private List<StudentBean> getFirstStudentBeans() {
         List<StudentBean> studentBeanList = new ArrayList<>(15);
         for (int i = 101; i <= 105; i++) {
-            studentBeanList.add(new StudentBean("一年一班", 101, i + " - " + "张无忌", i, 1, 0));
+            studentBeanList.add(new StudentBean("一年一班", 101, i + " - " + "张无忌", i, 0));
         }
         for (int i = 106; i <= 110; i++) {
-            studentBeanList.add(new StudentBean("一年一班", 101, i + " - " + "张三丰", i, 1, 1));
+            studentBeanList.add(new StudentBean("一年一班", 101, i + " - " + "张三丰", i, 1));
         }
         for (int i = 111; i <= 115; i++) {
-            studentBeanList.add(new StudentBean("一年一班", 101, i + " - " + "令狐冲", i, 1, 2));
+            studentBeanList.add(new StudentBean("一年一班", 101, i + " - " + "令狐冲", i, 2));
         }
         return studentBeanList;
     }
@@ -160,13 +160,13 @@ public class CollaborationActivityKit {
     private List<StudentBean> getSecondStudentBeans() {
         List<StudentBean> studentBeanList = new ArrayList<>(15);
         for (int i = 116; i <= 120; i++) {
-            studentBeanList.add(new StudentBean("一年二班", 102, i + " - " + "左冷禅", i, 1, 0));
+            studentBeanList.add(new StudentBean("一年二班", 102, i + " - " + "左冷禅", i, 0));
         }
         for (int i = 121; i <= 125; i++) {
-            studentBeanList.add(new StudentBean("一年二班", 102, i + " - " + "扫地僧", i, 1, 1));
+            studentBeanList.add(new StudentBean("一年二班", 102, i + " - " + "扫地僧", i, 1));
         }
         for (int i = 126; i <= 130; i++) {
-            studentBeanList.add(new StudentBean("一年二班", 102, i + " - " + "慕容复", i, 1, 2));
+            studentBeanList.add(new StudentBean("一年二班", 102, i + " - " + "慕容复", i, 2));
         }
         return studentBeanList;
     }
@@ -180,13 +180,13 @@ public class CollaborationActivityKit {
     private List<StudentBean> getThirdStudentBeans() {
         List<StudentBean> studentBeanList = new ArrayList<>(15);
         for (int i = 131; i <= 135; i++) {
-            studentBeanList.add(new StudentBean("一年三班", 103, i + " - " + "花无缺", i, 1, 0));
+            studentBeanList.add(new StudentBean("一年三班", 103, i + " - " + "花无缺", i, 0));
         }
         for (int i = 136; i <= 140; i++) {
-            studentBeanList.add(new StudentBean("一年三班", 103, i + " - " + "小鱼儿", i, 1, 1));
+            studentBeanList.add(new StudentBean("一年三班", 103, i + " - " + "小鱼儿", i, 1));
         }
         for (int i = 141; i <= 145; i++) {
-            studentBeanList.add(new StudentBean("一年三班", 103, i + " - " + "黄飞鸿", i, 1, 2));
+            studentBeanList.add(new StudentBean("一年三班", 103, i + " - " + "黄飞鸿", i, 2));
         }
         return studentBeanList;
     }
