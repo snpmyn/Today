@@ -1,5 +1,6 @@
 package widget.carousel.three;
 
+import android.annotation.SuppressLint;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -88,6 +89,7 @@ public abstract class CarouselAdapter<T> extends RecyclerView.Adapter<CarouselAd
      *
      * @param carouselData 轮播数据
      */
+    @SuppressLint("NotifyDataSetChanged")
     public void setCarouselData(List<T> carouselData) {
         this.carouselData = carouselData;
         // 首设全量刷新
