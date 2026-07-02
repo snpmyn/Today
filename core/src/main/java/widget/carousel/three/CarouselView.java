@@ -1,5 +1,6 @@
 package widget.carousel.three;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
@@ -588,6 +589,7 @@ public class CarouselView extends FrameLayout {
         };
         // 注册适配器数据观察者
         carouselAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onChanged() {
                 wrapperAdapter.notifyDataSetChanged();
@@ -613,6 +615,7 @@ public class CarouselView extends FrameLayout {
                 wrapperAdapter.notifyItemRangeRemoved(positionStart, itemCount);
             }
 
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
                 wrapperAdapter.notifyDataSetChanged();
