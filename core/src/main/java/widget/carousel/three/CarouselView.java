@@ -552,7 +552,7 @@ public class CarouselView extends FrameLayout {
      *
      * @param carouselAdapter CarouselAdapter<?>
      */
-    public void setCarouselAdapter(final CarouselAdapter<?> carouselAdapter) {
+    public void setCarouselAdapter(@NonNull final CarouselAdapter<?> carouselAdapter) {
         this.carouselAdapter = carouselAdapter;
         // 重置内部状态机标志位
         this.lastReportedPosition = RecyclerView.NO_POSITION;
