@@ -4,28 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--<widget.carousel.two.CarouselView
+    <widget.carousel.two.CarouselView
         android:id="@+id/carouselActivityCv"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_240"
         app:carouselAutoScroll="true"
-        app:carouselEnableAlpha="true"
-        app:carouselEnableScale="true"
-        app:carouselItemWidth="@dimen/dp_180"
-        app:carouselMinAlpha="0.50"
-        app:carouselMinScale="0.75"
-        app:carouselScrollInterval="3000"
-        app:carouselScrollSpeed="120.0"
-        app:layout_constraintBottom_toTopOf="@+id/carouselActivityMbtg"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />-->
-
-    <widget.carousel.three.CarouselView
-        android:id="@+id/carouselActivityCv"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_240"
-        app:carouselAutoScroll="false"
         app:carouselEnableAlpha="true"
         app:carouselEnableScale="true"
         app:carouselItemWidth="@dimen/dp_180"
