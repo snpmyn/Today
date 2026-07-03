@@ -2,7 +2,7 @@ package com.zsp.today.module.zhilin.carousel.kit
 
 import com.zsp.today.R
 import com.zsp.today.databinding.ActivityCarouselBinding
-import com.zsp.today.module.zhilin.carousel.CarouselItemAdapter
+import com.zsp.today.module.zhilin.carousel.adapter.CarouselItemAdapter
 import com.zsp.today.module.zhilin.carousel.bean.CarouselBean
 import widget.carousel.two.CarouselView
 import widget.toast.showToast
@@ -25,21 +25,18 @@ class CarouselActivityKit {
         )
         // 轮播条目适配器
         val carouselItemAdapter = CarouselItemAdapter()
-        /*carouselItemAdapter.addCarouselData(list)*/
         carouselItemAdapter.setCarouselData(list)
         carouselItemAdapter.setOnItemClickListener { _, _, _ ->
             "点击".showToast()
         }
-        /*activityCarouselBinding.carouselActivityCv.setOnPageChangeListener {
-            "选中".showToast()
-        }*/
+        // CarouselView
+        activityCarouselBinding.carouselActivityCv.setCarouselAdapter(carouselItemAdapter)
+        activityCarouselBinding.carouselActivityCv.disableItemChangeAnimator()
+        activityCarouselBinding.carouselActivityCv.setScrollSpringiness(2.0f)
         activityCarouselBinding.carouselActivityCv.setOnPageChangeListener { i, _ ->
             carouselItemAdapter.setCurrentSelectPosition(i)
             "选中".showToast()
         }
-        // CarouselView
-        activityCarouselBinding.carouselActivityCv.setCarouselAdapter(carouselItemAdapter)
-        activityCarouselBinding.carouselActivityCv.setScrollSpringiness(2.0f)
         // 控件点击事件
         activityCarouselBinding.carouselActivityMbFirstItem.setOnClickListener {
             activityCarouselBinding.carouselActivityCv.setCurrentItem(0, true)
