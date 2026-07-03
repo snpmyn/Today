@@ -10,7 +10,6 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,11 +20,11 @@ import java.util.List;
  */
 public abstract class CarouselAdapter<T> extends RecyclerView.Adapter<CarouselAdapter.CarouselViewHolder> {
     /**
-     * 内存核心业务通用泛型数据集
+     * 轮播数据
      */
-    private final List<T> carouselData = new ArrayList<>();
+    private List<T> carouselData;
     /**
-     * 对外解耦暴露的条目单击手势回调
+     * 条目点击监听
      */
     private OnItemClickListener<T> onItemClickListener;
 
@@ -44,15 +43,27 @@ public abstract class CarouselAdapter<T> extends RecyclerView.Adapter<CarouselAd
             return;
         }
         // 锁定实体数据包，由于其会被事件闭包消费，强加 final 修饰保障线程安全。
-        final T item = carouselData.get(position);
-        // 将解耦出的 holder 和单条数据上抛给具体的页面实现业务填装
-        onBindItem(holder, item, position);
+        final T itemData = carouselData.get(position);
+        // 将解耦出的 holder 和条目数据上抛给具体页面实现业务填装
+        onBindItem(holder, itemData, position);
         // 全局托管整个卡片的最外层原生态单击响应
         holder.itemView.setOnClickListener(v -> {
             if (onItemClickListener != null) {
-                onItemClickListener.onItemClick(v, item, position);
+                onItemClickListener.onItemClick(v, itemData, position);
             }
         });
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull CarouselViewHolder holder, int position, @NonNull List<Object> payloads) {
+        if (!payloads.isEmpty()) {
+            // 如果有局部刷新负载
+            // 直接分发给子类特殊处理
+            onBindItem(holder, carouselData.get(position), position, payloads);
+        } else {
+            // 正常完整绑定
+            onBindViewHolder(holder, position);
+        }
     }
 
     @Override
@@ -72,19 +83,67 @@ public abstract class CarouselAdapter<T> extends RecyclerView.Adapter<CarouselAd
     }
 
     /**
-     * 数据管道清洗更新
+     * 设置轮播数据
      * <p>
-     * 安全清洗并整盘重写底层内存数据 + 强行同步驱动重绘视图
+     * 内外两个数据变量指向同一物理内存地址
      *
-     * @param data List<T>
+     * @param carouselData 轮播数据
      */
     @SuppressLint("NotifyDataSetChanged")
-    public void addCarouselData(List<T> data) {
-        if (data == null) return;
-        this.carouselData.clear();
-        this.carouselData.addAll(data);
-        // 通知 RecyclerView 全盘刷新重绘
+    public void setCarouselData(List<T> carouselData) {
+        this.carouselData = carouselData;
+        // 首设全量刷新
         notifyDataSetChanged();
+    }
+
+    /**
+     * 获取条目数据
+     *
+     * @param position 位置
+     * @return 条目数据
+     */
+    public T getItemData(int position) {
+        if ((position < 0) || (position >= carouselData.size())) {
+            return null;
+        }
+        return carouselData.get(position);
+    }
+
+    /**
+     * 获取条目布局 ID
+     * <p>
+     * 强迫外部业务子类去声明卡片独创的 XML 布局文件资源 ID
+     *
+     * @return 条目布局 ID
+     */
+    @LayoutRes
+    protected abstract int getItemLayoutId();
+
+    /**
+     * 绑定条目
+     * <p>
+     * 强迫外部业务子类在其中进行 TextView、ImageView 等数据的加工与渲染填充
+     *
+     * @param carouselViewHolder 轮播视图持有者
+     * @param item               条目
+     * @param position           位置
+     */
+    protected abstract void onBindItem(@NonNull CarouselViewHolder carouselViewHolder, @NonNull T item, int position);
+
+    /**
+     * 绑定条目
+     * <p>
+     * 提供一个空实现重载方法
+     * 允许具体子类有选择重写
+     *
+     * @param carouselViewHolder 轮播视图持有者
+     * @param item               条目
+     * @param position           位置
+     * @param payloads           局部刷新标识集
+     */
+    protected void onBindItem(@NonNull CarouselViewHolder carouselViewHolder, @NonNull T item, int position, @NonNull List<Object> payloads) {
+        // 子类不重写 -> 降级走全量刷新
+        onBindItem(carouselViewHolder, item, position);
     }
 
     /**
@@ -97,43 +156,34 @@ public abstract class CarouselAdapter<T> extends RecyclerView.Adapter<CarouselAd
     }
 
     /**
-     * 强迫外部业务子类去声明卡片独创的 XML 布局文件资源 ID
-     *
-     * @return 卡片独创的 XML 布局文件资源 ID
-     */
-    @LayoutRes
-    protected abstract int getItemLayoutId();
-
-    /**
-     * 强迫外部业务子类在其中进行 TextView、ImageView 等数据的加工与渲染填充
-     *
-     * @param holder   CarouselViewHolder
-     * @param item     条目
-     * @param position 位置
-     */
-    protected abstract void onBindItem(@NonNull CarouselViewHolder holder, @NonNull T item, int position);
-
-    /**
-     * 解耦的卡片通用单击手势接口定义
+     * 条目点击监听
      *
      * @param <T> T
      */
     public interface OnItemClickListener<T> {
-        void onItemClick(View view, T item, int position);
+        /**
+         * 条目点击
+         *
+         * @param view     视图
+         * @param itemData 条目数据
+         * @param position 位置
+         */
+        void onItemClick(View view, T itemData, int position);
     }
 
     /**
-     * 高阶缓存复用优化 Holder
+     * 轮播视图持有者
      * <p>
-     * 内部特制封装了一个基于二进制稀疏排布算法的 SparseArray (比常规的 HashMap 节省将近 35% 内存开销)
+     * 高阶缓存复用优化 ViewHolder
+     * <p>
+     * 内部特制封装了一个基于二进制稀疏排布算法的 SparseArray (比常规 HashMap 节省将近 35% 内存开销)
      * 开发者调用时 holder.findViewById(id) 会优先去稀疏矩阵里低消耗抓取
      * 抓取不到才会去调用原生沉重的底层 itemView.findViewById(id)
-     * 从根本上杜绝了轮播图连续高速滑行时
-     * 卡片因高频 findViewById 导致的系统主线程发生微小瞬时卡顿 / 掉帧问题
+     * 从根本上杜绝了轮播图连续高速滑行时卡片因高频 findViewById 导致的系统主线程发生微小瞬时卡顿 / 掉帧问题
      */
     public static class CarouselViewHolder extends RecyclerView.ViewHolder {
         // 控件级别的高速二进制缓存矩阵池
-        private final SparseArray<View> views = new SparseArray<>();
+        private final SparseArray<View> viewSparseArray = new SparseArray<>();
 
         public CarouselViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -142,14 +192,14 @@ public abstract class CarouselAdapter<T> extends RecyclerView.Adapter<CarouselAd
         @SuppressWarnings("unchecked")
         public <V extends View> V findViewById(int id) {
             // 闪电检索内存缓存池
-            View view = views.get(id);
+            View view = viewSparseArray.get(id);
             if (view == null) {
                 // 实在没有
                 // 再去走昂贵的底层树桩反查
                 view = itemView.findViewById(id);
-                // 极速回填如缓存池
+                // 极速回填缓存池
                 // 保证下一次秒开
-                views.put(id, view);
+                viewSparseArray.put(id, view);
             }
             return (V) view;
         }

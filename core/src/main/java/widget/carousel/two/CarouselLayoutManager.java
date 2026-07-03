@@ -50,15 +50,24 @@ public class CarouselLayoutManager extends LinearLayoutManager {
      * @param context 上下文
      */
     public CarouselLayoutManager(Context context) {
-        // 固定为横向单行横滑排列
-        // 且不反转布局
+        // 固定为横向单行横滑排列且不反转布局
         super(context, HORIZONTAL, false);
     }
 
+    /**
+     * 获取条目宽度
+     *
+     * @return 条目宽度
+     */
     public int getItemWidth() {
         return itemWidth;
     }
 
+    /**
+     * 设置条目宽度
+     *
+     * @param itemWidth 条目宽度
+     */
     public void setItemWidth(int itemWidth) {
         this.itemWidth = itemWidth;
     }
@@ -66,7 +75,7 @@ public class CarouselLayoutManager extends LinearLayoutManager {
     @Override
     public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
         // 智能宽度测绘防御
-        // 如果外部未在 xml 中显式指定 item 宽度
+        // 如果外部未在 XML 中显式指定条目宽度
         // 此处触发预测逻辑
         if ((itemWidth <= 0) && (state.getItemCount() > 0)) {
             try {

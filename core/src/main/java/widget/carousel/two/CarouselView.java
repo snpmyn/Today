@@ -1,5 +1,6 @@
 package widget.carousel.two;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -19,6 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.zsp.core.R;
 
 import org.jetbrains.annotations.Contract;
+
+import java.util.List;
 
 /**
  * Created on 2026/6/13.
@@ -125,15 +128,15 @@ public class CarouselView extends FrameLayout {
     /**
      * 弹动控制系数
      * <p>
-     * 1.0f 为系统默认
+     * 系统默认 - 1.0f
      * <p>
-     * 通过干预 LinearSnapHelper 在松手刹车对齐时的“减速总时间(Time)”来改变视感物理手感
+     * 通过干预 LinearSnapHelper 在松手刹车对齐时的【减速总时间 - Time】来改变视感物理手感
      * <p>
-     * 值越小（如 0.3f）
-     * 减速时间被拉长，松手后卡片会像粘了胶水一样肉肉地、非常轻柔温和地“吸”过去，毫无反弹。
+     * 值越小 - 如 0.3f
+     * 减速时间被拉长，松手后卡片会像粘了胶水一样肉肉地、非常轻柔温和地吸过去，毫无反弹。
      * <p>
-     * 值越大（如 2.2f）
-     * 减速时间被大幅压缩，卡片快速位移并陡然急停，在视觉上产生极强、极脆的“撞击回弹吸附感”。
+     * 值越大 - 如 2.2f
+     * 减速时间被大幅压缩，卡片快速位移并陡然急停，在视觉上产生极强、极脆的撞击回弹吸附感。
      */
     private float scrollSpringinessMultiplier = 1.0f;
     /**
@@ -204,6 +207,8 @@ public class CarouselView extends FrameLayout {
     }
 
     /**
+     * 初始化
+     * <p>
      * 初始化视图层级、核心组件与默认属性解析
      *
      * @param context      上下文
@@ -277,7 +282,7 @@ public class CarouselView extends FrameLayout {
                                 // 算出本次校正位移所需要的黄金时间
                                 int time = calculateTimeForDeceleration(Math.abs(dx));
                                 if (time > 0) {
-                                    // 运用减速插值器(mDecelerateInterpolator)更新滚动动画参数
+                                    // 运用减速插值器更新滚动动画参数
                                     // 实施平滑居中吸附
                                     action.update(dx, dy, time, mDecelerateInterpolator);
                                 }
@@ -290,9 +295,24 @@ public class CarouselView extends FrameLayout {
         // 将重构后的对齐辅助器锚定到 RecyclerView 上
         linearSnapHelper.attachToRecyclerView(recyclerView);
         addView(recyclerView);
-        // 引入 try-with-resources 自动闭合机制托管 TypedArray 资源
-        // 离开代码块时
-        // typedArray 将会被系统安全、自动地调用 recycle()
+        /*if (attributeSet != null) {
+            TypedArray typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.CarouselView);
+            try {
+                autoScroll = typedArray.getBoolean(R.styleable.CarouselView_carouselAutoScroll, false);
+                interval = typedArray.getInteger(R.styleable.CarouselView_carouselScrollInterval, 3000);
+                scrollSpeedMillisecondsPerInch = typedArray.getFloat(R.styleable.CarouselView_carouselScrollSpeed, 150f);
+                carouselLayoutManager.setEnableScale(typedArray.getBoolean(R.styleable.CarouselView_carouselEnableScale, true));
+                carouselLayoutManager.setMinScale(typedArray.getFloat(R.styleable.CarouselView_carouselMinScale, 0.82f));
+                carouselLayoutManager.setEnableAlpha(typedArray.getBoolean(R.styleable.CarouselView_carouselEnableAlpha, true));
+                carouselLayoutManager.setMinAlpha(typedArray.getFloat(R.styleable.CarouselView_carouselMinAlpha, 0.6f));
+                int itemWidth = typedArray.getDimensionPixelSize(R.styleable.CarouselView_carouselItemWidth, 0);
+                if (itemWidth > 0) {
+                    carouselLayoutManager.setItemWidth(itemWidth);
+                }
+            } finally {
+                typedArray.recycle();
+            }
+        }*/
         if (attributeSet != null) {
             try (android.content.res.TypedArray typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.CarouselView)) {
                 autoScroll = typedArray.getBoolean(R.styleable.CarouselView_carouselAutoScroll, false);
@@ -394,7 +414,14 @@ public class CarouselView extends FrameLayout {
         // 才激活回调
         if ((realPosition != RecyclerView.NO_POSITION) && (realPosition != lastReportedPosition)) {
             lastReportedPosition = realPosition;
-            onPageChangeListener.onPageSelected(realPosition);
+            // 因 carouselAdapter 是 CarouselAdapter<?>
+            // 直接通过位置拿到条目数据
+            Object itemData = null;
+            if ((realPosition >= 0) && (realPosition < carouselAdapter.getItemCount())) {
+                itemData = carouselAdapter.getItemData(realPosition);
+            }
+            // 抛出位置和条目数据
+            onPageChangeListener.onPageSelected(realPosition, itemData);
         }
     }
 
@@ -483,7 +510,7 @@ public class CarouselView extends FrameLayout {
                 // 交付手势探测器分析
                 gestureDetector.onTouchEvent(e);
                 // 绝不拦截触摸下发
-                // 确保子卡片内部的点击事件（如卡片内的按钮）依然能正常触发
+                // 确保子卡片内部的点击事件（如卡片内按钮）依然能正常触发
                 return false;
             }
 
@@ -511,7 +538,7 @@ public class CarouselView extends FrameLayout {
                 if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
                     // 核心互斥隔离
                     // 一旦用户手指开始触碰并拖拽卡片，立刻连根拔掉自动轮播计时器。
-                    // 防止滑动“打架”
+                    // 防止滑动打架
                     pauseAutoScroll();
                 } else if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     // 当手势松开且滑动完全归于静止（对齐完毕）状态时
@@ -548,7 +575,8 @@ public class CarouselView extends FrameLayout {
         this.currentLogicalPosition = RecyclerView.NO_POSITION;
         this.hasInitializedPosition = false;
         // 代理并覆写原生 RecyclerView Adapter 对应接口
-        recyclerView.setAdapter(new RecyclerView.Adapter<>() {
+        // 匿名外层适配器 + 仅保留最基本几个标准重写
+        RecyclerView.Adapter<RecyclerView.ViewHolder> wrapperAdapter = new RecyclerView.Adapter<>() {
             @NonNull
             @Override
             public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -557,7 +585,12 @@ public class CarouselView extends FrameLayout {
 
             @Override
             public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-                CarouselView.this.carouselAdapter.onBindViewHolder((CarouselAdapter.CarouselViewHolder) holder, position);
+                carouselAdapter.onBindViewHolder((CarouselAdapter.CarouselViewHolder) holder, position);
+            }
+
+            @Override
+            public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull List<Object> payloads) {
+                carouselAdapter.onBindViewHolder((CarouselAdapter.CarouselViewHolder) holder, position, payloads);
             }
 
             @Override
@@ -569,7 +602,43 @@ public class CarouselView extends FrameLayout {
             public int getItemViewType(int position) {
                 return carouselAdapter.getItemViewType(position);
             }
+        };
+        // 注册适配器数据观察者
+        carouselAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onChanged() {
+                wrapperAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onItemRangeChanged(int positionStart, int itemCount) {
+                wrapperAdapter.notifyItemRangeChanged(positionStart, itemCount);
+            }
+
+            @Override
+            public void onItemRangeChanged(int positionStart, int itemCount, @Nullable Object payload) {
+                wrapperAdapter.notifyItemRangeChanged(positionStart, itemCount, payload);
+            }
+
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                wrapperAdapter.notifyItemRangeInserted(positionStart, itemCount);
+            }
+
+            @Override
+            public void onItemRangeRemoved(int positionStart, int itemCount) {
+                wrapperAdapter.notifyItemRangeRemoved(positionStart, itemCount);
+            }
+
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
+                wrapperAdapter.notifyDataSetChanged();
+            }
         });
+        // 把该打通了信号管道的 wrapperAdapter 塞给系统 RecyclerView
+        recyclerView.setAdapter(wrapperAdapter);
         // 如果此时容器已经完成了物理测绘
         // 直接执行位置初始化居中
         if (recyclerView.getWidth() > 0) {
@@ -578,13 +647,13 @@ public class CarouselView extends FrameLayout {
     }
 
     /**
-     * 动态修改手动 / 自动滑动松手后的“对齐速度与视觉弹动激烈程度”
+     * 动态修改手动 / 自动滑动松手后的对齐速度与视觉弹动激烈程度
      *
      * @param multiplier 调节后肉眼可见物理质感差异
-     *                   推荐参数范围：0.3f ~ 2.5f
-     *                   设为 0.4f: 对齐动画变慢，松手后像粘了胶水慢悠悠地“吸”过去，毫无反弹，质感柔和。
+     *                   推荐参数范围 0.3f ~ 2.5f
+     *                   设为 0.4f: 对齐动画变慢，松手后像粘了胶水慢悠悠地吸过去，毫无反弹，质感柔和。
      *                   设为 1.0f: 系统原生默认对齐吸附速度
-     *                   设为 2.2f: 大幅加快刹车对齐动作，松手后卡片砸向中心点，产生极其爽快的“撞击/强吸附回弹感”。
+     *                   设为 2.2f: 大幅加快刹车对齐动作，松手后卡片砸向中心点，产生极其爽快的撞击 / 强吸附回弹感。
      */
     public void setScrollSpringiness(float multiplier) {
         if (multiplier <= 0) {
@@ -649,8 +718,8 @@ public class CarouselView extends FrameLayout {
      * 命令轮播视图强制跳转到指定的目标页
      *
      * @param position 目标索引
-     * @param smooth   true 表示带物理手感平滑滑行过去
-     *                 false 表示无视任何阻尼瞬间切过去
+     * @param smooth   true 带物理手感平滑滑行过去
+     *                 false 无视任何阻尼瞬间切过去
      */
     public void setCurrentItem(int position, boolean smooth) {
         if (carouselAdapter == null) {
@@ -679,7 +748,7 @@ public class CarouselView extends FrameLayout {
                 View centerView = carouselLayoutManager.findViewByPosition(target);
                 if (centerView != null) {
                     int[] snapDistance = linearSnapHelper.calculateDistanceToFinalSnap(carouselLayoutManager, centerView);
-                    if ((snapDistance != null) && (snapDistance[0] != 0 || snapDistance[1] != 0)) {
+                    if ((snapDistance != null) && ((snapDistance[0] != 0) || (snapDistance[1] != 0))) {
                         recyclerView.scrollBy(snapDistance[0], snapDistance[1]);
                     }
                 }
@@ -698,6 +767,31 @@ public class CarouselView extends FrameLayout {
             return RecyclerView.NO_POSITION;
         }
         return (currentLogicalPosition != RecyclerView.NO_POSITION) ? currentLogicalPosition : carouselLayoutManager.getCenterPosition();
+    }
+
+    /**
+     * 禁用条目刷新动画
+     * <p>
+     * 添加时长卡死为 0
+     * itemAnimator.setAddDuration(0);
+     * <p>
+     * 移动时长卡死为 0
+     * itemAnimator.setMoveDuration(0);
+     * <p>
+     * 移除时长卡死为 0
+     * itemAnimator.setRemoveDuration(0);
+     * <p>
+     * 刷新时长卡死为 0
+     * itemAnimator.setChangeDuration(0);
+     */
+    public void disableItemChangeAnimator() {
+        if (recyclerView != null) {
+            RecyclerView.ItemAnimator itemAnimator = recyclerView.getItemAnimator();
+            if (itemAnimator instanceof androidx.recyclerview.widget.SimpleItemAnimator) {
+                // 直接彻底拔掉动画器
+                recyclerView.setItemAnimator(null);
+            }
+        }
     }
 
     @Override
@@ -730,6 +824,13 @@ public class CarouselView extends FrameLayout {
      * 页面精准对齐切换后的事件监听回调接口
      */
     public interface OnPageChangeListener {
-        void onPageSelected(int position);
+        /**
+         * 页面已选
+         *
+         * @param position 位置
+         * @param itemData 条目数据
+         *                 外围强转
+         */
+        void onPageSelected(int position, Object itemData);
     }
 }
