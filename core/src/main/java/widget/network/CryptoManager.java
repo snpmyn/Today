@@ -2,8 +2,6 @@ package widget.network;
 
 import android.text.TextUtils;
 
-import com.qtone.scandemo.util.aes.AESUtils;
-
 import org.json.JSONObject;
 
 /**

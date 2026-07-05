@@ -1,7 +1,4 @@
 package widget.network;
-
-import com.qtone.scandemo.net.RetrofitClient;
-
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;

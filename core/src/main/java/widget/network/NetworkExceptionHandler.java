@@ -30,7 +30,7 @@ public class NetworkExceptionHandler {
     public static <T> NetworkResult<T> handleException(Throwable throwable) {
         // 打印详细技术堆栈日志到控制台 / 日志文件
         throwable.printStackTrace();
-        Timber.e(throwable.getMessage());
+        Timber.e(throwable);
         int code = 1000;
         String msg = "未知错误，请稍后再试";
         if (throwable instanceof SocketTimeoutException) {
