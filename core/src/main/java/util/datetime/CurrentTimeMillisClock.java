@@ -11,6 +11,12 @@ import java.util.concurrent.TimeUnit;
  * @desc CurrentTimeMillisClock
  * 调 {@link CurrentTimeMillisClock#getInstance()#now()}
  * 调 {@link CurrentTimeMillisClock#getInstance()#shutdown()}
+ * <p>
+ * 用在客户端内部跟网络无关的高频触发场景
+ * 场景一
+ * 自定义相机 / 红外扫描头的 Camera 逐帧数据回调解析 (onPreviewFrame 每秒 30-60 帧高频计算)
+ * 场景二
+ * 扫描核心算法 (条形码、二维码识别核心 Loop 里的高频耗时统计)
  */
 public class CurrentTimeMillisClock {
     private volatile long now;
