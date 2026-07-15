@@ -33,10 +33,17 @@ class CarouselActivityKit {
         activityCarouselBinding.carouselActivityCv.setCarouselAdapter(carouselItemAdapter)
         activityCarouselBinding.carouselActivityCv.disableItemChangeAnimator()
         activityCarouselBinding.carouselActivityCv.setScrollSpringiness(2.0f)
-        activityCarouselBinding.carouselActivityCv.setOnPageChangeListener { i, _ ->
-            carouselItemAdapter.setCurrentSelectPosition(i)
-            "选中".showToast()
-        }
+        activityCarouselBinding.carouselActivityCv.setOnPageChangeListener(object :
+            CarouselView.OnPageChangeListener {
+            override fun onPageScrollStart() {
+                "开滑".showToast()
+            }
+
+            override fun onPageScrollEnd(position: Int, itemData: Any?) {
+                carouselItemAdapter.setCurrentSelectPosition(position)
+                "选中".showToast()
+            }
+        })
         // 控件点击事件
         activityCarouselBinding.carouselActivityMbFirstItem.setOnClickListener {
             activityCarouselBinding.carouselActivityCv.setCurrentItem(0, true)
