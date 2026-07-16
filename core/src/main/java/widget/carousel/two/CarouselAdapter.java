@@ -135,6 +135,11 @@ public abstract class CarouselAdapter<T> extends RecyclerView.Adapter<CarouselAd
      * <p>
      * 提供一个空实现重载方法
      * 允许具体子类有选择重写
+     * <p>
+     * 如果子类 Kotlin 实现
+     * 为防止 Kotlin 只读协变 List 映射为字节码后与 Java 不型变泛型不一致导致多态失效、局部刷新降级
+     * 必须强制声明为 List<Any>
+     * 严格对齐 Java 字节码 List<Object>
      *
      * @param carouselViewHolder 轮播视图持有者
      * @param item               条目

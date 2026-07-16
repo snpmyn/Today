@@ -60,6 +60,11 @@ class CarouselItemAdapter : CarouselAdapter<CarouselBean>() {
      * 提供一个空实现重载方法
      * 允许具体子类有选择重写
      *
+     * 如果子类 Kotlin 实现
+     * 为防止 Kotlin 只读协变 List 映射为字节码后与 Java 不型变泛型不一致导致多态失效、局部刷新降级
+     * 必须强制声明为 List<Any>
+     * 严格对齐 Java 字节码 List<Object>
+     *
      * @param carouselViewHolder 轮播视图持有者
      * @param item               条目
      * @param position           位置
@@ -69,13 +74,14 @@ class CarouselItemAdapter : CarouselAdapter<CarouselBean>() {
         carouselViewHolder: CarouselViewHolder,
         item: CarouselBean,
         position: Int,
-        payloads: List<Any?>
+        payloads: List<Any>
     ) {
         if (payloads.contains(PAYLOAD_TOGGLE_CARD)) {
             // 刷新卡片的标签与按钮状态
             bindCardStatus(carouselViewHolder, position)
         } else {
-            // 没有特定标记，或者有其他刷新需求时，降级走全量刷新
+            // 无特定标记或其它刷新需求时
+            // 降级走全量刷新
             super.onBindItem(carouselViewHolder, item, position, payloads)
         }
     }
