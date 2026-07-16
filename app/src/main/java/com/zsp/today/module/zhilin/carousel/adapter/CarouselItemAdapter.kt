@@ -80,8 +80,7 @@ class CarouselItemAdapter : CarouselAdapter<CarouselBean>() {
             // 刷新卡片的标签与按钮状态
             bindCardStatus(carouselViewHolder, position)
         } else {
-            // 无特定标记或其它刷新需求时
-            // 降级走全量刷新
+            // 无特定标记或其它刷新需求 -> 降级走全量刷新
             super.onBindItem(carouselViewHolder, item, position, payloads)
         }
     }
