@@ -158,18 +158,25 @@ public class CarouselView extends FrameLayout {
             }
             // 根据驱动方向
             // 校验边界并执行翻页
+            // 触底自动往返调头，彻底解决定时器永久停摆的死局逻辑漏洞。
             if (autoScrollDirection == DIRECTION_FORWARD) {
                 if (currentLogicalPosition >= realCount - 1) {
-                    // 到达最后一页 + 停止前行
-                    return;
+                    // 到达最后页
+                    // 自动反转为逆向驱动并执行平滑后退
+                    autoScrollDirection = DIRECTION_BACKWARD;
+                    scrollPrevious();
+                } else {
+                    scrollNext();
                 }
-                scrollNext();
             } else {
                 if (currentLogicalPosition <= 0) {
-                    // 到达第一页 + 停止后退
-                    return;
+                    // 到达第一页
+                    // 自动反转为正向驱动并执行平滑前进
+                    autoScrollDirection = DIRECTION_FORWARD;
+                    scrollNext();
+                } else {
+                    scrollPrevious();
                 }
-                scrollPrevious();
             }
             // 循环轮询投递
             handler.postDelayed(this, interval);
@@ -252,7 +259,7 @@ public class CarouselView extends FrameLayout {
                     protected float calculateSpeedPerPixel(DisplayMetrics displayMetrics) {
                         // 根据设备屏幕密度 (DPI) 与自定义配置
                         // 计算出每像素理论消耗的毫秒数
-                        return scrollSpeedMillisecondsPerInch / displayMetrics.densityDpi;
+                        return (scrollSpeedMillisecondsPerInch / displayMetrics.densityDpi);
                     }
 
                     @Override
@@ -431,7 +438,7 @@ public class CarouselView extends FrameLayout {
                 @Contract(pure = true)
                 @Override
                 protected float calculateSpeedPerPixel(@NonNull DisplayMetrics displayMetrics) {
-                    return scrollSpeedMillisecondsPerInch / displayMetrics.densityDpi;
+                    return (scrollSpeedMillisecondsPerInch / displayMetrics.densityDpi);
                 }
 
                 @Override
@@ -568,7 +575,9 @@ public class CarouselView extends FrameLayout {
                 // 规避点击跳转滑行到中途的过渡卡片重置并污染已锁定的目标 currentLogicalPosition。
                 if (isDragging) {
                     int center = carouselLayoutManager.getCenterPosition();
-                    if (center >= 0) currentLogicalPosition = center;
+                    if (center >= 0) {
+                        currentLogicalPosition = center;
+                    }
                 }
             }
         });
@@ -621,7 +630,13 @@ public class CarouselView extends FrameLayout {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onChanged() {
+                // 当适配器重新填装新数据源进行全量 onChanged 刷新时，安全重置视图状态标记并重新执行绝对居中对齐。
+                hasInitializedPosition = false;
                 wrapperAdapter.notifyDataSetChanged();
+                // 若此时容器已物理测绘，立即触发定位校验，重塑视图到正确的焦点位置。
+                if (recyclerView.getWidth() > 0) {
+                    checkAndInitializePosition();
+                }
             }
 
             @Override
