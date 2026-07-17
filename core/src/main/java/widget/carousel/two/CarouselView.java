@@ -630,6 +630,17 @@ public class CarouselView extends FrameLayout {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onChanged() {
+                // 意图先行 -> 解决滑移
+                // 必须在第一现场根据新数据总量强制约束当前逻辑索引，防御异步轮播任务与数据源缩减时序冲突引发的数据越界崩溃。
+                int realCount = carouselAdapter.getRealCount();
+                if (realCount <= 0) {
+                    currentLogicalPosition = RecyclerView.NO_POSITION;
+                    lastReportedPosition = RecyclerView.NO_POSITION;
+                } else if (currentLogicalPosition >= realCount) {
+                    currentLogicalPosition = realCount - 1;
+                    // 重置对外分发去重标志位，确保位置被迫前移后能重新正确发出通知。
+                    lastReportedPosition = RecyclerView.NO_POSITION;
+                }
                 // 当适配器重新填装新数据源进行全量 onChanged 刷新时，安全重置视图状态标记并重新执行绝对居中对齐。
                 hasInitializedPosition = false;
                 wrapperAdapter.notifyDataSetChanged();
@@ -656,6 +667,16 @@ public class CarouselView extends FrameLayout {
 
             @Override
             public void onItemRangeRemoved(int positionStart, int itemCount) {
+                // 意图先行 -> 解决滑移
+                // 当条目被动态移除时同步进行限幅安全收拢，杜绝残存逻辑索引越界风险。
+                int realCount = carouselAdapter.getRealCount();
+                if (realCount <= 0) {
+                    currentLogicalPosition = RecyclerView.NO_POSITION;
+                    lastReportedPosition = RecyclerView.NO_POSITION;
+                } else if (currentLogicalPosition >= realCount) {
+                    currentLogicalPosition = realCount - 1;
+                    lastReportedPosition = RecyclerView.NO_POSITION;
+                }
                 wrapperAdapter.notifyItemRangeRemoved(positionStart, itemCount);
             }
 

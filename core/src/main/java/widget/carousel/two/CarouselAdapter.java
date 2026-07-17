@@ -38,8 +38,8 @@ public abstract class CarouselAdapter<T> extends RecyclerView.Adapter<CarouselAd
 
     @Override
     public void onBindViewHolder(@NonNull CarouselViewHolder holder, int position) {
-        // 数据空防御机制与安全越界校验
-        if (carouselData.isEmpty() || (position < 0) || (position >= carouselData.size())) {
+        if ((carouselData == null) || carouselData.isEmpty() || (position < 0) || (position >= carouselData.size())) {
+            // 数据空防御与安全越界校验
             return;
         }
         // 锁定实体数据包，由于其会被事件闭包消费，强加 final 修饰保障线程安全。
@@ -56,6 +56,10 @@ public abstract class CarouselAdapter<T> extends RecyclerView.Adapter<CarouselAd
 
     @Override
     public void onBindViewHolder(@NonNull CarouselViewHolder holder, int position, @NonNull List<Object> payloads) {
+        if ((carouselData == null) || carouselData.isEmpty() || (position < 0) || (position >= carouselData.size())) {
+            // 数据空防御与安全越界校验
+            return;
+        }
         if (!payloads.isEmpty()) {
             // 如果有局部刷新负载
             // 直接分发给子类特殊处理
@@ -68,7 +72,7 @@ public abstract class CarouselAdapter<T> extends RecyclerView.Adapter<CarouselAd
 
     @Override
     public int getItemCount() {
-        return carouselData.size();
+        return (carouselData == null) ? 0 : carouselData.size();
     }
 
     /**
