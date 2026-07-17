@@ -641,6 +641,9 @@ public class CarouselView extends FrameLayout {
                     // 重置对外分发去重标志位，确保位置被迫前移后能重新正确发出通知。
                     lastReportedPosition = RecyclerView.NO_POSITION;
                 }
+                // 意图先行
+                // 重置轮播任务，清除已排队的旧生命周期任务并根据新状态重新部署，杜绝时序越界冲突。
+                resumeAutoScroll();
                 // 当适配器重新填装新数据源进行全量 onChanged 刷新时，安全重置视图状态标记并重新执行绝对居中对齐。
                 hasInitializedPosition = false;
                 wrapperAdapter.notifyDataSetChanged();
@@ -677,6 +680,9 @@ public class CarouselView extends FrameLayout {
                     currentLogicalPosition = realCount - 1;
                     lastReportedPosition = RecyclerView.NO_POSITION;
                 }
+                // 意图先行
+                // 动态移除条目时重置并刷新定时任务状态，避免已安排的异步轮播任务越界崩溃。
+                resumeAutoScroll();
                 wrapperAdapter.notifyItemRangeRemoved(positionStart, itemCount);
             }
 
