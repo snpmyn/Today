@@ -20,6 +20,15 @@ android {
         consumerProguardFiles "consumer-rules.pro"
     }
 
+    buildTypes {
+        release {
+            // library 通设 false
+            // 交由 App 统一混淆
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
     compileOptions {
         // 源代码兼容 Java 11 (可按需设)
         sourceCompatibility rootProject.ext.sourceCompatibility
