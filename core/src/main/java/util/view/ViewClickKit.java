@@ -16,19 +16,18 @@ import com.zsp.core.R;
 public class ViewClickKit {
     /**
      * 是否是快速点击
-     * <p>
-     * 间隔 1200 毫秒
      *
-     * @param view 视图
+     * @param view       视图
+     * @param intervalMs 间隔毫秒
      * @return 是否是快速点击
      */
-    public static boolean isFastClick(@NonNull View view) {
+    public static boolean isFastClick(@NonNull View view, long intervalMs) {
         // 当前时间
         // Android 官方用于计算时间间隔的标准方案
         long currentTime = SystemClock.elapsedRealtime();
         Object tag = view.getTag(R.id.view_click_time);
         long lastClickTime = (tag instanceof Long) ? (Long) tag : 0L;
-        if ((currentTime - lastClickTime) < 1200) {
+        if ((currentTime - lastClickTime) < intervalMs) {
             return true;
         }
         view.setTag(R.id.view_click_time, currentTime);
