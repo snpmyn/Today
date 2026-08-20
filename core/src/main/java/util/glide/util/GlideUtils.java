@@ -23,9 +23,9 @@ import com.bumptech.glide.request.RequestOptions;
  *
  * @author 郑少鹏
  * @desc GlideUtils
- * context 类型影 Glide 加载优化，Glide 监视 activity 生命周期并 activity 销毁时自取等待请求。Application context 优化失效。
- * 不同 Glide v3，Glide v4 不默交叉淡入或其它过渡效果。每请求须手动应用过渡。
- * override(width, height) 重写宽高后或致获图模糊。
+ * <p>
+ * 上下文类型影响 Glide 加载优化，Glide 监视活动生命周期并在活动销毁时自动取消等待请求。
+ * 不同于 Glide v3，Glide v4 不默认交叉淡入或其它过渡效果，每个请求须手动应用过渡。
  */
 public class GlideUtils {
     /**
@@ -73,9 +73,7 @@ public class GlideUtils {
      */
     public static void loadByIntPlaceHolderColor(FragmentActivity fragmentActivity, int rId, int cId, ImageView iv) {
         RequestOptions options = new RequestOptions().placeholder(new ColorDrawable(ContextCompat.getColor(fragmentActivity, cId))).priority(Priority.HIGH).diskCacheStrategy(DiskCacheStrategy.ALL);
-        Glide.with(fragmentActivity).load(rId).apply(options)
-                // sizeMultiplier
-                .thumbnail(0.25F).transition(withCrossFade()).into(iv);
+        Glide.with(fragmentActivity).load(rId).apply(options).thumbnail(Glide.with(fragmentActivity).asDrawable().sizeMultiplier(0.25F)).transition(withCrossFade()).into(iv);
     }
 
     /**
@@ -88,9 +86,7 @@ public class GlideUtils {
      */
     public static void loadByStringPlaceHolderColor(FragmentActivity fragmentActivity, String strId, int cId, ImageView iv) {
         RequestOptions options = new RequestOptions().placeholder(new ColorDrawable(ContextCompat.getColor(fragmentActivity, cId))).priority(Priority.HIGH).diskCacheStrategy(DiskCacheStrategy.DATA);
-        Glide.with(fragmentActivity).load(strId).apply(options)
-                // sizeMultiplier
-                .thumbnail(0.25F).transition(withCrossFade()).into(iv);
+        Glide.with(fragmentActivity).load(strId).apply(options).thumbnail(Glide.with(fragmentActivity).asDrawable().sizeMultiplier(0.25F)).transition(withCrossFade()).into(iv);
     }
 
     /**
@@ -103,9 +99,7 @@ public class GlideUtils {
      */
     public static void loadByIntPlaceHolderColorCircleCrop(FragmentActivity fragmentActivity, int rId, int cId, ImageView iv) {
         RequestOptions options = new RequestOptions().placeholder(new ColorDrawable(ContextCompat.getColor(fragmentActivity, cId))).priority(Priority.HIGH).diskCacheStrategy(DiskCacheStrategy.ALL);
-        Glide.with(fragmentActivity).load(rId).apply(options).apply(RequestOptions.bitmapTransform(new CircleCrop()))
-                // sizeMultiplier
-                .thumbnail(0.25F).transition(withCrossFade()).into(iv);
+        Glide.with(fragmentActivity).load(rId).apply(options).apply(RequestOptions.bitmapTransform(new CircleCrop())).thumbnail(Glide.with(fragmentActivity).asDrawable().sizeMultiplier(0.25F)).transition(withCrossFade()).into(iv);
     }
 
     /**
@@ -118,9 +112,7 @@ public class GlideUtils {
      */
     public static void loadByStringPlaceHolderColorCircleCrop(FragmentActivity fragmentActivity, String strId, int cId, ImageView iv) {
         RequestOptions options = new RequestOptions().placeholder(new ColorDrawable(ContextCompat.getColor(fragmentActivity, cId))).priority(Priority.HIGH).diskCacheStrategy(DiskCacheStrategy.ALL);
-        Glide.with(fragmentActivity).load(strId).apply(options).apply(RequestOptions.bitmapTransform(new CircleCrop()))
-                // sizeMultiplier
-                .thumbnail(0.25F).transition(withCrossFade()).into(iv);
+        Glide.with(fragmentActivity).load(strId).apply(options).apply(RequestOptions.bitmapTransform(new CircleCrop())).thumbnail(Glide.with(fragmentActivity).asDrawable().sizeMultiplier(0.25F)).transition(withCrossFade()).into(iv);
     }
 
     /**
@@ -134,9 +126,7 @@ public class GlideUtils {
      */
     public static void loadByIntPlaceHolderColorRoundedCorners(FragmentActivity fragmentActivity, int head, int cId, int radius, ImageView iv) {
         RequestOptions options = new RequestOptions().placeholder(new ColorDrawable(ContextCompat.getColor(fragmentActivity, cId))).priority(Priority.HIGH).diskCacheStrategy(DiskCacheStrategy.ALL);
-        Glide.with(fragmentActivity).load(head).apply(options).apply(RequestOptions.bitmapTransform(new RoundedCorners(radius)))
-                // sizeMultiplier
-                .thumbnail(0.25F).transition(withCrossFade()).into(iv);
+        Glide.with(fragmentActivity).load(head).apply(options).apply(RequestOptions.bitmapTransform(new RoundedCorners(radius))).thumbnail(Glide.with(fragmentActivity).asDrawable().sizeMultiplier(0.25F)).transition(withCrossFade()).into(iv);
     }
 
     /**
@@ -150,8 +140,6 @@ public class GlideUtils {
      */
     public static void loadByStringPlaceHolderColorRoundedCorners(FragmentActivity fragmentActivity, String strId, int cId, int radius, ImageView iv) {
         RequestOptions options = new RequestOptions().placeholder(new ColorDrawable(ContextCompat.getColor(fragmentActivity, cId))).priority(Priority.HIGH).diskCacheStrategy(DiskCacheStrategy.ALL);
-        Glide.with(fragmentActivity).load(strId).apply(options).apply(RequestOptions.bitmapTransform(new RoundedCorners(radius)))
-                // sizeMultiplier
-                .thumbnail(0.25F).transition(withCrossFade()).into(iv);
+        Glide.with(fragmentActivity).load(strId).apply(options).apply(RequestOptions.bitmapTransform(new RoundedCorners(radius))).thumbnail(Glide.with(fragmentActivity).asDrawable().sizeMultiplier(0.25F)).transition(withCrossFade()).into(iv);
     }
 }
