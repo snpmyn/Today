@@ -52,7 +52,7 @@ public class AccountSecondActivityKit {
         // 状态判断
         StatusManagerKit.statusJudge(statusManager, true, null);
         // 数据
-        AccountTransferBean accountTransferBean = (AccountTransferBean) IntentVerify.getSerializableExtra(appCompatActivity.getIntent(), AccountConstant.ACCOUNT_HOME_ACTIVITY_$_ACCOUNT_TRANSFER_BEAN);
+        AccountTransferBean accountTransferBean = IntentVerify.getSerializableExtra(appCompatActivity.getIntent(), AccountConstant.ACCOUNT_HOME_ACTIVITY_$_ACCOUNT_TRANSFER_BEAN, AccountTransferBean.class);
         List<AccountDateListBean> accountDateListBeanList;
         if (null == accountTransferBean) {
             accountDateListBeanList = new ArrayList<>();

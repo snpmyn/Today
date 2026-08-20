@@ -49,7 +49,7 @@ public class AddAccountActivityKit {
      * @param textInputEditTextAmount              金额框
      */
     public void dateAndCategoryAndAmount(@NonNull AppCompatActivity appCompatActivity, TextInputLayout addAccountActivityTilChooseDate, @NonNull MaterialAutoCompleteTextView materialAutoCompleteTextViewDate, @NonNull MaterialAutoCompleteTextView materialAutoCompleteTextViewCategory, @NonNull TextInputEditText textInputEditTextAmount) {
-        AccountTransferBean accountTransferBean = (AccountTransferBean) IntentVerify.getSerializableExtra(appCompatActivity.getIntent(), AccountConstant.ACCOUNT_DETAIL_ACTIVITY_$_ACCOUNT_TRANSFER_BEAN);
+        AccountTransferBean accountTransferBean = IntentVerify.getSerializableExtra(appCompatActivity.getIntent(), AccountConstant.ACCOUNT_DETAIL_ACTIVITY_$_ACCOUNT_TRANSFER_BEAN, AccountTransferBean.class);
         boolean flag = (null == accountTransferBean);
         // 日期
         String date = flag ? "" : accountTransferBean.getDate();
@@ -162,7 +162,7 @@ public class AddAccountActivityKit {
             textInputLayoutInputAmount.setError(appCompatActivity.getString(R.string.inputAmount));
             return;
         }
-        AccountTransferBean accountTransferBean = (AccountTransferBean) IntentVerify.getSerializableExtra(appCompatActivity.getIntent(), AccountConstant.ACCOUNT_DETAIL_ACTIVITY_$_ACCOUNT_TRANSFER_BEAN);
+        AccountTransferBean accountTransferBean = IntentVerify.getSerializableExtra(appCompatActivity.getIntent(), AccountConstant.ACCOUNT_DETAIL_ACTIVITY_$_ACCOUNT_TRANSFER_BEAN, AccountTransferBean.class);
         assert accountTransferBean != null;
         if (TextUtils.equals(nowCategory, accountTransferBean.getCategory())) {
             // 场景一 - 修改金额
@@ -229,7 +229,7 @@ public class AddAccountActivityKit {
      * @return 来自账目主页或账目二页否
      */
     public boolean areFromAccountHomeActivityOrAccountSecondActivity(@NonNull AppCompatActivity appCompatActivity) {
-        AccountTransferBean accountTransferBean = (AccountTransferBean) IntentVerify.getSerializableExtra(appCompatActivity.getIntent(), AccountConstant.ACCOUNT_DETAIL_ACTIVITY_$_ACCOUNT_TRANSFER_BEAN);
+        AccountTransferBean accountTransferBean = IntentVerify.getSerializableExtra(appCompatActivity.getIntent(), AccountConstant.ACCOUNT_DETAIL_ACTIVITY_$_ACCOUNT_TRANSFER_BEAN, AccountTransferBean.class);
         return (null == accountTransferBean);
     }
 
@@ -242,7 +242,7 @@ public class AddAccountActivityKit {
      * @return 来自账目详情页添加模式否
      */
     public boolean areFromAccountDetailActivityWithAdd(@NonNull AppCompatActivity appCompatActivity) {
-        AccountTransferBean accountTransferBean = (AccountTransferBean) IntentVerify.getSerializableExtra(appCompatActivity.getIntent(), AccountConstant.ACCOUNT_DETAIL_ACTIVITY_$_ACCOUNT_TRANSFER_BEAN);
+        AccountTransferBean accountTransferBean = IntentVerify.getSerializableExtra(appCompatActivity.getIntent(), AccountConstant.ACCOUNT_DETAIL_ACTIVITY_$_ACCOUNT_TRANSFER_BEAN, AccountTransferBean.class);
         return ((null != accountTransferBean) && !TextUtils.isEmpty(accountTransferBean.getDate()) && TextUtils.isEmpty(accountTransferBean.getCategory()) && (accountTransferBean.getAmount() == 0.0));
     }
 
@@ -255,7 +255,7 @@ public class AddAccountActivityKit {
      * @return 来自账目详情页修改模式否
      */
     public boolean areFromAccountDetailActivityWithModify(@NonNull AppCompatActivity appCompatActivity) {
-        AccountTransferBean accountTransferBean = (AccountTransferBean) IntentVerify.getSerializableExtra(appCompatActivity.getIntent(), AccountConstant.ACCOUNT_DETAIL_ACTIVITY_$_ACCOUNT_TRANSFER_BEAN);
+        AccountTransferBean accountTransferBean = IntentVerify.getSerializableExtra(appCompatActivity.getIntent(), AccountConstant.ACCOUNT_DETAIL_ACTIVITY_$_ACCOUNT_TRANSFER_BEAN, AccountTransferBean.class);
         return ((null != accountTransferBean) && !TextUtils.isEmpty(accountTransferBean.getDate()) && !TextUtils.isEmpty(accountTransferBean.getCategory()) && (accountTransferBean.getAmount() != 0.0));
     }
 }

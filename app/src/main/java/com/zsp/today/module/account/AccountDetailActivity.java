@@ -102,7 +102,7 @@ public class AccountDetailActivity extends BasePoolActivity {
     @Override
     protected void initConfiguration() {
         // 账目传输
-        accountTransferBean = (AccountTransferBean) IntentVerify.getSerializableExtra(getIntent(), AccountConstant.ACCOUNT_SECOND_ACTIVITY_$_ACCOUNT_TRANSFER_BEAN);
+        accountTransferBean = IntentVerify.getSerializableExtra(getIntent(), AccountConstant.ACCOUNT_SECOND_ACTIVITY_$_ACCOUNT_TRANSFER_BEAN, AccountTransferBean.class);
         // 状态管理器
         statusManager = StatusManagerKit.generate(this, accountDetailActivityRv, new StatusManagerKit.StatusManagerKitListener() {
             @Override
