@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Parcelable;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.IntentCompat;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,7 +16,6 @@ import okio.ByteString;
  *
  * @author zsp
  * @desc 意图核实
- * 防止服务攻击。
  */
 public class IntentVerify {
     private final static String KEY = ByteString.encodeUtf8("UtilKey").md5().hex();
@@ -89,14 +89,16 @@ public class IntentVerify {
      *
      * @param intent 意图
      * @param key    键
+     * @param clazz  类
+     * @param <T>    <T>
      * @return Parcelable 类型额外信息
      */
     @Nullable
-    public static <T extends Parcelable> T getParcelableExtra(Intent intent, String key) {
+    public static <T extends Parcelable> T getParcelableExtra(Intent intent, String key, Class<T> clazz) {
         if (badIntent(intent)) {
             return null;
         }
-        return intent.getParcelableExtra(key);
+        return IntentCompat.getParcelableExtra(intent, key, clazz);
     }
 
     /**
@@ -104,14 +106,17 @@ public class IntentVerify {
      *
      * @param intent 意图
      * @param key    键
+     * @param clazz  类
+     * @param <T>    <T>
      * @return Parcelable Array 类型额外信息
      */
     @Nullable
-    public static Parcelable[] getParcelableArrayExtra(Intent intent, String key) {
+    @SuppressWarnings("unchecked")
+    public static <T extends Parcelable> T[] getParcelableArrayExtra(Intent intent, String key, Class<T> clazz) {
         if (badIntent(intent)) {
             return null;
         }
-        return intent.getParcelableArrayExtra(key);
+        return (T[]) IntentCompat.getParcelableArrayExtra(intent, key, clazz);
     }
 
     /**
@@ -119,15 +124,16 @@ public class IntentVerify {
      *
      * @param intent 意图
      * @param key    键
+     * @param clazz  类
      * @param <T>    <T>
      * @return Parcelable ArrayList 类型额外信息
      */
     @Nullable
-    public static <T extends Parcelable> ArrayList<T> getParcelableArrayListExtra(Intent intent, String key) {
+    public static <T extends Parcelable> ArrayList<T> getParcelableArrayListExtra(Intent intent, String key, Class<T> clazz) {
         if (badIntent(intent)) {
             return null;
         }
-        return intent.getParcelableArrayListExtra(key);
+        return IntentCompat.getParcelableArrayListExtra(intent, key, clazz);
     }
 
     /**
@@ -135,13 +141,15 @@ public class IntentVerify {
      *
      * @param intent 意图
      * @param key    键
+     * @param clazz  类
+     * @param <T>    <T>
      * @return Serializable 类型额外信息
      */
     @Nullable
-    public static Serializable getSerializableExtra(Intent intent, String key) {
+    public static <T extends Serializable> T getSerializableExtra(Intent intent, String key, Class<T> clazz) {
         if (badIntent(intent)) {
             return null;
         }
-        return intent.getSerializableExtra(key);
+        return IntentCompat.getSerializableExtra(intent, key, clazz);
     }
 }
