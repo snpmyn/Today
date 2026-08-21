@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
+import androidx.core.app.ActivityOptionsCompat;
+
 /**
  * Created on 2020-08-19
  *
@@ -54,8 +56,22 @@ public class IntentJump {
      * @param exitAnim            出动画
      */
     public void jumpWithAnimation(Intent withValueIntent, Activity activity, boolean finish, Class<?> targetActivityClass, int enterAnim, int exitAnim) {
-        jump(withValueIntent, activity, finish, targetActivityClass);
-        activity.overridePendingTransition((enterAnim == 0) ? android.R.anim.fade_in : enterAnim, (exitAnim == 0) ? android.R.anim.fade_out : exitAnim);
+        Intent intent;
+        if (null == withValueIntent) {
+            intent = new Intent(activity, targetActivityClass);
+        } else {
+            intent = withValueIntent;
+            intent.setClass(activity, targetActivityClass);
+        }
+        int enter = (enterAnim == 0) ? android.R.anim.fade_in : enterAnim;
+        int exit = (exitAnim == 0) ? android.R.anim.fade_out : exitAnim;
+        // 使用 ActivityOptionsCompat 生成转场动画 Bundle
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeCustomAnimation(activity, enter, exit);
+        // 带 options 启动 Activity
+        activity.startActivity(intent, options.toBundle());
+        if (finish) {
+            activity.finish();
+        }
     }
 
     private static final class InstanceHolder {

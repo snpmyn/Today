@@ -70,7 +70,7 @@ public class AccountDetailActivityKit {
      * @param appCompatActivity 活动
      */
     public void addAccount(@NonNull AppCompatActivity appCompatActivity) {
-        AccountTransferBean accountTransferBean = (AccountTransferBean) IntentVerify.getSerializableExtra(appCompatActivity.getIntent(), AccountConstant.ACCOUNT_SECOND_ACTIVITY_$_ACCOUNT_TRANSFER_BEAN);
+        AccountTransferBean accountTransferBean = IntentVerify.getSerializableExtra(appCompatActivity.getIntent(), AccountConstant.ACCOUNT_SECOND_ACTIVITY_$_ACCOUNT_TRANSFER_BEAN, AccountTransferBean.class);
         Intent intent = new Intent();
         intent.putExtra(AccountConstant.ACCOUNT_DETAIL_ACTIVITY_$_ACCOUNT_TRANSFER_BEAN, accountTransferBean);
         IntentJump.getInstance().jumpWithAnimation(intent, appCompatActivity, false, AddAccountActivity.class, 0, 0);

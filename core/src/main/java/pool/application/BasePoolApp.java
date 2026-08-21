@@ -7,7 +7,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
-import com.tencent.mmkv.MMKVContentChangeNotification;
 import com.tencent.mmkv.MMKVHandler;
 import com.tencent.mmkv.MMKVLogLevel;
 import com.tencent.mmkv.MMKVRecoverStrategic;
@@ -41,7 +40,7 @@ import widget.status.manager.StatusManager;
  * 全局唯一，不同 Activity、Service 中获实例相同；
  * 数据传递、数据共享、数据缓存等。
  */
-public abstract class BasePoolApp extends Application implements MMKVHandler, MMKVContentChangeNotification {
+public abstract class BasePoolApp extends Application implements MMKVHandler {
     private static Boolean debug;
     private static Map<Integer, List<String>> configMap;
     private static BasePoolApp basePoolAppInstance;
@@ -164,7 +163,7 @@ public abstract class BasePoolApp extends Application implements MMKVHandler, MM
         // 日志工具类
         LogUtils.Builder.initConfiguration(true, true, true, true);
         // MMKV
-        MmkvInitConfigure.initMmkv(this, debug, this, this);
+        MmkvInitConfigure.initMmkv(this, debug, this);
         // 应用监听
         AppListener.getInstance().initConfiguration(this);
         // 全局监听 Activity 生命周期
@@ -215,14 +214,21 @@ public abstract class BasePoolApp extends Application implements MMKVHandler, MM
         });
     }
 
+    /**
+     * 其它进程修改 MMKV 文件时的通知回调
+     *
+     * @param mmapID MMKV 实例唯一标识 [mmapID]
+     */
     @Override
     public void onContentChangedByOuterProcess(String mmapID) {
         Timber.i("[content changed] %s", mmapID);
     }
 
     /**
-     * @param s s
-     * @return MMKVRecoverStrategic
+     * MMKV 文件 CRC 校验失败回调
+     *
+     * @param s MMKV 实例唯一标识 [mmapID]
+     * @return 恢复策略 [默认尝试修复 / 恢复]
      */
     @Override
     public MMKVRecoverStrategic onMMKVCRCCheckFail(String s) {
@@ -230,8 +236,10 @@ public abstract class BasePoolApp extends Application implements MMKVHandler, MM
     }
 
     /**
-     * @param s s
-     * @return MMKVRecoverStrategic
+     * MMKV 文件长度错误回调
+     *
+     * @param s MMKV 实例唯一标识 [mmapID]
+     * @return 恢复策略 [默认尝试修复 / 恢复]
      */
     @Override
     public MMKVRecoverStrategic onMMKVFileLengthError(String s) {
@@ -239,7 +247,9 @@ public abstract class BasePoolApp extends Application implements MMKVHandler, MM
     }
 
     /**
-     * @return boolean
+     * 是否需要自定义重定向 MMKV 日志
+     *
+     * @return true 表示拦截底层输出并重定向至 mmkvLog 方法处理
      */
     @Override
     public boolean wantLogRedirecting() {
@@ -247,11 +257,13 @@ public abstract class BasePoolApp extends Application implements MMKVHandler, MM
     }
 
     /**
-     * @param mmkvLogLevel mmkvLogLevel
-     * @param s            s
-     * @param i            i
-     * @param s1           s1
-     * @param s2           s2
+     * 重定向后的 MMKV 日志回调
+     *
+     * @param mmkvLogLevel 日志级别
+     * @param s            日志调用的源文件名
+     * @param i            日志调用的源代码行号
+     * @param s1           日志调用的函数名称
+     * @param s2           日志文本内容
      */
     @Override
     public void mmkvLog(@NonNull MMKVLogLevel mmkvLogLevel, String s, int i, String s1, String s2) {
@@ -276,7 +288,9 @@ public abstract class BasePoolApp extends Application implements MMKVHandler, MM
     }
 
     /**
-     * @return long
+     * 获取 C++ 层 Native 日志处理句柄
+     *
+     * @return Native 日志 Handler 地址 [无需传递 Native 指针时返回 0 即可]
      */
     @Override
     public long getNativeLogHandler() {

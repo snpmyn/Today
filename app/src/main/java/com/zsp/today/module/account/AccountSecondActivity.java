@@ -59,7 +59,7 @@ public class AccountSecondActivity extends BasePoolActivity {
     protected void stepUi() {
         accountSecondActivityMt = findViewById(R.id.accountSecondActivityMt);
         accountSecondActivityRv = findViewById(R.id.accountSecondActivityRv);
-        AccountTransferBean accountTransferBean = (AccountTransferBean) IntentVerify.getSerializableExtra(getIntent(), AccountConstant.ACCOUNT_HOME_ACTIVITY_$_ACCOUNT_TRANSFER_BEAN);
+        AccountTransferBean accountTransferBean = IntentVerify.getSerializableExtra(getIntent(), AccountConstant.ACCOUNT_HOME_ACTIVITY_$_ACCOUNT_TRANSFER_BEAN, AccountTransferBean.class);
         assert accountTransferBean != null;
         accountSecondActivityMt.setTitle(String.format("%1$s 月", accountTransferBean.getMonth()));
     }
