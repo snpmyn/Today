@@ -18,7 +18,7 @@ import okio.ByteString;
  * @desc 意图核实
  */
 public class IntentVerify {
-    private final static String KEY = ByteString.encodeUtf8("UtilKey").md5().hex();
+    private final static String KEY = ByteString.encodeUtf8("IntentVerify").md5().hex();
 
     /**
      * 是否是坏意图
