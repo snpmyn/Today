@@ -13,7 +13,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-import rx.functions.Action1;
 import util.rxbus.annotation.Tag;
 import util.rxbus.entity.DeadEvent;
 import util.rxbus.entity.EventType;
@@ -37,7 +36,7 @@ import util.rxbus.thread.ThreadEnforcer;
  * <li>Expose a public method, known as the <i>event subscriber</i>, which accepts a single argument of the type of event
  * desired;</li>
  * <li>Mark it with a {@link util.rxbus.annotation.Subscribe} annotation;</li>
- * <li>Pass itself to an Bus instance's {@link #register(Object)} method.
+ * <li>Pass itself to a Bus instance's {@link #register(Object)} method.
  * </li>
  * </ol>
  * <p/>
@@ -221,7 +220,7 @@ public class Bus {
     }
 
     private void dispatchProducerResult(final SubscriberBaseEvent subscriberEvent, @NotNull ProducerBaseEvent producer) {
-        producer.produce().subscribe((Action1<Object>) event -> {
+        producer.produce().subscribe(event -> {
             if (null != event) {
                 dispatch(event, subscriberEvent);
             }
