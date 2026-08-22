@@ -8,7 +8,7 @@
       <option name="minLines" value="19" />
     </inspection_tool>
     <inspection_tool class="JavadocDeclaration" enabled="true" level="WARNING" enabled_by_default="true">
-      <option name="ADDITIONAL_TAGS" value="desc,decs:,author:,date:,version:,desc:" />
+      <option name="ADDITIONAL_TAGS" value="desc,decs:,author:,date:,version:,desc:,decs" />
     </inspection_tool>
   </profile>
 </component>
