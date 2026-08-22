@@ -17,7 +17,7 @@ import java.util.Map;
 
 import timber.log.Timber;
 import util.activity.ActivitySuperviseManager;
-import util.listener.AppListener;
+import util.app.AppListener;
 import util.log.LogUtils;
 import util.mmkv.MmkvInitConfigure;
 import widget.status.manager.StatusManager;
