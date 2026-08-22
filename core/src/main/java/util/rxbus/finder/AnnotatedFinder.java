@@ -98,7 +98,7 @@ public final class AnnotatedFinder {
                 if (method.getReturnType() == Void.class) {
                     throw new IllegalArgumentException("Method " + method + " has a return type of void.  Must declare a non-void type.");
                 }
-                Class<?> parameterClazz = getaClass(method);
+                Class<?> parameterClazz = getClass(method);
                 Produce annotation = method.getAnnotation(Produce.class);
                 EventThread eventThread = null;
                 if (null != annotation) {
@@ -133,11 +133,11 @@ public final class AnnotatedFinder {
         if (parameterTypes.length != 1) {
             throw new IllegalArgumentException("Method " + method + " has @Subscribe annotation but requires " + parameterTypes.length + " arguments.  Methods must require a single argument.");
         }
-        return getaClass(method, parameterTypes);
+        return getClass(method, parameterTypes);
     }
 
     @NonNull
-    private static Class<?> getaClass(Method method, @NonNull Class<?>[] parameterTypes) {
+    private static Class<?> getClass(Method method, @NonNull Class<?>[] parameterTypes) {
         Class<?> parameterClazz = parameterTypes[0];
         if (parameterClazz.isInterface()) {
             throw new IllegalArgumentException("Method " + method + " has @Subscribe annotation on " + parameterClazz + " which is an interface.  Subscription must be on a concrete class type.");
@@ -149,7 +149,7 @@ public final class AnnotatedFinder {
     }
 
     @NonNull
-    private static Class<?> getaClass(@NonNull Method method) {
+    private static Class<?> getClass(@NonNull Method method) {
         Class<?> parameterClazz = method.getReturnType();
         if (parameterClazz.isInterface()) {
             throw new IllegalArgumentException("Method " + method + " has @Produce annotation on " + parameterClazz + " which is an interface.  Producers must return a concrete class type.");

@@ -71,7 +71,7 @@ public class ProducerBaseEvent extends BaseEvent {
     /**
      * Invokes the wrapped producer method and produce a {@link Observable}.
      */
-    public Observable produce() {
+    public Observable<Object> produce() {
         return Observable.unsafeCreate(subscriber -> {
             try {
                 subscriber.onNext(produceEvent());

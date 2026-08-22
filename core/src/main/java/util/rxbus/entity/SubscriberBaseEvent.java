@@ -42,7 +42,7 @@ public class SubscriberBaseEvent extends BaseEvent {
     /**
      * RxJava {@link Subject}
      */
-    private Subject subject;
+    private Subject<Object, Object> subject;
     /**
      * should this Subscriber receive events
      */
@@ -98,7 +98,7 @@ public class SubscriberBaseEvent extends BaseEvent {
         subject.onNext(event);
     }
 
-    public Subject getSubject() {
+    public Subject<Object, Object> getSubject() {
         return subject;
     }
 
