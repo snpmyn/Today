@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import com.zsp.today.basic.service.floating.FloatingService
-import util.listener.AppListener
+import util.app.AppListener
 import util.overlay.OverlayPermissionKit
 
 /**
