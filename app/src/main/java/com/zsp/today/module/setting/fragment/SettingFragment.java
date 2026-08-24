@@ -6,6 +6,8 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import com.zsp.today.R;
 
+import util.preference.PreferenceKit;
+
 /**
  * Created on 2025/9/27.
  *
@@ -16,5 +18,7 @@ public class SettingFragment extends PreferenceFragmentCompat {
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey);
+        // 优化 RecyclerView
+        PreferenceKit.optimizeRecyclerView(this);
     }
 }
