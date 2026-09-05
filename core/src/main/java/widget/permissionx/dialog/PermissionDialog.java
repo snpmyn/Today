@@ -39,30 +39,6 @@ import widget.window.WindowKit;
  */
 public class PermissionDialog extends RationaleDialog {
     /**
-     * 拒绝集
-     */
-    private final List<String> deniedList;
-    /**
-     * 内容
-     */
-    private final String message;
-    /**
-     * 消极文本
-     */
-    private final String negativeText;
-    /**
-     * 积极文本
-     */
-    private final String positiveText;
-    /**
-     * 消极材料按钮
-     */
-    private MaterialButton permissionDialogMbNegative;
-    /**
-     * 积极材料按钮
-     */
-    private MaterialButton permissionDialogMbPositive;
-    /**
      * 权限名集
      */
     private static final Map<String, String> permissionNameMap;
@@ -70,10 +46,6 @@ public class PermissionDialog extends RationaleDialog {
      * 权限图集
      */
     private static final Map<String, Integer> permissionIconMap;
-    /**
-     * 权限组集
-     */
-    private final Set<String> permissioGroupSet = new HashSet<>();
 
     static {
         // 权限名集
@@ -122,6 +94,35 @@ public class PermissionDialog extends RationaleDialog {
         permissionNameMap.put(Manifest.permission.CAMERA, Manifest.permission_group.CAMERA);
         permissionIconMap.put(Manifest.permission_group.CAMERA, R.drawable.ic_photo_camera_cos_24dp);
     }
+
+    /**
+     * 拒绝集
+     */
+    private final List<String> deniedList;
+    /**
+     * 内容
+     */
+    private final String message;
+    /**
+     * 消极文本
+     */
+    private final String negativeText;
+    /**
+     * 积极文本
+     */
+    private final String positiveText;
+    /**
+     * 权限组集
+     */
+    private final Set<String> permissionGroupSet = new HashSet<>();
+    /**
+     * 消极材料按钮
+     */
+    private MaterialButton permissionDialogMbNegative;
+    /**
+     * 积极材料按钮
+     */
+    private MaterialButton permissionDialogMbPositive;
 
     public PermissionDialog(@NonNull Context context, List<String> deniedList, String message, String positiveText, String negativeText) {
         super(context);
@@ -178,7 +179,7 @@ public class PermissionDialog extends RationaleDialog {
         for (String permissionName : deniedList) {
             // 通过权限名获取权限组
             String permissionGroup = permissionNameMap.get(permissionName);
-            if (!TextUtils.isEmpty(permissionGroup) && !permissioGroupSet.contains(permissionGroup)) {
+            if (!TextUtils.isEmpty(permissionGroup) && !permissionGroupSet.contains(permissionGroup)) {
                 // 权限组非空且不在权限组集中
                 TextView textView = (TextView) getLayoutInflater().inflate(R.layout.dialog_permission_item, permissionDialogLlPermission, false);
                 try {
@@ -207,7 +208,7 @@ public class PermissionDialog extends RationaleDialog {
                 permissionDialogLlPermission.addView(textView);
                 // 处理后保存在权限组集中
                 // 避免重复处理
-                permissioGroupSet.add(permissionGroup);
+                permissionGroupSet.add(permissionGroup);
                 // 下一条
                 index++;
             }

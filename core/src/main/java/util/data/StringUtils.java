@@ -35,6 +35,16 @@ public class StringUtils {
     }
 
     /**
+     * 截取后是否为空
+     *
+     * @param content 内容
+     * @return 截取后是否为空
+     */
+    public static boolean areEmptyWithTrim(String content) {
+        return ((content == null) || content.trim().isEmpty());
+    }
+
+    /**
      * 空或 null
      *
      * @param content 内容
