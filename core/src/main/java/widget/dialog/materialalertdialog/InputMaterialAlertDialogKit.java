@@ -45,7 +45,7 @@ public class InputMaterialAlertDialogKit {
      * @param neutralText       中性文本
      */
     public void show(AppCompatActivity appCompatActivity, String title, String content, String positiveText, String negativeText, String neutralText) {
-        AlertDialog alertDialog = new MaterialAlertDialogBuilderKit(appCompatActivity, com.zsp.core.R.style.ThemeOverlay_Catalog_MaterialAlertDialog_Centered_FullWidthButtons).create();
+        AlertDialog alertDialog = new MaterialAlertDialogBuilderKit(appCompatActivity, R.style.ThemeOverlay_Catalog_MaterialAlertDialog_Centered_FullWidthButtons).create();
         // 视图
         View view = appCompatActivity.getLayoutInflater().inflate(R.layout.alert_dialog_input_material, null);
         // 标题

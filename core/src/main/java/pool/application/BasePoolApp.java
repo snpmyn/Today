@@ -154,7 +154,9 @@ public abstract class BasePoolApp extends Application implements MMKVHandler {
      *
      * @return 配置集
      */
-    protected abstract Map<Integer, List<String>> configMap();
+    protected Map<Integer, List<String>> configMap() {
+        return null;
+    }
 
     /**
      * 初始化配置

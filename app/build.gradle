@@ -151,5 +151,5 @@ dependencies {
     coreLibraryDesugaring libs.desugar.jdk.libs
     /*给旧 Android 系统打补丁*/
     /*补上系统原本没有的 Java 方法*/
-    /*让低版本 Android 也能用 Java 8 / Java 11 的新 API*/
+    /*让低版本 Android 也能用 Java 8 / Java 11 新 API*/
 }

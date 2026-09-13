@@ -46,7 +46,7 @@ public class ButtonMaterialAlertDialogKit {
      * @param bottomText        下文本
      */
     public void show(AppCompatActivity appCompatActivity, String topText, String middleText, String bottomText) {
-        AlertDialog alertDialog = new MaterialAlertDialogBuilderKit(appCompatActivity, com.zsp.core.R.style.ThemeOverlay_Catalog_MaterialAlertDialog_Centered_FullWidthButtons).create();
+        AlertDialog alertDialog = new MaterialAlertDialogBuilderKit(appCompatActivity, R.style.ThemeOverlay_Catalog_MaterialAlertDialog_Centered_FullWidthButtons).create();
         // 视图
         View view = appCompatActivity.getLayoutInflater().inflate(R.layout.alert_dialog_button_material, null);
         // 上
