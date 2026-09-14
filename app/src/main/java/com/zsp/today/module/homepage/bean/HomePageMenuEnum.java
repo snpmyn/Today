@@ -44,7 +44,11 @@ public enum HomePageMenuEnum {
     /**
      * 知林
      */
-    ZHI_LIN(9, R.drawable.ic_home_page_menu_zhi_lin_cos_24dp, "HomePageMenuZhiLin@One", "知林", true);
+    ZHI_LIN(9, R.drawable.ic_home_page_menu_zhi_lin_cos_24dp, "HomePageMenuZhiLin@One", "知林", true),
+    /**
+     * 相机
+     */
+    CAMERA(10, R.drawable.ic_home_page_menu_camera_cos_24dp, "HomePageMenuCamera@One", "相机", true);
     /**
      * 菜单 ID
      */
