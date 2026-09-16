@@ -2,19 +2,34 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!--声明应用可能用到电话相关的硬件功能-->
-    <!--但该功能非应用运行必需-->
+    <!--硬件特性声明-->
+    <!--必须支持 USB Host 才能连接 UVC 接口-->
+    <uses-feature
+        android:name="android.hardware.usb.host"
+        android:required="true" />
+    <!--硬件特性声明-->
+    <!--全部设 false-->
+    <!--确保应用可在无内置相机设备 (如 TV 盒、工控机) 上安装-->
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
     <uses-feature
-        android:name="android.hardware.telephony"
+        android:name="android.hardware.camera.any"
         android:required="false" />
     <uses-feature
-        android:name="android.hardware.sensor.accelerometer"
-        android:required="true" />
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+    <!--硬件特性声明-->
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+    <!--硬件特性声明-->
     <uses-feature
         android:name="android.hardware.sensor.compass"
+        android:required="true" />
+    <!--硬件特性声明-->
+    <uses-feature
+        android:name="android.hardware.sensor.accelerometer"
         android:required="true" />
 
     <uses-permission
@@ -79,6 +94,7 @@
         <activity android:name=".module.zhilin.compose.ComposeActivity" />
         <activity android:name=".module.zhilin.rxjava.RxJavaActivity" />
         <activity android:name=".module.zhilin.tablayout.TabLayoutActivity" />
+        <activity android:name=".module.camera.CameraActivity" />
         <activity android:name=".module.zhilin.ZhiLinActivity" />
         <activity android:name=".module.network.NetworkActivity" />
         <activity android:name=".module.poetry.PoetryActivity" />
