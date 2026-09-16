@@ -12,7 +12,7 @@ import androidx.camera.core.ImageCaptureException;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.zsp.today.databinding.ActivityCameraBinding;
-import com.zsp.today.module.camera.CameraManager;
+import com.zsp.today.module.camera.CameraController;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -30,9 +30,9 @@ import widget.toast.ToastKt;
 public class CameraActivityKit {
     private static final String TAG = CameraActivityKit.class.getSimpleName();
     /**
-     * 相机管理器
+     * 相机控制器
      */
-    private final CameraManager cameraManager;
+    private final CameraController cameraController;
     /**
      * 相机 ID 集
      */
@@ -54,7 +54,7 @@ public class CameraActivityKit {
      * constructor
      */
     public CameraActivityKit() {
-        this.cameraManager = new CameraManager();
+        this.cameraController = new CameraController();
     }
 
     /**
@@ -65,7 +65,7 @@ public class CameraActivityKit {
      * @param activityCameraBinding ActivityCameraBinding
      */
     public void initCameraConfig(Context context, LifecycleOwner lifecycleOwner, ActivityCameraBinding activityCameraBinding) {
-        cameraIdList = cameraManager.getAvailableCameraIds(context);
+        cameraIdList = cameraController.getAvailableCameraIds(context);
         if (cameraIdList.isEmpty()) {
             ToastKt.showToast("未检测到摄像头");
             return;
@@ -87,7 +87,7 @@ public class CameraActivityKit {
      * @param activityCameraBinding ActivityCameraBinding
      */
     public void startCamera(Context context, LifecycleOwner lifecycleOwner, @NonNull ActivityCameraBinding activityCameraBinding) {
-        cameraManager.startCamera(context, lifecycleOwner, activityCameraBinding.cameraActivityPv, selectedCameraId, selectedResolution, new CameraManager.CameraInitCallback() {
+        cameraController.startCamera(context, lifecycleOwner, activityCameraBinding.cameraActivityPv, selectedCameraId, selectedResolution, new CameraController.CameraInitCallback() {
             @Override
             public void onCameraInitSuccess() {
                 Timber.tag(TAG).i("相机绑定成功 Camera ID: %s", selectedCameraId);
@@ -109,7 +109,7 @@ public class CameraActivityKit {
      */
     public void showCameraSelectDialog(Context context, LifecycleOwner lifecycleOwner, ActivityCameraBinding activityCameraBinding) {
         if (cameraIdList.isEmpty()) {
-            cameraIdList = cameraManager.getAvailableCameraIds(context);
+            cameraIdList = cameraController.getAvailableCameraIds(context);
         }
         if (cameraIdList.isEmpty()) {
             ToastKt.showToast("未检测到摄像头");
@@ -140,7 +140,7 @@ public class CameraActivityKit {
             return;
         }
         // 1. 动态查询选定摄像头支持的真实分辨率
-        supportedResolutionList = cameraManager.getSupportedResolutions(context, selectedCameraId);
+        supportedResolutionList = cameraController.getSupportedResolutions(context, selectedCameraId);
         if (supportedResolutionList.isEmpty()) {
             Timber.tag(TAG).w("未查询到摄像头 CameraID: %s 支持的分辨率列表", selectedCameraId);
             return;
@@ -188,7 +188,7 @@ public class CameraActivityKit {
     public void capture(Context context, @NonNull ActivityCameraBinding activityCameraBinding) {
         activityCameraBinding.cameraActivityMtCapture.setEnabled(false);
         // 传入 PreviewView 以便在硬件拍照遇到异常时降级截屏
-        cameraManager.capture(context, activityCameraBinding.cameraActivityPv, new CameraManager.CameraCaptureCallback() {
+        cameraController.capture(context, activityCameraBinding.cameraActivityPv, new CameraController.CameraCaptureCallback() {
             @Override
             public void onCameraCaptureSuccess(File photoFile) {
                 Timber.tag(TAG).i("保存路径: %s", photoFile.getAbsolutePath());
@@ -213,6 +213,6 @@ public class CameraActivityKit {
      * 释放
      */
     public void release() {
-        cameraManager.release();
+        cameraController.release();
     }
 }

@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.util.Rational;
 import android.util.Size;
@@ -48,52 +49,51 @@ import timber.log.Timber;
  * Created on 2026/9/11.
  *
  * @author 郑少鹏
- * @desc 相机管理器
+ * @desc 相机控制器
  */
-public class CameraManager {
-    private static final String TAG = CameraManager.class.getSimpleName();
-
+public class CameraController {
+    private static final String TAG = CameraController.class.getSimpleName();
     /**
-     * 异步单线程池，用于处理磁盘 IO 保存图片，避免阻塞 UI 线程
+     * 增强实现
+     * <p>
+     * 异步单线程池
+     * 用于处理磁盘 IO 保存图片
+     * 避免阻塞 UI 线程
      */
     private final ExecutorService executorService;
-
     /**
      * CameraX 抓拍用例
      */
     private ImageCapture imageCapture;
-
     /**
      * CameraX 生命周期绑定提供者
      */
     private ProcessCameraProvider processCameraProvider;
-
     /**
-     * 当前选中的相机 ID
+     * 当前相机 ID
      */
     private String currentCameraId = null;
-
     /**
-     * 当前设定的预览/拍照分辨率
+     * 当前分辨率
      */
     private Size currentResolution = null;
 
     /**
-     * 构造方法，初始化单线程池
+     * constructor
      */
-    public CameraManager() {
+    public CameraController() {
         this.executorService = Executors.newSingleThreadExecutor();
     }
 
     /**
-     * 获取系统底层注册的所有相机 ID
+     * 获取系统底层注册的所有相机 ID 列表
      *
      * @param context 上下文
      * @return 系统底层注册的所有相机 ID 列表
      */
     public List<String> getAvailableCameraIds(@NonNull Context context) {
         List<String> cameraIdList = new ArrayList<>();
-        android.hardware.camera2.CameraManager cameraManager = (android.hardware.camera2.CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
+        CameraManager cameraManager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
         if (cameraManager != null) {
             try {
                 String[] cameraIds = cameraManager.getCameraIdList();
@@ -106,7 +106,9 @@ public class CameraManager {
     }
 
     /**
-     * 获取指定相机 ID 支持的原生分辨率列表，按分辨率从大到小排序
+     * 获取指定相机 ID 支持的原生分辨率列表
+     * <p>
+     * 按分辨率从大到小排序
      *
      * @param context  上下文
      * @param cameraId 相机 ID
@@ -153,16 +155,14 @@ public class CameraManager {
         this.currentCameraId = cameraId;
         this.currentResolution = resolution;
         ListenableFuture<ProcessCameraProvider> cameraProviderFuture = ProcessCameraProvider.getInstance(context);
-
         cameraProviderFuture.addListener(() -> {
             try {
                 processCameraProvider = cameraProviderFuture.get();
-
                 // 1. 强行指定 TargetRotation 为 ROTATION_0
                 // 避免 CameraX 读取 UVC 设备错误的 SENSOR_ORIENTATION 导致内部二次旋转计算
                 int targetRotation = Surface.ROTATION_0;
-
-                // 2. 根据选定的分辨率计算宽高比策略 (16:9 或 4:3)
+                // 2. 根据选定的分辨率计算宽高比策略
+                // 16:9 或 4:3
                 AspectRatioStrategy aspectRatioStrategy = AspectRatioStrategy.RATIO_16_9_FALLBACK_AUTO_STRATEGY;
                 if (currentResolution != null) {
                     double ratio = (double) Math.max(currentResolution.getWidth(), currentResolution.getHeight()) / Math.min(currentResolution.getWidth(), currentResolution.getHeight());
@@ -170,33 +170,20 @@ public class CameraManager {
                         aspectRatioStrategy = AspectRatioStrategy.RATIO_4_3_FALLBACK_AUTO_STRATEGY;
                     }
                 }
-                ResolutionSelector resolutionSelector = new ResolutionSelector.Builder()
-                        .setAspectRatioStrategy(aspectRatioStrategy)
-                        .setResolutionStrategy((currentResolution != null) ? new ResolutionStrategy(currentResolution, ResolutionStrategy.FALLBACK_RULE_CLOSEST_HIGHER_THEN_LOWER) : ResolutionStrategy.HIGHEST_AVAILABLE_STRATEGY)
-                        .build();
-
-                // 3. 配置 PreviewView：强制使用 TextureView 模式 (COMPATIBLE)，因为 SurfaceView 不支持 View.setRotation() 矩阵变换
+                ResolutionSelector resolutionSelector = new ResolutionSelector.Builder().setAspectRatioStrategy(aspectRatioStrategy).setResolutionStrategy((currentResolution != null) ? new ResolutionStrategy(currentResolution, ResolutionStrategy.FALLBACK_RULE_CLOSEST_HIGHER_THEN_LOWER) : ResolutionStrategy.HIGHEST_AVAILABLE_STRATEGY).build();
+                // 3. 配置 PreviewView：强制使用 TextureView 模式 (COMPATIBLE)
+                // 因为 SurfaceView 不支持 View.setRotation() 矩阵变换
                 previewView.setImplementationMode(PreviewView.ImplementationMode.COMPATIBLE);
                 previewView.setScaleType(PreviewView.ScaleType.FIT_CENTER);
-
                 // 4. 构建 Preview 预览用例
-                Preview preview = new Preview.Builder()
-                        .setResolutionSelector(resolutionSelector)
-                        .setTargetRotation(targetRotation)
-                        .build();
+                Preview preview = new Preview.Builder().setResolutionSelector(resolutionSelector).setTargetRotation(targetRotation).build();
                 preview.setSurfaceProvider(previewView.getSurfaceProvider());
-
                 // 5. 构建 ImageCapture 拍照用例
-                imageCapture = new ImageCapture.Builder()
-                        .setResolutionSelector(resolutionSelector)
-                        .setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY)
-                        .setTargetRotation(targetRotation)
-                        .build();
-
+                imageCapture = new ImageCapture.Builder().setResolutionSelector(resolutionSelector).setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY).setTargetRotation(targetRotation).build();
                 // 6. 构建 CameraSelector 相机选择器
                 CameraSelector cameraSelector;
                 if ((currentCameraId != null) && !currentCameraId.isEmpty()) {
-                    // 如果指定了 CameraID，根据 CameraID 过滤
+                    // 如已指定 CameraID 则根据 CameraID 过滤
                     cameraSelector = new CameraSelector.Builder().addCameraFilter(cameraInfos -> {
                         List<CameraInfo> result = new ArrayList<>();
                         for (CameraInfo cameraInfo : cameraInfos) {
@@ -208,29 +195,23 @@ public class CameraManager {
                         return result;
                     }).build();
                 } else {
-                    // 否则使用自定义策略过滤（优先外接摄像头）
+                    // 否则使用自定义策略过滤
+                    // 优先外接摄像头
                     cameraSelector = new CameraSelector.Builder().addCameraFilter(this::filterCamera).build();
                 }
-
-                // 7. 构建 ViewPort 强制画面输出比例，规避裁剪拉伸
+                // 7. 构建 ViewPort 强制画面输出比例
+                // 规避裁剪拉伸
                 int width = (currentResolution != null) ? currentResolution.getWidth() : 16;
                 int height = (currentResolution != null) ? currentResolution.getHeight() : 9;
                 Rational aspectRatio = new Rational(width, height);
                 ViewPort viewPort = new ViewPort.Builder(aspectRatio, targetRotation).setScaleType(ViewPort.FIT).build();
-
                 // 8. 打包用例组并绑定生命周期
-                UseCaseGroup useCaseGroup = new UseCaseGroup.Builder()
-                        .addUseCase(preview)
-                        .addUseCase(imageCapture)
-                        .setViewPort(viewPort)
-                        .build();
-
+                UseCaseGroup useCaseGroup = new UseCaseGroup.Builder().addUseCase(preview).addUseCase(imageCapture).setViewPort(viewPort).build();
                 processCameraProvider.unbindAll();
                 processCameraProvider.bindToLifecycle(lifecycleOwner, cameraSelector, useCaseGroup);
-
-                // 9. 视图层手动纠偏：针对 UVC 外接设备固件角度误报，直接将 View 逆时针旋转 90 度抵消偏转
+                // 9. 视图层手动纠偏
+                // 针对 UVC 外接设备固件角度误报，直接将 View 逆时针旋转 90 度抵消偏转。
                 previewView.post(() -> previewView.setRotation(-90f));
-
                 Timber.tag(TAG).i("CameraX 启动成功，已应用 -90 度强制视角矫正");
                 if (cameraInitCallback != null) {
                     cameraInitCallback.onCameraInitSuccess();
@@ -247,7 +228,7 @@ public class CameraManager {
     /**
      * 过滤相机策略
      * <p>
-     * 优先级说明：
+     * 优先级说明
      * 1. 优先选择外接摄像头 (LENS_FACING_EXTERNAL) - 适合标准 USB 高拍仪 / UVC 外接设备
      * 2. 次选朝向未知的摄像头 (LENS_FACING_UNKNOWN) - 兼容驱动不规范的硬件设备
      * 3. 兜底选择列表中的最后一个摄像头 - 规避定制硬件架构读取异常的问题
@@ -263,20 +244,23 @@ public class CameraManager {
         CameraInfo unknownCam = null;
         for (CameraInfo info : cameraInfos) {
             int lensFacing = info.getLensFacing();
-            // 优先级 1: 发现标准外接设备，直接返回
+            // 优先级 1
+            // 发现标准外接设备，直接返回。
             if (lensFacing == CameraSelector.LENS_FACING_EXTERNAL) {
                 return Collections.singletonList(info);
             }
-            // 优先级 2: 记录第一个未明确朝向的设备作为备选
+            // 优先级 2
+            // 记录第一个未明确朝向的设备作为备选
             else if ((lensFacing == CameraSelector.LENS_FACING_UNKNOWN) && (unknownCam == null)) {
                 unknownCam = info;
             }
         }
-        // 若没有找到 EXTERNAL，则优先使用 UNKNOWN
+        // 没有找到 EXTERNAL 则优先用 UNKNOWN
         if (unknownCam != null) {
             return Collections.singletonList(unknownCam);
         }
-        // 优先级 3: 兜底返回最后一个摄像头
+        // 优先级 3:
+        // 兜底返回最后一个摄像头
         return Collections.singletonList(cameraInfos.get(cameraInfos.size() - 1));
     }
 
@@ -301,7 +285,6 @@ public class CameraManager {
         }
         File rawPhotoFile = new File(outputDirectory, "Scan_" + System.currentTimeMillis() + ".jpg");
         ImageCapture.OutputFileOptions outputOptions = new ImageCapture.OutputFileOptions.Builder(rawPhotoFile).build();
-
         // 优先使用 CameraX 硬件传感器抓拍
         imageCapture.takePicture(outputOptions, executorService, new ImageCapture.OnImageSavedCallback() {
             @Override
@@ -320,7 +303,9 @@ public class CameraManager {
     }
 
     /**
-     * 截取 PreviewView 当前预览画面（作为硬件抓拍失败时的降级方案）
+     * 截取 PreviewView 当前预览画面
+     * <p>
+     * 作为硬件抓拍失败时降级方案
      *
      * @param previewView           预览视图
      * @param photoFile             输出目标文件
@@ -355,7 +340,7 @@ public class CameraManager {
     }
 
     /**
-     * 释放资源（如关闭单线程池）
+     * 释放
      */
     public void release() {
         if ((executorService != null) && !executorService.isShutdown()) {
