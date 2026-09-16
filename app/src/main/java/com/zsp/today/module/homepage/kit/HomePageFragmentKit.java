@@ -17,6 +17,7 @@ import com.google.android.material.carousel.HeroCarouselStrategy;
 import com.zsp.today.R;
 import com.zsp.today.application.App;
 import com.zsp.today.module.account.AccountHomeActivity;
+import com.zsp.today.module.camera.CameraActivity;
 import com.zsp.today.module.dangerous.DangerousActivity;
 import com.zsp.today.module.detect.DetectActivity;
 import com.zsp.today.module.function.database.FunctionDataBaseTable;
@@ -57,6 +58,94 @@ import widget.kotlin.banner.view.BannerView;
  * @desc 首页碎片配套元件
  */
 public class HomePageFragmentKit {
+    /**
+     * 图集
+     *
+     * @return 图集
+     */
+    @NonNull
+    private static List<Integer> getImages() {
+        List<Integer> imageList = new ArrayList<>(9);
+        imageList.add(R.drawable.banner_1);
+        imageList.add(R.drawable.banner_2);
+        imageList.add(R.drawable.banner_3);
+        imageList.add(R.drawable.banner_4);
+        imageList.add(R.drawable.banner_5);
+        imageList.add(R.drawable.banner_6);
+        imageList.add(R.drawable.banner_7);
+        imageList.add(R.drawable.banner_8);
+        imageList.add(R.drawable.banner_9);
+        return imageList;
+    }
+
+    /**
+     * 需要保存
+     *
+     * @param functionDataBaseTableList 功能数据库表集
+     * @return 需要保存否
+     */
+    public static boolean needSave(List<FunctionDataBaseTable> functionDataBaseTableList) {
+        // 可显示主页菜单枚举集
+        List<HomePageMenuEnum> homePageMenuEnumsCanShow = new ArrayList<>();
+        for (HomePageMenuEnum homePageMenuEnum : HomePageMenuEnum.values()) {
+            if (homePageMenuEnum.getMenuShow()) {
+                homePageMenuEnumsCanShow.add(homePageMenuEnum);
+            }
+        }
+        // 可显示主页菜单枚举集数量
+        // 功能数据库表集数量
+        // 不一致
+        if (functionDataBaseTableList.size() != homePageMenuEnumsCanShow.size()) {
+            return true;
+        }
+        // 功能数据库表集
+        // 建立映射
+        Map<Integer, FunctionDataBaseTable> functionDataBaseTableMap = new HashMap<>();
+        for (FunctionDataBaseTable functionDataBaseTable : functionDataBaseTableList) {
+            functionDataBaseTableMap.put(functionDataBaseTable.getFunctionId(), functionDataBaseTable);
+        }
+        // 以可显示主页菜单枚举集为基准
+        // 遍历比较
+        for (HomePageMenuEnum homePageMenuEnum : homePageMenuEnumsCanShow) {
+            FunctionDataBaseTable functionDataBaseTable = functionDataBaseTableMap.get(homePageMenuEnum.getMenuId());
+            if (null == functionDataBaseTable) {
+                // 功能数据库表无对应主页菜单
+                return true;
+            }
+            if (!TextUtils.equals(homePageMenuEnum.getMenuIconResName(), functionDataBaseTable.getFunctionIconResName())) {
+                // 菜单图标资源名称
+                // 功能图标资源名称
+                // 不一致
+                return true;
+            }
+            if (!TextUtils.equals(homePageMenuEnum.getMenuName(), functionDataBaseTable.getFunctionName())) {
+                // 菜单名称
+                // 功能名称
+                // 不一致
+                return true;
+            }
+        }
+        // 手机号
+        // 功能数据库表手机号字段
+        // 不一致
+        return !TextUtils.equals(App.getAppInstance().getPhoneNumber(), functionDataBaseTableList.get(0).getPhoneNumber());
+    }
+
+    /**
+     * 获取主页菜单图标资源 ID 集
+     *
+     * @return 主页菜单图标资源 ID 集
+     */
+    @NonNull
+    private static Map<String, Integer> getHomePageMenuIconResIdMap() {
+        HomePageMenuEnum[] homePageMenuEnums = HomePageMenuEnum.values();
+        Map<String, Integer> menuIconResIdMap = new HashMap<>(homePageMenuEnums.length);
+        for (HomePageMenuEnum homePageMenuEnum : homePageMenuEnums) {
+            menuIconResIdMap.put(homePageMenuEnum.getMenuName(), homePageMenuEnum.getMenuIconResId());
+        }
+        return menuIconResIdMap;
+    }
+
     /**
      * 初始化标题
      *
@@ -116,26 +205,6 @@ public class HomePageFragmentKit {
                 }
             }
         });
-    }
-
-    /**
-     * 图集
-     *
-     * @return 图集
-     */
-    @NonNull
-    private static List<Integer> getImages() {
-        List<Integer> imageList = new ArrayList<>(9);
-        imageList.add(R.drawable.banner_1);
-        imageList.add(R.drawable.banner_2);
-        imageList.add(R.drawable.banner_3);
-        imageList.add(R.drawable.banner_4);
-        imageList.add(R.drawable.banner_5);
-        imageList.add(R.drawable.banner_6);
-        imageList.add(R.drawable.banner_7);
-        imageList.add(R.drawable.banner_8);
-        imageList.add(R.drawable.banner_9);
-        return imageList;
     }
 
     /**
@@ -210,59 +279,6 @@ public class HomePageFragmentKit {
     }
 
     /**
-     * 需要保存
-     *
-     * @param functionDataBaseTableList 功能数据库表集
-     * @return 需要保存否
-     */
-    public static boolean needSave(List<FunctionDataBaseTable> functionDataBaseTableList) {
-        // 可显示主页菜单枚举集
-        List<HomePageMenuEnum> homePageMenuEnumsCanShow = new ArrayList<>();
-        for (HomePageMenuEnum homePageMenuEnum : HomePageMenuEnum.values()) {
-            if (homePageMenuEnum.getMenuShow()) {
-                homePageMenuEnumsCanShow.add(homePageMenuEnum);
-            }
-        }
-        // 可显示主页菜单枚举集数量
-        // 功能数据库表集数量
-        // 不一致
-        if (functionDataBaseTableList.size() != homePageMenuEnumsCanShow.size()) {
-            return true;
-        }
-        // 功能数据库表集
-        // 建立映射
-        Map<Integer, FunctionDataBaseTable> functionDataBaseTableMap = new HashMap<>();
-        for (FunctionDataBaseTable functionDataBaseTable : functionDataBaseTableList) {
-            functionDataBaseTableMap.put(functionDataBaseTable.getFunctionId(), functionDataBaseTable);
-        }
-        // 以可显示主页菜单枚举集为基准
-        // 遍历比较
-        for (HomePageMenuEnum homePageMenuEnum : homePageMenuEnumsCanShow) {
-            FunctionDataBaseTable functionDataBaseTable = functionDataBaseTableMap.get(homePageMenuEnum.getMenuId());
-            if (null == functionDataBaseTable) {
-                // 功能数据库表无对应主页菜单
-                return true;
-            }
-            if (!TextUtils.equals(homePageMenuEnum.getMenuIconResName(), functionDataBaseTable.getFunctionIconResName())) {
-                // 菜单图标资源名称
-                // 功能图标资源名称
-                // 不一致
-                return true;
-            }
-            if (!TextUtils.equals(homePageMenuEnum.getMenuName(), functionDataBaseTable.getFunctionName())) {
-                // 菜单名称
-                // 功能名称
-                // 不一致
-                return true;
-            }
-        }
-        // 手机号
-        // 功能数据库表手机号字段
-        // 不一致
-        return !TextUtils.equals(App.getAppInstance().getPhoneNumber(), functionDataBaseTableList.get(0).getPhoneNumber());
-    }
-
-    /**
      * 展示功能数据库表
      *
      * @param appCompatActivity 活动
@@ -285,21 +301,6 @@ public class HomePageFragmentKit {
         // 菜单适配器配套元件
         MenuAdapterKit menuAdapterKit = new MenuAdapterKit();
         menuAdapterKit.display(appCompatActivity, recyclerView, menuBeanList, 3, 12, 48, false, (view, menuBean) -> distribute(appCompatActivity, menuBean.getMenuId()));
-    }
-
-    /**
-     * 获取主页菜单图标资源 ID 集
-     *
-     * @return 主页菜单图标资源 ID 集
-     */
-    @NonNull
-    private static Map<String, Integer> getHomePageMenuIconResIdMap() {
-        HomePageMenuEnum[] homePageMenuEnums = HomePageMenuEnum.values();
-        Map<String, Integer> menuIconResIdMap = new HashMap<>(homePageMenuEnums.length);
-        for (HomePageMenuEnum homePageMenuEnum : homePageMenuEnums) {
-            menuIconResIdMap.put(homePageMenuEnum.getMenuName(), homePageMenuEnum.getMenuIconResId());
-        }
-        return menuIconResIdMap;
     }
 
     /**
@@ -345,6 +346,10 @@ public class HomePageFragmentKit {
             // 知林
             case 9:
                 IntentJump.getInstance().jump(null, appCompatActivity, false, ZhiLinActivity.class);
+                break;
+            // 相机
+            case 10:
+                IntentJump.getInstance().jump(null, appCompatActivity, false, CameraActivity.class);
                 break;
             default:
                 break;
