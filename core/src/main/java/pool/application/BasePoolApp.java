@@ -20,6 +20,7 @@ import util.activity.ActivitySuperviseManager;
 import util.app.AppListener;
 import util.log.LogUtils;
 import util.mmkv.MmkvInitConfigure;
+import util.timber.TimberInitConfigure;
 import widget.status.manager.StatusManager;
 
 /**
@@ -80,9 +81,11 @@ public abstract class BasePoolApp extends Application implements MMKVHandler {
     @Override
     public void onCreate() {
         super.onCreate();
-        Timber.d("%s onCreate", getClass().getSimpleName());
         // 调试否
         debug = debug();
+        // 初始化 Timber
+        TimberInitConfigure.initTimber(debug());
+        Timber.d("%s onCreate", getClass().getSimpleName());
         // 配置集
         configMap = configMap();
         // Application 本已单例
