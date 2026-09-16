@@ -7,9 +7,7 @@ import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.params.StreamConfigurationMap;
-import android.util.Rational;
 import android.util.Size;
-import android.view.Surface;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.OptIn;
@@ -21,9 +19,6 @@ import androidx.camera.core.ExperimentalLensFacing;
 import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCaptureException;
 import androidx.camera.core.Preview;
-import androidx.camera.core.UseCaseGroup;
-import androidx.camera.core.ViewPort;
-import androidx.camera.core.resolutionselector.AspectRatioStrategy;
 import androidx.camera.core.resolutionselector.ResolutionSelector;
 import androidx.camera.core.resolutionselector.ResolutionStrategy;
 import androidx.camera.lifecycle.ProcessCameraProvider;
@@ -119,7 +114,7 @@ public class CameraController {
         if ((cameraId == null) || cameraId.isEmpty()) {
             return resolutionList;
         }
-        android.hardware.camera2.CameraManager cameraManager = (android.hardware.camera2.CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
+        CameraManager cameraManager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
         if (cameraManager != null) {
             try {
                 CameraCharacteristics characteristics = cameraManager.getCameraCharacteristics(cameraId);
@@ -158,29 +153,18 @@ public class CameraController {
         cameraProviderFuture.addListener(() -> {
             try {
                 processCameraProvider = cameraProviderFuture.get();
-                // 1. 强行指定 TargetRotation 为 ROTATION_0
-                // 避免 CameraX 读取 UVC 设备错误的 SENSOR_ORIENTATION 导致内部二次旋转计算
-                int targetRotation = Surface.ROTATION_0;
-                // 2. 根据选定的分辨率计算宽高比策略
-                // 16:9 或 4:3
-                AspectRatioStrategy aspectRatioStrategy = AspectRatioStrategy.RATIO_16_9_FALLBACK_AUTO_STRATEGY;
-                if (currentResolution != null) {
-                    double ratio = (double) Math.max(currentResolution.getWidth(), currentResolution.getHeight()) / Math.min(currentResolution.getWidth(), currentResolution.getHeight());
-                    if (Math.abs(ratio - (4.0 / 3.0)) < Math.abs(ratio - (16.0 / 9.0))) {
-                        aspectRatioStrategy = AspectRatioStrategy.RATIO_4_3_FALLBACK_AUTO_STRATEGY;
-                    }
-                }
-                ResolutionSelector resolutionSelector = new ResolutionSelector.Builder().setAspectRatioStrategy(aspectRatioStrategy).setResolutionStrategy((currentResolution != null) ? new ResolutionStrategy(currentResolution, ResolutionStrategy.FALLBACK_RULE_CLOSEST_HIGHER_THEN_LOWER) : ResolutionStrategy.HIGHEST_AVAILABLE_STRATEGY).build();
-                // 3. 配置 PreviewView：强制使用 TextureView 模式 (COMPATIBLE)
-                // 因为 SurfaceView 不支持 View.setRotation() 矩阵变换
+                // 1. 构建 ResolutionSelector 分辨率选择器
+                ResolutionStrategy resolutionStrategy = (currentResolution != null) ? new ResolutionStrategy(currentResolution, ResolutionStrategy.FALLBACK_RULE_CLOSEST_HIGHER_THEN_LOWER) : ResolutionStrategy.HIGHEST_AVAILABLE_STRATEGY;
+                ResolutionSelector resolutionSelector = new ResolutionSelector.Builder().setResolutionStrategy(resolutionStrategy).build();
+                // 2. 配置 PreviewView
                 previewView.setImplementationMode(PreviewView.ImplementationMode.COMPATIBLE);
                 previewView.setScaleType(PreviewView.ScaleType.FIT_CENTER);
-                // 4. 构建 Preview 预览用例
-                Preview preview = new Preview.Builder().setResolutionSelector(resolutionSelector).setTargetRotation(targetRotation).build();
+                // 3. 构建 Preview 预览用例
+                Preview preview = new Preview.Builder().setResolutionSelector(resolutionSelector).build();
                 preview.setSurfaceProvider(previewView.getSurfaceProvider());
-                // 5. 构建 ImageCapture 拍照用例
-                imageCapture = new ImageCapture.Builder().setResolutionSelector(resolutionSelector).setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY).setTargetRotation(targetRotation).build();
-                // 6. 构建 CameraSelector 相机选择器
+                // 4. 构建 ImageCapture 拍照用例
+                imageCapture = new ImageCapture.Builder().setResolutionSelector(resolutionSelector).setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY).build();
+                // 5. 构建 CameraSelector 相机选择器
                 CameraSelector cameraSelector;
                 if ((currentCameraId != null) && !currentCameraId.isEmpty()) {
                     // 如已指定 CameraID 则根据 CameraID 过滤
@@ -199,20 +183,10 @@ public class CameraController {
                     // 优先外接摄像头
                     cameraSelector = new CameraSelector.Builder().addCameraFilter(this::filterCamera).build();
                 }
-                // 7. 构建 ViewPort 强制画面输出比例
-                // 规避裁剪拉伸
-                int width = (currentResolution != null) ? currentResolution.getWidth() : 16;
-                int height = (currentResolution != null) ? currentResolution.getHeight() : 9;
-                Rational aspectRatio = new Rational(width, height);
-                ViewPort viewPort = new ViewPort.Builder(aspectRatio, targetRotation).setScaleType(ViewPort.FIT).build();
-                // 8. 打包用例组并绑定生命周期
-                UseCaseGroup useCaseGroup = new UseCaseGroup.Builder().addUseCase(preview).addUseCase(imageCapture).setViewPort(viewPort).build();
+                // 6. 解绑并重新绑定生命周期
                 processCameraProvider.unbindAll();
-                processCameraProvider.bindToLifecycle(lifecycleOwner, cameraSelector, useCaseGroup);
-                // 9. 视图层手动纠偏
-                // 针对 UVC 外接设备固件角度误报，直接将 View 逆时针旋转 90 度抵消偏转。
-                previewView.post(() -> previewView.setRotation(-90f));
-                Timber.tag(TAG).i("CameraX 启动成功，已应用 -90 度强制视角矫正");
+                processCameraProvider.bindToLifecycle(lifecycleOwner, cameraSelector, preview, imageCapture);
+                Timber.tag(TAG).i("CameraX 启动成功");
                 if (cameraInitCallback != null) {
                     cameraInitCallback.onCameraInitSuccess();
                 }
@@ -259,7 +233,7 @@ public class CameraController {
         if (unknownCam != null) {
             return Collections.singletonList(unknownCam);
         }
-        // 优先级 3:
+        // 优先级 3
         // 兜底返回最后一个摄像头
         return Collections.singletonList(cameraInfos.get(cameraInfos.size() - 1));
     }
@@ -343,43 +317,46 @@ public class CameraController {
      * 释放
      */
     public void release() {
+        if (processCameraProvider != null) {
+            processCameraProvider.unbindAll();
+        }
         if ((executorService != null) && !executorService.isShutdown()) {
             executorService.shutdown();
         }
     }
 
     /**
-     * 相机初始化结果回调接口
+     * 相机初始回调
      */
     public interface CameraInitCallback {
         /**
-         * 相机初始化成功回调
+         * 相机初始成功
          */
         void onCameraInitSuccess();
 
         /**
-         * 相机初始化失败回调
+         * 相机初始错误
          *
-         * @param throwable 异常信息
+         * @param throwable 异常
          */
         void onCameraInitError(Throwable throwable);
     }
 
     /**
-     * 相机拍照结果回调接口
+     * 相机拍照回调
      */
     public interface CameraCaptureCallback {
         /**
-         * 拍照成功回调
+         * 相机拍照成功
          *
-         * @param photoFile 生成的照片文件
+         * @param photoFile 照片文件
          */
         void onCameraCaptureSuccess(File photoFile);
 
         /**
-         * 拍照异常回调
+         * 相机拍照错误
          *
-         * @param imageCaptureException 拍照异常对象
+         * @param imageCaptureException 拍照异常
          */
         void onCameraCaptureError(ImageCaptureException imageCaptureException);
     }
