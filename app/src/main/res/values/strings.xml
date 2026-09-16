@@ -15,6 +15,7 @@
     <string name="renMinBi">¥</string>
     <string name="resume">恢复</string>
     <string name="amount">金额</string>
+    <string name="camera">相机</string>
     <string name="modify">修改</string>
     <string name="logOut">退出</string>
     <string name="author">作者</string>
@@ -26,6 +27,7 @@
     <string name="qingHai">青海</string>
     <string name="history">历史</string>
     <string name="release">释放</string>
+    <string name="capture">拍照</string>
     <string name="endItem">末条</string>
     <string name="portrait">竖屏</string>
     <string name="nextItem">下张</string>
@@ -75,6 +77,7 @@
     <string name="accountDetail">账目详情</string>
     <string name="monthAnalysis">月度分析</string>
     <string name="hasBeenPlaced">安放过啦</string>
+    <string name="switchCamera">切换摄像头</string>
     <string name="interviewPoint">面试要点</string>
     <string name="aGlimmerOfHope">微光心声</string>
     <string name="startAnimation">启动动画</string>
