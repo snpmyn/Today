@@ -60,8 +60,10 @@ dependencies {
     api libs.material
     api libs.constraintlayout
     /*自带*/
+
     api libs.core.ktx
     /*kotlin*/
+
     api libs.jxl
     api libs.ion
     api libs.mpac
@@ -84,19 +86,36 @@ dependencies {
     api libs.converter.gson
     api libs.rxjava3.rxjava
     api libs.rxjava3.rxandroid
+
     /*api libs.tensorflow.lite*/
+
     api libs.localbroadcastmanager
+
     /*api files('libs/TarsosDSP-Android-2.4.jar')*/
+
     api libs.material3
     api libs.activity.compose
     api libs.ui
     debugApi libs.ui.tooling
     api libs.ui.tooling.preview
     /*compose*/
+
     api libs.lifecycle.livedata.ktx
     /*LiveData*/
     api libs.lifecycle.viewmodel.ktx
     /*ViewModel*/
+
+    api libs.camera.core
+    /*camera-core*/
+    api libs.camera.view
+    /*camera-view*/
+    api libs.androidx.camera.camera2
+    /*camera-camera2*/
+    api libs.androidx.camera.lifecycle
+    /*camera-lifecycle*/
+
+    api libs.guava
+    /*guava*/
 }
 
 /*发布*/
