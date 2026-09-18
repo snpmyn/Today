@@ -8,6 +8,7 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.util.Size;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.OptIn;
@@ -136,17 +137,18 @@ public class CameraController {
     }
 
     /**
-     * 启动相机并绑定生命周期
+     * 启动相机
      *
-     * @param context            上下文
-     * @param lifecycleOwner     生命周期拥有者
-     * @param previewView        预览视图控件
-     * @param cameraId           目标相机 ID
-     * @param resolution         设定分辨率
-     * @param cameraInitCallback 相机初始化结果回调
+     * @param context                  上下文
+     * @param lifecycleOwner           生命周期拥有者
+     * @param previewViewContainerView 预览视图容器
+     * @param previewView              预览视图控件
+     * @param cameraId                 目标相机 ID
+     * @param resolution               设定分辨率
+     * @param cameraInitCallback       相机初始化结果回调
      */
     @OptIn(markerClass = ExperimentalCamera2Interop.class)
-    public void startCamera(@NonNull Context context, @NonNull LifecycleOwner lifecycleOwner, @NonNull PreviewView previewView, String cameraId, Size resolution, CameraInitCallback cameraInitCallback) {
+    public void startCamera(@NonNull Context context, @NonNull LifecycleOwner lifecycleOwner, @NonNull View previewViewContainerView, @NonNull PreviewView previewView, String cameraId, Size resolution, CameraInitCallback cameraInitCallback) {
         this.currentCameraId = cameraId;
         this.currentResolution = resolution;
         ListenableFuture<ProcessCameraProvider> cameraProviderFuture = ProcessCameraProvider.getInstance(context);
@@ -158,7 +160,7 @@ public class CameraController {
                 ResolutionSelector resolutionSelector = new ResolutionSelector.Builder().setResolutionStrategy(resolutionStrategy).build();
                 // 2. 配置 PreviewView
                 previewView.setImplementationMode(PreviewView.ImplementationMode.COMPATIBLE);
-                previewView.setScaleType(PreviewView.ScaleType.FIT_CENTER);
+                /*previewView.setScaleType(PreviewView.ScaleType.FIT_CENTER);*/
                 // 3. 构建 Preview 预览用例
                 Preview preview = new Preview.Builder().setResolutionSelector(resolutionSelector).build();
                 preview.setSurfaceProvider(previewView.getSurfaceProvider());
@@ -186,6 +188,13 @@ public class CameraController {
                 // 6. 解绑并重新绑定生命周期
                 processCameraProvider.unbindAll();
                 processCameraProvider.bindToLifecycle(lifecycleOwner, cameraSelector, preview, imageCapture);
+                // 根据当前切换的分辨率动态调整 MaterialCardView 容器比例
+                // 确保在右侧可用范围内缩放且绝不超界
+                if (resolution != null) {
+                    androidx.constraintlayout.widget.ConstraintLayout.LayoutParams layoutParams = (androidx.constraintlayout.widget.ConstraintLayout.LayoutParams) previewViewContainerView.getLayoutParams();
+                    layoutParams.dimensionRatio = "H," + resolution.getWidth() + ":" + resolution.getHeight();
+                    previewViewContainerView.setLayoutParams(layoutParams);
+                }
                 Timber.tag(TAG).i("CameraX 启动成功");
                 if (cameraInitCallback != null) {
                     cameraInitCallback.onCameraInitSuccess();
@@ -270,7 +279,7 @@ public class CameraController {
 
             @Override
             public void onError(@NonNull ImageCaptureException exception) {
-                Timber.tag(TAG).w(exception, "硬件抓拍失败，自动降级至 PreviewView 截屏处理");
+                Timber.tag(TAG).w(exception, "硬件抓拍失败，自动降级至 PreviewView 截屏处理。");
                 ContextCompat.getMainExecutor(context).execute(() -> captureFromPreviewView(previewView, rawPhotoFile, cameraCaptureCallback));
             }
         });
@@ -289,7 +298,7 @@ public class CameraController {
         Bitmap bitmap = previewView.getBitmap();
         if (bitmap == null) {
             if (cameraCaptureCallback != null) {
-                cameraCaptureCallback.onCameraCaptureError(new ImageCaptureException(ImageCapture.ERROR_UNKNOWN, "Preview 预览帧获取为空", null));
+                cameraCaptureCallback.onCameraCaptureError(new ImageCaptureException(ImageCapture.ERROR_UNKNOWN, "预览帧获取为空", null));
             }
             return;
         }
@@ -301,7 +310,7 @@ public class CameraController {
                     cameraCaptureCallback.onCameraCaptureSuccess(photoFile);
                 }
             } catch (Exception e) {
-                Timber.tag(TAG).e(e, "Preview 截图保存失败");
+                Timber.tag(TAG).e(e, "预览截图保存失败");
                 if (cameraCaptureCallback != null) {
                     cameraCaptureCallback.onCameraCaptureError(new ImageCaptureException(ImageCapture.ERROR_UNKNOWN, "截屏保存异常: " + e.getMessage(), e));
                 }

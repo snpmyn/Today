@@ -136,7 +136,7 @@ public class CameraActivityKit {
      * @param activityCameraBinding ActivityCameraBinding
      */
     public void startCamera(Context context, LifecycleOwner lifecycleOwner, @NonNull ActivityCameraBinding activityCameraBinding) {
-        cameraController.startCamera(context, lifecycleOwner, activityCameraBinding.cameraActivityPv, selectedCameraId, selectedResolution, new CameraController.CameraInitCallback() {
+        cameraController.startCamera(context, lifecycleOwner, activityCameraBinding.cameraActivityMcv, activityCameraBinding.cameraActivityPv, selectedCameraId, selectedResolution, new CameraController.CameraInitCallback() {
             @Override
             public void onCameraInitSuccess() {
                 Timber.tag(TAG).i("相机绑定成功 Camera ID: %s", selectedCameraId);
