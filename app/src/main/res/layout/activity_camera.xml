@@ -101,6 +101,14 @@
             app:layout_constraintTop_toTopOf="parent"
             app:strokeWidth="@dimen/dp_0">
 
+            <!--铺满视图 - 会裁剪 + 无黑边-->
+            <!--1.1 fillCenter 居中按比例放大 -> 填满视图 (默认配置)-->
+            <!--1.2 fillStart 靠左 / 上按比例放大 -> 填满视图-->
+            <!--1.3 fillEnd 靠右 / 下按比例放大 -> 填满视图-->
+            <!--完整显示 - 不裁剪 + 有黑边-->
+            <!--2.1 fitCenter 居中按比例缩放 -> 完整显示-->
+            <!--2.2 fitStart 靠左 / 上按比例缩放 -> 完整显示-->
+            <!--2.3 fitEnd 靠右 / 下按比例缩放 -> 完整显示-->
             <androidx.camera.view.PreviewView
                 android:id="@+id/cameraActivityPv"
                 android:layout_width="match_parent"
