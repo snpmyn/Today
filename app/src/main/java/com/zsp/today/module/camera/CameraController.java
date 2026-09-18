@@ -8,6 +8,7 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.util.Size;
+import android.view.Surface;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -159,13 +160,24 @@ public class CameraController {
                 ResolutionStrategy resolutionStrategy = (currentResolution != null) ? new ResolutionStrategy(currentResolution, ResolutionStrategy.FALLBACK_RULE_CLOSEST_HIGHER_THEN_LOWER) : ResolutionStrategy.HIGHEST_AVAILABLE_STRATEGY;
                 ResolutionSelector resolutionSelector = new ResolutionSelector.Builder().setResolutionStrategy(resolutionStrategy).build();
                 // 2. 配置 PreviewView
+                // ==================================================================================================================================================
+                // 渲染模式与缩放策略说明
+                // 1. 模式选择 - COMPATIBLE
+                //    采用 TextureView 模式以提升复杂 UI (如圆角 CardView 裁剪、Overlay 覆盖物) 兼容性
+                // 2. 策略选型 - FILL_CENTER
+                //    - FIT_CENTER 缺陷
+                //    TextureView 渲染层在进行矩阵变换时，因 Android 视图树测量 (Measure Pass) 与 Sensor 帧率同步的亚像素四舍五入偏差，极其容易在 View 边缘产生 1 ~ 2px 的补齐黑边 / 黑缝。
+                //    - FILL_CENTER 优势
+                //    由于外层 CardView 的 dimensionRatio 已被严格锁定为图像原生宽高比，FILL_CENTER 充当 [填满容错机制]，在消除亚像素黑边的同时，绝对不会造成任何画面的裁切。
+                // ==================================================================================================================================================
                 previewView.setImplementationMode(PreviewView.ImplementationMode.COMPATIBLE);
-                /*previewView.setScaleType(PreviewView.ScaleType.FIT_CENTER);*/
                 // 3. 构建 Preview 预览用例
-                Preview preview = new Preview.Builder().setResolutionSelector(resolutionSelector).build();
+                // 显式指定 TargetRotation 纠正 UVC 相机旋转误判，还原横屏
+                Preview preview = new Preview.Builder().setResolutionSelector(resolutionSelector).setTargetRotation(Surface.ROTATION_90).build();
                 preview.setSurfaceProvider(previewView.getSurfaceProvider());
                 // 4. 构建 ImageCapture 拍照用例
-                imageCapture = new ImageCapture.Builder().setResolutionSelector(resolutionSelector).setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY).build();
+                // 保持拍照与预览方向同步
+                imageCapture = new ImageCapture.Builder().setResolutionSelector(resolutionSelector).setTargetRotation(Surface.ROTATION_90).setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY).build();
                 // 5. 构建 CameraSelector 相机选择器
                 CameraSelector cameraSelector;
                 if ((currentCameraId != null) && !currentCameraId.isEmpty()) {
