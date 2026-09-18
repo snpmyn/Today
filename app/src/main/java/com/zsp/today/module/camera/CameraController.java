@@ -161,10 +161,9 @@ public class CameraController {
                 ResolutionSelector resolutionSelector = new ResolutionSelector.Builder().setResolutionStrategy(resolutionStrategy).build();
                 // 2. 配置 PreviewView
                 // ==================================================================================================================================================
-                // 渲染模式与缩放策略说明
-                // 1. 模式选择 - COMPATIBLE
+                // A. 渲染模式 - COMPATIBLE
                 //    采用 TextureView 模式以提升复杂 UI (如圆角 CardView 裁剪、Overlay 覆盖物) 兼容性
-                // 2. 策略选型 - FILL_CENTER
+                // B. 缩放策略 - FILL_CENTER
                 //    - FIT_CENTER 缺陷
                 //    TextureView 渲染层在进行矩阵变换时，因 Android 视图树测量 (Measure Pass) 与 Sensor 帧率同步的亚像素四舍五入偏差，极其容易在 View 边缘产生 1 ~ 2px 的补齐黑边 / 黑缝。
                 //    - FILL_CENTER 优势

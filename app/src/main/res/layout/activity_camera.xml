@@ -16,8 +16,8 @@
         app:titleCentered="true"
         app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium.Emphasized" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="@dimen/dp_0"
         android:layout_height="@dimen/dp_0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -25,11 +25,14 @@
         app:layout_constraintTop_toBottomOf="@+id/cameraActivityMt">
 
         <LinearLayout
-            android:layout_width="@dimen/dp_0"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:id="@+id/cameraActivityLeftLayout"
+            android:layout_width="@dimen/dp_150"
+            android:layout_height="@dimen/dp_0"
             android:orientation="vertical"
-            android:padding="@dimen/dp_20">
+            android:padding="@dimen/dp_20"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/cameraActivityMtSwitchCamera"
@@ -84,12 +87,28 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <!--全景 app:scaleType="fitCenter"-->
-        <androidx.camera.view.PreviewView
-            android:id="@+id/cameraActivityPv"
+        <!--右侧使用 MaterialCardView 承载 PreviewView 及后续控件-->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cameraActivityMcv"
             android:layout_width="@dimen/dp_0"
-            android:layout_height="match_parent"
-            android:layout_weight="3"
-            app:scaleType="fitCenter" />
-    </LinearLayout>
+            android:layout_height="@dimen/dp_0"
+            android:layout_margin="@dimen/dp_20"
+            app:cardCornerRadius="@dimen/dp_16"
+            app:cardElevation="@dimen/dp_0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/cameraActivityLeftLayout"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeWidth="@dimen/dp_0">
+
+            <androidx.camera.view.PreviewView
+                android:id="@+id/cameraActivityPv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:scaleType="fillCenter" />
+
+            <!--后续可在此处添加透视遮罩 / 扫描框 / 网格控件-->
+
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
