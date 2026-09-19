@@ -19,7 +19,7 @@
             android:id="@+id/homePageFragmentCtl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_scrollFlags="noScroll"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:scrimAnimationDuration="0">
 
             <LinearLayout
