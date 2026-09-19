@@ -4,10 +4,6 @@
     <style name="Theme.Today" parent="Base.Theme.Today">
         <!--窗口启动画面背景-->
         <item name="android:windowSplashScreenBackground">?attr/colorPrimary</item>
-        <!--设置状态栏文字和图标的颜色-->
-        <!--true 状态栏文字和图标为深色 (适合浅色背景)-->
-        <!--false 状态栏文字和图标为浅色 (适合深色背景)-->
-        <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
     </style>
 
 </resources>

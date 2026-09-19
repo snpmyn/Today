@@ -6,17 +6,10 @@
     <!--2. MD3 算法失效：白色 (Tone 100 / Chroma 0) 会导致 HCT 色彩空间失去计算维度，无法推算 onPrimary 等派生色阶，破坏系统的动态调色板-->
     <!--3. 原生控件渲染异常：MaterialButton 失去边界轮廓，水波纹 (Ripple) 交互反馈在半透明叠加后不可见-->
     <!--4. 主题继承链断裂：硬编码纯白主色破坏了 DayNight 浅 / 暗色模式的自动映射逻辑，增加额外的适配成本-->
-    <color name="basic">#FF4E80F5</color>
+    <!--<color name="basic">#29A1F7</color>-->
     <!--customize your theme here-->
-    <color name="color_06FDDB">#06FDDB</color>
-    <color name="color_228B22">#228B22</color>
-    <color name="color_FFF44336">#FFF44336</color>
-    <color name="color_FFEE6002">#FFEE6002</color>
-    <color name="color_DC000000">#DC000000</color>
-    <integer-array name="color_loading_indicator">
-        <item>@color/color_FFEE6002</item>
-        <item>@color/color_06FDDB</item>
-        <item>@color/color_FFF44336</item>
-        <item>@color/color_228B22</item>
-    </integer-array>
+
+    <!--夜间模式配色-->
+    <!--暂时无需适配-->
+
 </resources>

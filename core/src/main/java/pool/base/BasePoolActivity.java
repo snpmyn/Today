@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewbinding.ViewBinding;
@@ -32,6 +33,9 @@ import util.view.ViewUtils;
  * {@link #startLogic()}
  */
 public abstract class BasePoolActivity extends AppCompatActivity {
+    /**
+     * ViewBinding
+     */
     protected ViewBinding viewBinding;
 
     @Override
@@ -39,6 +43,18 @@ public abstract class BasePoolActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         // 注册事件
         RxBus.get().register(this);
+        if (isEdgeToEdgeEnabled()) {
+            // ==========================================
+            // 沉浸式边到边 (EdgeToEdge) 配置说明
+            // 1. 必须在 setContentView() 前调用
+            // 2. 建议于 XML 根布局配合 android:fitsSystemWindows="true" 使用，自动处理边距。
+            // 3. 默认的 EdgeToEdge.enable(this) 会随系统亮 / 暗模式自动调整状态栏图标颜色
+            //    - 注意冲突：若系统为 [白天 - 浅色]，图标会变黑，此时若页面是深色背景就会看不清。
+            //    - 解决方案：若页面为深色，可于子类重写 applyEdgeToEdge() 方法，改用下方显式指定写法，强制白色图标。
+            //    - EdgeToEdge.enable(this, SystemBarStyle.dark(Color.TRANSPARENT))
+            // ==========================================
+            applyEdgeToEdge();
+        }
         // 加载视图
         // 优先使用 ViewBinding
         viewBinding = viewBinding();
@@ -55,6 +71,25 @@ public abstract class BasePoolActivity extends AppCompatActivity {
         setListener();
         // 开始逻辑
         startLogic();
+    }
+
+    /**
+     * 是否开启沉浸式边到边
+     *
+     * @return 是否开启沉浸式边到边
+     */
+    protected boolean isEdgeToEdgeEnabled() {
+        return true;
+    }
+
+    /**
+     * 沉浸式边到边
+     * <p>
+     * 若页面为深色，可于子类重写该法，改用下方显式指定写法，强制白色图标。
+     * EdgeToEdge.enable(this, SystemBarStyle.dark(Color.TRANSPARENT))
+     */
+    protected void applyEdgeToEdge() {
+        EdgeToEdge.enable(this);
     }
 
     /**
