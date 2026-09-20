@@ -4,7 +4,7 @@
     android:id="@+id/floatingServiceMb"
     android:layout_width="@dimen/dp_50"
     android:layout_height="@dimen/dp_50"
-    android:backgroundTint="@color/basic"
+    android:backgroundTint="?attr/colorPrimary"
     android:filterTouchesWhenObscured="true"
     android:insetLeft="@dimen/dp_0"
     android:insetTop="@dimen/dp_0"

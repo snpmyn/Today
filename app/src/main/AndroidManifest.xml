@@ -94,7 +94,18 @@
         <activity android:name=".module.zhilin.compose.ComposeActivity" />
         <activity android:name=".module.zhilin.rxjava.RxJavaActivity" />
         <activity android:name=".module.zhilin.tablayout.TabLayoutActivity" />
-        <activity android:name=".module.camera.CameraActivity" />
+        <activity
+            android:name=".module.camera.CameraActivity"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize"
+            android:exported="true"
+            android:screenOrientation="sensorLandscape"
+            tools:ignore="DiscouragedApi">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".module.zhilin.ZhiLinActivity" />
         <activity android:name=".module.network.NetworkActivity" />
         <activity android:name=".module.poetry.PoetryActivity" />
@@ -116,11 +127,11 @@
             android:name="pool.module.splash.SplashActivity"
             android:exported="true"
             android:theme="@style/SplashActivityStyle">
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
             <!--9.4.0+ 支持-->
             <!--唤起码 um.App Key-->
             <!--单独 intent-filter-->
