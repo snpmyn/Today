@@ -27,6 +27,7 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.google.common.util.concurrent.ListenableFuture;
+import com.zsp.today.module.camera.storage.LogKit;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -44,7 +45,6 @@ import timber.log.Timber;
  * @desc 相机控制器
  */
 public class CameraController {
-    private static final String TAG = CameraController.class.getSimpleName();
     /**
      * 增强实现
      * <p>
@@ -186,12 +186,12 @@ public class CameraController {
                     layoutParams.dimensionRatio = "H," + resolution.getWidth() + ":" + resolution.getHeight();
                     previewViewContainerView.setLayoutParams(layoutParams);
                 }
-                Timber.tag(TAG).i("CameraX 启动成功，旋转角度: %d", currentCameraConfig.getTargetRotation());
+                Timber.tag(LogKit.TAG).i("CameraX 启动成功 - 旋转角度: %d", currentCameraConfig.getTargetRotation());
                 if (cameraInitCallback != null) {
                     cameraInitCallback.onCameraInitSuccess();
                 }
             } catch (Exception e) {
-                Timber.tag(TAG).e(e, "CameraX 初始化失败");
+                Timber.tag(LogKit.TAG).e(e, "CameraX 初始化失败");
                 if (cameraInitCallback != null) {
                     cameraInitCallback.onCameraInitError(e);
                 }
