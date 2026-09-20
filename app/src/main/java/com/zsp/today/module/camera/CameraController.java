@@ -1,11 +1,14 @@
 package com.zsp.today.module.camera;
 
 import android.content.Context;
+import android.graphics.SurfaceTexture;
 import android.util.Size;
 import android.view.Surface;
+import android.view.TextureView;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.OptIn;
 import androidx.camera.camera2.interop.Camera2CameraInfo;
 import androidx.camera.camera2.interop.ExperimentalCamera2Interop;
@@ -60,12 +63,35 @@ public class CameraController {
      * 当前相机配置
      */
     private CameraConfig currentCameraConfig = null;
+    /**
+     * 帧率追踪器
+     */
+    private FpsTracker fpsTracker;
 
     /**
      * constructor
      */
     public CameraController() {
         this.executorService = Executors.newSingleThreadExecutor();
+    }
+
+    /**
+     * 获取帧率追踪器
+     *
+     * @return 帧率追踪器
+     */
+    @Nullable
+    public FpsTracker getFpsTracker() {
+        return fpsTracker;
+    }
+
+    /**
+     * 设置帧率追踪器
+     *
+     * @param fpsTracker 帧率追踪器
+     */
+    public void setFpsTracker(@Nullable FpsTracker fpsTracker) {
+        this.fpsTracker = fpsTracker;
     }
 
     /**
@@ -118,6 +144,9 @@ public class CameraController {
     @OptIn(markerClass = ExperimentalCamera2Interop.class)
     private void startCamera(@NonNull Context context, @NonNull LifecycleOwner lifecycleOwner, @NonNull View previewViewContainerView, @NonNull PreviewView previewView, @NonNull CameraConfig cameraConfig, CameraInitCallback cameraInitCallback) {
         this.currentCameraConfig = cameraConfig;
+        if (fpsTracker != null) {
+            fpsTracker.reset();
+        }
         ListenableFuture<ProcessCameraProvider> cameraProviderFuture = ProcessCameraProvider.getInstance(context);
         cameraProviderFuture.addListener(() -> {
             try {
@@ -165,6 +194,8 @@ public class CameraController {
                 // 6. 解绑并重新绑定生命周期
                 processCameraProvider.unbindAll();
                 processCameraProvider.bindToLifecycle(lifecycleOwner, cameraSelector, preview, imageCapture);
+                // 初始化帧率追踪器
+                previewView.post(() -> setupFpsTracker(previewView));
                 // 根据选定分辨率动态更新 ConstraintLayout 容器宽高比
                 // 确保图像无形变且居中
                 if (resolution != null) {
@@ -183,6 +214,54 @@ public class CameraController {
                 }
             }
         }, ContextCompat.getMainExecutor(context));
+    }
+
+    /**
+     * 初始化帧率追踪器
+     * <p>
+     * 在 COMPATIBLE 模式下
+     * 通过代理的方式给 TextureView 挂载 SurfaceTextureListener
+     * 在 onSurfaceTextureUpdated 中驱动 FpsTracker 计算实时帧率
+     * 同时保留并透传原有 Listener 的逻辑
+     * 避免造成渲染黑屏
+     *
+     * @param previewView 预览视图
+     */
+    private void setupFpsTracker(@NonNull PreviewView previewView) {
+        if ((previewView.getChildCount() > 0) && previewView.getChildAt(0) instanceof TextureView) {
+            TextureView textureView = (TextureView) previewView.getChildAt(0);
+            TextureView.SurfaceTextureListener originalListener = textureView.getSurfaceTextureListener();
+            textureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
+                @Override
+                public void onSurfaceTextureAvailable(@NonNull SurfaceTexture surface, int width, int height) {
+                    if (originalListener != null) {
+                        originalListener.onSurfaceTextureAvailable(surface, width, height);
+                    }
+                }
+
+                @Override
+                public void onSurfaceTextureSizeChanged(@NonNull SurfaceTexture surface, int width, int height) {
+                    if (originalListener != null) {
+                        originalListener.onSurfaceTextureSizeChanged(surface, width, height);
+                    }
+                }
+
+                @Override
+                public boolean onSurfaceTextureDestroyed(@NonNull SurfaceTexture surface) {
+                    return (originalListener == null) || originalListener.onSurfaceTextureDestroyed(surface);
+                }
+
+                @Override
+                public void onSurfaceTextureUpdated(@NonNull SurfaceTexture surface) {
+                    if (originalListener != null) {
+                        originalListener.onSurfaceTextureUpdated(surface);
+                    }
+                    if (fpsTracker != null) {
+                        fpsTracker.onFrameAvailable();
+                    }
+                }
+            });
+        }
     }
 
     /**
@@ -231,6 +310,9 @@ public class CameraController {
      * 释放
      */
     public void release() {
+        if (fpsTracker != null) {
+            fpsTracker.reset();
+        }
         if (processCameraProvider != null) {
             processCameraProvider.unbindAll();
         }

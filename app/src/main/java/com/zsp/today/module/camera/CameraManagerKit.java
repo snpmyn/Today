@@ -6,6 +6,7 @@ import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.params.StreamConfigurationMap;
+import android.util.Range;
 import android.util.Size;
 
 import androidx.annotation.NonNull;
@@ -81,5 +82,33 @@ public class CameraManagerKit {
             }
         }
         return resolutionList;
+    }
+
+    /**
+     * 获取指定相机 ID 支持的 Target FPS 范围列表
+     *
+     * @param context  上下文
+     * @param cameraId 相机 ID
+     * @return 指定相机 ID 支持的 Target FPS 范围列表
+     */
+    @NonNull
+    public static List<Range<Integer>> getSupportedFpsRanges(@NonNull Context context, String cameraId) {
+        List<Range<Integer>> fpsRangesList = new ArrayList<>();
+        if ((cameraId == null) || cameraId.isEmpty()) {
+            return fpsRangesList;
+        }
+        CameraManager cameraManager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
+        if (cameraManager != null) {
+            try {
+                CameraCharacteristics cameraCharacteristics = cameraManager.getCameraCharacteristics(cameraId);
+                Range<Integer>[] fpsRanges = cameraCharacteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_TARGET_FPS_RANGES);
+                if ((fpsRanges != null) && (fpsRanges.length > 0)) {
+                    fpsRangesList.addAll(Arrays.asList(fpsRanges));
+                }
+            } catch (CameraAccessException e) {
+                Timber.tag(TAG).e(e, "获取相机 CameraID: %s 支持的 FPS 范围失败", cameraId);
+            }
+        }
+        return fpsRangesList;
     }
 }

@@ -13,12 +13,15 @@ import androidx.lifecycle.LifecycleOwner;
 
 import com.zsp.today.databinding.ActivityCameraBinding;
 import com.zsp.today.module.camera.CameraController;
+import com.zsp.today.module.camera.FpsTracker;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import timber.log.Timber;
+import util.list.ListUtils;
 import widget.toast.ToastKt;
 
 /**
@@ -34,7 +37,7 @@ public class CameraActivityKit {
      */
     private final CameraController cameraController;
     /**
-     * 相机 ID 集
+     * 相机 ID 列表
      */
     private List<String> cameraIdList = new ArrayList<>();
     /**
@@ -65,16 +68,35 @@ public class CameraActivityKit {
      * @param activityCameraBinding ActivityCameraBinding
      */
     public void initCameraConfig(Context context, LifecycleOwner lifecycleOwner, ActivityCameraBinding activityCameraBinding) {
+        // 帧率追踪器
+        FpsTracker fpsTracker = new FpsTracker(new FpsTracker.OnFpsUpdateCallback() {
+            @Override
+            public void onFpsUpdate(float fps) {
+                activityCameraBinding.getRoot().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        ToastKt.showToast(fps + " FPS");
+                        activityCameraBinding.cameraActivityTv.setText(String.format(Locale.getDefault(), "FPS %.1f", fps));
+                    }
+                });
+            }
+        });
+        // 设置帧率追踪器
+        cameraController.setFpsTracker(fpsTracker);
+        // 获取系统底层注册的所有相机 ID 列表
         cameraIdList = cameraController.getAvailableCameraIds(context);
-        if (cameraIdList.isEmpty()) {
+        if (ListUtils.listIsEmpty(cameraIdList)) {
             ToastKt.showToast("未检测到摄像头");
             return;
         }
         if (cameraIdList.size() == 1) {
             selectedCameraId = cameraIdList.get(0);
+            // 初始化分辨率下拉选择框
             setupResolutionSpinner(context, lifecycleOwner, activityCameraBinding);
+            // 启动相机
             startCamera(context, lifecycleOwner, activityCameraBinding);
         } else {
+            // 显示相机选择对话框
             showCameraSelectDialog(context, lifecycleOwner, activityCameraBinding);
         }
     }
@@ -117,6 +139,7 @@ public class CameraActivityKit {
                 // 用户选中分辨率发生变化时重启相机更新流参数
                 if (!newSize.equals(selectedResolution)) {
                     selectedResolution = newSize;
+                    // 启动相机
                     startCamera(context, lifecycleOwner, activityCameraBinding);
                 }
             }
@@ -144,6 +167,12 @@ public class CameraActivityKit {
 
             @Override
             public void onCameraInitError(Throwable throwable) {
+                activityCameraBinding.getRoot().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        activityCameraBinding.cameraActivityTv.setText("FPS --");
+                    }
+                });
                 ToastKt.showToast("相机启动失败: " + throwable.getMessage());
             }
         });
@@ -157,10 +186,11 @@ public class CameraActivityKit {
      * @param activityCameraBinding ActivityCameraBinding
      */
     public void showCameraSelectDialog(Context context, LifecycleOwner lifecycleOwner, ActivityCameraBinding activityCameraBinding) {
-        if (cameraIdList.isEmpty()) {
+        if (ListUtils.listIsEmpty(cameraIdList)) {
+            // 获取系统底层注册的所有相机 ID 列表
             cameraIdList = cameraController.getAvailableCameraIds(context);
         }
-        if (cameraIdList.isEmpty()) {
+        if (ListUtils.listIsEmpty(cameraIdList)) {
             ToastKt.showToast("未检测到摄像头");
             return;
         }
@@ -170,9 +200,9 @@ public class CameraActivityKit {
         }
         new AlertDialog.Builder(context).setTitle("选择要打开的摄像头").setItems(items, (dialog, which) -> {
             selectedCameraId = cameraIdList.get(which);
-            // 切换 Camera 后
-            // 更新该 Camera 对应支持分辨率下拉列表并启动相机
+            // 初始化分辨率下拉选择框
             setupResolutionSpinner(context, lifecycleOwner, activityCameraBinding);
+            // 启动相机
             startCamera(context, lifecycleOwner, activityCameraBinding);
         }).setCancelable(false).show();
     }
@@ -198,7 +228,7 @@ public class CameraActivityKit {
 
             @Override
             public void onCameraCaptureError(ImageCaptureException imageCaptureException) {
-                Timber.tag(TAG).e(imageCaptureException, "抓拍失败");
+                Timber.tag(TAG).e(imageCaptureException, "抓拍失败: %s", imageCaptureException.getMessage());
                 activityCameraBinding.getRoot().post(() -> {
                     activityCameraBinding.cameraActivityMtCapture.setEnabled(true);
                     ToastKt.showToast("抓拍失败: " + imageCaptureException.getMessage());
