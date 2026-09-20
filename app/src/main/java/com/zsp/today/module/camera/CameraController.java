@@ -50,7 +50,7 @@ public class CameraController {
      * 异步单线程池
      * 处理磁盘 IO 文件保存 + 避免阻塞主 UI 线程
      */
-    private final ExecutorService executorService;
+    private ExecutorService executorService;
     /**
      * 抓拍用例对象
      */
@@ -73,25 +73,6 @@ public class CameraController {
      */
     public CameraController() {
         this.executorService = Executors.newSingleThreadExecutor();
-    }
-
-    /**
-     * 获取帧率追踪器
-     *
-     * @return 帧率追踪器
-     */
-    @Nullable
-    public FpsTracker getFpsTracker() {
-        return fpsTracker;
-    }
-
-    /**
-     * 设置帧率追踪器
-     *
-     * @param fpsTracker 帧率追踪器
-     */
-    public void setFpsTracker(@Nullable FpsTracker fpsTracker) {
-        this.fpsTracker = fpsTracker;
     }
 
     /**
@@ -195,7 +176,7 @@ public class CameraController {
                 processCameraProvider.unbindAll();
                 processCameraProvider.bindToLifecycle(lifecycleOwner, cameraSelector, preview, imageCapture);
                 // 初始化帧率追踪器
-                previewView.post(() -> setupFpsTracker(previewView));
+                setupFpsTracker(previewView);
                 // 根据选定分辨率动态更新 ConstraintLayout 容器宽高比
                 // 确保图像无形变且居中
                 if (resolution != null) {
@@ -214,54 +195,6 @@ public class CameraController {
                 }
             }
         }, ContextCompat.getMainExecutor(context));
-    }
-
-    /**
-     * 初始化帧率追踪器
-     * <p>
-     * 在 COMPATIBLE 模式下
-     * 通过代理的方式给 TextureView 挂载 SurfaceTextureListener
-     * 在 onSurfaceTextureUpdated 中驱动 FpsTracker 计算实时帧率
-     * 同时保留并透传原有 Listener 的逻辑
-     * 避免造成渲染黑屏
-     *
-     * @param previewView 预览视图
-     */
-    private void setupFpsTracker(@NonNull PreviewView previewView) {
-        if ((previewView.getChildCount() > 0) && previewView.getChildAt(0) instanceof TextureView) {
-            TextureView textureView = (TextureView) previewView.getChildAt(0);
-            TextureView.SurfaceTextureListener originalListener = textureView.getSurfaceTextureListener();
-            textureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
-                @Override
-                public void onSurfaceTextureAvailable(@NonNull SurfaceTexture surface, int width, int height) {
-                    if (originalListener != null) {
-                        originalListener.onSurfaceTextureAvailable(surface, width, height);
-                    }
-                }
-
-                @Override
-                public void onSurfaceTextureSizeChanged(@NonNull SurfaceTexture surface, int width, int height) {
-                    if (originalListener != null) {
-                        originalListener.onSurfaceTextureSizeChanged(surface, width, height);
-                    }
-                }
-
-                @Override
-                public boolean onSurfaceTextureDestroyed(@NonNull SurfaceTexture surface) {
-                    return (originalListener == null) || originalListener.onSurfaceTextureDestroyed(surface);
-                }
-
-                @Override
-                public void onSurfaceTextureUpdated(@NonNull SurfaceTexture surface) {
-                    if (originalListener != null) {
-                        originalListener.onSurfaceTextureUpdated(surface);
-                    }
-                    if (fpsTracker != null) {
-                        fpsTracker.onFrameAvailable();
-                    }
-                }
-            });
-        }
     }
 
     /**
@@ -303,7 +236,53 @@ public class CameraController {
      * @param cameraCaptureCallback 相机拍照回调
      */
     public void capture(@NonNull Context context, @NonNull PreviewView previewView, CameraCaptureCallback cameraCaptureCallback) {
+        ensureExecutorAvailable();
         CaptureHelper.capture(context, imageCapture, previewView, executorService, cameraCaptureCallback);
+    }
+
+    /**
+     * 确保线程池可用
+     */
+    private synchronized void ensureExecutorAvailable() {
+        if ((executorService == null) || executorService.isShutdown() || executorService.isTerminated()) {
+            executorService = Executors.newSingleThreadExecutor();
+        }
+    }
+
+    /**
+     * 设置帧率追踪器
+     *
+     * @param fpsTracker 帧率追踪器
+     */
+    public void setFpsTracker(@Nullable FpsTracker fpsTracker) {
+        this.fpsTracker = fpsTracker;
+    }
+
+    /**
+     * 初始化帧率追踪器
+     * <p>
+     * 在 COMPATIBLE 模式下通过代理方式给 TextureView 挂载 SurfaceTextureListener
+     * 在 onSurfaceTextureUpdated 中驱动 FpsTracker 计算实时帧率
+     * 同时保留并透传原有 Listener 逻辑
+     * 避免造成渲染黑屏
+     *
+     * @param previewView 预览视图
+     */
+    private void setupFpsTracker(@NonNull PreviewView previewView) {
+        previewView.post(() -> {
+            if ((previewView.getChildCount() > 0) && previewView.getChildAt(0) instanceof TextureView) {
+                TextureView textureView = (TextureView) previewView.getChildAt(0);
+                TextureView.SurfaceTextureListener originalListener = textureView.getSurfaceTextureListener();
+                // 检查是否已代理，防止重复挂载。
+                if (originalListener instanceof FpsProxySurfaceTextureListener) {
+                    return;
+                }
+                textureView.setSurfaceTextureListener(new FpsProxySurfaceTextureListener(originalListener));
+            } else {
+                // 如果 TextureView 尚未添加到 View 树，递归重试。
+                setupFpsTracker(previewView);
+            }
+        });
     }
 
     /**
@@ -355,5 +334,45 @@ public class CameraController {
          * @param imageCaptureException 拍照异常
          */
         void onCameraCaptureError(ImageCaptureException imageCaptureException);
+    }
+
+    /**
+     * Fps Proxy SurfaceTextureListener 代理内部类
+     */
+    private class FpsProxySurfaceTextureListener implements TextureView.SurfaceTextureListener {
+        private final TextureView.SurfaceTextureListener originalListener;
+
+        public FpsProxySurfaceTextureListener(TextureView.SurfaceTextureListener originalListener) {
+            this.originalListener = originalListener;
+        }
+
+        @Override
+        public void onSurfaceTextureAvailable(@NonNull SurfaceTexture surface, int width, int height) {
+            if (originalListener != null) {
+                originalListener.onSurfaceTextureAvailable(surface, width, height);
+            }
+        }
+
+        @Override
+        public void onSurfaceTextureSizeChanged(@NonNull SurfaceTexture surface, int width, int height) {
+            if (originalListener != null) {
+                originalListener.onSurfaceTextureSizeChanged(surface, width, height);
+            }
+        }
+
+        @Override
+        public boolean onSurfaceTextureDestroyed(@NonNull SurfaceTexture surface) {
+            return (originalListener == null) || originalListener.onSurfaceTextureDestroyed(surface);
+        }
+
+        @Override
+        public void onSurfaceTextureUpdated(@NonNull SurfaceTexture surface) {
+            if (originalListener != null) {
+                originalListener.onSurfaceTextureUpdated(surface);
+            }
+            if (fpsTracker != null) {
+                fpsTracker.onFrameAvailable();
+            }
+        }
     }
 }

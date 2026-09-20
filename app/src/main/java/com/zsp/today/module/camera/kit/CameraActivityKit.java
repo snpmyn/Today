@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.camera.core.ImageCaptureException;
 import androidx.lifecycle.LifecycleOwner;
 
+import com.zsp.today.R;
 import com.zsp.today.databinding.ActivityCameraBinding;
 import com.zsp.today.module.camera.CameraController;
 import com.zsp.today.module.camera.FpsTracker;
@@ -52,6 +53,11 @@ public class CameraActivityKit {
      * 已选分辨率
      */
     private Size selectedResolution = null;
+    /**
+     * 是否正在进行初始化 / 切换标志位
+     * 防止 Spinner 异步回调导致的二次重启
+     */
+    private boolean isResolutionInitializing = false;
 
     /**
      * constructor
@@ -69,18 +75,7 @@ public class CameraActivityKit {
      */
     public void initCameraConfig(Context context, LifecycleOwner lifecycleOwner, ActivityCameraBinding activityCameraBinding) {
         // 帧率追踪器
-        FpsTracker fpsTracker = new FpsTracker(new FpsTracker.OnFpsUpdateCallback() {
-            @Override
-            public void onFpsUpdate(float fps) {
-                activityCameraBinding.getRoot().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        ToastKt.showToast(fps + " FPS");
-                        activityCameraBinding.cameraActivityTv.setText(String.format(Locale.getDefault(), "FPS %.1f", fps));
-                    }
-                });
-            }
-        });
+        FpsTracker fpsTracker = new FpsTracker(fps -> activityCameraBinding.getRoot().post(() -> activityCameraBinding.cameraActivityTv.setText(String.format(Locale.getDefault(), context.getString(R.string.formatFpsWithValue), fps))));
         // 设置帧率追踪器
         cameraController.setFpsTracker(fpsTracker);
         // 获取系统底层注册的所有相机 ID 列表
@@ -112,10 +107,14 @@ public class CameraActivityKit {
         if (selectedCameraId == null) {
             return;
         }
+        // 标记开始初始化
+        // 拦截 Spinner 设置 Adapter 阶段的自动伪触发
+        isResolutionInitializing = true;
         // 1. 动态查询选定摄像头支持的真实分辨率
         supportedResolutionList = cameraController.getSupportedResolutions(context, selectedCameraId);
         if (supportedResolutionList.isEmpty()) {
             Timber.tag(TAG).w("未查询到摄像头 CameraID: %s 支持的分辨率列表", selectedCameraId);
+            isResolutionInitializing = false;
             return;
         }
         // 2. 格式化为可视化分辨率文本
@@ -129,12 +128,22 @@ public class CameraActivityKit {
         activityCameraBinding.cameraActivitySpinnerSwitchResolution.setOnItemSelectedListener(null);
         activityCameraBinding.cameraActivitySpinnerSwitchResolution.setAdapter(stringArrayAdapter);
         // 4. 默认选中最高分辨率
-        activityCameraBinding.cameraActivitySpinnerSwitchResolution.setSelection(0);
+        activityCameraBinding.cameraActivitySpinnerSwitchResolution.setSelection(0, false);
         selectedResolution = supportedResolutionList.get(0);
-        // 5. 监听下拉选择切换
+        // 5. 延迟恢复监听防抖
+        // 通过 View.post 将任务推入主线程 MessageQueue 末尾
+        // 确保在 Spinner 内部 RequestLayout 与 View 树测量绘制引发的原生伪回调执行完毕后再重置标志位为 false
+        activityCameraBinding.cameraActivitySpinnerSwitchResolution.post(() -> isResolutionInitializing = false);
+        // 6. 监听下拉选择切换
         activityCameraBinding.cameraActivitySpinnerSwitchResolution.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (isResolutionInitializing) {
+                    return;
+                }
+                if ((position < 0) || (position >= supportedResolutionList.size())) {
+                    return;
+                }
                 Size newSize = supportedResolutionList.get(position);
                 // 用户选中分辨率发生变化时重启相机更新流参数
                 if (!newSize.equals(selectedResolution)) {
@@ -167,12 +176,7 @@ public class CameraActivityKit {
 
             @Override
             public void onCameraInitError(Throwable throwable) {
-                activityCameraBinding.getRoot().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        activityCameraBinding.cameraActivityTv.setText("FPS --");
-                    }
-                });
+                activityCameraBinding.getRoot().post(() -> activityCameraBinding.cameraActivityTv.setText(String.format(Locale.getDefault(), context.getString(R.string.formatFpsNoValue), "--")));
                 ToastKt.showToast("相机启动失败: " + throwable.getMessage());
             }
         });
@@ -222,7 +226,7 @@ public class CameraActivityKit {
                 Timber.tag(TAG).i("保存路径: %s", photoFile.getAbsolutePath());
                 activityCameraBinding.getRoot().post(() -> {
                     activityCameraBinding.cameraActivityMtCapture.setEnabled(true);
-                    ToastKt.showToast("抓拍成功: " + photoFile.getName());
+                    ToastKt.showToast("抓抓成功: " + photoFile.getName());
                 });
             }
 
