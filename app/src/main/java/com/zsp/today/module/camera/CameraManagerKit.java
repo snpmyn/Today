@@ -73,7 +73,8 @@ public class CameraManagerKit {
                     if ((sizes != null) && (sizes.length > 0)) {
                         List<Size> list = Arrays.asList(sizes);
                         // 按总像素数从大到小降序排列
-                        list.sort((s1, s2) -> Integer.compare(s2.getWidth() * s2.getHeight(), s1.getWidth() * s1.getHeight()));
+                        // 转为 long 计算防止高分辨率像素乘积超 int 范围导致溢出
+                        list.sort((s1, s2) -> Long.compare((long) s2.getWidth() * s2.getHeight(), (long) s1.getWidth() * s1.getHeight()));
                         resolutionList.addAll(list);
                     }
                 }

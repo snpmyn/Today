@@ -50,14 +50,13 @@ public class CameraActivityKit {
      */
     private List<Size> supportedResolutionList = new ArrayList<>();
     /**
+     * 分辨率是否正在初始化
+     */
+    private boolean isResolutionInitializing = false;
+    /**
      * 已选分辨率
      */
     private Size selectedResolution = null;
-    /**
-     * 是否正在进行初始化 / 切换标志位
-     * 防止 Spinner 异步回调导致的二次重启
-     */
-    private boolean isResolutionInitializing = false;
 
     /**
      * constructor
@@ -219,7 +218,6 @@ public class CameraActivityKit {
      */
     public void capture(Context context, @NonNull ActivityCameraBinding activityCameraBinding) {
         activityCameraBinding.cameraActivityMtCapture.setEnabled(false);
-        // 传入 PreviewView 以便在硬件拍照遇到异常时降级截屏
         cameraController.capture(context, activityCameraBinding.cameraActivityPv, new CameraController.CameraCaptureCallback() {
             @Override
             public void onCameraCaptureSuccess(File photoFile) {

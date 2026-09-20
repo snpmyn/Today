@@ -1,5 +1,6 @@
 package com.zsp.today.module.camera;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.util.Size;
@@ -122,8 +123,9 @@ public class CameraController {
      * @param cameraConfig             相机配置
      * @param cameraInitCallback       相机初始回调
      */
+    @SuppressLint("WrongConstant")
     @OptIn(markerClass = ExperimentalCamera2Interop.class)
-    private void startCamera(@NonNull Context context, @NonNull LifecycleOwner lifecycleOwner, @NonNull View previewViewContainerView, @NonNull PreviewView previewView, @NonNull CameraConfig cameraConfig, CameraInitCallback cameraInitCallback) {
+    public void startCamera(@NonNull Context context, @NonNull LifecycleOwner lifecycleOwner, @NonNull View previewViewContainerView, @NonNull PreviewView previewView, @NonNull CameraConfig cameraConfig, CameraInitCallback cameraInitCallback) {
         this.currentCameraConfig = cameraConfig;
         if (fpsTracker != null) {
             fpsTracker.reset();
@@ -261,28 +263,62 @@ public class CameraController {
     /**
      * 初始化帧率追踪器
      * <p>
-     * 在 COMPATIBLE 模式下通过代理方式给 TextureView 挂载 SurfaceTextureListener
-     * 在 onSurfaceTextureUpdated 中驱动 FpsTracker 计算实时帧率
-     * 同时保留并透传原有 Listener 逻辑
-     * 避免造成渲染黑屏
+     * 在 COMPATIBLE 模式下挂载 SurfaceTextureListener 代理
+     * 拦截 onSurfaceTextureUpdated 驱动 FpsTracker 计算实时帧率
      *
      * @param previewView 预览视图
      */
     private void setupFpsTracker(@NonNull PreviewView previewView) {
+        // 使用 Runnable 提交延迟监听
+        // 避开 View 初始测量与内部 TextureView 创建的时序错位
         previewView.post(() -> {
-            if ((previewView.getChildCount() > 0) && previewView.getChildAt(0) instanceof TextureView) {
-                TextureView textureView = (TextureView) previewView.getChildAt(0);
+            TextureView textureView = findTextureView(previewView);
+            if (textureView != null) {
                 TextureView.SurfaceTextureListener originalListener = textureView.getSurfaceTextureListener();
-                // 检查是否已代理，防止重复挂载。
-                if (originalListener instanceof FpsProxySurfaceTextureListener) {
-                    return;
+                if (!(originalListener instanceof FpsProxySurfaceTextureListener)) {
+                    textureView.setSurfaceTextureListener(new FpsProxySurfaceTextureListener(originalListener));
                 }
-                textureView.setSurfaceTextureListener(new FpsProxySurfaceTextureListener(originalListener));
             } else {
-                // 如果 TextureView 尚未添加到 View 树，递归重试。
-                setupFpsTracker(previewView);
+                // 若首帧未成功获取 TextureView
+                // 监听 View 树状态再次尝试
+                previewView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+                    @Override
+                    public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                        TextureView tv = findTextureView(previewView);
+                        if (tv != null) {
+                            previewView.removeOnLayoutChangeListener(this);
+                            TextureView.SurfaceTextureListener origListener = tv.getSurfaceTextureListener();
+                            if (!(origListener instanceof FpsProxySurfaceTextureListener)) {
+                                tv.setSurfaceTextureListener(new FpsProxySurfaceTextureListener(origListener));
+                            }
+                        }
+                    }
+                });
             }
         });
+    }
+
+    /**
+     * 递归遍历寻找 PreviewView 内部的 TextureView
+     *
+     * @param rootView 根视图
+     * @return PreviewView 内部的 TextureView
+     */
+    @Nullable
+    private TextureView findTextureView(View rootView) {
+        if (rootView instanceof TextureView) {
+            return (TextureView) rootView;
+        }
+        if (rootView instanceof android.view.ViewGroup) {
+            android.view.ViewGroup group = (android.view.ViewGroup) rootView;
+            for (int i = 0; i < group.getChildCount(); i++) {
+                TextureView tv = findTextureView(group.getChildAt(i));
+                if (tv != null) {
+                    return tv;
+                }
+            }
+        }
+        return null;
     }
 
     /**

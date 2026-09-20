@@ -164,6 +164,8 @@
     <string name="tabLayoutTitleOne">TabOne</string>
     <string name="tabLayoutTitleTwo">TabTwo</string>
     <!-- format -->
+    <string name="formatFpsNoValue">FPS %1$s</string>
+    <string name="formatFpsWithValue">FPS %.1f</string>
     <string name="formatSsWithSpace">%1$s %2$s</string>
     <string name="formatSsWithLineBreak">%1$s\n%2$s</string>
     <string name="formatSdStudentCount">%1$s ( %2$d )</string>

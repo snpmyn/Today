@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--CameraGridView-->
+    <declare-styleable name="CameraGridView">
+        <!--线条颜色-->
+        <attr name="lineColor" format="color" />
+        <!--线条宽度-->
+        <attr name="lineWidth" format="dimension" />
+    </declare-styleable>
+</resources>

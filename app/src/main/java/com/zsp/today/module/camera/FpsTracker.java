@@ -26,26 +26,34 @@ public class FpsTracker {
     }
 
     /**
-     * 在相机每次渲染 / 输出新帧时调用该方法
+     * 在相机每次渲染 / 输出新帧时调用该法
      * <p>
-     * 如 SurfaceTexture / ImageReader 的回调
+     * 如 SurfaceTexture / ImageReader 回调
      */
-    public synchronized void onFrameAvailable() {
-        long currentTimeNs = System.nanoTime();
-        if (lastTimeNs == 0L) {
-            lastTimeNs = currentTimeNs;
-            return;
-        }
-        frameCount++;
-        long timeDiffNs = (currentTimeNs - lastTimeNs);
-        // 每隔 1 秒 (1,000,000,000 纳秒) 刷新一次 FPS 计算值
-        if (timeDiffNs >= 1_000_000_000L) {
-            realTimeFps = (float) frameCount * 1_000_000_000L / timeDiffNs;
-            frameCount = 0;
-            lastTimeNs = currentTimeNs;
-            if (onFpsUpdateCallback != null) {
-                onFpsUpdateCallback.onFpsUpdate(realTimeFps);
+    public void onFrameAvailable() {
+        boolean shouldNotify = false;
+        float currentFps = 0.0f;
+        synchronized (this) {
+            long currentTimeNs = System.nanoTime();
+            if (lastTimeNs == 0L) {
+                lastTimeNs = currentTimeNs;
+                return;
             }
+            frameCount++;
+            long timeDiffNs = (currentTimeNs - lastTimeNs);
+            // 每隔 1 秒 (1,000,000,000 纳秒) 刷新一次 FPS 计算值
+            if (timeDiffNs >= 1_000_000_000L) {
+                realTimeFps = (float) frameCount * 1_000_000_000L / timeDiffNs;
+                currentFps = realTimeFps;
+                frameCount = 0;
+                lastTimeNs = currentTimeNs;
+                shouldNotify = true;
+            }
+        }
+        // 在锁之外触发回调
+        // 避免阻塞渲染 / 输出线程
+        if (shouldNotify && (onFpsUpdateCallback != null)) {
+            onFpsUpdateCallback.onFpsUpdate(currentFps);
         }
     }
 
@@ -61,7 +69,7 @@ public class FpsTracker {
     /**
      * 重置
      * <p>
-     * 在切换分辨率或重置 Camera Preview 时调用
+     * 在切换分辨率或重置 Camera Preview 时调
      */
     public synchronized void reset() {
         frameCount = 0;

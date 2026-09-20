@@ -116,6 +116,12 @@ Android 6.0+ (API 23+) 废弃 Apache HttpClient (DefaultHttpClient、HttpGet、H
 useLibrary 'org.apache.http.legacy'
 ```
 
+## 注解
+
+* @SuppressWarnings("unused")
+* @SuppressWarnings("UnusedReturnValue")
+* @SuppressWarnings("SameParameterValue")
+
 ## 研究
 
 ```
