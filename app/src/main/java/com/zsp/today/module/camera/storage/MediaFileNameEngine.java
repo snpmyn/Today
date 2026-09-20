@@ -95,11 +95,11 @@ public class MediaFileNameEngine {
             if ((parts.length >= 4) && isLegalDateTime(parts[1], parts[2])) {
                 // 对应场景 1 和 2
                 // 取第 1、2、3 段拼接成 yyyyMMdd_HHmmss_Seq
-                return parts[1] + "_" + parts[2] + "_" + parts[3];
+                return (parts[1] + "_" + parts[2] + "_" + parts[3]);
             } else if ((parts.length == 3) && isLegalDateTime(parts[0], parts[1])) {
                 // 对应场景 3
                 // 无前缀时直接拼接三段
-                return parts[0] + "_" + parts[1] + "_" + parts[2];
+                return (parts[0] + "_" + parts[1] + "_" + parts[2]);
             }
         }
         return generateRootKey();
