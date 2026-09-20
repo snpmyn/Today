@@ -9,6 +9,7 @@ import androidx.camera.core.ImageCaptureException;
 import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
 
+import com.zsp.today.module.camera.media.MediaScanKit;
 import com.zsp.today.module.camera.storage.LogKit;
 import com.zsp.today.module.camera.storage.MediaFileNameEngine;
 import com.zsp.today.module.camera.storage.MediaStorageConfig;
@@ -90,6 +91,9 @@ public class CaptureHelper {
         imageCapture.takePicture(outputOptions, executorService, new ImageCapture.OnImageSavedCallback() {
             @Override
             public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
+                Timber.tag(LogKit.TAG).d("相机硬件传感器抓拍成功 || %s", rawPhotoFile.getAbsolutePath());
+                // 扫描单个文件
+                MediaScanKit.scanSingleFile(context, rawPhotoFile.getAbsolutePath(), "image/jpeg");
                 if (cameraCaptureCallback != null) {
                     mainExecutor.execute(() -> cameraCaptureCallback.onCameraCaptureSuccess(rawPhotoFile));
                 }
@@ -125,7 +129,10 @@ public class CaptureHelper {
         }
         executorService.execute(() -> {
             try (OutputStream outputStream = new FileOutputStream(photoFile)) {
+                Timber.tag(LogKit.TAG).d("PreviewView 截屏降级拍照成功 || %s", photoFile.getAbsolutePath());
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 95, outputStream);
+                // 扫描单个文件
+                MediaScanKit.scanSingleFile(context, photoFile.getAbsolutePath());
                 if (cameraCaptureCallback != null) {
                     mainExecutor.execute(() -> cameraCaptureCallback.onCameraCaptureSuccess(photoFile));
                 }
