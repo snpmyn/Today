@@ -2,7 +2,6 @@ package com.zsp.today.module.camera;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.os.Handler;
 
 import androidx.annotation.NonNull;
 import androidx.camera.core.ImageCapture;
@@ -20,6 +19,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 
 import timber.log.Timber;
@@ -41,13 +41,11 @@ public class CaptureHelper {
     /**
      * 生成保存路径
      *
-     * @param handler 线程消息调度器
      * @return 保存路径
      */
-    public static @Nullable String generateSavePath(Handler handler) {
+    public static @Nullable String generateSavePath() {
         File targetFile = MediaStorageConfig.getInstance().generateSaveFile(MediaStorageType.CAPTURE, null);
         if (targetFile == null) {
-            /*notifyError(handler, onCaptureCallBack, "无法获取照片存储目录");*/
             return null;
         }
         File parentDir = targetFile.getParentFile();
@@ -55,7 +53,6 @@ public class CaptureHelper {
             boolean created = parentDir.mkdirs();
             if (!created && !parentDir.exists()) {
                 Timber.tag(LogKit.TAG).e("创建照片存储目录失败 || %s", parentDir.getAbsolutePath());
-                /*notifyError(handler, onCaptureCallBack, "创建照片存储目录失败");*/
                 return null;
             }
         }
@@ -73,31 +70,35 @@ public class CaptureHelper {
      * @param cameraCaptureCallback 相机拍照回调
      */
     public static void capture(@NonNull Context context, ImageCapture imageCapture, @NonNull PreviewView previewView, @NonNull ExecutorService executorService, CameraController.CameraCaptureCallback cameraCaptureCallback) {
+        Executor mainExecutor = ContextCompat.getMainExecutor(context);
         if (imageCapture == null) {
             if (cameraCaptureCallback != null) {
-                cameraCaptureCallback.onCameraCaptureError(new ImageCaptureException(ImageCapture.ERROR_CAMERA_CLOSED, "相机尚未初始化成功", null));
+                mainExecutor.execute(() -> cameraCaptureCallback.onCameraCaptureError(new ImageCaptureException(ImageCapture.ERROR_CAMERA_CLOSED, "相机尚未初始化成功", null)));
             }
             return;
         }
-        File outputDirectory = context.getExternalFilesDir(null);
-        if (outputDirectory == null) {
-            outputDirectory = context.getFilesDir();
+        String savePath = generateSavePath();
+        if (savePath == null) {
+            if (cameraCaptureCallback != null) {
+                mainExecutor.execute(() -> cameraCaptureCallback.onCameraCaptureError(new ImageCaptureException(ImageCapture.ERROR_FILE_IO, "创建照片保存文件失败", null)));
+            }
+            return;
         }
-        File rawPhotoFile = new File(outputDirectory, "Scan_" + System.currentTimeMillis() + ".jpg");
+        File rawPhotoFile = new File(savePath);
         ImageCapture.OutputFileOptions outputOptions = new ImageCapture.OutputFileOptions.Builder(rawPhotoFile).build();
         // 优先使用 CameraX 硬件传感器抓拍
         imageCapture.takePicture(outputOptions, executorService, new ImageCapture.OnImageSavedCallback() {
             @Override
             public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
                 if (cameraCaptureCallback != null) {
-                    cameraCaptureCallback.onCameraCaptureSuccess(rawPhotoFile);
+                    mainExecutor.execute(() -> cameraCaptureCallback.onCameraCaptureSuccess(rawPhotoFile));
                 }
             }
 
             @Override
             public void onError(@NonNull ImageCaptureException exception) {
                 Timber.tag(LogKit.TAG).w(exception, "硬件抓拍失败，自动降级至 PreviewView 截屏处理。");
-                ContextCompat.getMainExecutor(context).execute(() -> captureFromPreviewView(previewView, rawPhotoFile, executorService, cameraCaptureCallback));
+                mainExecutor.execute(() -> captureFromPreviewView(context, previewView, rawPhotoFile, executorService, cameraCaptureCallback));
             }
         });
     }
@@ -107,16 +108,18 @@ public class CaptureHelper {
      * <p>
      * 硬件抓拍失败时降级方案
      *
+     * @param context               上下文
      * @param previewView           预览视图
      * @param photoFile             照片文件
      * @param executorService       增强实现
      * @param cameraCaptureCallback 相机拍照回调
      */
-    private static void captureFromPreviewView(@NonNull PreviewView previewView, File photoFile, @NonNull ExecutorService executorService, CameraController.CameraCaptureCallback cameraCaptureCallback) {
+    private static void captureFromPreviewView(@NonNull Context context, @NonNull PreviewView previewView, File photoFile, @NonNull ExecutorService executorService, CameraController.CameraCaptureCallback cameraCaptureCallback) {
+        Executor mainExecutor = ContextCompat.getMainExecutor(context);
         Bitmap bitmap = previewView.getBitmap();
         if (bitmap == null) {
             if (cameraCaptureCallback != null) {
-                cameraCaptureCallback.onCameraCaptureError(new ImageCaptureException(ImageCapture.ERROR_UNKNOWN, "预览帧获取为空", null));
+                mainExecutor.execute(() -> cameraCaptureCallback.onCameraCaptureError(new ImageCaptureException(ImageCapture.ERROR_UNKNOWN, "预览帧获取为空", null)));
             }
             return;
         }
@@ -124,16 +127,12 @@ public class CaptureHelper {
             try (OutputStream outputStream = new FileOutputStream(photoFile)) {
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 95, outputStream);
                 if (cameraCaptureCallback != null) {
-                    cameraCaptureCallback.onCameraCaptureSuccess(photoFile);
+                    mainExecutor.execute(() -> cameraCaptureCallback.onCameraCaptureSuccess(photoFile));
                 }
             } catch (Exception e) {
                 Timber.tag(LogKit.TAG).e(e, "预览截图保存失败");
                 if (cameraCaptureCallback != null) {
-                    cameraCaptureCallback.onCameraCaptureError(new ImageCaptureException(ImageCapture.ERROR_UNKNOWN, "截屏保存异常: " + e.getMessage(), e));
-                }
-            } finally {
-                if (!bitmap.isRecycled()) {
-                    bitmap.recycle();
+                    mainExecutor.execute(() -> cameraCaptureCallback.onCameraCaptureError(new ImageCaptureException(ImageCapture.ERROR_UNKNOWN, "截屏保存异常: " + e.getMessage(), e)));
                 }
             }
         });
