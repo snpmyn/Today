@@ -2,12 +2,20 @@ package com.zsp.today.module.camera;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Handler;
 
 import androidx.annotation.NonNull;
 import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCaptureException;
 import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
+
+import com.zsp.today.module.camera.storage.LogKit;
+import com.zsp.today.module.camera.storage.MediaFileNameEngine;
+import com.zsp.today.module.camera.storage.MediaStorageConfig;
+import com.zsp.today.module.camera.storage.MediaStorageType;
+
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -23,7 +31,36 @@ import timber.log.Timber;
  * @version: v 1.0
  */
 public class CaptureHelper {
-    private static final String TAG = CaptureHelper.class.getSimpleName();
+    /**
+     * 重置序号
+     */
+    public static void resetSequence() {
+        MediaFileNameEngine.resetSequence();
+    }
+
+    /**
+     * 生成保存路径
+     *
+     * @param handler 线程消息调度器
+     * @return 保存路径
+     */
+    public static @Nullable String generateSavePath(Handler handler) {
+        File targetFile = MediaStorageConfig.getInstance().generateSaveFile(MediaStorageType.CAPTURE, null);
+        if (targetFile == null) {
+            /*notifyError(handler, onCaptureCallBack, "无法获取照片存储目录");*/
+            return null;
+        }
+        File parentDir = targetFile.getParentFile();
+        if ((parentDir != null) && !parentDir.exists()) {
+            boolean created = parentDir.mkdirs();
+            if (!created && !parentDir.exists()) {
+                Timber.tag(LogKit.TAG).e("创建照片存储目录失败 || %s", parentDir.getAbsolutePath());
+                /*notifyError(handler, onCaptureCallBack, "创建照片存储目录失败");*/
+                return null;
+            }
+        }
+        return targetFile.getAbsolutePath();
+    }
 
     /**
      * 拍照
@@ -59,7 +96,7 @@ public class CaptureHelper {
 
             @Override
             public void onError(@NonNull ImageCaptureException exception) {
-                Timber.tag(TAG).w(exception, "硬件抓拍失败，自动降级至 PreviewView 截屏处理。");
+                Timber.tag(LogKit.TAG).w(exception, "硬件抓拍失败，自动降级至 PreviewView 截屏处理。");
                 ContextCompat.getMainExecutor(context).execute(() -> captureFromPreviewView(previewView, rawPhotoFile, executorService, cameraCaptureCallback));
             }
         });
@@ -90,7 +127,7 @@ public class CaptureHelper {
                     cameraCaptureCallback.onCameraCaptureSuccess(photoFile);
                 }
             } catch (Exception e) {
-                Timber.tag(TAG).e(e, "预览截图保存失败");
+                Timber.tag(LogKit.TAG).e(e, "预览截图保存失败");
                 if (cameraCaptureCallback != null) {
                     cameraCaptureCallback.onCameraCaptureError(new ImageCaptureException(ImageCapture.ERROR_UNKNOWN, "截屏保存异常: " + e.getMessage(), e));
                 }
