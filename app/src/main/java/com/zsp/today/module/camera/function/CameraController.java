@@ -162,7 +162,7 @@ public class CameraController {
                 Preview preview = new Preview.Builder().setResolutionSelector(resolutionSelector).setTargetRotation(currentCameraConfig.getTargetRotation()).build();
                 preview.setSurfaceProvider(previewView.getSurfaceProvider());
                 // 4. 构建 ImageCapture 拍照用例
-                imageCapture = new ImageCapture.Builder().setResolutionSelector(resolutionSelector).setTargetRotation(currentCameraConfig.getTargetRotation()).setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY).build();
+                imageCapture = new ImageCapture.Builder().setResolutionSelector(resolutionSelector).setTargetRotation(currentCameraConfig.getTargetRotation()).setCaptureMode(ImageCapture.CAPTURE_MODE_MAXIMIZE_QUALITY).setJpegQuality(100).build();
                 // 5. 构建 ImageAnalysis 帧数据分析用例
                 // 强制使用与 Preview 和 ImageCapture 完全一致的全局 ResolutionSelector
                 // 保证降级抓拍帧数据时输出当前配置的真实全高清 / 原生的实际分辨率
