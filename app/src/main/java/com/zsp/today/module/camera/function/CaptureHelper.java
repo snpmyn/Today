@@ -93,10 +93,11 @@ public class CaptureHelper {
      * @param imageCapture          抓拍用例对象
      * @param previewView           预览视图
      *                              硬件抓拍失败时降级方案
+     * @param isUvcCamera           是否为 UVC 高拍仪设备
      * @param executorService       增强实现
      * @param cameraCaptureCallback 相机拍照回调
      */
-    public static void capture(@NonNull Context context, ImageCapture imageCapture, @NonNull PreviewView previewView, @NonNull ExecutorService executorService, CameraController.CameraCaptureCallback cameraCaptureCallback) {
+    public static void capture(@NonNull Context context, ImageCapture imageCapture, @NonNull PreviewView previewView, boolean isUvcCamera, @NonNull ExecutorService executorService, CameraController.CameraCaptureCallback cameraCaptureCallback) {
         Executor mainExecutor = ContextCompat.getMainExecutor(context);
         if (imageCapture == null) {
             if (cameraCaptureCallback != null) {
@@ -128,7 +129,7 @@ public class CaptureHelper {
             @Override
             public void onError(@NonNull ImageCaptureException exception) {
                 Timber.tag(LogKit.TAG).w(exception, "硬件抓拍失败，自动降级至 ImageAnalysis 原始帧抓拍处理。");
-                captureFromLatestFrame(context, previewView, rawPhotoFile, executorService, cameraCaptureCallback);
+                captureFromLatestFrame(context, previewView, rawPhotoFile, isUvcCamera, executorService, cameraCaptureCallback);
             }
         });
     }
@@ -139,10 +140,11 @@ public class CaptureHelper {
      * @param context               上下文
      * @param previewView           预览视图
      * @param photoFile             照片文件
+     * @param isUvcCamera           是否为 UVC 高拍仪设备
      * @param executorService       增强实现
      * @param cameraCaptureCallback 相机拍照回调
      */
-    private static void captureFromLatestFrame(@NonNull Context context, @NonNull PreviewView previewView, File photoFile, @NonNull ExecutorService executorService, CameraController.CameraCaptureCallback cameraCaptureCallback) {
+    private static void captureFromLatestFrame(@NonNull Context context, @NonNull PreviewView previewView, File photoFile, boolean isUvcCamera, @NonNull ExecutorService executorService, CameraController.CameraCaptureCallback cameraCaptureCallback) {
         Executor mainExecutor = ContextCompat.getMainExecutor(context);
         executorService.execute(() -> {
             byte[] yuvData;
@@ -150,7 +152,6 @@ public class CaptureHelper {
             int height;
             int rotation;
             synchronized (FRAME_LOCK) {
-                // 做一份浅拷贝引用或保护，防止转换 Jpeg 时底层 buffer 被更新清空
                 if (latestYuvBytes != null) {
                     yuvData = new byte[latestYuvBytes.length];
                     System.arraycopy(latestYuvBytes, 0, yuvData, 0, latestYuvBytes.length);
@@ -159,7 +160,7 @@ public class CaptureHelper {
                 }
                 width = latestFrameWidth;
                 height = latestFrameHeight;
-                rotation = latestFrameRotationDegrees;
+                rotation = isUvcCamera ? 0 : latestFrameRotationDegrees;
             }
             if ((yuvData == null) || (width <= 0) || (height <= 0)) {
                 Timber.tag(LogKit.TAG).w("帧数据缓存为空，降级至 PreviewView 截屏处理。");
@@ -170,17 +171,25 @@ public class CaptureHelper {
                 YuvImage yuvImage = new YuvImage(yuvData, ImageFormat.NV21, width, height, null);
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 yuvImage.compressToJpeg(new Rect(0, 0, width, height), 100, byteArrayOutputStream);
-                byte[] imageBytes = byteArrayOutputStream.toByteArray();
-                Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-                if (rotation != 0) {
-                    Matrix matrix = new Matrix();
-                    matrix.postRotate(rotation);
-                    bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-                }
                 try (OutputStream outputStream = new FileOutputStream(photoFile)) {
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                    if (rotation == 0) {
+                        // 零旋转角度直接写入
+                        // 避免二次编解码开销
+                        outputStream.write(byteArrayOutputStream.toByteArray());
+                    } else {
+                        // 包含旋转角度时利用 Bitmap 旋转后再保存
+                        byte[] imageBytes = byteArrayOutputStream.toByteArray();
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                        Matrix matrix = new Matrix();
+                        matrix.postRotate(rotation);
+                        Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+                        rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                        if (rotatedBitmap != bitmap) {
+                            bitmap.recycle();
+                        }
+                        rotatedBitmap.recycle();
+                    }
                     Timber.tag(LogKit.TAG).d("ImageAnalysis 原始帧降级拍照成功 || %s", photoFile.getAbsolutePath());
-                    // 扫描单个文件
                     MediaScanKit.scanSingleFile(context, photoFile.getAbsolutePath(), "image/jpeg");
                     if (cameraCaptureCallback != null) {
                         mainExecutor.execute(() -> cameraCaptureCallback.onCameraCaptureSuccess(photoFile));
@@ -215,7 +224,7 @@ public class CaptureHelper {
             try (OutputStream outputStream = new FileOutputStream(photoFile)) {
                 Timber.tag(LogKit.TAG).d("PreviewView 截屏降级拍照成功 || %s", photoFile.getAbsolutePath());
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-                // 扫描单个文件
+                bitmap.recycle();
                 MediaScanKit.scanSingleFile(context, photoFile.getAbsolutePath());
                 if (cameraCaptureCallback != null) {
                     mainExecutor.execute(() -> cameraCaptureCallback.onCameraCaptureSuccess(photoFile));
@@ -234,16 +243,23 @@ public class CaptureHelper {
      * <p>
      * 由 ImageAnalysis 实时回调
      *
-     * @param imageProxy 图像代理
+     * @param imageProxy  图像代理
+     * @param isUvcCamera 是否为 UVC 高拍仪设备
      */
-    public static void updateLatestFrame(@NonNull ImageProxy imageProxy) {
+    public static void updateLatestFrame(@NonNull ImageProxy imageProxy, boolean isUvcCamera) {
         try (imageProxy) {
             if (imageProxy.getFormat() == ImageFormat.YUV_420_888) {
+                int width = imageProxy.getWidth();
+                int height = imageProxy.getHeight();
+                int rotationDegrees = isUvcCamera ? 0 : imageProxy.getImageInfo().getRotationDegrees();
+                // 转换工作在锁外进行
+                // 提升 ImageAnalysis 吞吐率
+                byte[] nv21Bytes = yuv420888ToNv21(imageProxy);
                 synchronized (FRAME_LOCK) {
-                    latestFrameWidth = imageProxy.getWidth();
-                    latestFrameHeight = imageProxy.getHeight();
-                    latestFrameRotationDegrees = imageProxy.getImageInfo().getRotationDegrees();
-                    latestYuvBytes = yuv420888ToNv21(imageProxy);
+                    latestFrameWidth = width;
+                    latestFrameHeight = height;
+                    latestFrameRotationDegrees = rotationDegrees;
+                    latestYuvBytes = nv21Bytes;
                 }
             }
         } catch (Exception e) {
@@ -252,10 +268,7 @@ public class CaptureHelper {
     }
 
     /**
-     * 将 YUV_420_888 格式的 ImageProxy 转为 NV21 字节数组
-     * <p>
-     * 自动补齐 / 剔除行 Padding (rowStride) 和像素 Padding (pixelStride)
-     * 防止图像画质产生斜切、绿条或拉丝现象并复用内存空间
+     * 将 YUV_420_888 格式的 ImageProxy 安全快速地转为 NV21 字节数组
      *
      * @param imageProxy 图像代理
      * @return NV21 字节数组
@@ -264,56 +277,60 @@ public class CaptureHelper {
     private static byte[] yuv420888ToNv21(@NonNull ImageProxy imageProxy) {
         int width = imageProxy.getWidth();
         int height = imageProxy.getHeight();
-        int requiredSize = width * height * 3 / 2;
-        // 复用 byte 数组空间
-        // 避免频繁 GC
-        if ((latestYuvBytes == null) || (latestYuvBytes.length != requiredSize)) {
-            latestYuvBytes = new byte[requiredSize];
-        }
-        ImageProxy.PlaneProxy[] planes = imageProxy.getPlanes();
-        // --- Y Plane ---
-        ImageProxy.PlaneProxy yPlane = planes[0];
-        ByteBuffer yBuffer = yPlane.getBuffer();
-        int yRowStride = yPlane.getRowStride();
-        int yPixelStride = yPlane.getPixelStride();
-        int pos = 0;
+        int ySize = width * height;
+        int uvSize = ySize / 2;
+        byte[] nv21 = new byte[ySize + uvSize];
+        ImageProxy.PlaneProxy[] proxyPlanes = imageProxy.getPlanes();
+        // 1. 提取 Y 分量
+        ByteBuffer yBuffer = proxyPlanes[0].getBuffer();
+        int yRowStride = proxyPlanes[0].getRowStride();
+        int yPixelStride = proxyPlanes[0].getPixelStride();
         if ((yPixelStride == 1) && (yRowStride == width)) {
-            yBuffer.get(latestYuvBytes, 0, width * height);
-            pos = width * height;
+            yBuffer.get(nv21, 0, ySize);
         } else {
             for (int row = 0; row < height; row++) {
                 yBuffer.position(row * yRowStride);
-                for (int col = 0; col < width; col++) {
-                    latestYuvBytes[pos++] = yBuffer.get();
-                    if ((yPixelStride > 1) && (col < width - 1)) {
-                        yBuffer.position(yBuffer.position() + yPixelStride - 1);
+                if (yPixelStride == 1) {
+                    yBuffer.get(nv21, row * width, width);
+                } else {
+                    int rowOffset = row * width;
+                    for (int col = 0; col < width; col++) {
+                        nv21[rowOffset + col] = yBuffer.get();
+                        if (col < width - 1) {
+                            yBuffer.position(yBuffer.position() + yPixelStride - 1);
+                        }
                     }
                 }
             }
         }
-        // --- UV Planes ---
-        ImageProxy.PlaneProxy uPlane = planes[1];
-        ImageProxy.PlaneProxy vPlane = planes[2];
-        ByteBuffer uBuffer = uPlane.getBuffer();
-        ByteBuffer vBuffer = vPlane.getBuffer();
-        int uvRowStride = uPlane.getRowStride();
-        int uvPixelStride = uPlane.getPixelStride();
+        // 2. 提取 U / V 分量
+        // NV21 存储格式: V, U, V, U...
+        ByteBuffer uBuffer = proxyPlanes[1].getBuffer();
+        ByteBuffer vBuffer = proxyPlanes[2].getBuffer();
+        int uvRowStride = proxyPlanes[1].getRowStride();
+        int uvPixelStride = proxyPlanes[1].getPixelStride();
         int uvWidth = width / 2;
         int uvHeight = height / 2;
+        int pos = ySize;
+        byte[] rowU = new byte[uvRowStride];
+        byte[] rowV = new byte[uvRowStride];
         for (int row = 0; row < uvHeight; row++) {
-            int uRowStart = row * uvRowStride;
-            int vRowStart = row * vPlane.getRowStride();
+            uBuffer.position(row * uvRowStride);
+            vBuffer.position(row * uvRowStride);
+            int uRemaining = uBuffer.remaining();
+            int vRemaining = vBuffer.remaining();
+            int bytesToRead = Math.min(uvRowStride, Math.min(uRemaining, vRemaining));
+            uBuffer.get(rowU, 0, bytesToRead);
+            vBuffer.get(rowV, 0, bytesToRead);
             for (int col = 0; col < uvWidth; col++) {
-                int uPos = (uRowStart + col * uvPixelStride);
-                int vPos = (vRowStart + col * vPlane.getPixelStride());
-                // NV21 存储顺序 (V, U, V, U ...)
-                // V 在前
-                // U 在后
-                latestYuvBytes[pos++] = vBuffer.get(vPos);
-                latestYuvBytes[pos++] = uBuffer.get(uPos);
+                int colOffset = col * uvPixelStride;
+                if (colOffset < bytesToRead) {
+                    nv21[pos++] = rowV[colOffset];
+                    nv21[pos++] = rowU[colOffset];
+                }
             }
         }
-        return latestYuvBytes;
+        return nv21;
     }
 
     /**
