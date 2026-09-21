@@ -39,6 +39,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import timber.log.Timber;
+import util.mmkv.MmkvKit;
 
 /**
  * Created on 2026/9/11.
@@ -49,11 +50,12 @@ import timber.log.Timber;
 public class CameraController {
     /**
      * 增强实现
-     * <p>
-     * 异步单线程池
-     * 处理磁盘 IO 文件保存 + 避免阻塞主 UI 线程
      */
     private ExecutorService executorService;
+    /**
+     * 预览用例对象
+     */
+    private Preview preview;
     /**
      * 抓拍用例对象
      */
@@ -129,9 +131,12 @@ public class CameraController {
      * @param cameraInitCallback       相机初始回调
      */
     public void startCamera(@NonNull Context context, @NonNull LifecycleOwner lifecycleOwner, @NonNull View previewViewContainerView, @NonNull PreviewView previewView, String cameraId, Size resolution, CameraInitCallback cameraInitCallback) {
-        // 获取窗口真实的 Display 旋转角 (默认 Surface.ROTATION_0)
+        // 优先读取持久化配置的角度，若无则使用窗口 Display 旋转角。
+        int savedRotation = MmkvKit.defaultMmkv().decodeInt(CameraConstant.CAMERA_$_TARGET_ROTATION, Surface.ROTATION_0);
         int displayRotation = (previewView.getDisplay() != null) ? previewView.getDisplay().getRotation() : Surface.ROTATION_0;
-        CameraConfig cameraConfig = new CameraConfig.Builder().setCameraId(cameraId).setResolution(resolution).setTargetRotation(displayRotation).build();
+        int targetRotation = (savedRotation != Surface.ROTATION_0) ? savedRotation : displayRotation;
+        // 相机配置
+        CameraConfig cameraConfig = new CameraConfig.Builder().setCameraId(cameraId).setResolution(resolution).setTargetRotation(targetRotation).build();
         startCamera(context, lifecycleOwner, previewViewContainerView, previewView, cameraConfig, cameraInitCallback);
     }
 
@@ -189,10 +194,8 @@ public class CameraController {
                 }
                 // 检查并记录当前绑定是否为 UVC 高拍仪设备
                 this.isUvcCamera = checkIsUvcCamera(processCameraProvider, cameraSelector);
-                // 根据设备类型确定目标旋转角
-                // UVC 高拍仪设备强置 Surface.ROTATION_90 修正旋转
-                // 普通内置相机使用配置的目标旋转角
-                int effectiveTargetRotation = isUvcCamera ? Surface.ROTATION_90 : currentCameraConfig.getTargetRotation();
+                // 获取配置的目标旋转角度
+                int effectiveTargetRotation = currentCameraConfig.getTargetRotation();
                 // 1. 构建全局统一 ResolutionSelector 分辨率选择器
                 // 供 Preview、ImageCapture 与 ImageAnalysis 同步共享
                 Size resolution = currentCameraConfig.getResolution();
@@ -211,7 +214,7 @@ public class CameraController {
                 previewView.setImplementationMode(PreviewView.ImplementationMode.COMPATIBLE);
                 previewView.setScaleType(PreviewView.ScaleType.FILL_CENTER);
                 // 3. 构建 Preview 预览用例
-                Preview preview = new Preview.Builder().setResolutionSelector(resolutionSelector).setTargetRotation(effectiveTargetRotation).build();
+                preview = new Preview.Builder().setResolutionSelector(resolutionSelector).setTargetRotation(effectiveTargetRotation).build();
                 preview.setSurfaceProvider(previewView.getSurfaceProvider());
                 // 4. 构建 ImageCapture 拍照用例
                 // ==================================================================================================================================================
@@ -239,11 +242,7 @@ public class CameraController {
                 setupFpsTracker(previewView);
                 // 根据选定分辨率及有效旋转角动态更新 ConstraintLayout 容器宽高比
                 // 确保图像无形变且居中
-                if (resolution != null) {
-                    androidx.constraintlayout.widget.ConstraintLayout.LayoutParams layoutParams = (androidx.constraintlayout.widget.ConstraintLayout.LayoutParams) previewViewContainerView.getLayoutParams();
-                    layoutParams.dimensionRatio = "H," + resolution.getWidth() + ":" + resolution.getHeight();
-                    previewViewContainerView.setLayoutParams(layoutParams);
-                }
+                updatePreviewContainerRatio(previewViewContainerView, resolution, effectiveTargetRotation);
                 Timber.tag(LogKit.TAG).i("CameraX 启动成功 - 旋转角度: %d, isUvc: %b", effectiveTargetRotation, isUvcCamera);
                 if (cameraInitCallback != null) {
                     cameraInitCallback.onCameraInitSuccess();
@@ -255,6 +254,62 @@ public class CameraController {
                 }
             }
         }, ContextCompat.getMainExecutor(context));
+    }
+
+    /**
+     * 设置目标旋转角度
+     *
+     * @param previewViewContainerView 预览视图容器
+     * @param previewView              预览视图
+     * @param targetRotation           目标旋转角度
+     *                                 [Surface.ROTATION_0 / 90 / 180 / 270]
+     */
+    public void setTargetRotation(@NonNull View previewViewContainerView, @NonNull PreviewView previewView, int targetRotation) {
+        // 1. 持久化存储
+        MmkvKit.defaultMmkv().encode(CameraConstant.CAMERA_$_TARGET_ROTATION, targetRotation);
+        // 2. 更新内存配置
+        if (currentCameraConfig != null) {
+            currentCameraConfig = new CameraConfig.Builder().setCameraId(currentCameraConfig.getCameraId()).setResolution(currentCameraConfig.getResolution()).setTargetRotation(targetRotation).build();
+        }
+        // 3. 动态刷新 CameraX 各用例的 TargetRotation
+        if (preview != null) {
+            preview.setTargetRotation(targetRotation);
+        }
+        if (imageCapture != null) {
+            imageCapture.setTargetRotation(targetRotation);
+        }
+        if (imageAnalysis != null) {
+            imageAnalysis.setTargetRotation(targetRotation);
+        }
+        // 4. 重新链接 SurfaceProvider 以使预览视图矩阵变换生效
+        if (preview != null) {
+            preview.setSurfaceProvider(previewView.getSurfaceProvider());
+        }
+        // 5. 动态更新 ConstraintLayout 容器宽高比
+        if (currentCameraConfig != null) {
+            updatePreviewContainerRatio(previewViewContainerView, currentCameraConfig.getResolution(), targetRotation);
+        }
+    }
+
+    /**
+     * 根据选择的分辨率与当前旋转角度动态更新 ConstraintLayout 容器宽高比
+     *
+     * @param previewViewContainerView 预览视图容器
+     * @param resolution               配置的宽高大小
+     * @param targetRotation           当前旋转角度
+     */
+    private void updatePreviewContainerRatio(@NonNull View previewViewContainerView, @Nullable Size resolution, int targetRotation) {
+        if (resolution == null) {
+            return;
+        }
+        androidx.constraintlayout.widget.ConstraintLayout.LayoutParams layoutParams = (androidx.constraintlayout.widget.ConstraintLayout.LayoutParams) previewViewContainerView.getLayoutParams();
+        // 根据旋转角判断宽高的交换关系
+        boolean isRotated = (targetRotation == Surface.ROTATION_90) || (targetRotation == Surface.ROTATION_270);
+        int width = isRotated ? resolution.getHeight() : resolution.getWidth();
+        int height = isRotated ? resolution.getWidth() : resolution.getHeight();
+
+        layoutParams.dimensionRatio = "H," + width + ":" + height;
+        previewViewContainerView.setLayoutParams(layoutParams);
     }
 
     /**
@@ -438,6 +493,7 @@ public class CameraController {
             imageAnalysis.clearAnalyzer();
             imageAnalysis = null;
         }
+        preview = null;
         imageCapture = null;
         if (processCameraProvider != null) {
             processCameraProvider.unbindAll();
