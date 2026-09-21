@@ -120,6 +120,14 @@ public class CameraController {
 
     /**
      * 启动相机
+     * <p>
+     * 本方法会绑定并配置两条不同的相机硬件工作管道 (Stream Pipelines)
+     * <p>
+     * 1. 硬件拍照流 (ImageCapture)
+     * 走底层硬件传感器抓拍，调用硬件 ISP 深度算法 (HDR / 超分辨率 / 降噪)，画质高且高频纹理丰富，生成文件较大。
+     * <p>
+     * 2. 预览 / 帧分析流 (ImageAnalysis)
+     * 走视频流管道，为保障 30 FPS 高帧率，ISP 会进行实时平滑与降噪处理，生成的文件体积较小，但可实现无延迟抓拍。
      *
      * @param context                  上下文
      * @param lifecycleOwner           生命周期拥有者
@@ -162,10 +170,20 @@ public class CameraController {
                 Preview preview = new Preview.Builder().setResolutionSelector(resolutionSelector).setTargetRotation(currentCameraConfig.getTargetRotation()).build();
                 preview.setSurfaceProvider(previewView.getSurfaceProvider());
                 // 4. 构建 ImageCapture 拍照用例
+                // ==================================================================================================================================================
+                // [硬件拍照流 (ImageCapture)]
+                // 触发底层传感器硬件重新曝光与硬件 ISP 算法 (HDR、空间降噪、超分辨率重构、边缘锐化)
+                // 特性：画质极高，保留极多细节与微小噪点，导出文件较大 (通常 3MB ~ 10MB+)，存在毫秒级硬件抓拍延迟。
+                // ==================================================================================================================================================
                 imageCapture = new ImageCapture.Builder().setResolutionSelector(resolutionSelector).setTargetRotation(currentCameraConfig.getTargetRotation()).setCaptureMode(ImageCapture.CAPTURE_MODE_MAXIMIZE_QUALITY).setJpegQuality(100).build();
                 // 5. 构建 ImageAnalysis 帧数据分析用例
                 // 强制使用与 Preview 和 ImageCapture 完全一致的全局 ResolutionSelector
                 // 保证降级抓拍帧数据时输出当前配置的真实全高清 / 原生的实际分辨率
+                // ==================================================================================================================================================
+                // [预览 / 帧分析流 (ImageAnalysis)]
+                // 为保障 30 FPS 实时性，ISP 仅进行轻量实时降噪和平滑处理。持续输出 YUV_420_888 视频单帧。
+                // 特性：画面高频噪点少、平滑度高，因此 JPEG 编码压缩率极高，导出的文件较小 (约 900KB ~ 1.5MB)，但具备零延迟拍照优势。
+                // ==================================================================================================================================================
                 imageAnalysis = new ImageAnalysis.Builder().setResolutionSelector(resolutionSelector).setTargetRotation(currentCameraConfig.getTargetRotation()).setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST).build();
                 imageAnalysis.setAnalyzer(executorService, CaptureHelper::updateLatestFrame);
                 // 6. 构建 CameraSelector 相机选择器

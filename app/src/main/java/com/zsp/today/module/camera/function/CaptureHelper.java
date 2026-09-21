@@ -169,18 +169,16 @@ public class CaptureHelper {
             try {
                 YuvImage yuvImage = new YuvImage(yuvData, ImageFormat.NV21, width, height, null);
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                yuvImage.compressToJpeg(new Rect(0, 0, width, height), 95, byteArrayOutputStream);
+                yuvImage.compressToJpeg(new Rect(0, 0, width, height), 100, byteArrayOutputStream);
                 byte[] imageBytes = byteArrayOutputStream.toByteArray();
-
                 Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
                 if (rotation != 0) {
                     Matrix matrix = new Matrix();
                     matrix.postRotate(rotation);
                     bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
                 }
-
                 try (OutputStream outputStream = new FileOutputStream(photoFile)) {
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 95, outputStream);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
                     Timber.tag(LogKit.TAG).d("ImageAnalysis 原始帧降级拍照成功 || %s", photoFile.getAbsolutePath());
                     // 扫描单个文件
                     MediaScanKit.scanSingleFile(context, photoFile.getAbsolutePath(), "image/jpeg");
@@ -216,7 +214,7 @@ public class CaptureHelper {
         executorService.execute(() -> {
             try (OutputStream outputStream = new FileOutputStream(photoFile)) {
                 Timber.tag(LogKit.TAG).d("PreviewView 截屏降级拍照成功 || %s", photoFile.getAbsolutePath());
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 95, outputStream);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
                 // 扫描单个文件
                 MediaScanKit.scanSingleFile(context, photoFile.getAbsolutePath());
                 if (cameraCaptureCallback != null) {
