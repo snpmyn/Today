@@ -135,11 +135,14 @@ public class CameraController {
         if (fpsTracker != null) {
             fpsTracker.reset();
         }
+        // 清除帧缓存
+        CaptureHelper.clearFrameCache();
         ListenableFuture<ProcessCameraProvider> cameraProviderFuture = ProcessCameraProvider.getInstance(context);
         cameraProviderFuture.addListener(() -> {
             try {
                 processCameraProvider = cameraProviderFuture.get();
-                // 1. 构建 ResolutionSelector 分辨率选择器
+                // 1. 构建全局统一 ResolutionSelector 分辨率选择器
+                // 供 Preview、ImageCapture 与 ImageAnalysis 同步共享
                 Size resolution = currentCameraConfig.getResolution();
                 ResolutionStrategy resolutionStrategy = (resolution != null) ? new ResolutionStrategy(resolution, ResolutionStrategy.FALLBACK_RULE_CLOSEST_HIGHER_THEN_LOWER) : ResolutionStrategy.HIGHEST_AVAILABLE_STRATEGY;
                 ResolutionSelector resolutionSelector = new ResolutionSelector.Builder().setResolutionStrategy(resolutionStrategy).build();
@@ -161,6 +164,8 @@ public class CameraController {
                 // 4. 构建 ImageCapture 拍照用例
                 imageCapture = new ImageCapture.Builder().setResolutionSelector(resolutionSelector).setTargetRotation(currentCameraConfig.getTargetRotation()).setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY).build();
                 // 5. 构建 ImageAnalysis 帧数据分析用例
+                // 强制使用与 Preview 和 ImageCapture 完全一致的全局 ResolutionSelector
+                // 保证降级抓拍帧数据时输出当前配置的真实全高清 / 原生的实际分辨率
                 imageAnalysis = new ImageAnalysis.Builder().setResolutionSelector(resolutionSelector).setTargetRotation(currentCameraConfig.getTargetRotation()).setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST).build();
                 imageAnalysis.setAnalyzer(executorService, CaptureHelper::updateLatestFrame);
                 // 6. 构建 CameraSelector 相机选择器

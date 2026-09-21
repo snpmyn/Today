@@ -150,7 +150,13 @@ public class CaptureHelper {
             int height;
             int rotation;
             synchronized (FRAME_LOCK) {
-                yuvData = latestYuvBytes;
+                // 做一份浅拷贝引用或保护，防止转换 Jpeg 时底层 buffer 被更新清空
+                if (latestYuvBytes != null) {
+                    yuvData = new byte[latestYuvBytes.length];
+                    System.arraycopy(latestYuvBytes, 0, yuvData, 0, latestYuvBytes.length);
+                } else {
+                    yuvData = null;
+                }
                 width = latestFrameWidth;
                 height = latestFrameHeight;
                 rotation = latestFrameRotationDegrees;
@@ -249,28 +255,67 @@ public class CaptureHelper {
 
     /**
      * 将 YUV_420_888 格式的 ImageProxy 转为 NV21 字节数组
+     * <p>
+     * 自动补齐 / 剔除行 Padding (rowStride) 和像素 Padding (pixelStride)
+     * 防止图像画质产生斜切、绿条或拉丝现象并复用内存空间
      *
      * @param imageProxy 图像代理
      * @return NV21 字节数组
      */
     @NonNull
     private static byte[] yuv420888ToNv21(@NonNull ImageProxy imageProxy) {
-        ImageProxy.PlaneProxy[] planeProxies = imageProxy.getPlanes();
-        ByteBuffer yBuffer = planeProxies[0].getBuffer();
-        ByteBuffer uBuffer = planeProxies[1].getBuffer();
-        ByteBuffer vBuffer = planeProxies[2].getBuffer();
-
-        int ySize = yBuffer.remaining();
-        int uSize = uBuffer.remaining();
-        int vSize = vBuffer.remaining();
-
-        byte[] nv21 = new byte[ySize + uSize + vSize];
-
-        yBuffer.get(nv21, 0, ySize);
-        vBuffer.get(nv21, ySize, vSize);
-        uBuffer.get(nv21, ySize + vSize, uSize);
-
-        return nv21;
+        int width = imageProxy.getWidth();
+        int height = imageProxy.getHeight();
+        int requiredSize = width * height * 3 / 2;
+        // 复用 byte 数组空间
+        // 避免频繁 GC
+        if ((latestYuvBytes == null) || (latestYuvBytes.length != requiredSize)) {
+            latestYuvBytes = new byte[requiredSize];
+        }
+        ImageProxy.PlaneProxy[] planes = imageProxy.getPlanes();
+        // --- Y Plane ---
+        ImageProxy.PlaneProxy yPlane = planes[0];
+        ByteBuffer yBuffer = yPlane.getBuffer();
+        int yRowStride = yPlane.getRowStride();
+        int yPixelStride = yPlane.getPixelStride();
+        int pos = 0;
+        if ((yPixelStride == 1) && (yRowStride == width)) {
+            yBuffer.get(latestYuvBytes, 0, width * height);
+            pos = width * height;
+        } else {
+            for (int row = 0; row < height; row++) {
+                yBuffer.position(row * yRowStride);
+                for (int col = 0; col < width; col++) {
+                    latestYuvBytes[pos++] = yBuffer.get();
+                    if ((yPixelStride > 1) && (col < width - 1)) {
+                        yBuffer.position(yBuffer.position() + yPixelStride - 1);
+                    }
+                }
+            }
+        }
+        // --- UV Planes ---
+        ImageProxy.PlaneProxy uPlane = planes[1];
+        ImageProxy.PlaneProxy vPlane = planes[2];
+        ByteBuffer uBuffer = uPlane.getBuffer();
+        ByteBuffer vBuffer = vPlane.getBuffer();
+        int uvRowStride = uPlane.getRowStride();
+        int uvPixelStride = uPlane.getPixelStride();
+        int uvWidth = width / 2;
+        int uvHeight = height / 2;
+        for (int row = 0; row < uvHeight; row++) {
+            int uRowStart = row * uvRowStride;
+            int vRowStart = row * vPlane.getRowStride();
+            for (int col = 0; col < uvWidth; col++) {
+                int uPos = (uRowStart + col * uvPixelStride);
+                int vPos = (vRowStart + col * vPlane.getPixelStride());
+                // NV21 存储顺序 (V, U, V, U ...)
+                // V 在前
+                // U 在后
+                latestYuvBytes[pos++] = vBuffer.get(vPos);
+                latestYuvBytes[pos++] = uBuffer.get(uPos);
+            }
+        }
+        return latestYuvBytes;
     }
 
     /**
