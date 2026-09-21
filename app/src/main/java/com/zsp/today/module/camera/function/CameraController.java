@@ -31,6 +31,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.zsp.today.module.camera.LogKit;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -70,9 +71,21 @@ public class CameraController {
      */
     private CameraConfig currentCameraConfig = null;
     /**
+     * 是否为 UVC 高拍仪设备
+     */
+    private boolean isUvcCamera = false;
+    /**
      * 帧率追踪器
      */
     private FpsTracker fpsTracker;
+    /**
+     * 绑定的 PreviewView 弱引用
+     */
+    private WeakReference<PreviewView> previewViewWeakReference;
+    /**
+     * View 布局改变监听器
+     */
+    private View.OnLayoutChangeListener layoutChangeListener;
 
     /**
      * constructor
@@ -93,10 +106,12 @@ public class CameraController {
 
     /**
      * 获取指定相机 ID 支持的原生分辨率列表
+     * <p>
+     * 按总像素量降序排列
      *
      * @param context  上下文
      * @param cameraId 相机 ID
-     * @return 指定相机 ID 支持的原生分辨率列表 [按总像素量降序排列]
+     * @return 指定相机 ID 支持的原生分辨率列表
      */
     public List<Size> getSupportedResolutions(@NonNull Context context, String cameraId) {
         return CameraManagerKit.getSupportedResolutions(context, cameraId);
@@ -114,7 +129,9 @@ public class CameraController {
      * @param cameraInitCallback       相机初始回调
      */
     public void startCamera(@NonNull Context context, @NonNull LifecycleOwner lifecycleOwner, @NonNull View previewViewContainerView, @NonNull PreviewView previewView, String cameraId, Size resolution, CameraInitCallback cameraInitCallback) {
-        CameraConfig cameraConfig = new CameraConfig.Builder().setCameraId(cameraId).setResolution(resolution).setTargetRotation(Surface.ROTATION_90).build();
+        // 获取窗口真实的 Display 旋转角 (默认 Surface.ROTATION_0)
+        int displayRotation = (previewView.getDisplay() != null) ? previewView.getDisplay().getRotation() : Surface.ROTATION_0;
+        CameraConfig cameraConfig = new CameraConfig.Builder().setCameraId(cameraId).setResolution(resolution).setTargetRotation(displayRotation).build();
         startCamera(context, lifecycleOwner, previewViewContainerView, previewView, cameraConfig, cameraInitCallback);
     }
 
@@ -145,48 +162,13 @@ public class CameraController {
         }
         // 清除帧缓存
         CaptureHelper.clearFrameCache();
+        // 保证启动相机时后台工作线程池可用
+        ensureExecutorAvailable();
         ListenableFuture<ProcessCameraProvider> cameraProviderFuture = ProcessCameraProvider.getInstance(context);
         cameraProviderFuture.addListener(() -> {
             try {
                 processCameraProvider = cameraProviderFuture.get();
-                // 1. 构建全局统一 ResolutionSelector 分辨率选择器
-                // 供 Preview、ImageCapture 与 ImageAnalysis 同步共享
-                Size resolution = currentCameraConfig.getResolution();
-                ResolutionStrategy resolutionStrategy = (resolution != null) ? new ResolutionStrategy(resolution, ResolutionStrategy.FALLBACK_RULE_CLOSEST_HIGHER_THEN_LOWER) : ResolutionStrategy.HIGHEST_AVAILABLE_STRATEGY;
-                ResolutionSelector resolutionSelector = new ResolutionSelector.Builder().setResolutionStrategy(resolutionStrategy).build();
-                // 2. 配置 PreviewView 渲染模式与缩放策略
-                // ==================================================================================================================================================
-                // A. 渲染模式 - COMPATIBLE
-                //    采用 TextureView 模式以提升复杂 UI (如圆角 CardView 裁剪、Overlay 覆盖物) 兼容性
-                // B. 缩放策略 - FILL_CENTER
-                //    - FIT_CENTER 缺陷
-                //    TextureView 渲染层在进行矩阵变换时，因 Android 视图树测量 (Measure Pass) 与 Sensor 帧率同步的亚像素四舍五入偏差，极其容易在 View 边缘产生 1 ~ 2px 的补齐黑边 / 黑缝。
-                //    - FILL_CENTER 优势
-                //    由于外层 CardView 的 dimensionRatio 已被严格锁定为图像原生宽高比，FILL_CENTER 充当 [填满容错机制]，在消除亚像素黑边的同时，绝对不会造成任何画面的裁切。
-                // ==================================================================================================================================================
-                previewView.setImplementationMode(PreviewView.ImplementationMode.COMPATIBLE);
-                previewView.setScaleType(PreviewView.ScaleType.FILL_CENTER);
-                // 3. 构建 Preview 预览用例
-                Preview preview = new Preview.Builder().setResolutionSelector(resolutionSelector).setTargetRotation(currentCameraConfig.getTargetRotation()).build();
-                preview.setSurfaceProvider(previewView.getSurfaceProvider());
-                // 4. 构建 ImageCapture 拍照用例
-                // ==================================================================================================================================================
-                // [硬件拍照流 (ImageCapture)]
-                // 触发底层传感器硬件重新曝光与硬件 ISP 算法 (HDR、空间降噪、超分辨率重构、边缘锐化)
-                // 特性：画质极高，保留极多细节与微小噪点，导出文件较大 (通常 3MB ~ 10MB+)，存在毫秒级硬件抓拍延迟。
-                // ==================================================================================================================================================
-                imageCapture = new ImageCapture.Builder().setResolutionSelector(resolutionSelector).setTargetRotation(currentCameraConfig.getTargetRotation()).setCaptureMode(ImageCapture.CAPTURE_MODE_MAXIMIZE_QUALITY).setJpegQuality(100).build();
-                // 5. 构建 ImageAnalysis 帧数据分析用例
-                // 强制使用与 Preview 和 ImageCapture 完全一致的全局 ResolutionSelector
-                // 保证降级抓拍帧数据时输出当前配置的真实全高清 / 原生的实际分辨率
-                // ==================================================================================================================================================
-                // [预览 / 帧分析流 (ImageAnalysis)]
-                // 为保障 30 FPS 实时性，ISP 仅进行轻量实时降噪和平滑处理。持续输出 YUV_420_888 视频单帧。
-                // 特性：画面高频噪点少、平滑度高，因此 JPEG 编码压缩率极高，导出的文件较小 (约 900KB ~ 1.5MB)，但具备零延迟拍照优势。
-                // ==================================================================================================================================================
-                imageAnalysis = new ImageAnalysis.Builder().setResolutionSelector(resolutionSelector).setTargetRotation(currentCameraConfig.getTargetRotation()).setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST).build();
-                imageAnalysis.setAnalyzer(executorService, CaptureHelper::updateLatestFrame);
-                // 6. 构建 CameraSelector 相机选择器
+                // 构建 CameraSelector 相机选择器
                 CameraSelector cameraSelector;
                 String cameraId = currentCameraConfig.getCameraId();
                 if ((cameraId != null) && !cameraId.isEmpty()) {
@@ -205,19 +187,64 @@ public class CameraController {
                     // 未指定 CameraID 时使用自定义优先级过滤
                     cameraSelector = new CameraSelector.Builder().addCameraFilter(this::filterCamera).build();
                 }
+                // 检查并记录当前绑定是否为 UVC 高拍仪设备
+                this.isUvcCamera = checkIsUvcCamera(processCameraProvider, cameraSelector);
+                // 根据设备类型确定目标旋转角
+                // UVC 高拍仪设备强置 Surface.ROTATION_90 修正旋转
+                // 普通内置相机使用配置的目标旋转角
+                int effectiveTargetRotation = isUvcCamera ? Surface.ROTATION_90 : currentCameraConfig.getTargetRotation();
+                // 1. 构建全局统一 ResolutionSelector 分辨率选择器
+                // 供 Preview、ImageCapture 与 ImageAnalysis 同步共享
+                Size resolution = currentCameraConfig.getResolution();
+                ResolutionStrategy resolutionStrategy = (resolution != null) ? new ResolutionStrategy(resolution, ResolutionStrategy.FALLBACK_RULE_CLOSEST_HIGHER_THEN_LOWER) : ResolutionStrategy.HIGHEST_AVAILABLE_STRATEGY;
+                ResolutionSelector resolutionSelector = new ResolutionSelector.Builder().setResolutionStrategy(resolutionStrategy).build();
+                // 2. 配置 PreviewView 渲染模式与缩放策略
+                // ==================================================================================================================================================
+                // A. 渲染模式 - COMPATIBLE
+                //    采用 TextureView 模式以提升复杂 UI (如圆角 CardView 裁剪、Overlay 覆盖物) 兼容性
+                // B. 缩放策略 - FILL_CENTER
+                //    - FIT_CENTER 缺陷
+                //    TextureView 渲染层在进行矩阵变换时，因 Android 视图树测量 (Measure Pass) 与 Sensor 帧率同步的亚像素四舍五入偏差，极其容易在 View 边缘产生 1 ~ 2px 的补齐黑边 / 黑缝。
+                //    - FILL_CENTER 优势
+                //    等比放大画面以完全覆盖 View。在外层 CardView 已锁定图像原生宽高比的前提下，以极微小裁切 (容错) 抵消亚像素黑边。
+                // ==================================================================================================================================================
+                previewView.setImplementationMode(PreviewView.ImplementationMode.COMPATIBLE);
+                previewView.setScaleType(PreviewView.ScaleType.FILL_CENTER);
+                // 3. 构建 Preview 预览用例
+                Preview preview = new Preview.Builder().setResolutionSelector(resolutionSelector).setTargetRotation(effectiveTargetRotation).build();
+                preview.setSurfaceProvider(previewView.getSurfaceProvider());
+                // 4. 构建 ImageCapture 拍照用例
+                // ==================================================================================================================================================
+                // [硬件拍照流 (ImageCapture)]
+                // 触发底层传感器硬件重新曝光与硬件 ISP 算法 (HDR、空间降噪、超分辨率重构、边缘锐化)
+                // 特性：画质极高，保留极多细节与微小噪点，导出文件较大 (通常 3MB ~ 10MB+)，存在毫秒级硬件抓拍延迟。
+                // ==================================================================================================================================================
+                imageCapture = new ImageCapture.Builder().setResolutionSelector(resolutionSelector).setTargetRotation(effectiveTargetRotation).setCaptureMode(ImageCapture.CAPTURE_MODE_MAXIMIZE_QUALITY).setJpegQuality(100).build();
+                // 5. 构建 ImageAnalysis 帧数据分析用例
+                // 强制使用与 Preview 与 ImageCapture 完全一致的全局 ResolutionSelector
+                // 保证降级抓拍帧数据时输出当前配置的真实全高清 / 原生的实际分辨率
+                // ==================================================================================================================================================
+                // [预览 / 帧分析流 (ImageAnalysis)]
+                // 为保障 30 FPS 实时性，ISP 仅进行轻量实时降噪和平滑处理。持续输出原始 YUV_420_888 视频帧。
+                // 特性：画面高频噪点少、平滑度高，抓拍导出 JPEG 文件时具备更高的压缩率 (文件较小约 900KB ~ 1.5MB) 且具备零延迟抓拍优势。
+                // ==================================================================================================================================================
+                imageAnalysis = new ImageAnalysis.Builder().setResolutionSelector(resolutionSelector).setTargetRotation(effectiveTargetRotation).setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST).build();
+                // 传入 isUvcCamera 标识
+                // 若为 UVC 设备则直接由 CaptureHelper 内部按对应偏置解析 Buffer
+                imageAnalysis.setAnalyzer(executorService, image -> CaptureHelper.updateLatestFrame(image, isUvcCamera));
                 // 7. 解绑并重新绑定生命周期
                 processCameraProvider.unbindAll();
                 processCameraProvider.bindToLifecycle(lifecycleOwner, cameraSelector, preview, imageCapture, imageAnalysis);
                 // 初始化帧率追踪器
                 setupFpsTracker(previewView);
-                // 根据选定分辨率动态更新 ConstraintLayout 容器宽高比
+                // 根据选定分辨率及有效旋转角动态更新 ConstraintLayout 容器宽高比
                 // 确保图像无形变且居中
                 if (resolution != null) {
                     androidx.constraintlayout.widget.ConstraintLayout.LayoutParams layoutParams = (androidx.constraintlayout.widget.ConstraintLayout.LayoutParams) previewViewContainerView.getLayoutParams();
                     layoutParams.dimensionRatio = "H," + resolution.getWidth() + ":" + resolution.getHeight();
                     previewViewContainerView.setLayoutParams(layoutParams);
                 }
-                Timber.tag(LogKit.TAG).i("CameraX 启动成功 - 旋转角度: %d", currentCameraConfig.getTargetRotation());
+                Timber.tag(LogKit.TAG).i("CameraX 启动成功 - 旋转角度: %d, isUvc: %b", effectiveTargetRotation, isUvcCamera);
                 if (cameraInitCallback != null) {
                     cameraInitCallback.onCameraInitSuccess();
                 }
@@ -228,6 +255,27 @@ public class CameraController {
                 }
             }
         }, ContextCompat.getMainExecutor(context));
+    }
+
+    /**
+     * 检测是否为 UVC 高拍仪设备
+     *
+     * @param processCameraProvider 生命周期绑定提供者
+     * @param cameraSelector        目标相机选择器
+     * @return 是否为 UVC 高拍仪设备
+     */
+    @OptIn(markerClass = ExperimentalLensFacing.class)
+    private boolean checkIsUvcCamera(ProcessCameraProvider processCameraProvider, CameraSelector cameraSelector) {
+        try {
+            List<CameraInfo> cameraInfos = cameraSelector.filter(processCameraProvider.getAvailableCameraInfos());
+            if (!cameraInfos.isEmpty()) {
+                int lensFacing = cameraInfos.get(0).getLensFacing();
+                return ((lensFacing == CameraSelector.LENS_FACING_EXTERNAL) || (lensFacing == CameraSelector.LENS_FACING_UNKNOWN));
+            }
+        } catch (Exception e) {
+            Timber.tag(LogKit.TAG).w(e, "判断 UVC 相机类型失败，默认按普通设备处理。");
+        }
+        return false;
     }
 
     /**
@@ -258,7 +306,9 @@ public class CameraController {
         if (unknownCameraInfo != null) {
             return Collections.singletonList(unknownCameraInfo);
         }
-        return Collections.singletonList(cameraInfos.get(cameraInfos.size() - 1));
+        CameraInfo fallbackCameraInfo = cameraInfos.get(cameraInfos.size() - 1);
+        Timber.tag(LogKit.TAG).w("未匹配到标准 EXTERNAL 或 UNKNOWN 类型的摄像头，使用摄像头列表中最后一个节点兜底匹配: CameraInfo = %s", fallbackCameraInfo);
+        return Collections.singletonList(fallbackCameraInfo);
     }
 
     /**
@@ -269,17 +319,24 @@ public class CameraController {
      * @param cameraCaptureCallback 相机拍照回调
      */
     public void capture(@NonNull Context context, @NonNull PreviewView previewView, CameraCaptureCallback cameraCaptureCallback) {
-        ensureExecutorAvailable();
-        CaptureHelper.capture(context, imageCapture, previewView, executorService, cameraCaptureCallback);
+        boolean isExecutorRecreated = ensureExecutorAvailable();
+        if (isExecutorRecreated && (imageAnalysis != null)) {
+            imageAnalysis.setAnalyzer(executorService, image -> CaptureHelper.updateLatestFrame(image, isUvcCamera));
+        }
+        CaptureHelper.capture(context, imageCapture, previewView, isUvcCamera, executorService, cameraCaptureCallback);
     }
 
     /**
      * 确保线程池可用
+     *
+     * @return 线程池是否可用
      */
-    private synchronized void ensureExecutorAvailable() {
+    private synchronized boolean ensureExecutorAvailable() {
         if ((executorService == null) || executorService.isShutdown() || executorService.isTerminated()) {
             executorService = Executors.newSingleThreadExecutor();
+            return true;
         }
+        return false;
     }
 
     /**
@@ -300,8 +357,9 @@ public class CameraController {
      * @param previewView 预览视图
      */
     private void setupFpsTracker(@NonNull PreviewView previewView) {
-        // 使用 Runnable 提交延迟监听
-        // 避开 View 初始测量与内部 TextureView 创建的时序错位
+        this.previewViewWeakReference = new WeakReference<>(previewView);
+        // 使用 Runnable 延迟至下一帧 UI 消息循环
+        // 尝试获取异步挂载的 TextureView
         previewView.post(() -> {
             TextureView textureView = findTextureView(previewView);
             if (textureView != null) {
@@ -311,20 +369,25 @@ public class CameraController {
                 }
             } else {
                 // 若首帧未成功获取 TextureView
-                // 监听 View 树状态再次尝试
-                previewView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+                // 监听 View 树状态再次尝试并缓存 Listener 供销毁时精准移除
+                if (layoutChangeListener != null && previewViewWeakReference.get() != null) {
+                    previewViewWeakReference.get().removeOnLayoutChangeListener(layoutChangeListener);
+                }
+                layoutChangeListener = new View.OnLayoutChangeListener() {
                     @Override
                     public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
                         TextureView tv = findTextureView(previewView);
                         if (tv != null) {
                             previewView.removeOnLayoutChangeListener(this);
+                            layoutChangeListener = null;
                             TextureView.SurfaceTextureListener origListener = tv.getSurfaceTextureListener();
                             if (!(origListener instanceof FpsProxySurfaceTextureListener)) {
                                 tv.setSurfaceTextureListener(new FpsProxySurfaceTextureListener(origListener));
                             }
                         }
                     }
-                });
+                };
+                previewView.addOnLayoutChangeListener(layoutChangeListener);
             }
         });
     }
@@ -359,8 +422,26 @@ public class CameraController {
         if (fpsTracker != null) {
             fpsTracker.reset();
         }
+        // 清理 View 树层级监听
+        // 防止内存泄漏
+        if ((layoutChangeListener != null) && (previewViewWeakReference != null)) {
+            PreviewView previewView = previewViewWeakReference.get();
+            if (previewView != null) {
+                previewView.removeOnLayoutChangeListener(layoutChangeListener);
+            }
+            layoutChangeListener = null;
+            previewViewWeakReference.clear();
+        }
+        // 按照依赖倒置顺序先清除 Analyzer 分析器和解绑管道
+        // 防止关闭 executorService 后仍触发 Task 回调导致 RejectedExecutionException
+        if (imageAnalysis != null) {
+            imageAnalysis.clearAnalyzer();
+            imageAnalysis = null;
+        }
+        imageCapture = null;
         if (processCameraProvider != null) {
             processCameraProvider.unbindAll();
+            processCameraProvider = null;
         }
         if ((executorService != null) && !executorService.isShutdown()) {
             executorService.shutdown();
