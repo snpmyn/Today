@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.SurfaceTexture;
 import android.util.Size;
+import android.view.Display;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
@@ -97,6 +98,42 @@ public class CameraController {
     }
 
     /**
+     * 获取指定相机 ID 对应 MMKV 旋转角度存储 Key
+     *
+     * @param cameraId 相机 ID
+     * @return 指定相机 ID 对应 MMKV 旋转角度存储 Key
+     */
+    public String getRotationMmkvKey(String cameraId) {
+        if ((cameraId == null) || cameraId.isEmpty()) {
+            return CameraConstant.CAMERA_$_TARGET_ROTATION;
+        }
+        return (CameraConstant.CAMERA_$_TARGET_ROTATION + "_" + cameraId);
+    }
+
+    /**
+     * 决断指定相机 ID 最终生效目标旋转角度
+     *
+     * @param context     上下文
+     * @param cameraId    相机 ID
+     * @param previewView 预览视图
+     * @return 指定相机 ID 最终生效目标旋转角度
+     */
+    public int resolveTargetRotation(@NonNull Context context, String cameraId, @NonNull PreviewView previewView) {
+        String mmkvKey = getRotationMmkvKey(cameraId);
+        // 1. 优先读取 MMKV 中的特定相机持久化配置
+        if (MmkvKit.defaultMmkv().containsKey(mmkvKey)) {
+            return MmkvKit.defaultMmkv().decodeInt(mmkvKey, Surface.ROTATION_0);
+        }
+        // 2. UVC 高拍仪设备默认 0°
+        if (checkIsUvcCamera(context, cameraId)) {
+            return Surface.ROTATION_0;
+        }
+        // 3. 手机内置摄像头默认官方 Display 旋转角度
+        Display display = previewView.getDisplay();
+        return (display != null) ? display.getRotation() : Surface.ROTATION_0;
+    }
+
+    /**
      * 获取系统底层注册的所有相机 ID 列表
      *
      * @param context 上下文
@@ -131,10 +168,8 @@ public class CameraController {
      * @param cameraInitCallback       相机初始回调
      */
     public void startCamera(@NonNull Context context, @NonNull LifecycleOwner lifecycleOwner, @NonNull View previewViewContainerView, @NonNull PreviewView previewView, String cameraId, Size resolution, CameraInitCallback cameraInitCallback) {
-        // 优先读取持久化配置的角度，若无则使用窗口 Display 旋转角。
-        int savedRotation = MmkvKit.defaultMmkv().decodeInt(CameraConstant.CAMERA_$_TARGET_ROTATION, Surface.ROTATION_0);
-        int displayRotation = (previewView.getDisplay() != null) ? previewView.getDisplay().getRotation() : Surface.ROTATION_0;
-        int targetRotation = (savedRotation != Surface.ROTATION_0) ? savedRotation : displayRotation;
+        // MMKV 存值 -> UVC 默认 0° -> 内置默认官方 Display 旋转角度
+        int targetRotation = resolveTargetRotation(context, cameraId, previewView);
         // 相机配置
         CameraConfig cameraConfig = new CameraConfig.Builder().setCameraId(cameraId).setResolution(resolution).setTargetRotation(targetRotation).build();
         startCamera(context, lifecycleOwner, previewViewContainerView, previewView, cameraConfig, cameraInitCallback);
@@ -265,8 +300,9 @@ public class CameraController {
      *                                 [Surface.ROTATION_0 / 90 / 180 / 270]
      */
     public void setTargetRotation(@NonNull View previewViewContainerView, @NonNull PreviewView previewView, int targetRotation) {
-        // 1. 持久化存储
-        MmkvKit.defaultMmkv().encode(CameraConstant.CAMERA_$_TARGET_ROTATION, targetRotation);
+        // 1. 持久化存储按 Camera ID 隔离开的配置
+        String cameraId = (currentCameraConfig != null) ? currentCameraConfig.getCameraId() : null;
+        MmkvKit.defaultMmkv().encode(getRotationMmkvKey(cameraId), targetRotation);
         // 2. 更新内存配置
         if (currentCameraConfig != null) {
             currentCameraConfig = new CameraConfig.Builder().setCameraId(currentCameraConfig.getCameraId()).setResolution(currentCameraConfig.getResolution()).setTargetRotation(targetRotation).build();
@@ -310,6 +346,38 @@ public class CameraController {
 
         layoutParams.dimensionRatio = "H," + width + ":" + height;
         previewViewContainerView.setLayoutParams(layoutParams);
+    }
+
+    /**
+     * 检测是否为 UVC 高拍仪设备
+     *
+     * @param context  上下文
+     * @param cameraId 相机 ID
+     * @return 是否为 UVC 高拍仪设备
+     */
+    @OptIn(markerClass = ExperimentalCamera2Interop.class)
+    public boolean checkIsUvcCamera(@NonNull Context context, String cameraId) {
+        if (processCameraProvider == null) {
+            try {
+                processCameraProvider = ProcessCameraProvider.getInstance(context).get();
+            } catch (Exception e) {
+                Timber.tag(LogKit.TAG).w(e, "获取 ProcessCameraProvider 失败，无法精准检测 LENS_FACING");
+                return false;
+            }
+        }
+        if ((cameraId == null) || cameraId.isEmpty()) {
+            return false;
+        }
+        CameraSelector cameraSelector = new CameraSelector.Builder().addCameraFilter(cameraInfos -> {
+            List<CameraInfo> result = new ArrayList<>();
+            for (CameraInfo cameraInfo : cameraInfos) {
+                if (Camera2CameraInfo.from(cameraInfo).getCameraId().equals(cameraId)) {
+                    result.add(cameraInfo);
+                }
+            }
+            return result;
+        }).build();
+        return checkIsUvcCamera(processCameraProvider, cameraSelector);
     }
 
     /**

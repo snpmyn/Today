@@ -2,6 +2,7 @@ package com.zsp.today.module.camera.kit;
 
 import android.content.Context;
 import android.util.Size;
+import android.view.Surface;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,6 +24,7 @@ import java.util.Locale;
 
 import timber.log.Timber;
 import util.list.ListUtils;
+import util.mmkv.MmkvKit;
 import widget.toast.ToastKt;
 
 /**
@@ -57,6 +59,18 @@ public class CameraActivityKit {
      * 已选分辨率
      */
     private Size selectedResolution = null;
+    /**
+     * 底层支持旋转角度列表
+     */
+    private List<Integer> supportedRotationList = new ArrayList<>();
+    /**
+     * 旋转角度是否正在初始化
+     */
+    private boolean isRotationInitializing = false;
+    /**
+     * 已选旋转角度
+     */
+    private Integer selectedRotation = null;
 
     /**
      * constructor
@@ -87,6 +101,8 @@ public class CameraActivityKit {
             selectedCameraId = cameraIdList.get(0);
             // 初始化分辨率下拉选择框
             setupResolutionSpinner(context, lifecycleOwner, activityCameraBinding);
+            // 初始化旋转角度下拉选择框
+            setupRotationSpinner(context, activityCameraBinding);
             // 启动相机
             startCamera(context, lifecycleOwner, activityCameraBinding);
         } else {
@@ -109,7 +125,7 @@ public class CameraActivityKit {
         // 标记开始初始化
         // 拦截 Spinner 设置 Adapter 阶段的自动伪触发
         isResolutionInitializing = true;
-        // 1. 动态查询选定摄像头支持的真实分辨率
+        // 1. 获取指定相机 ID 支持的原生分辨率列表
         supportedResolutionList = cameraController.getSupportedResolutions(context, selectedCameraId);
         if (supportedResolutionList.isEmpty()) {
             Timber.tag(TAG).w("未查询到摄像头 CameraID: %s 支持的分辨率列表", selectedCameraId);
@@ -144,11 +160,83 @@ public class CameraActivityKit {
                     return;
                 }
                 Size newSize = supportedResolutionList.get(position);
-                // 用户选中分辨率发生变化时重启相机更新流参数
+                // 选中分辨率变化 -> 重启相机 -> 更新流参数
                 if (!newSize.equals(selectedResolution)) {
                     selectedResolution = newSize;
                     // 启动相机
                     startCamera(context, lifecycleOwner, activityCameraBinding);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    /**
+     * 初始化旋转角度下拉选择框
+     *
+     * @param context               上下文
+     * @param activityCameraBinding ActivityCameraBinding
+     */
+    public void setupRotationSpinner(Context context, @NonNull ActivityCameraBinding activityCameraBinding) {
+        if (selectedCameraId == null) {
+            return;
+        }
+        // 标记开始初始化
+        // 拦截 Spinner 设置 Adapter 阶段的自动伪触发
+        isRotationInitializing = true;
+        // 1. 设置支持的旋转角度列表
+        // 关联 Surface 角度常量值
+        supportedRotationList = new ArrayList<>();
+        supportedRotationList.add(Surface.ROTATION_0);
+        supportedRotationList.add(Surface.ROTATION_90);
+        supportedRotationList.add(Surface.ROTATION_180);
+        supportedRotationList.add(Surface.ROTATION_270);
+        // 2. 格式化为可视化旋转角度文本
+        List<String> rotationsStr = new ArrayList<>();
+        rotationsStr.add("0°");
+        rotationsStr.add("90°");
+        rotationsStr.add("180°");
+        rotationsStr.add("270°");
+        ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, rotationsStr);
+        stringArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // 3. 避免重新设置 Adapter 时触发旧监听器的误选择逻辑
+        activityCameraBinding.cameraActivitySpinnerSwitchRotation.setOnItemSelectedListener(null);
+        activityCameraBinding.cameraActivitySpinnerSwitchRotation.setAdapter(stringArrayAdapter);
+        // 4. 计算初始化选中的旋转角度
+        // 委派给 CameraController 统一决断
+        int initialRotation = cameraController.resolveTargetRotation(context, selectedCameraId, activityCameraBinding.cameraActivityPv);
+        int defaultIndex = supportedRotationList.indexOf(initialRotation);
+        if (defaultIndex < 0) {
+            defaultIndex = 0;
+        }
+        activityCameraBinding.cameraActivitySpinnerSwitchRotation.setSelection(defaultIndex, false);
+        selectedRotation = supportedRotationList.get(defaultIndex);
+        // 5. 延迟恢复监听防抖
+        // 通过 View.post 将任务推入主线程 MessageQueue 末尾
+        // 确保在 Spinner 内部 RequestLayout 与 View 树测量绘制引发的原生伪回调执行完毕后再重置标志位为 false
+        activityCameraBinding.cameraActivitySpinnerSwitchRotation.post(() -> isRotationInitializing = false);
+        // 6. 监听下拉选择切换
+        activityCameraBinding.cameraActivitySpinnerSwitchRotation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (isRotationInitializing) {
+                    return;
+                }
+                if ((position < 0) || (position >= supportedRotationList.size())) {
+                    return;
+                }
+                Integer newRotation = supportedRotationList.get(position);
+                // 选中旋转角度变化 -> 更新 TargetRotation 配置
+                if (!newRotation.equals(selectedRotation)) {
+                    selectedRotation = newRotation;
+                    // 1. 持久化存储
+                    MmkvKit.defaultMmkv().encode(cameraController.getRotationMmkvKey(selectedCameraId), selectedRotation);
+                    // 2. 设置目标旋转角度
+                    cameraController.setTargetRotation(activityCameraBinding.cameraActivityMcv, activityCameraBinding.cameraActivityPv, selectedRotation);
                 }
             }
 
@@ -167,18 +255,23 @@ public class CameraActivityKit {
      * @param activityCameraBinding ActivityCameraBinding
      */
     public void startCamera(Context context, LifecycleOwner lifecycleOwner, @NonNull ActivityCameraBinding activityCameraBinding) {
-        cameraController.startCamera(context, lifecycleOwner, activityCameraBinding.cameraActivityMcv, activityCameraBinding.cameraActivityPv, selectedCameraId, selectedResolution, new CameraController.CameraInitCallback() {
+        CameraController.CameraInitCallback initCallback = new CameraController.CameraInitCallback() {
             @Override
             public void onCameraInitSuccess() {
                 Timber.tag(TAG).i("相机绑定成功 Camera ID: %s", selectedCameraId);
             }
 
             @Override
-            public void onCameraInitError(Throwable throwable) {
+            public void onCameraInitError(@NonNull Throwable throwable) {
                 activityCameraBinding.getRoot().post(() -> activityCameraBinding.cameraActivityTv.setText(String.format(Locale.getDefault(), context.getString(R.string.formatFpsNoValue), "--")));
                 ToastKt.showToast("相机启动失败: " + throwable.getMessage());
             }
-        });
+        };
+        // 统一调用 CameraController 的 startCamera 重载
+        // 由内部的 resolveTargetRotation 完成自动决断策略
+        cameraController.startCamera(context, lifecycleOwner, activityCameraBinding.cameraActivityMcv, activityCameraBinding.cameraActivityPv, selectedCameraId, selectedResolution, initCallback);
+        // 同步当前 selectedRotation
+        this.selectedRotation = cameraController.resolveTargetRotation(context, selectedCameraId, activityCameraBinding.cameraActivityPv);
     }
 
     /**
@@ -205,6 +298,8 @@ public class CameraActivityKit {
             selectedCameraId = cameraIdList.get(which);
             // 初始化分辨率下拉选择框
             setupResolutionSpinner(context, lifecycleOwner, activityCameraBinding);
+            // 初始化旋转角度下拉选择框
+            setupRotationSpinner(context, activityCameraBinding);
             // 启动相机
             startCamera(context, lifecycleOwner, activityCameraBinding);
         }).setCancelable(false).show();
@@ -224,7 +319,7 @@ public class CameraActivityKit {
                 Timber.tag(TAG).i("保存路径: %s", photoFile.getAbsolutePath());
                 activityCameraBinding.getRoot().post(() -> {
                     activityCameraBinding.cameraActivityMtCapture.setEnabled(true);
-                    ToastKt.showToast("抓抓成功: " + photoFile.getName());
+                    ToastKt.showToast("抓拍成功: " + photoFile.getName());
                 });
             }
 
