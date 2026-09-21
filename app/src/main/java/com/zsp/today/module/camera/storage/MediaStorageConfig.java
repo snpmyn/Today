@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Environment;
 import android.text.TextUtils;
 
+import com.zsp.today.module.camera.LogKit;
+
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
