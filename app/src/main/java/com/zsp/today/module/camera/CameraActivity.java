@@ -115,7 +115,7 @@ public class CameraActivity extends BasePoolActivity implements View.OnClickList
     protected void onDestroy() {
         super.onDestroy();
         if (cameraActivityKit != null) {
-            cameraActivityKit.release();
+            cameraActivityKit.release(activityCameraBinding);
         }
     }
 }
