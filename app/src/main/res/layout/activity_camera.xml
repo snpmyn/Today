@@ -58,11 +58,20 @@
                 android:background="@drawable/spinner_background"
                 android:padding="@dimen/dp_10" />
 
+            <Spinner
+                android:id="@+id/cameraActivitySpinnerSwitchRotation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/spinner_background"
+                android:padding="@dimen/dp_10" />
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/cameraActivityMtCapture"
                 style="?attr/materialButtonTonalStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/dp_10"
                 android:filterTouchesWhenObscured="true"
                 android:insetLeft="@dimen/dp_0"
                 android:insetTop="@dimen/dp_0"
@@ -77,7 +86,6 @@
                 style="?attr/materialButtonTonalStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10"
                 android:filterTouchesWhenObscured="true"
                 android:insetLeft="@dimen/dp_0"
                 android:insetTop="@dimen/dp_0"
@@ -127,7 +135,7 @@
                 android:textStyle="bold"
                 tools:text="FPS 30" />
 
-            <com.zsp.today.module.camera.CameraGridView
+            <com.zsp.today.module.camera.function.CameraGridView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="@dimen/dp_20"
