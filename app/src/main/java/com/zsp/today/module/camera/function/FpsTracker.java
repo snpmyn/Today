@@ -1,4 +1,4 @@
-package com.zsp.today.module.camera;
+package com.zsp.today.module.camera.function;
 
 /**
  * @decs: 帧率追踪器

@@ -1,4 +1,4 @@
-package com.zsp.today.module.camera;
+package com.zsp.today.module.camera.function;
 
 import android.content.Context;
 import android.graphics.SurfaceTexture;
@@ -10,6 +10,8 @@ import android.util.Range;
 import android.util.Size;
 
 import androidx.annotation.NonNull;
+
+import com.zsp.today.module.camera.LogKit;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,9 +26,8 @@ import timber.log.Timber;
  * @date: 2026/9/18 15:07
  * @version: v 1.0
  */
+@SuppressWarnings("unused")
 public class CameraManagerKit {
-    private static final String TAG = CameraManagerKit.class.getSimpleName();
-
     /**
      * 获取系统底层注册的所有相机 ID 列表
      *
@@ -42,7 +43,7 @@ public class CameraManagerKit {
                 String[] cameraIds = cameraManager.getCameraIdList();
                 Collections.addAll(cameraIdList, cameraIds);
             } catch (CameraAccessException e) {
-                Timber.tag(TAG).e(e, "获取系统 CameraId 失败");
+                Timber.tag(LogKit.TAG).e(e, "获取系统 CameraId 失败");
             }
         }
         return cameraIdList;
@@ -79,7 +80,7 @@ public class CameraManagerKit {
                     }
                 }
             } catch (CameraAccessException e) {
-                Timber.tag(TAG).e(e, "获取相机 CameraID: %s 支持的分辨率失败", cameraId);
+                Timber.tag(LogKit.TAG).e(e, "获取相机 CameraID: %s 支持的分辨率失败", cameraId);
             }
         }
         return resolutionList;
@@ -107,7 +108,7 @@ public class CameraManagerKit {
                     fpsRangesList.addAll(Arrays.asList(fpsRanges));
                 }
             } catch (CameraAccessException e) {
-                Timber.tag(TAG).e(e, "获取相机 CameraID: %s 支持的 FPS 范围失败", cameraId);
+                Timber.tag(LogKit.TAG).e(e, "获取相机 CameraID: %s 支持的 FPS 范围失败", cameraId);
             }
         }
         return fpsRangesList;

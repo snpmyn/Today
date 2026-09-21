@@ -1,4 +1,4 @@
-package com.zsp.today.module.camera;
+package com.zsp.today.module.camera.function;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -16,6 +16,7 @@ import androidx.camera.camera2.interop.ExperimentalCamera2Interop;
 import androidx.camera.core.CameraInfo;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ExperimentalLensFacing;
+import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCaptureException;
 import androidx.camera.core.Preview;
@@ -27,7 +28,7 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.google.common.util.concurrent.ListenableFuture;
-import com.zsp.today.module.camera.storage.LogKit;
+import com.zsp.today.module.camera.LogKit;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -56,6 +57,10 @@ public class CameraController {
      * 抓拍用例对象
      */
     private ImageCapture imageCapture;
+    /**
+     * 图像分析用例对象
+     */
+    private ImageAnalysis imageAnalysis;
     /**
      * 生命周期绑定提供者
      */
@@ -155,7 +160,10 @@ public class CameraController {
                 preview.setSurfaceProvider(previewView.getSurfaceProvider());
                 // 4. 构建 ImageCapture 拍照用例
                 imageCapture = new ImageCapture.Builder().setResolutionSelector(resolutionSelector).setTargetRotation(currentCameraConfig.getTargetRotation()).setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY).build();
-                // 5. 构建 CameraSelector 相机选择器
+                // 5. 构建 ImageAnalysis 帧数据分析用例
+                imageAnalysis = new ImageAnalysis.Builder().setResolutionSelector(resolutionSelector).setTargetRotation(currentCameraConfig.getTargetRotation()).setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST).build();
+                imageAnalysis.setAnalyzer(executorService, CaptureHelper::updateLatestFrame);
+                // 6. 构建 CameraSelector 相机选择器
                 CameraSelector cameraSelector;
                 String cameraId = currentCameraConfig.getCameraId();
                 if ((cameraId != null) && !cameraId.isEmpty()) {
@@ -174,9 +182,9 @@ public class CameraController {
                     // 未指定 CameraID 时使用自定义优先级过滤
                     cameraSelector = new CameraSelector.Builder().addCameraFilter(this::filterCamera).build();
                 }
-                // 6. 解绑并重新绑定生命周期
+                // 7. 解绑并重新绑定生命周期
                 processCameraProvider.unbindAll();
-                processCameraProvider.bindToLifecycle(lifecycleOwner, cameraSelector, preview, imageCapture);
+                processCameraProvider.bindToLifecycle(lifecycleOwner, cameraSelector, preview, imageCapture, imageAnalysis);
                 // 初始化帧率追踪器
                 setupFpsTracker(previewView);
                 // 根据选定分辨率动态更新 ConstraintLayout 容器宽高比
@@ -334,6 +342,7 @@ public class CameraController {
         if ((executorService != null) && !executorService.isShutdown()) {
             executorService.shutdown();
         }
+        CaptureHelper.clearFrameCache();
     }
 
     /**

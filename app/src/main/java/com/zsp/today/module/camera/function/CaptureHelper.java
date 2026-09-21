@@ -1,25 +1,33 @@
-package com.zsp.today.module.camera;
+package com.zsp.today.module.camera.function;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.ImageFormat;
+import android.graphics.Matrix;
+import android.graphics.Rect;
+import android.graphics.YuvImage;
 
 import androidx.annotation.NonNull;
 import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCaptureException;
+import androidx.camera.core.ImageProxy;
 import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
 
+import com.zsp.today.module.camera.LogKit;
 import com.zsp.today.module.camera.media.MediaScanKit;
-import com.zsp.today.module.camera.storage.LogKit;
 import com.zsp.today.module.camera.storage.MediaFileNameEngine;
 import com.zsp.today.module.camera.storage.MediaStorageConfig;
 import com.zsp.today.module.camera.storage.MediaStorageType;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.nio.ByteBuffer;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 
@@ -32,6 +40,24 @@ import timber.log.Timber;
  * @version: v 1.0
  */
 public class CaptureHelper {
+    private static final Object FRAME_LOCK = new Object();
+    /**
+     * 最新帧 YUV 内存数据缓存
+     */
+    private static byte[] latestYuvBytes;
+    /**
+     * 最新帧宽
+     */
+    private static int latestFrameWidth = 0;
+    /**
+     * 最新帧高
+     */
+    private static int latestFrameHeight = 0;
+    /**
+     * 最新帧旋转角度
+     */
+    private static int latestFrameRotationDegrees = 0;
+
     /**
      * 重置序号
      */
@@ -101,16 +127,70 @@ public class CaptureHelper {
 
             @Override
             public void onError(@NonNull ImageCaptureException exception) {
-                Timber.tag(LogKit.TAG).w(exception, "硬件抓拍失败，自动降级至 PreviewView 截屏处理。");
-                mainExecutor.execute(() -> captureFromPreviewView(context, previewView, rawPhotoFile, executorService, cameraCaptureCallback));
+                Timber.tag(LogKit.TAG).w(exception, "硬件抓拍失败，自动降级至 ImageAnalysis 原始帧抓拍处理。");
+                captureFromLatestFrame(context, previewView, rawPhotoFile, executorService, cameraCaptureCallback);
+            }
+        });
+    }
+
+    /**
+     * 从最新帧拍照
+     *
+     * @param context               上下文
+     * @param previewView           预览视图
+     * @param photoFile             照片文件
+     * @param executorService       增强实现
+     * @param cameraCaptureCallback 相机拍照回调
+     */
+    private static void captureFromLatestFrame(@NonNull Context context, @NonNull PreviewView previewView, File photoFile, @NonNull ExecutorService executorService, CameraController.CameraCaptureCallback cameraCaptureCallback) {
+        Executor mainExecutor = ContextCompat.getMainExecutor(context);
+        executorService.execute(() -> {
+            byte[] yuvData;
+            int width;
+            int height;
+            int rotation;
+            synchronized (FRAME_LOCK) {
+                yuvData = latestYuvBytes;
+                width = latestFrameWidth;
+                height = latestFrameHeight;
+                rotation = latestFrameRotationDegrees;
+            }
+            if ((yuvData == null) || (width <= 0) || (height <= 0)) {
+                Timber.tag(LogKit.TAG).w("帧数据缓存为空，降级至 PreviewView 截屏处理。");
+                mainExecutor.execute(() -> captureFromPreviewView(context, previewView, photoFile, executorService, cameraCaptureCallback));
+                return;
+            }
+            try {
+                YuvImage yuvImage = new YuvImage(yuvData, ImageFormat.NV21, width, height, null);
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                yuvImage.compressToJpeg(new Rect(0, 0, width, height), 95, byteArrayOutputStream);
+                byte[] imageBytes = byteArrayOutputStream.toByteArray();
+
+                Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                if (rotation != 0) {
+                    Matrix matrix = new Matrix();
+                    matrix.postRotate(rotation);
+                    bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+                }
+
+                try (OutputStream outputStream = new FileOutputStream(photoFile)) {
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 95, outputStream);
+                    Timber.tag(LogKit.TAG).d("ImageAnalysis 原始帧降级拍照成功 || %s", photoFile.getAbsolutePath());
+                    // 扫描单个文件
+                    MediaScanKit.scanSingleFile(context, photoFile.getAbsolutePath(), "image/jpeg");
+                    if (cameraCaptureCallback != null) {
+                        mainExecutor.execute(() -> cameraCaptureCallback.onCameraCaptureSuccess(photoFile));
+                    }
+                }
+            } catch (Exception e) {
+                Timber.tag(LogKit.TAG).e(e, "ImageAnalysis 原始帧保存失败，尝试 PreviewView 截屏兜底");
+                mainExecutor.execute(() -> captureFromPreviewView(context, previewView, photoFile, executorService, cameraCaptureCallback));
             }
         });
     }
 
     /**
      * 从预览视图拍照
-     * <p>
-     * 硬件抓拍失败时降级方案
      *
      * @param context               上下文
      * @param previewView           预览视图
@@ -143,5 +223,65 @@ public class CaptureHelper {
                 }
             }
         });
+    }
+
+    /**
+     * 更新最新帧
+     * <p>
+     * 由 ImageAnalysis 实时回调
+     *
+     * @param imageProxy 图像代理
+     */
+    public static void updateLatestFrame(@NonNull ImageProxy imageProxy) {
+        try (imageProxy) {
+            if (imageProxy.getFormat() == ImageFormat.YUV_420_888) {
+                synchronized (FRAME_LOCK) {
+                    latestFrameWidth = imageProxy.getWidth();
+                    latestFrameHeight = imageProxy.getHeight();
+                    latestFrameRotationDegrees = imageProxy.getImageInfo().getRotationDegrees();
+                    latestYuvBytes = yuv420888ToNv21(imageProxy);
+                }
+            }
+        } catch (Exception e) {
+            Timber.tag(LogKit.TAG).e(e, "更新帧数据缓存异常");
+        }
+    }
+
+    /**
+     * 将 YUV_420_888 格式的 ImageProxy 转为 NV21 字节数组
+     *
+     * @param imageProxy 图像代理
+     * @return NV21 字节数组
+     */
+    @NonNull
+    private static byte[] yuv420888ToNv21(@NonNull ImageProxy imageProxy) {
+        ImageProxy.PlaneProxy[] planeProxies = imageProxy.getPlanes();
+        ByteBuffer yBuffer = planeProxies[0].getBuffer();
+        ByteBuffer uBuffer = planeProxies[1].getBuffer();
+        ByteBuffer vBuffer = planeProxies[2].getBuffer();
+
+        int ySize = yBuffer.remaining();
+        int uSize = uBuffer.remaining();
+        int vSize = vBuffer.remaining();
+
+        byte[] nv21 = new byte[ySize + uSize + vSize];
+
+        yBuffer.get(nv21, 0, ySize);
+        vBuffer.get(nv21, ySize, vSize);
+        uBuffer.get(nv21, ySize + vSize, uSize);
+
+        return nv21;
+    }
+
+    /**
+     * 清除帧缓存
+     */
+    public static void clearFrameCache() {
+        synchronized (FRAME_LOCK) {
+            latestYuvBytes = null;
+            latestFrameWidth = 0;
+            latestFrameHeight = 0;
+            latestFrameRotationDegrees = 0;
+        }
     }
 }
