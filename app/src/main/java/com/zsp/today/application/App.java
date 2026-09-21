@@ -6,6 +6,8 @@ import com.umeng.analytics.MobclickAgent;
 import com.zsp.today.BuildConfig;
 import com.zsp.today.application.kit.AppKit;
 import com.zsp.today.basic.value.Folder;
+import com.zsp.today.module.camera.storage.MediaStorageConfig;
+import com.zsp.today.module.camera.storage.MediaStorageMode;
 import com.zsp.today.module.login.UserDataBaseTable;
 import com.zsp.youmeng.UmKit;
 
@@ -157,5 +159,7 @@ public class App extends BasePoolApp {
                 RxBus.get().post(RxBusConstant.DANGEROUS_ACTIVITY_$_UPDATE_LOCATION, RxBusConstant.DANGEROUS_ACTIVITY_$_UPDATE_LOCATION_FAIL_CODE);
             }
         });*/
+        // 初始化媒体存储配置
+        MediaStorageConfig.getInstance().init(this, "CU", MediaStorageMode.EXTERNAL_PUBLIC);
     }
 }
