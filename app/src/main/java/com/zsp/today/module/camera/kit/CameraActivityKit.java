@@ -13,8 +13,8 @@ import androidx.lifecycle.LifecycleOwner;
 
 import com.zsp.today.R;
 import com.zsp.today.databinding.ActivityCameraBinding;
-import com.zsp.today.module.camera.CameraController;
-import com.zsp.today.module.camera.FpsTracker;
+import com.zsp.today.module.camera.function.CameraController;
+import com.zsp.today.module.camera.function.FpsTracker;
 
 import java.io.File;
 import java.util.ArrayList;

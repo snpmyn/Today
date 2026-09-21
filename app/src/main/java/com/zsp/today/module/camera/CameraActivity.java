@@ -7,6 +7,7 @@ import androidx.viewbinding.ViewBinding;
 
 import com.zsp.today.R;
 import com.zsp.today.databinding.ActivityCameraBinding;
+import com.zsp.today.module.camera.function.CaptureHelper;
 import com.zsp.today.module.camera.kit.CameraActivityKit;
 
 import pool.base.BasePoolActivity;
@@ -82,6 +83,9 @@ public class CameraActivity extends BasePoolActivity implements View.OnClickList
         PermissionxKit.execute(this, true, PermissionKit.camera(), R.string.cameraAreBasedOnThePermission, com.zsp.core.R.string.youNeedToAllowNecessaryPermissionInSettingManually, com.zsp.core.R.string.agree, com.zsp.core.R.string.refuse, new PermissionxKitListener() {
             @Override
             public void allGranted() {
+                // 重置序号
+                CaptureHelper.resetSequence();
+                // 初始化相机配置
                 cameraActivityKit.initCameraConfig(CameraActivity.this, CameraActivity.this, activityCameraBinding);
             }
 
