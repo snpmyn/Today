@@ -54,7 +54,7 @@ public class CameraConfigKit {
         if (MmkvKit.defaultMmkv().containsKey(mmkvKey)) {
             return MmkvKit.defaultMmkv().decodeInt(mmkvKey, Surface.ROTATION_0);
         }
-        // 2. UVC 高拍仪设备默认 0°
+        // 2. UVC 高拍仪默认 0°
         if (isUvcCamera) {
             return Surface.ROTATION_0;
         }

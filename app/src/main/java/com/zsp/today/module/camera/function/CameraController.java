@@ -2,8 +2,11 @@ package com.zsp.today.module.camera.function;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Size;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -76,7 +79,7 @@ public class CameraController {
      */
     private CameraConfig currentCameraConfig = null;
     /**
-     * 是否为 UVC 高拍仪设备
+     * 是否为 UVC 高拍仪
      */
     private boolean isUvcCamera = false;
     /**
@@ -111,26 +114,27 @@ public class CameraController {
      * @param previewView              预览视图
      * @param cameraId                 目标相机 ID
      * @param resolution               分辨率
+     * @param rotation                 旋转角度
      * @param cameraInitCallback       相机初始回调
      */
     @SuppressLint("WrongConstant")
     @OptIn(markerClass = ExperimentalCamera2Interop.class)
-    public void startCamera(@NonNull Context context, @NonNull LifecycleOwner lifecycleOwner, @NonNull View previewViewContainerView, @NonNull PreviewView previewView, String cameraId, Size resolution, CameraInitCallback cameraInitCallback) {
-        // 当前旋转角度
-        int targetRotation = CameraConfigKit.resolveTargetRotation(cameraId, previewView, CameraDeviceKit.checkIsUvcCamera(context, processCameraProvider, cameraId));
-        // 当前相机配置
-        this.currentCameraConfig = new CameraConfig.Builder().setCameraId(cameraId).setResolution(resolution).setTargetRotation(targetRotation).setEnhanceMode(EnhanceMode.DOCUMENT).build();
-
+    public void startCamera(@NonNull Context context, @NonNull LifecycleOwner lifecycleOwner, @NonNull View previewViewContainerView, @NonNull PreviewView previewView, String cameraId, Size resolution, Integer rotation, CameraInitCallback cameraInitCallback) {
         // 帧率追踪器
         if (fpsTracker != null) {
             fpsTracker.reset();
         }
-        // 清除帧缓存
-        CaptureHelper.clearFrameCache();
 
         // 确保线程池可用
         ensureExecutorAvailable();
 
+        // 清除帧缓存
+        CaptureHelper.clearFrameCache();
+
+        // 当前相机配置
+        this.currentCameraConfig = new CameraConfig.Builder().setCameraId(cameraId).setResolution(resolution).setRotation(rotation).setEnhanceMode(EnhanceMode.DOCUMENT).build();
+
+        // 相机提供者异步任务
         ListenableFuture<ProcessCameraProvider> cameraProviderFuture = ProcessCameraProvider.getInstance(context);
         cameraProviderFuture.addListener(() -> {
             try {
@@ -155,11 +159,11 @@ public class CameraController {
                     cameraSelector = new CameraSelector.Builder().addCameraFilter(this::filterCamera).build();
                 }
 
-                // 检测是否为 UVC 高拍仪设备
+                // 检测是否为 UVC 高拍仪
                 this.isUvcCamera = CameraDeviceKit.checkIsUvcCamera(processCameraProvider, cameraSelector);
 
-                // 获取配置的目标旋转角度
-                int targetRotationFromCameraConfig = currentCameraConfig.getTargetRotation();
+                // 获取相机配置旋转角度
+                int rotationFromCameraConfig = currentCameraConfig.getRotation();
 
                 // 1. 构建全局统一 ResolutionSelector 分辨率选择器
                 // 供 Preview、ImageCapture 与 ImageAnalysis 同步共享
@@ -171,15 +175,15 @@ public class CameraController {
                 cameraPreviewKit.applyPreviewConfig(previewView);
 
                 // 3. 构建 Preview 预览用例
-                preview = new Preview.Builder().setResolutionSelector(resolutionSelector).setTargetRotation(targetRotationFromCameraConfig).build();
+                preview = new Preview.Builder().setResolutionSelector(resolutionSelector).setTargetRotation(rotationFromCameraConfig).build();
                 preview.setSurfaceProvider(previewView.getSurfaceProvider());
                 // 4. 构建 ImageCapture 拍照用例
-                imageCapture = new ImageCapture.Builder().setResolutionSelector(resolutionSelector).setTargetRotation(targetRotationFromCameraConfig).setCaptureMode(ImageCapture.CAPTURE_MODE_MAXIMIZE_QUALITY).setJpegQuality(100).build();
+                imageCapture = new ImageCapture.Builder().setResolutionSelector(resolutionSelector).setTargetRotation(rotationFromCameraConfig).setCaptureMode(ImageCapture.CAPTURE_MODE_MAXIMIZE_QUALITY).setJpegQuality(100).build();
                 // 5. 构建 ImageAnalysis 帧数据分析用例
-                imageAnalysis = new ImageAnalysis.Builder().setResolutionSelector(resolutionSelector).setTargetRotation(targetRotationFromCameraConfig).setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST).build();
+                imageAnalysis = new ImageAnalysis.Builder().setResolutionSelector(resolutionSelector).setTargetRotation(rotationFromCameraConfig).setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST).build();
 
                 // 6. 传入 isUvcCamera 标识
-                // 若为 UVC 高拍仪设备则直接由 CaptureHelper 内部按对应偏置解析 Buffer
+                // 若为 UVC 高拍仪则直接由 CaptureHelper 内部按对应偏置解析 Buffer
                 imageAnalysis.setAnalyzer(executorService, image -> CaptureHelper.updateLatestFrame(image, isUvcCamera));
 
                 // 7. 解绑并重新绑定生命周期
@@ -195,7 +199,21 @@ public class CameraController {
                 if (cameraInitCallback != null) {
                     cameraInitCallback.onCameraInitSuccess();
                 }
-                Timber.tag(LogKit.TAG).i("CameraX 启动成功 - 旋转角度: %d, isUvc: %b", targetRotationFromCameraConfig, isUvcCamera);
+
+                Timber.tag(LogKit.TAG).i("CameraX 启动成功:\n" + //
+                                "├─ Camera ID: %s\n" + //
+                                "├─ 旋转角度: %d\n" + //
+                                "├─ 分辨率: %s\n" + //
+                                "├─ 是否为 UVC 高拍仪: %b\n" + //
+                                "└─ 用例绑定状态: [Preview: %b, ImageCapture: %b, ImageAnalysis: %b]", //
+                        cameraIdFromCameraConfig, //
+                        rotationFromCameraConfig, //
+                        (resolutionFromCameraConfig != null) ? resolutionFromCameraConfig.toString() : "无分辨率", //
+                        isUvcCamera, //
+                        preview != null, //
+                        imageCapture != null, //
+                        imageAnalysis != null //
+                );
             } catch (Exception e) {
                 Timber.tag(LogKit.TAG).e(e, "CameraX 启动失败: %s", e.getMessage());
                 if (cameraInitCallback != null) {
@@ -206,19 +224,70 @@ public class CameraController {
     }
 
     /**
-     * 设置目标旋转角度
+     * 设置分辨率
+     *
+     * @param context                  上下文
+     * @param lifecycleOwner           生命周期拥有者
+     * @param previewViewContainerView 预览视图容器
+     * @param previewView              预览视图
+     * @param resolution               分辨率
+     * @param rotation                 旋转角度
+     */
+    public void setResolution(@NonNull Context context, @NonNull LifecycleOwner lifecycleOwner, @NonNull View previewViewContainerView, @NonNull PreviewView previewView, @NonNull Size resolution, @NonNull Integer rotation) {
+        // 1. 捕获当前预览帧
+        // 构建防黑屏静态遮罩
+        Bitmap maskBitmap = previewView.getBitmap();
+        ImageView maskImageView = null;
+        if ((maskBitmap != null) && !maskBitmap.isRecycled() && (previewViewContainerView instanceof ViewGroup)) {
+            ViewGroup container = (ViewGroup) previewViewContainerView;
+            maskImageView = new ImageView(previewView.getContext());
+            maskImageView.setImageBitmap(maskBitmap);
+            maskImageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            // 添加遮罩至容器
+            container.addView(maskImageView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            // 强制将遮罩移至 View 树最顶层
+            // 防止被 PreviewView 的 Surface / Texture 层穿透
+            maskImageView.bringToFront();
+        }
+        final ImageView finalMaskImageView = maskImageView;
+        // 2. 启动相机
+        String currentCameraId = (currentCameraConfig != null) ? currentCameraConfig.getCameraId() : null;
+        startCamera(context, lifecycleOwner, previewViewContainerView, previewView, currentCameraId, resolution, rotation, new CameraInitCallback() {
+            @Override
+            public void onCameraInitSuccess() {
+                // 3. 延时掩盖硬件与算法收敛期
+                if (finalMaskImageView != null) {
+                    // 700ms 完整覆盖
+                    // 1. UVC / Camera2 硬件管道重新配置 (Pipe Stream Config)
+                    // 2. ISP 3A 算法 (自动对焦 / 曝光 / 白平衡) 收敛首帧
+                    // 3. PreviewView 矩阵 (Matrix) 与新分辨率 Buffer 对齐
+                    previewView.postDelayed(() -> finalMaskImageView.animate().alpha(0f).setDuration(150).withEndAction(() -> ((ViewGroup) previewViewContainerView).removeView(finalMaskImageView)).start(), 700);
+                }
+            }
+
+            @Override
+            public void onCameraInitError(Throwable throwable) {
+                if (finalMaskImageView != null) {
+                    ((ViewGroup) previewViewContainerView).removeView(finalMaskImageView);
+                }
+            }
+        });
+    }
+
+    /**
+     * 设置旋转角度
      *
      * @param previewView    预览视图
-     * @param targetRotation 目标旋转角度
+     * @param targetRotation 旋转角度
      *                       [Surface.ROTATION_0, ROTATION_90, ROTATION_180, ROTATION_270]
      */
-    public void setTargetRotation(@NonNull PreviewView previewView, int targetRotation) {
-        // 1. 存储目标旋转角度
+    public void setRotation(@NonNull PreviewView previewView, int targetRotation) {
+        // 1. 存储旋转角度
         String cameraId = (currentCameraConfig != null) ? currentCameraConfig.getCameraId() : null;
-        CameraConfigKit.saveTargetRotation(cameraId, targetRotation);
+        CameraConfigKit.saveRotation(cameraId, targetRotation);
         // 2. 更新相机配置
         if (currentCameraConfig != null) {
-            currentCameraConfig = new CameraConfig.Builder().setCameraId(currentCameraConfig.getCameraId()).setResolution(currentCameraConfig.getResolution()).setTargetRotation(targetRotation).setEnhanceMode(currentCameraConfig.getEnhanceMode()).build();
+            currentCameraConfig = new CameraConfig.Builder().setCameraId(currentCameraConfig.getCameraId()).setResolution(currentCameraConfig.getResolution()).setRotation(targetRotation).setEnhanceMode(currentCameraConfig.getEnhanceMode()).build();
         }
         // 3. 动态刷新 CameraX 各用例的 TargetRotation
         if (preview != null) {
@@ -242,7 +311,7 @@ public class CameraController {
      * <p>
      * 优先级顺序
      * 1. 外接摄像头 - LENS_FACING_EXTERNAL
-     * 适用标准 USB 高拍仪 / UVC 外接设备
+     * 适用标准 UVC 高拍仪
      * 2. 朝向未知摄像头 - LENS_FACING_UNKNOWN
      * 兼容未按标准实现驱动的定制硬件
      * 3. 相机列表最后一个摄像头
