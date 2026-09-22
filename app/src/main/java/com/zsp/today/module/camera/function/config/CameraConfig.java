@@ -25,9 +25,9 @@ public class CameraConfig {
      */
     private final Size resolution;
     /**
-     * 目标旋转角度
+     * 旋转角度
      */
-    private final int targetRotation;
+    private final int rotation;
     /**
      * 图像增强模式
      */
@@ -44,8 +44,8 @@ public class CameraConfig {
         this.cameraId = builder.cameraId;
         // 分辨率
         this.resolution = builder.resolution;
-        // 目标旋转角度
-        this.targetRotation = builder.targetRotation;
+        // 旋转角度
+        this.rotation = builder.rotation;
         // 图像增强模式
         this.enhanceMode = builder.enhanceMode;
     }
@@ -69,12 +69,12 @@ public class CameraConfig {
     }
 
     /**
-     * 获取目标旋转角度
+     * 获取旋转角度
      *
-     * @return 目标旋转角度
+     * @return 旋转角度
      */
-    public int getTargetRotation() {
-        return targetRotation;
+    public int getRotation() {
+        return rotation;
     }
 
     /**
@@ -99,11 +99,11 @@ public class CameraConfig {
          */
         private Size resolution = null;
         /**
-         * 目标旋转角度
+         * 旋转角度
          * <p>
          * 默认 {@link Surface#ROTATION_90}
          */
-        private int targetRotation = Surface.ROTATION_90;
+        private int rotation = Surface.ROTATION_90;
         /**
          * 图像增强模式
          * <p>
@@ -134,14 +134,14 @@ public class CameraConfig {
         }
 
         /**
-         * 设置目标旋转角度
+         * 设置旋转角度
          *
-         * @param targetRotation 目标旋转角度
-         *                       [Surface.ROTATION_0, ROTATION_90, ROTATION_180, ROTATION_270]
+         * @param rotation 旋转角度
+         *                 [Surface.ROTATION_0, ROTATION_90, ROTATION_180, ROTATION_270]
          * @return 构建器实例
          */
-        public Builder setTargetRotation(int targetRotation) {
-            this.targetRotation = targetRotation;
+        public Builder setRotation(int rotation) {
+            this.rotation = rotation;
             return this;
         }
 
