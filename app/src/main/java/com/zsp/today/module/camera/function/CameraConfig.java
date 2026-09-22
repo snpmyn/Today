@@ -5,6 +5,8 @@ import android.view.Surface;
 
 import androidx.annotation.NonNull;
 
+import com.zsp.today.module.camera.function.value.EnhanceMode;
+
 import org.jetbrains.annotations.Contract;
 
 /**
@@ -26,6 +28,10 @@ public class CameraConfig {
      * 目标旋转角度
      */
     private final int targetRotation;
+    /**
+     * 图像增强模式
+     */
+    private final EnhanceMode enhanceMode;
 
     /**
      * constructor
@@ -34,9 +40,14 @@ public class CameraConfig {
      */
     @Contract(pure = true)
     private CameraConfig(@NonNull Builder builder) {
+        // 相机 ID
         this.cameraId = builder.cameraId;
+        // 分辨率
         this.resolution = builder.resolution;
+        // 目标旋转角度
         this.targetRotation = builder.targetRotation;
+        // 图像增强模式
+        this.enhanceMode = builder.enhanceMode;
     }
 
     /**
@@ -67,6 +78,15 @@ public class CameraConfig {
     }
 
     /**
+     * 获取图像增强模式
+     *
+     * @return 图像增强模式
+     */
+    public EnhanceMode getEnhanceMode() {
+        return enhanceMode;
+    }
+
+    /**
      * 构建器
      */
     public static class Builder {
@@ -81,9 +101,15 @@ public class CameraConfig {
         /**
          * 目标旋转角度
          * <p>
-         * 默认 Surface.ROTATION_90
+         * 默认 {@link Surface#ROTATION_90}
          */
         private int targetRotation = Surface.ROTATION_90;
+        /**
+         * 图像增强模式
+         * <p>
+         * 默认 {@link EnhanceMode#NONE}
+         */
+        private EnhanceMode enhanceMode = EnhanceMode.NONE;
 
         /**
          * 设置相机 ID
@@ -116,6 +142,17 @@ public class CameraConfig {
          */
         public Builder setTargetRotation(int targetRotation) {
             this.targetRotation = targetRotation;
+            return this;
+        }
+
+        /**
+         * 设置图像增强模式
+         *
+         * @param enhanceMode 图像增强模式
+         * @return 构建器实例
+         */
+        public Builder setEnhanceMode(@NonNull EnhanceMode enhanceMode) {
+            this.enhanceMode = enhanceMode;
             return this;
         }
 
