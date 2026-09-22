@@ -98,6 +98,7 @@
     <string name="returnToThisYear">回到今年</string>
     <string name="smsDeliverFail">短信送达失败</string>
     <string name="smsHasBeenSent">短信发送成功</string>
+    <string name="switchResolution">切换分辨率</string>
     <string name="updatingLocation">更新定位中</string>
     <string name="serviceIsRunning">服务运行中</string>
     <string name="noAccountAvailable">暂无账目</string>
