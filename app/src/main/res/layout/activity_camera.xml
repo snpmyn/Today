@@ -135,7 +135,7 @@
                 android:textStyle="bold"
                 tools:text="FPS 30" />
 
-            <com.zsp.today.module.camera.function.CameraGridView
+            <com.zsp.today.module.camera.function.view.CameraGridView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="@dimen/dp_20"
