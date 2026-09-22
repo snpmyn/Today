@@ -1,6 +1,7 @@
 package com.zsp.today.module.camera.function;
 
 import android.content.Context;
+import android.hardware.usb.UsbDevice;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,7 +38,44 @@ public class CameraDeviceKit {
     }
 
     /**
+     * 是否是 UVC 设备
+     * <p>
+     * 通过 USB 硬件底层协议辨识
+     * 基于 USB 设备描述符进行双重校验
+     * 1. 检查设备全局类代码 (Device Class Code)
+     * 标准 UVC 设备类代码通常为 14 (0x0E，即 Video 视频类)
+     * 2. 全局类代码未直接声明
+     * 如复合设备或由接口定义
+     * 遍历该 USB 设备所有接口类代码 (Interface Class Code)
+     * 只要发现有任意接口类代码为 14
+     * 即可准确判定该物理硬件是一个 UVC (USB Video Class) 视频设备
+     *
+     * @param usbDevice USB 设备
+     * @return 是否是 UVC 设备
+     */
+    public static boolean isUvcDevice(@NonNull UsbDevice usbDevice) {
+        // 1. 检查 UsbDevice 级别 Class Code
+        // 14: Video
+        if (usbDevice.getDeviceClass() == 14) {
+            return true;
+        }
+        // 2. 检查 Interface 级别 Class Code
+        for (int i = 0; i < usbDevice.getInterfaceCount(); i++) {
+            if (usbDevice.getInterface(i).getInterfaceClass() == 14) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * 检测是否为 UVC 高拍仪
+     * <p>
+     * 通过 USB 硬件层与 Camera2 框架层差异化辨识
+     * 侧重通过 CameraX 的 Camera2 互操作层
+     * 根据指定相机 ID 动态过滤并映射到对应的底层 CameraInfo
+     * 进而交由后续逻辑判定该相机节点是否属于外部设备 (External / Unknown)
+     * 以此精准识别 UVC 物理或虚拟外置相机
      *
      * @param context               上下文
      * @param processCameraProvider 生命周期绑定提供者
@@ -83,6 +121,12 @@ public class CameraDeviceKit {
 
     /**
      * 检测是否为 UVC 高拍仪
+     * <p>
+     * 通过 CameraX 框架层辨识
+     * 直接接收已配置好的生命周期提供者与相机选择器
+     * 过滤并获取目标相机的硬件镜头朝向 (Lens Facing)
+     * 若朝向被标记为外置 (EXTERNAL) 或未知 (UNKNOWN)
+     * 则判定其为 UVC 外接高拍仪等设备
      *
      * @param processCameraProvider 生命周期绑定提供者
      * @param cameraSelector        相机选择器
