@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.OptIn;
 import androidx.camera.camera2.interop.Camera2CameraInfo;
 import androidx.camera.camera2.interop.ExperimentalCamera2Interop;
+import androidx.camera.core.CameraFilter;
 import androidx.camera.core.CameraInfo;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ExperimentalLensFacing;
@@ -141,21 +142,37 @@ public class CameraController {
                 processCameraProvider = cameraProviderFuture.get();
                 // 构建相机选择器
                 CameraSelector cameraSelector;
+                // 获取相机配置相机 ID
                 String cameraIdFromCameraConfig = currentCameraConfig.getCameraId();
                 if ((cameraIdFromCameraConfig != null) && !cameraIdFromCameraConfig.isEmpty()) {
                     // 已指定 CameraID 则根据 CameraID 精确过滤
-                    cameraSelector = new CameraSelector.Builder().addCameraFilter(cameraInfos -> {
-                        List<CameraInfo> result = new ArrayList<>();
-                        for (CameraInfo cameraInfo : cameraInfos) {
-                            String id = Camera2CameraInfo.from(cameraInfo).getCameraId();
-                            if (id.equals(cameraIdFromCameraConfig)) {
-                                result.add(cameraInfo);
+                    cameraSelector = new CameraSelector.Builder().addCameraFilter(new CameraFilter() {
+                        @Override
+                        public @org.jspecify.annotations.NonNull List<CameraInfo> filter(@org.jspecify.annotations.NonNull List<CameraInfo> cameraInfos) {
+                            List<CameraInfo> result = new ArrayList<>();
+                            for (CameraInfo cameraInfo : cameraInfos) {
+                                try {
+                                    String id = Camera2CameraInfo.from(cameraInfo).getCameraId();
+                                    if (id.equals(cameraIdFromCameraConfig)) {
+                                        result.add(cameraInfo);
+                                        break;
+                                    }
+                                } catch (Exception e) {
+                                    Timber.tag(LogKit.TAG).w(e, "解析 CameraInfo 的 Camera2 ID 失败: %s", cameraInfo);
+                                }
                             }
+                            // 兜底校验
+                            // 指定 CameraID 匹配失败 (如设备拔出) 时降级走自定义优先级过滤，防止返回空列表抛出异常。
+                            if (result.isEmpty()) {
+                                Timber.tag(LogKit.TAG).w("未匹配到 CameraID 为 [%s] 的摄像头，降级使用默认优先级匹配规则", cameraIdFromCameraConfig);
+                                return filterCamera(cameraInfos);
+                            }
+                            return result;
                         }
-                        return result;
                     }).build();
                 } else {
-                    // 未指定 CameraID 则通过自定义优先级过滤
+                    // 兜底校验
+                    // 未指定 CameraID 则降级走自定义优先级过滤
                     cameraSelector = new CameraSelector.Builder().addCameraFilter(this::filterCamera).build();
                 }
 
