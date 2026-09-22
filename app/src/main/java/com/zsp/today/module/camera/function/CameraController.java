@@ -213,7 +213,7 @@ public class CameraController {
      *                       [Surface.ROTATION_0, ROTATION_90, ROTATION_180, ROTATION_270]
      */
     public void setTargetRotation(@NonNull PreviewView previewView, int targetRotation) {
-        // 1. 持久化存储按 Camera ID 隔离开的配置
+        // 1. 存储目标旋转角度
         String cameraId = (currentCameraConfig != null) ? currentCameraConfig.getCameraId() : null;
         CameraConfigKit.saveTargetRotation(cameraId, targetRotation);
         // 2. 更新相机配置
