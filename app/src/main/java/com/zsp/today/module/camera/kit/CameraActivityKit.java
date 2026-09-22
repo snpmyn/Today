@@ -22,6 +22,7 @@ import com.zsp.today.module.camera.function.callback.CameraCaptureCallback;
 import com.zsp.today.module.camera.function.callback.CameraInitCallback;
 import com.zsp.today.module.camera.function.config.CameraConfigKit;
 import com.zsp.today.module.camera.function.other.FpsTracker;
+import com.zsp.today.module.camera.function.value.CameraDescription;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -44,9 +45,9 @@ public class CameraActivityKit {
      */
     private final CameraController cameraController;
     /**
-     * 相机 ID 列表
+     * 相机描述列表
      */
-    private List<String> cameraIdList = new ArrayList<>();
+    private List<CameraDescription> cameraDescriptionList = new ArrayList<>();
     /**
      * 已选相机 ID
      */
@@ -91,14 +92,14 @@ public class CameraActivityKit {
         FpsTracker fpsTracker = new FpsTracker(fps -> activityCameraBinding.getRoot().post(() -> activityCameraBinding.cameraActivityTv.setText(String.format(Locale.getDefault(), context.getString(R.string.formatFpsWithValue), fps))));
         // 设置帧率追踪器
         cameraController.setFpsTracker(fpsTracker);
-        // 获取系统底层注册的所有相机 ID 列表
-        cameraIdList = CameraManagerKit.getAvailableCameraIds(context);
-        if (ListUtils.listIsEmpty(cameraIdList)) {
-            ToastKt.showToast("未检测到摄像头");
+        // 获取相机描述列表
+        cameraDescriptionList = CameraManagerKit.getCameraDescriptionList(context);
+        if (ListUtils.listIsEmpty(cameraDescriptionList)) {
+            ToastKt.showToast(R.string.cameraNotDetected);
             return;
         }
-        if (cameraIdList.size() == 1) {
-            selectedCameraId = cameraIdList.get(0);
+        if (cameraDescriptionList.size() == 1) {
+            selectedCameraId = cameraDescriptionList.get(0).getCameraId();
             // 执行
             execute(context, lifecycleOwner, activityCameraBinding);
         } else {
@@ -115,20 +116,20 @@ public class CameraActivityKit {
      * @param activityCameraBinding ActivityCameraBinding
      */
     public void showCameraSelectDialog(Context context, LifecycleOwner lifecycleOwner, ActivityCameraBinding activityCameraBinding) {
-        if (ListUtils.listIsEmpty(cameraIdList)) {
-            // 获取系统底层注册的所有相机 ID 列表
-            cameraIdList = CameraManagerKit.getAvailableCameraIds(context);
+        if (ListUtils.listIsEmpty(cameraDescriptionList)) {
+            // 获取相机描述列表
+            cameraDescriptionList = CameraManagerKit.getCameraDescriptionList(context);
         }
-        if (ListUtils.listIsEmpty(cameraIdList)) {
-            ToastKt.showToast("未检测到摄像头");
+        if (ListUtils.listIsEmpty(cameraDescriptionList)) {
+            ToastKt.showToast(R.string.cameraNotDetected);
             return;
         }
-        String[] items = new String[cameraIdList.size()];
-        for (int i = 0; i < cameraIdList.size(); i++) {
-            items[i] = ("Camera ID: " + cameraIdList.get(i));
+        String[] items = new String[cameraDescriptionList.size()];
+        for (int i = 0; i < cameraDescriptionList.size(); i++) {
+            items[i] = cameraDescriptionList.get(i).getDisplayName();
         }
         new MaterialAlertDialogBuilder(context).setTitle("选择要打开的摄像头").setItems(items, (dialog, which) -> {
-            selectedCameraId = cameraIdList.get(which);
+            selectedCameraId = cameraDescriptionList.get(which).getCameraId();
             // 执行
             execute(context, lifecycleOwner, activityCameraBinding);
         }).setCancelable(false).show();
