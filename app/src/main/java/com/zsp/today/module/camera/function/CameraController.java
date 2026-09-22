@@ -217,29 +217,47 @@ public class CameraController {
                 // 9. 更新预览视图容器宽高比
                 cameraPreviewKit.updatePreviewContainerRatio(previewViewContainerView, resolutionFromCameraConfig);
 
+                // 管道配置耗时
+                // 1. 软件层面用例配置与生命周期绑定
+                // 2. 不包含底层硬件出图过程
+                long pipelineDuration = (SystemClock.elapsedRealtime() - startTime);
+                // 监听预览流画面首帧上屏时刻 (STREAMING)
+                previewView.getPreviewStreamState().removeObservers(lifecycleOwner);
+                previewView.getPreviewStreamState().observe(lifecycleOwner, streamState -> {
+                    if (streamState == PreviewView.StreamState.STREAMING) {
+                        // 收到首帧立即解绑
+                        // 防止切后台切回时再次触发回调
+                        previewView.getPreviewStreamState().removeObservers(lifecycleOwner);
+                        // 真实首帧耗时
+                        // 1. UVC 设备的供电与唤醒 / 上电响应
+                        // 2. 控制传输协商：主机 (Android 设备) 通过 USB Endpoint 对高拍仪发起协商，完成 2592 x 1944 尺寸 MJPEG / YUV 格式握手。
+                        // 3. 硬件 ISP 启动与 3A 算法收敛：硬件芯片开始曝光，进行自动对焦 (AF)、自动白平衡 (AWB) 和自动曝光 (AE) 收敛。
+                        // 4. 大分辨率 Buffer 传输与解码：2592 x 1944 单帧图像数据量较大，通过 USB 总线传输到 Android 内存并由 GPU 渲染上屏。
+                        long firstFrameDuration = (SystemClock.elapsedRealtime() - startTime);
+                        Timber.tag(LogKit.TAG).i("CameraX 启动成功:\n" + //
+                                        "├─ Camera ID: %s\n" + //
+                                        "├─ 旋转角度: %d\n" + //
+                                        "├─ 分辨率: %s\n" + //
+                                        "├─ 是否为 UVC 高拍仪: %b\n" + //
+                                        "├─ 管道配置耗时: %d ms\n" + //
+                                        "├─ 真实首帧耗时: %d ms\n" + //
+                                        "└─ 用例绑定状态: [Preview: %b, ImageCapture: %b, ImageAnalysis: %b]", //
+                                cameraIdFromCameraConfig, //
+                                rotationFromCameraConfig, //
+                                (resolutionFromCameraConfig != null) ? resolutionFromCameraConfig.toString() : "无分辨率", //
+                                isUvcCamera, //
+                                pipelineDuration, //
+                                firstFrameDuration, //
+                                preview != null, //
+                                imageCapture != null, //
+                                imageAnalysis != null //
+                        );
+                    }
+                });
+
                 if (cameraInitCallback != null) {
                     cameraInitCallback.onCameraInitSuccess();
                 }
-
-                // 启动耗时
-                long startupDuration = (SystemClock.elapsedRealtime() - startTime);
-
-                Timber.tag(LogKit.TAG).i("CameraX 启动成功:\n" + //
-                                "├─ Camera ID: %s\n" + //
-                                "├─ 旋转角度: %d\n" + //
-                                "├─ 分辨率: %s\n" + //
-                                "├─ 是否为 UVC 高拍仪: %b\n" + //
-                                "├─ 启动耗时: %d ms\n" + //
-                                "└─ 用例绑定状态: [Preview: %b, ImageCapture: %b, ImageAnalysis: %b]", //
-                        cameraIdFromCameraConfig, //
-                        rotationFromCameraConfig, //
-                        (resolutionFromCameraConfig != null) ? resolutionFromCameraConfig.toString() : "无分辨率", //
-                        isUvcCamera, //
-                        startupDuration, //
-                        preview != null, //
-                        imageCapture != null, //
-                        imageAnalysis != null //
-                );
             } catch (Exception e) {
                 Timber.tag(LogKit.TAG).e(e, "CameraX 启动失败: %s", e.getMessage());
                 if (cameraInitCallback != null) {

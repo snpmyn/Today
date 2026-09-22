@@ -2,14 +2,19 @@ package com.zsp.today.application;
 
 import android.text.TextUtils;
 
+import androidx.camera.core.CameraXConfig;
+
 import com.umeng.analytics.MobclickAgent;
 import com.zsp.today.BuildConfig;
 import com.zsp.today.application.kit.AppKit;
 import com.zsp.today.basic.value.Folder;
+import com.zsp.today.module.camera.function.config.CameraXConfigKit;
 import com.zsp.today.module.camera.storage.MediaStorageConfig;
 import com.zsp.today.module.camera.storage.MediaStorageMode;
 import com.zsp.today.module.login.UserDataBaseTable;
 import com.zsp.youmeng.UmKit;
+
+import org.jspecify.annotations.NonNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,7 +39,7 @@ import widget.status.manager.StatusManager;
  * @author 郑少鹏
  * @desc 应用
  */
-public class App extends BasePoolApp {
+public class App extends BasePoolApp implements CameraXConfig.Provider {
     private static App appInstance;
 
     /**
@@ -161,5 +166,13 @@ public class App extends BasePoolApp {
         });*/
         // 初始化媒体存储配置
         MediaStorageConfig.getInstance().init(this, "CU", MediaStorageMode.EXTERNAL_PUBLIC);
+    }
+
+    /**
+     * Returns the configuration to use for initializing an instance of CameraX.
+     */
+    @Override
+    public @NonNull CameraXConfig getCameraXConfig() {
+        return CameraXConfigKit.getDefaultCameraXConfig();
     }
 }
