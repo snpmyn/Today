@@ -102,7 +102,7 @@ public class CaptureHelper {
      * @param imageCapture          抓拍用例对象
      * @param previewView           预览视图
      *                              硬件抓拍失败时降级方案
-     * @param isUvcCamera           是否为 UVC 高拍仪设备
+     * @param isUvcCamera           是否为 UVC 高拍仪
      * @param executorService       增强实现
      * @param enhanceMode           图像增强模式
      * @param cameraCaptureCallback 相机拍照回调
@@ -150,7 +150,7 @@ public class CaptureHelper {
      * @param context               上下文
      * @param previewView           预览视图
      * @param photoFile             照片文件
-     * @param isUvcCamera           是否为 UVC 高拍仪设备
+     * @param isUvcCamera           是否为 UVC 高拍仪
      * @param executorService       增强实现
      * @param enhanceMode           图像增强模式
      * @param cameraCaptureCallback 相机拍照回调
@@ -367,7 +367,7 @@ public class CaptureHelper {
      * 由 ImageAnalysis 实时回调
      *
      * @param imageProxy  图像代理
-     * @param isUvcCamera 是否为 UVC 高拍仪设备
+     * @param isUvcCamera 是否为 UVC 高拍仪
      */
     public static void updateLatestFrame(@NonNull ImageProxy imageProxy, boolean isUvcCamera) {
         try (imageProxy) {
