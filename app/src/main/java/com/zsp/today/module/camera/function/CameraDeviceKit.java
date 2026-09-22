@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.OptIn;
 import androidx.camera.camera2.interop.Camera2CameraInfo;
 import androidx.camera.camera2.interop.ExperimentalCamera2Interop;
+import androidx.camera.core.CameraFilter;
 import androidx.camera.core.CameraInfo;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ExperimentalLensFacing;
@@ -61,17 +62,21 @@ public class CameraDeviceKit {
         }
         // 构建精确匹配指定 cameraId 的选择器
         final ProcessCameraProvider finalProvider = provider;
-        CameraSelector cameraSelector = new CameraSelector.Builder().addCameraFilter(cameraInfos -> {
-            List<CameraInfo> result = new ArrayList<>();
-            for (CameraInfo cameraInfo : cameraInfos) {
-                try {
-                    if (Camera2CameraInfo.from(cameraInfo).getCameraId().equals(cameraId)) {
-                        result.add(cameraInfo);
+        CameraSelector cameraSelector = new CameraSelector.Builder().addCameraFilter(new CameraFilter() {
+            @Override
+            public @org.jspecify.annotations.NonNull List<CameraInfo> filter(@org.jspecify.annotations.NonNull List<CameraInfo> cameraInfos) {
+                List<CameraInfo> result = new ArrayList<>();
+                for (CameraInfo cameraInfo : cameraInfos) {
+                    try {
+                        if (Camera2CameraInfo.from(cameraInfo).getCameraId().equals(cameraId)) {
+                            result.add(cameraInfo);
+                        }
+                    } catch (Exception e) {
+                        Timber.tag(LogKit.TAG).d(e, "获取 Camera2CameraInfo 或匹配相机 ID 失败 -> 跳过当前 CameraInfo");
                     }
-                } catch (Exception ignored) {
                 }
+                return result;
             }
-            return result;
         }).build();
         return checkIsUvcCamera(finalProvider, cameraSelector);
     }
