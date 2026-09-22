@@ -101,9 +101,9 @@ public class CameraConfig {
         /**
          * 旋转角度
          * <p>
-         * 默认 {@link Surface#ROTATION_90}
+         * 默认 {@link Surface#ROTATION_0}
          */
-        private int rotation = Surface.ROTATION_90;
+        private int rotation = Surface.ROTATION_0;
         /**
          * 图像增强模式
          * <p>
