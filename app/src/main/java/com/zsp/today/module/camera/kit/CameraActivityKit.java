@@ -225,7 +225,7 @@ public class CameraActivityKit {
         activityCameraBinding.cameraActivitySpinnerSwitchRotation.setOnItemSelectedListener(null);
         activityCameraBinding.cameraActivitySpinnerSwitchRotation.setAdapter(stringArrayAdapter);
         // 4. 计算初始化选中的旋转角度
-        int initialRotation = CameraConfigKit.resolveTargetRotation(selectedCameraId, activityCameraBinding.cameraActivityPv, CameraDeviceKit.checkIsUvcCamera(context, null, selectedCameraId));
+        int initialRotation = CameraConfigKit.resolveRotation(selectedCameraId, activityCameraBinding.cameraActivityPv, CameraDeviceKit.checkIsUvcCamera(context, null, selectedCameraId));
         int defaultIndex = supportedRotationList.indexOf(initialRotation);
         if (defaultIndex < 0) {
             defaultIndex = 0;
@@ -249,8 +249,8 @@ public class CameraActivityKit {
                 Integer newRotation = supportedRotationList.get(position);
                 if (!newRotation.equals(selectedRotation)) {
                     selectedRotation = newRotation;
-                    // 设置目标旋转角度
-                    cameraController.setTargetRotation(activityCameraBinding.cameraActivityPv, selectedRotation);
+                    // 设置旋转角度
+                    cameraController.setRotation(activityCameraBinding.cameraActivityPv, selectedRotation);
                 }
             }
 
