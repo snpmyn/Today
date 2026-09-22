@@ -3,8 +3,12 @@ package com.zsp.today.module.camera.function;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.YuvImage;
 
@@ -16,6 +20,8 @@ import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
 
 import com.zsp.today.module.camera.LogKit;
+import com.zsp.today.module.camera.function.callback.CameraCaptureCallback;
+import com.zsp.today.module.camera.function.value.EnhanceMode;
 import com.zsp.today.module.camera.media.MediaScanKit;
 import com.zsp.today.module.camera.storage.MediaFileNameEngine;
 import com.zsp.today.module.camera.storage.MediaStorageConfig;
@@ -40,6 +46,9 @@ import timber.log.Timber;
  * @version: v 1.0
  */
 public class CaptureHelper {
+    /**
+     * 帧锁
+     */
     private static final Object FRAME_LOCK = new Object();
     /**
      * 最新帧 YUV 内存数据缓存
@@ -95,9 +104,10 @@ public class CaptureHelper {
      *                              硬件抓拍失败时降级方案
      * @param isUvcCamera           是否为 UVC 高拍仪设备
      * @param executorService       增强实现
+     * @param enhanceMode           图像增强模式
      * @param cameraCaptureCallback 相机拍照回调
      */
-    public static void capture(@NonNull Context context, ImageCapture imageCapture, @NonNull PreviewView previewView, boolean isUvcCamera, @NonNull ExecutorService executorService, CameraController.CameraCaptureCallback cameraCaptureCallback) {
+    public static void capture(@NonNull Context context, ImageCapture imageCapture, @NonNull PreviewView previewView, boolean isUvcCamera, @NonNull ExecutorService executorService, EnhanceMode enhanceMode, CameraCaptureCallback cameraCaptureCallback) {
         Executor mainExecutor = ContextCompat.getMainExecutor(context);
         if (imageCapture == null) {
             if (cameraCaptureCallback != null) {
@@ -129,7 +139,7 @@ public class CaptureHelper {
             @Override
             public void onError(@NonNull ImageCaptureException exception) {
                 Timber.tag(LogKit.TAG).w(exception, "硬件抓拍失败，自动降级至 ImageAnalysis 原始帧抓拍处理。");
-                captureFromLatestFrame(context, previewView, rawPhotoFile, isUvcCamera, executorService, cameraCaptureCallback);
+                captureFromLatestFrame(context, previewView, rawPhotoFile, isUvcCamera, executorService, enhanceMode, cameraCaptureCallback);
             }
         });
     }
@@ -142,9 +152,10 @@ public class CaptureHelper {
      * @param photoFile             照片文件
      * @param isUvcCamera           是否为 UVC 高拍仪设备
      * @param executorService       增强实现
+     * @param enhanceMode           图像增强模式
      * @param cameraCaptureCallback 相机拍照回调
      */
-    private static void captureFromLatestFrame(@NonNull Context context, @NonNull PreviewView previewView, File photoFile, boolean isUvcCamera, @NonNull ExecutorService executorService, CameraController.CameraCaptureCallback cameraCaptureCallback) {
+    private static void captureFromLatestFrame(@NonNull Context context, @NonNull PreviewView previewView, File photoFile, boolean isUvcCamera, @NonNull ExecutorService executorService, EnhanceMode enhanceMode, CameraCaptureCallback cameraCaptureCallback) {
         Executor mainExecutor = ContextCompat.getMainExecutor(context);
         executorService.execute(() -> {
             byte[] yuvData;
@@ -171,26 +182,47 @@ public class CaptureHelper {
                 YuvImage yuvImage = new YuvImage(yuvData, ImageFormat.NV21, width, height, null);
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 yuvImage.compressToJpeg(new Rect(0, 0, width, height), 100, byteArrayOutputStream);
+                byte[] imageBytes = byteArrayOutputStream.toByteArray();
+                // 1. 判断是否需要旋转
+                // UVC 场景旋转角度恒为 0° -> 无需旋转
+                // 非 UVC 且存在旋转角度场景 -> 需要旋转
+                boolean needRotate = (!isUvcCamera && (rotation != 0));
+                // 2. 判断是否需要图像增强
+                boolean needEnhance = (enhanceMode != EnhanceMode.NONE);
                 try (OutputStream outputStream = new FileOutputStream(photoFile)) {
-                    if (rotation == 0) {
-                        // 零旋转角度直接写入
-                        // 避免二次编解码开销
-                        outputStream.write(byteArrayOutputStream.toByteArray());
+                    if (!needRotate && !needEnhance) {
+                        // 无需旋转 && 无需图像增强
+                        // 直接写入 -> 避免二次编解码开销
+                        outputStream.write(imageBytes);
                     } else {
-                        // 包含旋转角度时利用 Bitmap 旋转后再保存
-                        byte[] imageBytes = byteArrayOutputStream.toByteArray();
-                        Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
-                        Matrix matrix = new Matrix();
-                        matrix.postRotate(rotation);
-                        Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-                        rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-                        if (rotatedBitmap != bitmap) {
+                        // 需要旋转 || 需要图像增强
+                        // 只要有任何一项需求，就必须解码成 Bitmap 处理。
+                        BitmapFactory.Options options = new BitmapFactory.Options();
+                        options.inMutable = true;
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length, options);
+                        // 1. 需要旋转 -> 才做旋转
+                        // 仅针对非 UVC 且存在旋转角度场景
+                        if (needRotate) {
+                            Matrix matrix = new Matrix();
+                            matrix.postRotate(rotation);
+                            Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+                            if (rotatedBitmap != bitmap) {
+                                bitmap.recycle();
+                            }
+                            bitmap = rotatedBitmap;
+                        }
+                        // 2. 需要图像增强 -> 才做图像增强
+                        Bitmap processedBitmap = enhanceBitmap(bitmap, enhanceMode);
+                        // 3. 重新压缩写盘
+                        processedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                        // 回收 Bitmap 规避内存溢出
+                        if (processedBitmap != bitmap) {
                             bitmap.recycle();
                         }
-                        rotatedBitmap.recycle();
+                        processedBitmap.recycle();
                     }
-                    Timber.tag(LogKit.TAG).d("ImageAnalysis 原始帧降级拍照成功 || %s", photoFile.getAbsolutePath());
                     MediaScanKit.scanSingleFile(context, photoFile.getAbsolutePath(), "image/jpeg");
+                    Timber.tag(LogKit.TAG).d("ImageAnalysis 原始帧降级拍照成功 [增强模式: %s] || %s", enhanceMode.name(), photoFile.getAbsolutePath());
                     if (cameraCaptureCallback != null) {
                         mainExecutor.execute(() -> cameraCaptureCallback.onCameraCaptureSuccess(photoFile));
                     }
@@ -211,7 +243,7 @@ public class CaptureHelper {
      * @param executorService       增强实现
      * @param cameraCaptureCallback 相机拍照回调
      */
-    private static void captureFromPreviewView(@NonNull Context context, @NonNull PreviewView previewView, File photoFile, @NonNull ExecutorService executorService, CameraController.CameraCaptureCallback cameraCaptureCallback) {
+    private static void captureFromPreviewView(@NonNull Context context, @NonNull PreviewView previewView, File photoFile, @NonNull ExecutorService executorService, CameraCaptureCallback cameraCaptureCallback) {
         Executor mainExecutor = ContextCompat.getMainExecutor(context);
         Bitmap bitmap = previewView.getBitmap();
         if (bitmap == null) {
@@ -236,6 +268,97 @@ public class CaptureHelper {
                 }
             }
         });
+    }
+
+    /**
+     * 图像算法处理
+     *
+     * @param bitmap      像素数据
+     * @param enhanceMode 图像增强模式
+     * @return 处理后像素数据
+     */
+    private static Bitmap enhanceBitmap(@NonNull Bitmap bitmap, @NonNull EnhanceMode enhanceMode) {
+        if (enhanceMode == EnhanceMode.NONE) {
+            return bitmap;
+        }
+        if (enhanceMode == EnhanceMode.DOCUMENT) {
+            return enhanceDocumentClarity(bitmap);
+        } else if (enhanceMode == EnhanceMode.USM_SHARPEN) {
+            return enhanceSharpen(bitmap);
+        }
+        return bitmap;
+    }
+
+    /**
+     * 文档图像对比度及清晰度算法增强
+     * <p>
+     * 针对高拍仪黑白 / 彩色文档场景
+     *
+     * @param bitmap 像素数据
+     * @return 增强后像素数据
+     */
+    @NonNull
+    private static Bitmap enhanceDocumentClarity(@NonNull Bitmap bitmap) {
+        Bitmap.Config config = (bitmap.getConfig() != null) ? bitmap.getConfig() : Bitmap.Config.ARGB_8888;
+        Bitmap result = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), config);
+        Canvas canvas = new Canvas(result);
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        // 提升大约 15% 对比度并增加 10 增益
+        // 使文本黑度与底纸白度更加分明
+        float contrast = 1.15f;
+        float brightness = 10f;
+        float translate = ((-0.5f * contrast + 0.5f) * 255f + brightness);
+        float[] colorTransform = {contrast, 0, 0, 0, translate, 0, contrast, 0, 0, translate, 0, 0, contrast, 0, translate, 0, 0, 0, 1, 0};
+        paint.setColorFilter(new ColorMatrixColorFilter(new ColorMatrix(colorTransform)));
+        canvas.drawBitmap(bitmap, 0, 0, paint);
+        return result;
+    }
+
+    /**
+     * 图像拉普拉斯边缘锐化增强
+     *
+     * @param bitmap 像素数据
+     * @return 增强后像素数据
+     */
+    @NonNull
+    private static Bitmap enhanceSharpen(@NonNull Bitmap bitmap) {
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        int[] pixels = new int[width * height];
+        bitmap.getPixels(pixels, 0, width, 0, 0, width, height);
+        int[] resultPixels = new int[width * height];
+        // 预先拷贝原始像素
+        // 防止四周 1px 卷积盲区变黑
+        System.arraycopy(pixels, 0, resultPixels, 0, pixels.length);
+        // 经典拉普拉斯锐化核
+        // [ 0, -1,  0 ]
+        // [-1,  5, -1 ]
+        // [ 0, -1,  0 ]
+        for (int y = 1; y < height - 1; y++) {
+            for (int x = 1; x < width - 1; x++) {
+                int index = y * width + x;
+
+                int c00 = pixels[(y - 1) * width + x];
+                int c10 = pixels[y * width + (x - 1)];
+                int c11 = pixels[index];
+                int c12 = pixels[y * width + (x + 1)];
+                int c21 = pixels[(y + 1) * width + x];
+
+                int r = 5 * ((c11 >> 16) & 0xFF) - ((c00 >> 16) & 0xFF) - ((c10 >> 16) & 0xFF) - ((c12 >> 16) & 0xFF) - ((c21 >> 16) & 0xFF);
+                int g = 5 * ((c11 >> 8) & 0xFF) - ((c00 >> 8) & 0xFF) - ((c10 >> 8) & 0xFF) - ((c12 >> 8) & 0xFF) - ((c21 >> 8) & 0xFF);
+                int b = 5 * (c11 & 0xFF) - (c00 & 0xFF) - (c10 & 0xFF) - (c12 & 0xFF) - (c21 & 0xFF);
+
+                r = Math.min(255, Math.max(0, r));
+                g = Math.min(255, Math.max(0, g));
+                b = Math.min(255, Math.max(0, b));
+
+                resultPixels[index] = (0xFF000000) | (r << 16) | (g << 8) | b;
+            }
+        }
+        Bitmap.Config config = (bitmap.getConfig() != null) ? bitmap.getConfig() : Bitmap.Config.ARGB_8888;
+        Bitmap result = Bitmap.createBitmap(width, height, config);
+        result.setPixels(resultPixels, 0, width, 0, 0, width, height);
+        return result;
     }
 
     /**
