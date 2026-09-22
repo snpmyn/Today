@@ -8,10 +8,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.camera.core.ImageCaptureException;
 import androidx.lifecycle.LifecycleOwner;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.zsp.today.R;
 import com.zsp.today.databinding.ActivityCameraBinding;
 import com.zsp.today.module.camera.LogKit;
@@ -278,7 +278,7 @@ public class CameraActivityKit {
         for (int i = 0; i < cameraIdList.size(); i++) {
             items[i] = "Camera ID: " + cameraIdList.get(i);
         }
-        new AlertDialog.Builder(context).setTitle("选择要打开的摄像头").setItems(items, (dialog, which) -> {
+        new MaterialAlertDialogBuilder(context).setTitle("选择要打开的摄像头").setItems(items, (dialog, which) -> {
             selectedCameraId = cameraIdList.get(which);
             // 执行
             execute(context, lifecycleOwner, activityCameraBinding);
