@@ -17,10 +17,10 @@ import com.zsp.today.databinding.ActivityCameraBinding;
 import com.zsp.today.module.camera.LogKit;
 import com.zsp.today.module.camera.function.CameraController;
 import com.zsp.today.module.camera.function.CameraDeviceKit;
-import com.zsp.today.module.camera.function.FpsTracker;
 import com.zsp.today.module.camera.function.callback.CameraCaptureCallback;
 import com.zsp.today.module.camera.function.callback.CameraInitCallback;
 import com.zsp.today.module.camera.function.config.CameraConfigKit;
+import com.zsp.today.module.camera.function.other.FpsTracker;
 
 import java.io.File;
 import java.util.ArrayList;
