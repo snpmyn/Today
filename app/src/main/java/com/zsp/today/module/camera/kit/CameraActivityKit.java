@@ -17,6 +17,7 @@ import com.zsp.today.databinding.ActivityCameraBinding;
 import com.zsp.today.module.camera.LogKit;
 import com.zsp.today.module.camera.function.CameraController;
 import com.zsp.today.module.camera.function.CameraDeviceKit;
+import com.zsp.today.module.camera.function.CameraManagerKit;
 import com.zsp.today.module.camera.function.callback.CameraCaptureCallback;
 import com.zsp.today.module.camera.function.callback.CameraInitCallback;
 import com.zsp.today.module.camera.function.config.CameraConfigKit;
@@ -96,7 +97,7 @@ public class CameraActivityKit {
         // 设置帧率追踪器
         cameraController.setFpsTracker(fpsTracker);
         // 获取系统底层注册的所有相机 ID 列表
-        cameraIdList = cameraController.getAvailableCameraIds(context);
+        cameraIdList = CameraManagerKit.getAvailableCameraIds(context);
         if (ListUtils.listIsEmpty(cameraIdList)) {
             ToastKt.showToast("未检测到摄像头");
             return;
@@ -130,7 +131,7 @@ public class CameraActivityKit {
         // 拦截 Spinner 设置 Adapter 阶段的自动伪触发
         isResolutionInitializing = true;
         // 1. 获取指定相机 ID 支持的原生分辨率列表
-        supportedResolutionList = cameraController.getSupportedResolutions(context, selectedCameraId);
+        supportedResolutionList = CameraManagerKit.getSupportedResolutions(context, selectedCameraId);
         if (supportedResolutionList.isEmpty()) {
             Timber.tag(LogKit.TAG).w("未查询到摄像头 CameraID: %s 支持的分辨率列表", selectedCameraId);
             isResolutionInitializing = false;
@@ -258,7 +259,7 @@ public class CameraActivityKit {
     public void showCameraSelectDialog(Context context, LifecycleOwner lifecycleOwner, ActivityCameraBinding activityCameraBinding) {
         if (ListUtils.listIsEmpty(cameraIdList)) {
             // 获取系统底层注册的所有相机 ID 列表
-            cameraIdList = cameraController.getAvailableCameraIds(context);
+            cameraIdList = CameraManagerKit.getAvailableCameraIds(context);
         }
         if (ListUtils.listIsEmpty(cameraIdList)) {
             ToastKt.showToast("未检测到摄像头");
