@@ -1,4 +1,4 @@
-package com.zsp.today.module.camera.function;
+package com.zsp.today.module.camera.function.config;
 
 import android.view.Display;
 import android.view.Surface;
@@ -14,9 +14,9 @@ import util.mmkv.MmkvKit;
  * Created on 2026/9/15.
  *
  * @author 郑少鹏
- * @desc 相机配置管理器
+ * @desc 相机配置配套原件
  */
-public class CameraConfigManager {
+public class CameraConfigKit {
     /**
      * 获取指定相机 ID 对应 MMKV 旋转角度存储 Key
      *

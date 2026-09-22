@@ -1,4 +1,4 @@
-package com.zsp.today.module.camera.function;
+package com.zsp.today.module.camera.function.config;
 
 import android.util.Size;
 import android.view.Surface;
