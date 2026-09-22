@@ -112,6 +112,7 @@
     <string name="smsHasBeenDelivered">短信已送达</string>
     <string name="releaseYourInnerVoice">释放心声</string>
     <string name="updateLocationFail">更新定位失败</string>
+    <string name="cameraNotDetected">未检测到摄像头</string>
     <string name="restoreHomeComeData">恢复归心数据</string>
     <string name="hereToPlaceThoughts">这里安放思念</string>
     <string name="noYearDataAvailable">暂无年份数据</string>
