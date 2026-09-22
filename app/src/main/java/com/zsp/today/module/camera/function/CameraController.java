@@ -3,6 +3,7 @@ package com.zsp.today.module.camera.function;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.SystemClock;
 import android.util.Size;
 import android.view.View;
 import android.view.ViewGroup;
@@ -121,6 +122,9 @@ public class CameraController {
     @SuppressLint("WrongConstant")
     @OptIn(markerClass = ExperimentalCamera2Interop.class)
     public void startCamera(@NonNull Context context, @NonNull LifecycleOwner lifecycleOwner, @NonNull View previewViewContainerView, @NonNull PreviewView previewView, String cameraId, Size resolution, Integer rotation, CameraInitCallback cameraInitCallback) {
+        // 开始时间
+        long startTime = SystemClock.elapsedRealtime();
+
         // 帧率追踪器
         if (fpsTracker != null) {
             fpsTracker.reset();
@@ -217,16 +221,21 @@ public class CameraController {
                     cameraInitCallback.onCameraInitSuccess();
                 }
 
+                // 启动耗时
+                long startupDuration = (SystemClock.elapsedRealtime() - startTime);
+
                 Timber.tag(LogKit.TAG).i("CameraX 启动成功:\n" + //
                                 "├─ Camera ID: %s\n" + //
                                 "├─ 旋转角度: %d\n" + //
                                 "├─ 分辨率: %s\n" + //
                                 "├─ 是否为 UVC 高拍仪: %b\n" + //
+                                "├─ 启动耗时: %d ms\n" + //
                                 "└─ 用例绑定状态: [Preview: %b, ImageCapture: %b, ImageAnalysis: %b]", //
                         cameraIdFromCameraConfig, //
                         rotationFromCameraConfig, //
                         (resolutionFromCameraConfig != null) ? resolutionFromCameraConfig.toString() : "无分辨率", //
                         isUvcCamera, //
+                        startupDuration, //
                         preview != null, //
                         imageCapture != null, //
                         imageAnalysis != null //
