@@ -238,7 +238,7 @@ public class CameraActivityKit {
                     // 1. 持久化存储
                     MmkvKit.defaultMmkv().encode(CameraConfigKit.getRotationMmkvKey(selectedCameraId), selectedRotation);
                     // 2. 设置目标旋转角度
-                    cameraController.setTargetRotation(activityCameraBinding.cameraActivityMcv, activityCameraBinding.cameraActivityPv, selectedRotation);
+                    cameraController.setTargetRotation(activityCameraBinding.cameraActivityPv, selectedRotation);
                 }
             }
 
