@@ -14,8 +14,13 @@ import androidx.lifecycle.LifecycleOwner;
 
 import com.zsp.today.R;
 import com.zsp.today.databinding.ActivityCameraBinding;
+import com.zsp.today.module.camera.LogKit;
 import com.zsp.today.module.camera.function.CameraController;
+import com.zsp.today.module.camera.function.CameraDeviceKit;
 import com.zsp.today.module.camera.function.FpsTracker;
+import com.zsp.today.module.camera.function.callback.CameraCaptureCallback;
+import com.zsp.today.module.camera.function.callback.CameraInitCallback;
+import com.zsp.today.module.camera.function.config.CameraConfigKit;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -34,7 +39,6 @@ import widget.toast.ToastKt;
  * @desc 相机页配套原件
  */
 public class CameraActivityKit {
-    private static final String TAG = CameraActivityKit.class.getSimpleName();
     /**
      * 相机控制器
      */
@@ -128,7 +132,7 @@ public class CameraActivityKit {
         // 1. 获取指定相机 ID 支持的原生分辨率列表
         supportedResolutionList = cameraController.getSupportedResolutions(context, selectedCameraId);
         if (supportedResolutionList.isEmpty()) {
-            Timber.tag(TAG).w("未查询到摄像头 CameraID: %s 支持的分辨率列表", selectedCameraId);
+            Timber.tag(LogKit.TAG).w("未查询到摄像头 CameraID: %s 支持的分辨率列表", selectedCameraId);
             isResolutionInitializing = false;
             return;
         }
@@ -160,7 +164,6 @@ public class CameraActivityKit {
                     return;
                 }
                 Size newSize = supportedResolutionList.get(position);
-                // 选中分辨率变化 -> 重启相机 -> 更新流参数
                 if (!newSize.equals(selectedResolution)) {
                     selectedResolution = newSize;
                     // 启动相机
@@ -207,8 +210,7 @@ public class CameraActivityKit {
         activityCameraBinding.cameraActivitySpinnerSwitchRotation.setOnItemSelectedListener(null);
         activityCameraBinding.cameraActivitySpinnerSwitchRotation.setAdapter(stringArrayAdapter);
         // 4. 计算初始化选中的旋转角度
-        // 委派给 CameraController 统一决断
-        int initialRotation = cameraController.resolveTargetRotation(context, selectedCameraId, activityCameraBinding.cameraActivityPv);
+        int initialRotation = CameraConfigKit.resolveTargetRotation(selectedCameraId, activityCameraBinding.cameraActivityPv, CameraDeviceKit.checkIsUvcCamera(context, null, selectedCameraId));
         int defaultIndex = supportedRotationList.indexOf(initialRotation);
         if (defaultIndex < 0) {
             defaultIndex = 0;
@@ -230,11 +232,10 @@ public class CameraActivityKit {
                     return;
                 }
                 Integer newRotation = supportedRotationList.get(position);
-                // 选中旋转角度变化 -> 更新 TargetRotation 配置
                 if (!newRotation.equals(selectedRotation)) {
                     selectedRotation = newRotation;
                     // 1. 持久化存储
-                    MmkvKit.defaultMmkv().encode(cameraController.getRotationMmkvKey(selectedCameraId), selectedRotation);
+                    MmkvKit.defaultMmkv().encode(CameraConfigKit.getRotationMmkvKey(selectedCameraId), selectedRotation);
                     // 2. 设置目标旋转角度
                     cameraController.setTargetRotation(activityCameraBinding.cameraActivityMcv, activityCameraBinding.cameraActivityPv, selectedRotation);
                 }
@@ -245,33 +246,6 @@ public class CameraActivityKit {
 
             }
         });
-    }
-
-    /**
-     * 启动相机
-     *
-     * @param context               上下文
-     * @param lifecycleOwner        生命周期拥有者
-     * @param activityCameraBinding ActivityCameraBinding
-     */
-    public void startCamera(Context context, LifecycleOwner lifecycleOwner, @NonNull ActivityCameraBinding activityCameraBinding) {
-        CameraController.CameraInitCallback initCallback = new CameraController.CameraInitCallback() {
-            @Override
-            public void onCameraInitSuccess() {
-                Timber.tag(TAG).i("相机绑定成功 Camera ID: %s", selectedCameraId);
-            }
-
-            @Override
-            public void onCameraInitError(@NonNull Throwable throwable) {
-                activityCameraBinding.getRoot().post(() -> activityCameraBinding.cameraActivityTv.setText(String.format(Locale.getDefault(), context.getString(R.string.formatFpsNoValue), "--")));
-                ToastKt.showToast("相机启动失败: " + throwable.getMessage());
-            }
-        };
-        // 统一调用 CameraController 的 startCamera 重载
-        // 由内部的 resolveTargetRotation 完成自动决断策略
-        cameraController.startCamera(context, lifecycleOwner, activityCameraBinding.cameraActivityMcv, activityCameraBinding.cameraActivityPv, selectedCameraId, selectedResolution, initCallback);
-        // 同步当前 selectedRotation
-        this.selectedRotation = cameraController.resolveTargetRotation(context, selectedCameraId, activityCameraBinding.cameraActivityPv);
     }
 
     /**
@@ -306,6 +280,32 @@ public class CameraActivityKit {
     }
 
     /**
+     * 启动相机
+     *
+     * @param context               上下文
+     * @param lifecycleOwner        生命周期拥有者
+     * @param activityCameraBinding ActivityCameraBinding
+     */
+    public void startCamera(Context context, LifecycleOwner lifecycleOwner, @NonNull ActivityCameraBinding activityCameraBinding) {
+        CameraInitCallback cameraInitCallback = new CameraInitCallback() {
+            @Override
+            public void onCameraInitSuccess() {
+                Timber.tag(LogKit.TAG).i("相机绑定成功 Camera ID: %s", selectedCameraId);
+            }
+
+            @Override
+            public void onCameraInitError(@NonNull Throwable throwable) {
+                activityCameraBinding.getRoot().post(() -> activityCameraBinding.cameraActivityTv.setText(String.format(Locale.getDefault(), context.getString(R.string.formatFpsNoValue), "--")));
+                ToastKt.showToast("相机启动失败: " + throwable.getMessage());
+            }
+        };
+        // 启动相机
+        cameraController.startCamera(context, lifecycleOwner, activityCameraBinding.cameraActivityMcv, activityCameraBinding.cameraActivityPv, selectedCameraId, selectedResolution, cameraInitCallback);
+        // 已选旋转角度
+        this.selectedRotation = CameraConfigKit.resolveTargetRotation(selectedCameraId, activityCameraBinding.cameraActivityPv, CameraDeviceKit.checkIsUvcCamera(context, null, selectedCameraId));
+    }
+
+    /**
      * 拍照
      *
      * @param context               上下文
@@ -313,10 +313,10 @@ public class CameraActivityKit {
      */
     public void capture(Context context, @NonNull ActivityCameraBinding activityCameraBinding) {
         activityCameraBinding.cameraActivityMtCapture.setEnabled(false);
-        cameraController.capture(context, activityCameraBinding.cameraActivityPv, new CameraController.CameraCaptureCallback() {
+        cameraController.capture(context, activityCameraBinding.cameraActivityPv, new CameraCaptureCallback() {
             @Override
             public void onCameraCaptureSuccess(File photoFile) {
-                Timber.tag(TAG).i("保存路径: %s", photoFile.getAbsolutePath());
+                Timber.tag(LogKit.TAG).i("保存路径: %s", photoFile.getAbsolutePath());
                 activityCameraBinding.getRoot().post(() -> {
                     activityCameraBinding.cameraActivityMtCapture.setEnabled(true);
                     ToastKt.showToast("抓拍成功: " + photoFile.getName());
@@ -325,7 +325,7 @@ public class CameraActivityKit {
 
             @Override
             public void onCameraCaptureError(ImageCaptureException imageCaptureException) {
-                Timber.tag(TAG).e(imageCaptureException, "抓拍失败: %s", imageCaptureException.getMessage());
+                Timber.tag(LogKit.TAG).e(imageCaptureException, "抓拍失败: %s", imageCaptureException.getMessage());
                 activityCameraBinding.getRoot().post(() -> {
                     activityCameraBinding.cameraActivityMtCapture.setEnabled(true);
                     ToastKt.showToast("抓拍失败: " + imageCaptureException.getMessage());
@@ -336,8 +336,10 @@ public class CameraActivityKit {
 
     /**
      * 释放
+     *
+     * @param activityCameraBinding ActivityCameraBinding
      */
-    public void release() {
-        cameraController.release();
+    public void release(ActivityCameraBinding activityCameraBinding) {
+        cameraController.release(activityCameraBinding != null ? activityCameraBinding.cameraActivityPv : null);
     }
 }
