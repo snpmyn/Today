@@ -6,19 +6,24 @@ import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.params.StreamConfigurationMap;
+import android.hardware.usb.UsbDevice;
+import android.hardware.usb.UsbManager;
 import android.util.Range;
 import android.util.Size;
 
 import androidx.annotation.NonNull;
 
 import com.zsp.today.module.camera.LogKit;
+import com.zsp.today.module.camera.function.value.CameraDescription;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import timber.log.Timber;
+import util.list.ListUtils;
 
 /**
  * @decs: 相机管理器配套原件
@@ -29,13 +34,109 @@ import timber.log.Timber;
 @SuppressWarnings("unused")
 public class CameraManagerKit {
     /**
+     * 获取相机描述列表
+     *
+     * @param context 上下文
+     * @return 相机描述列表
+     */
+    @NonNull
+    public static List<CameraDescription> getCameraDescriptionList(@NonNull Context context) {
+        List<CameraDescription> cameraDescriptionList = new ArrayList<>();
+
+        // 相机管理器
+        CameraManager cameraManager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
+        if (cameraManager == null) {
+            return cameraDescriptionList;
+        }
+
+        // 1. 获取系统底层注册的所有相机 ID 列表
+        List<String> cameraIds = getAvailableCameraIds(context);
+        if (ListUtils.listIsEmpty(cameraIds)) {
+            return cameraDescriptionList;
+        }
+
+        // 2. 获取已连接 UVC 设备名列表
+        List<String> connectedUsbCameraNames = getConnectedUvcDeviceNameList(context);
+        int externalCameraIndex = 0;
+
+        // 3. 遍历组装
+        for (String cameraId : cameraIds) {
+            try {
+                CameraCharacteristics cameraCharacteristics = cameraManager.getCameraCharacteristics(cameraId);
+                Integer facing = cameraCharacteristics.get(CameraCharacteristics.LENS_FACING);
+                int lensFacing = (facing != null) ? facing : -1;
+
+                String displayName;
+                String usbProductName = null;
+
+                switch (lensFacing) {
+                    case CameraCharacteristics.LENS_FACING_FRONT:
+                        displayName = "内置前置摄像头 [ ID " + cameraId + " ]";
+                        break;
+                    case CameraCharacteristics.LENS_FACING_BACK:
+                        displayName = "内置后置摄像头 [ ID " + cameraId + " ]";
+                        break;
+                    case CameraCharacteristics.LENS_FACING_EXTERNAL:
+                        if (externalCameraIndex < connectedUsbCameraNames.size()) {
+                            // USB 识别到的外置节点
+                            usbProductName = connectedUsbCameraNames.get(externalCameraIndex);
+                            // Camera2 识别到的外置节点 + USB 识别到的外置节点
+                            displayName = usbProductName + " [ UVC ID " + cameraId + " ]";
+                        } else {
+                            // Camera2 识别到的外置节点
+                            displayName = "UVC 外接摄像头 [ ID " + cameraId + " ]";
+                        }
+                        externalCameraIndex++;
+                        break;
+                    default:
+                        displayName = "未知摄像头 [ ID " + cameraId + " ]";
+                        break;
+                }
+                cameraDescriptionList.add(new CameraDescription(cameraId, lensFacing, displayName, usbProductName));
+            } catch (CameraAccessException e) {
+                Timber.tag(LogKit.TAG).e(e, "获取相机 CameraID: %s 详细属性失败", cameraId);
+            }
+        }
+        return cameraDescriptionList;
+    }
+
+    /**
+     * 获取已连接 UVC 设备名列表
+     *
+     * @param context 上下文
+     * @return 已连接 UVC 设备名列表
+     */
+    @NonNull
+    private static List<String> getConnectedUvcDeviceNameList(@NonNull Context context) {
+        List<String> connectedUsbCameraNames = new ArrayList<>();
+        // USB 管理器
+        UsbManager usbManager = (UsbManager) context.getSystemService(Context.USB_SERVICE);
+        if (usbManager == null) {
+            return connectedUsbCameraNames;
+        }
+        HashMap<String, UsbDevice> usbDeviceHashMap = usbManager.getDeviceList();
+        for (UsbDevice usbDevice : usbDeviceHashMap.values()) {
+            if (CameraDeviceKit.isUvcDevice(usbDevice)) {
+                String productName = usbDevice.getProductName();
+                if ((productName == null) || productName.trim().isEmpty()) {
+                    String vendorIdStr = String.format("0x%04X", usbDevice.getVendorId());
+                    String productIdStr = String.format("0x%04X", usbDevice.getProductId());
+                    productName = ("USB Camera [ " + vendorIdStr + " : " + productIdStr + " ]");
+                }
+                connectedUsbCameraNames.add(productName);
+            }
+        }
+        return connectedUsbCameraNames;
+    }
+
+    /**
      * 获取系统底层注册的所有相机 ID 列表
      *
      * @param context 上下文
      * @return 系统底层注册的所有相机 ID 列表
      */
     @NonNull
-    public static List<String> getAvailableCameraIds(@NonNull Context context) {
+    private static List<String> getAvailableCameraIds(@NonNull Context context) {
         List<String> cameraIdList = new ArrayList<>();
         CameraManager cameraManager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
         if (cameraManager != null) {
