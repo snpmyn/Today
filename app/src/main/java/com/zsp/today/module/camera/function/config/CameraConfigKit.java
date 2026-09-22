@@ -25,30 +25,30 @@ public class CameraConfigKit {
      */
     public static String getRotationMmkvKey(String cameraId) {
         if ((cameraId == null) || cameraId.isEmpty()) {
-            return CameraConstant.CAMERA_$_TARGET_ROTATION;
+            return CameraConstant.CAMERA_$_ROTATION;
         }
-        return (CameraConstant.CAMERA_$_TARGET_ROTATION + "_" + cameraId);
+        return (CameraConstant.CAMERA_$_ROTATION + "_" + cameraId);
     }
 
     /**
-     * 存储目标旋转角度
+     * 存储旋转角度
      *
      * @param cameraId       相机 ID
-     * @param targetRotation 目标旋转角度
+     * @param targetRotation 旋转角度
      */
-    public static void saveTargetRotation(String cameraId, int targetRotation) {
+    public static void saveRotation(String cameraId, int targetRotation) {
         MmkvKit.defaultMmkv().encode(getRotationMmkvKey(cameraId), targetRotation);
     }
 
     /**
-     * 决断指定相机 ID 最终生效目标旋转角度
+     * 决断指定相机 ID 最终生效旋转角度
      *
      * @param cameraId    相机 ID
      * @param previewView 预览视图
-     * @param isUvcCamera 是否为 UVC 高拍仪设备
-     * @return 指定相机 ID 最终生效目标旋转角度
+     * @param isUvcCamera 是否为 UVC 高拍仪
+     * @return 指定相机 ID 最终生效旋转角度
      */
-    public static int resolveTargetRotation(String cameraId, @NonNull PreviewView previewView, boolean isUvcCamera) {
+    public static int resolveRotation(String cameraId, @NonNull PreviewView previewView, boolean isUvcCamera) {
         String mmkvKey = getRotationMmkvKey(cameraId);
         // 1. 优先读取 MMKV 中特定相机持久化配置
         if (MmkvKit.defaultMmkv().containsKey(mmkvKey)) {
