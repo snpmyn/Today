@@ -1,4 +1,4 @@
-package com.zsp.today.module.camera.function;
+package com.zsp.today.module.camera.function.value;
 
 /**
  * Created on 2026/9/21.
