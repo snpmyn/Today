@@ -37,12 +37,12 @@ public class CameraDeviceKit {
     }
 
     /**
-     * 检测是否为 UVC 高拍仪设备
+     * 检测是否为 UVC 高拍仪
      *
      * @param context               上下文
      * @param processCameraProvider 生命周期绑定提供者
      * @param cameraId              相机 ID
-     * @return 是否为 UVC 高拍仪设备
+     * @return 是否为 UVC 高拍仪
      */
     @OptIn(markerClass = ExperimentalCamera2Interop.class)
     public static boolean checkIsUvcCamera(@NonNull Context context, @Nullable ProcessCameraProvider processCameraProvider, String cameraId) {
@@ -82,11 +82,11 @@ public class CameraDeviceKit {
     }
 
     /**
-     * 检测是否为 UVC 高拍仪设备
+     * 检测是否为 UVC 高拍仪
      *
      * @param processCameraProvider 生命周期绑定提供者
      * @param cameraSelector        相机选择器
-     * @return 是否为 UVC 高拍仪设备
+     * @return 是否为 UVC 高拍仪
      */
     @OptIn(markerClass = ExperimentalLensFacing.class)
     public static boolean checkIsUvcCamera(@Nullable ProcessCameraProvider processCameraProvider, @Nullable CameraSelector cameraSelector) {
