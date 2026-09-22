@@ -8,7 +8,7 @@ package com.zsp.today.module.camera.function.value;
  */
 public class CameraConstant {
     /**
-     * 相机目标旋转角度
+     * 相机旋转角度
      */
-    public static final String CAMERA_$_TARGET_ROTATION = "CameraTargetRotation";
+    public static final String CAMERA_$_ROTATION = "CameraRotation";
 }
