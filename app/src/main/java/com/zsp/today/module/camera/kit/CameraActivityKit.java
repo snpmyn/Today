@@ -30,7 +30,6 @@ import java.util.Locale;
 
 import timber.log.Timber;
 import util.list.ListUtils;
-import util.mmkv.MmkvKit;
 import widget.toast.ToastKt;
 
 /**
@@ -104,16 +103,28 @@ public class CameraActivityKit {
         }
         if (cameraIdList.size() == 1) {
             selectedCameraId = cameraIdList.get(0);
-            // 初始化分辨率下拉选择框
-            setupResolutionSpinner(context, lifecycleOwner, activityCameraBinding);
-            // 初始化旋转角度下拉选择框
-            setupRotationSpinner(context, activityCameraBinding);
-            // 启动相机
-            startCamera(context, lifecycleOwner, activityCameraBinding);
+            // 执行
+            execute(context, lifecycleOwner, activityCameraBinding);
         } else {
             // 显示相机选择对话框
             showCameraSelectDialog(context, lifecycleOwner, activityCameraBinding);
         }
+    }
+
+    /**
+     * 执行
+     *
+     * @param context               上下文
+     * @param lifecycleOwner        生命周期拥有者
+     * @param activityCameraBinding ActivityCameraBinding
+     */
+    private void execute(Context context, LifecycleOwner lifecycleOwner, ActivityCameraBinding activityCameraBinding) {
+        // 初始化分辨率下拉选择框
+        setupResolutionSpinner(context, lifecycleOwner, activityCameraBinding);
+        // 初始化旋转角度下拉选择框
+        setupRotationSpinner(context, activityCameraBinding);
+        // 启动相机
+        startCamera(context, lifecycleOwner, activityCameraBinding);
     }
 
     /**
@@ -132,7 +143,7 @@ public class CameraActivityKit {
         isResolutionInitializing = true;
         // 1. 获取指定相机 ID 支持的原生分辨率列表
         supportedResolutionList = CameraManagerKit.getSupportedResolutions(context, selectedCameraId);
-        if (supportedResolutionList.isEmpty()) {
+        if (ListUtils.listIsEmpty(supportedResolutionList)) {
             Timber.tag(LogKit.TAG).w("未查询到摄像头 CameraID: %s 支持的分辨率列表", selectedCameraId);
             isResolutionInitializing = false;
             return;
@@ -148,7 +159,7 @@ public class CameraActivityKit {
         activityCameraBinding.cameraActivitySpinnerSwitchResolution.setOnItemSelectedListener(null);
         activityCameraBinding.cameraActivitySpinnerSwitchResolution.setAdapter(stringArrayAdapter);
         // 4. 默认选中最高分辨率
-        activityCameraBinding.cameraActivitySpinnerSwitchResolution.setSelection(0, false);
+        activityCameraBinding.cameraActivitySpinnerSwitchResolution.setSelection(0, true);
         selectedResolution = supportedResolutionList.get(0);
         // 5. 延迟恢复监听防抖
         // 通过 View.post 将任务推入主线程 MessageQueue 末尾
@@ -164,9 +175,9 @@ public class CameraActivityKit {
                 if ((position < 0) || (position >= supportedResolutionList.size())) {
                     return;
                 }
-                Size newSize = supportedResolutionList.get(position);
-                if (!newSize.equals(selectedResolution)) {
-                    selectedResolution = newSize;
+                Size newResolution = supportedResolutionList.get(position);
+                if (!newResolution.equals(selectedResolution)) {
+                    selectedResolution = newResolution;
                     // 启动相机
                     startCamera(context, lifecycleOwner, activityCameraBinding);
                 }
@@ -216,7 +227,7 @@ public class CameraActivityKit {
         if (defaultIndex < 0) {
             defaultIndex = 0;
         }
-        activityCameraBinding.cameraActivitySpinnerSwitchRotation.setSelection(defaultIndex, false);
+        activityCameraBinding.cameraActivitySpinnerSwitchRotation.setSelection(defaultIndex, true);
         selectedRotation = supportedRotationList.get(defaultIndex);
         // 5. 延迟恢复监听防抖
         // 通过 View.post 将任务推入主线程 MessageQueue 末尾
@@ -235,9 +246,7 @@ public class CameraActivityKit {
                 Integer newRotation = supportedRotationList.get(position);
                 if (!newRotation.equals(selectedRotation)) {
                     selectedRotation = newRotation;
-                    // 1. 持久化存储
-                    MmkvKit.defaultMmkv().encode(CameraConfigKit.getRotationMmkvKey(selectedCameraId), selectedRotation);
-                    // 2. 设置目标旋转角度
+                    // 存储目标旋转角度
                     cameraController.setTargetRotation(activityCameraBinding.cameraActivityPv, selectedRotation);
                 }
             }
@@ -271,12 +280,8 @@ public class CameraActivityKit {
         }
         new AlertDialog.Builder(context).setTitle("选择要打开的摄像头").setItems(items, (dialog, which) -> {
             selectedCameraId = cameraIdList.get(which);
-            // 初始化分辨率下拉选择框
-            setupResolutionSpinner(context, lifecycleOwner, activityCameraBinding);
-            // 初始化旋转角度下拉选择框
-            setupRotationSpinner(context, activityCameraBinding);
-            // 启动相机
-            startCamera(context, lifecycleOwner, activityCameraBinding);
+            // 执行
+            execute(context, lifecycleOwner, activityCameraBinding);
         }).setCancelable(false).show();
     }
 
