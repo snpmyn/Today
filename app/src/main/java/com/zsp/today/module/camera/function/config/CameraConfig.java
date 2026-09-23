@@ -137,7 +137,10 @@ public class CameraConfig {
          * 设置旋转角度
          *
          * @param rotation 旋转角度
-         *                 [Surface.ROTATION_0, ROTATION_90, ROTATION_180, ROTATION_270]
+         *                 {@link Surface#ROTATION_0} 屏幕竖屏正向
+         *                 {@link Surface#ROTATION_90} 屏幕顺旋九十
+         *                 {@link Surface#ROTATION_180} 屏幕顺旋一八
+         *                 {@link Surface#ROTATION_270} 屏幕顺旋二七
          * @return 构建器实例
          */
         public Builder setRotation(int rotation) {
