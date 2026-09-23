@@ -93,10 +93,6 @@ public class CameraController {
      * 是否为 UVC 高拍仪
      */
     private boolean isUvcCamera = false;
-    /**
-     * 帧率追踪器
-     */
-    private FpsTracker fpsTracker;
 
     /**
      * constructor
@@ -136,10 +132,8 @@ public class CameraController {
         // 开始时间
         long startTime = SystemClock.elapsedRealtime();
 
-        // 帧率追踪器
-        if (fpsTracker != null) {
-            fpsTracker.reset();
-        }
+        // 重置
+        fpsKit.reset();
 
         // 确保线程池可用
         ensureExecutorAvailable();
@@ -223,7 +217,7 @@ public class CameraController {
                 processCameraProvider.bindToLifecycle(lifecycleOwner, cameraSelector, preview, imageCapture, imageAnalysis);
 
                 // 8. 初始化帧率追踪器代理
-                fpsKit.setupFpsTrackerProxy(previewView, fpsTracker);
+                fpsKit.setupFpsTrackerProxy(previewView);
 
                 // 9. 更新预览视图容器宽高比
                 cameraPreviewKit.updatePreviewContainerRatio(previewViewContainerView, resolutionFromCameraConfig);
@@ -434,7 +428,7 @@ public class CameraController {
      * @param fpsTracker 帧率追踪器
      */
     public void setFpsTracker(@Nullable FpsTracker fpsTracker) {
-        this.fpsTracker = fpsTracker;
+        this.fpsKit.setFpsTracker(fpsTracker);
     }
 
     /**
@@ -443,31 +437,27 @@ public class CameraController {
      * @param previewView 预览视图
      */
     public void release(@Nullable PreviewView previewView) {
-        // 1. 帧率追踪器
-        if (fpsTracker != null) {
-            fpsTracker.reset();
-        }
-        // 2. 释放
+        // 1. 释放
         fpsKit.release(previewView);
-        // 3. 图像分析用例对象
+        // 2. 图像分析用例对象
         if (imageAnalysis != null) {
             imageAnalysis.clearAnalyzer();
             imageAnalysis = null;
         }
-        // 4. 预览用例对象
+        // 3. 预览用例对象
         preview = null;
-        // 5. 抓拍用例对象
+        // 4. 抓拍用例对象
         imageCapture = null;
-        // 6. 生命周期绑定提供者
+        // 5. 生命周期绑定提供者
         if (processCameraProvider != null) {
             processCameraProvider.unbindAll();
             processCameraProvider = null;
         }
-        // 7. 增强实现
+        // 6. 增强实现
         if ((executorService != null) && !executorService.isShutdown()) {
             executorService.shutdown();
         }
-        // 8. 清除帧缓存
+        // 7. 清除帧缓存
         CaptureHelper.clearFrameCache();
     }
 }
