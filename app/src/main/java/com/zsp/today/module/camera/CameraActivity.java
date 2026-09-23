@@ -7,7 +7,7 @@ import androidx.viewbinding.ViewBinding;
 
 import com.zsp.today.R;
 import com.zsp.today.databinding.ActivityCameraBinding;
-import com.zsp.today.module.camera.function.CaptureHelper;
+import com.zsp.today.module.camera.function.capture.CaptureHelper;
 import com.zsp.today.module.camera.kit.CameraActivityKit;
 
 import pool.base.BasePoolActivity;
