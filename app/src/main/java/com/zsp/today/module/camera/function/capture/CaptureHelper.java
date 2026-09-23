@@ -55,6 +55,10 @@ public class CaptureHelper {
      */
     private static byte[] latestYuvBytes;
     /**
+     * YUV 字节复用缓冲区
+     */
+    private static byte[] nv21BufferCache;
+    /**
      * 最新帧宽
      */
     private static int latestFrameWidth = 0;
@@ -382,7 +386,13 @@ public class CaptureHelper {
                     latestFrameWidth = width;
                     latestFrameHeight = height;
                     latestFrameRotationDegrees = rotationDegrees;
-                    latestYuvBytes = nv21Bytes;
+                    // 确保 latestYuvBytes 具有独立缓冲区
+                    // 切断并发竞争读写
+                    // 防止降级拍照数据撕裂 (花屏 / 绿条)
+                    if ((latestYuvBytes == null) || (latestYuvBytes.length != nv21Bytes.length)) {
+                        latestYuvBytes = new byte[nv21Bytes.length];
+                    }
+                    System.arraycopy(nv21Bytes, 0, latestYuvBytes, 0, nv21Bytes.length);
                 }
             }
         } catch (Exception e) {
@@ -402,7 +412,13 @@ public class CaptureHelper {
         int height = imageProxy.getHeight();
         int ySize = width * height;
         int uvSize = ySize / 2;
-        byte[] nv21 = new byte[ySize + uvSize];
+        int totalSize = ySize + uvSize;
+        // 内存复用
+        // 规避高频 GC 开销
+        if ((nv21BufferCache == null) || (nv21BufferCache.length != totalSize)) {
+            nv21BufferCache = new byte[totalSize];
+        }
+        byte[] nv21 = nv21BufferCache;
         ImageProxy.PlaneProxy[] proxyPlanes = imageProxy.getPlanes();
         // 1. 提取 Y 分量
         ByteBuffer yBuffer = proxyPlanes[0].getBuffer();
@@ -447,7 +463,9 @@ public class CaptureHelper {
             vBuffer.get(rowV, 0, bytesToRead);
             for (int col = 0; col < uvWidth; col++) {
                 int colOffset = col * uvPixelStride;
-                if (colOffset < bytesToRead) {
+                // 对 UV 跨度进行双重界限保护
+                // 防止非标 UVC 驱动硬件越界崩溃
+                if ((colOffset < bytesToRead) && ((colOffset + 1) < bytesToRead)) {
                     nv21[pos++] = rowV[colOffset];
                     nv21[pos++] = rowU[colOffset];
                 }
@@ -462,6 +480,7 @@ public class CaptureHelper {
     public static void clearFrameCache() {
         synchronized (FRAME_LOCK) {
             latestYuvBytes = null;
+            nv21BufferCache = null;
             latestFrameWidth = 0;
             latestFrameHeight = 0;
             latestFrameRotationDegrees = 0;
