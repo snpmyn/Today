@@ -14,6 +14,7 @@ import android.util.Size;
 import androidx.annotation.NonNull;
 
 import com.zsp.today.module.camera.LogKit;
+import com.zsp.today.module.camera.function.device.CameraDeviceKit;
 import com.zsp.today.module.camera.function.value.CameraDescription;
 
 import java.util.ArrayList;
@@ -65,7 +66,7 @@ public class CameraManagerKit {
 
                 // 展示名称
                 String displayName;
-                // USB 产品名称
+                // USB 设备产品名称
                 String usbProductName = null;
 
                 switch (lensFacing) {
