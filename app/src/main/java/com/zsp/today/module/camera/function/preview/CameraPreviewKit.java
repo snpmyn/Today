@@ -1,4 +1,4 @@
-package com.zsp.today.module.camera.function;
+package com.zsp.today.module.camera.function.preview;
 
 import android.graphics.SurfaceTexture;
 import android.util.Size;
@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.camera.view.PreviewView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import com.zsp.today.module.camera.function.other.FpsTracker;
+import com.zsp.today.module.camera.function.fps.FpsTracker;
 
 import java.lang.ref.WeakReference;
 
