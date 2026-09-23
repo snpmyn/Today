@@ -19,6 +19,7 @@ import com.zsp.today.module.camera.function.value.CameraDescription;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -42,23 +43,19 @@ public class CameraManagerKit {
     @NonNull
     public static List<CameraDescription> getCameraDescriptionList(@NonNull Context context) {
         List<CameraDescription> cameraDescriptionList = new ArrayList<>();
-
         // 相机管理器
         CameraManager cameraManager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
         if (cameraManager == null) {
             return cameraDescriptionList;
         }
-
         // 1. 获取系统底层注册的所有相机 ID 列表
         List<String> cameraIds = getAvailableCameraIds(context);
         if (ListUtils.listIsEmpty(cameraIds)) {
             return cameraDescriptionList;
         }
-
         // 2. 获取已连接 UVC 设备名列表
         List<String> connectedUsbCameraNames = getConnectedUvcDeviceNameList(context);
         int externalCameraIndex = 0;
-
         // 3. 遍历组装
         for (String cameraId : cameraIds) {
             try {
@@ -66,7 +63,9 @@ public class CameraManagerKit {
                 Integer facing = cameraCharacteristics.get(CameraCharacteristics.LENS_FACING);
                 int lensFacing = (facing != null) ? facing : -1;
 
+                // 展示名称
                 String displayName;
+                // USB 产品名称
                 String usbProductName = null;
 
                 switch (lensFacing) {
@@ -81,10 +80,10 @@ public class CameraManagerKit {
                             // USB 识别到的外置节点
                             usbProductName = connectedUsbCameraNames.get(externalCameraIndex);
                             // Camera2 识别到的外置节点 + USB 识别到的外置节点
-                            displayName = usbProductName + " [ UVC ID " + cameraId + " ]";
+                            displayName = usbProductName + " [ UVC ID " + cameraId + " #" + (externalCameraIndex + 1) + " ]";
                         } else {
                             // Camera2 识别到的外置节点
-                            displayName = "UVC 外接摄像头 [ ID " + cameraId + " ]";
+                            displayName = "UVC 外接摄像头 [ ID " + cameraId + " #" + (externalCameraIndex + 1) + " ]";
                         }
                         externalCameraIndex++;
                         break;
@@ -115,7 +114,11 @@ public class CameraManagerKit {
             return connectedUsbCameraNames;
         }
         HashMap<String, UsbDevice> usbDeviceHashMap = usbManager.getDeviceList();
-        for (UsbDevice usbDevice : usbDeviceHashMap.values()) {
+        // 按照 Device ID 进行稳定升序排序
+        // 防止 HashMap 遍历乱序导致多 USB 摄像头命名跳变
+        List<UsbDevice> usbDeviceList = new ArrayList<>(usbDeviceHashMap.values());
+        usbDeviceList.sort(Comparator.comparingInt(UsbDevice::getDeviceId));
+        for (UsbDevice usbDevice : usbDeviceList) {
             if (CameraDeviceKit.isUvcDevice(usbDevice)) {
                 String productName = usbDevice.getProductName();
                 if ((productName == null) || productName.trim().isEmpty()) {
