@@ -13,6 +13,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 /**
  * Created on 2026/9/23.
@@ -20,15 +21,8 @@ import androidx.annotation.Nullable;
  * @author 郑少鹏
  * @desc 裁剪覆盖视图
  */
+@SuppressWarnings("unused")
 public class CropOverlayView extends View {
-    /**
-     * 触控角点半径
-     */
-    private static final float HANDLE_RADIUS = 24f;
-    /**
-     * 手势响应感应范围
-     */
-    private static final float TOUCH_TOLERANCE = 40f;
     /**
      * 未触控
      * <p>
@@ -60,6 +54,30 @@ public class CropOverlayView extends View {
      */
     private static final int HANDLE_BOTTOM = 4;
     /**
+     * 左上角
+     * <p>
+     * 触控手柄标识
+     */
+    private static final int HANDLE_TOP_LEFT = 5;
+    /**
+     * 右上角
+     * <p>
+     * 触控手柄标识
+     */
+    private static final int HANDLE_TOP_RIGHT = 6;
+    /**
+     * 左下角
+     * <p>
+     * 触控手柄标识
+     */
+    private static final int HANDLE_BOTTOM_LEFT = 7;
+    /**
+     * 右下角
+     * <p>
+     * 触控手柄标识
+     */
+    private static final int HANDLE_BOTTOM_RIGHT = 8;
+    /**
      * 遮罩画笔
      */
     private final Paint maskPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -87,6 +105,14 @@ public class CropOverlayView extends View {
      * 实际像素矩形
      */
     private final RectF cropRect = new RectF();
+    /**
+     * 触控角点半径
+     */
+    private float handleRadius;
+    /**
+     * 手势响应感应范围
+     */
+    private float touchTolerance;
     /**
      * 当前激活的触控手柄
      */
@@ -139,13 +165,16 @@ public class CropOverlayView extends View {
      * 初始化画笔
      */
     private void initPaints() {
-        // 半透明黑遮罩
-        maskPaint.setColor(Color.parseColor("#80000000"));
+        // getDimension 内部自动完成 dp 到 px 转换
+        handleRadius = getResources().getDimension(com.zsp.core.R.dimen.dp_8);
+        touchTolerance = getResources().getDimension(com.zsp.core.R.dimen.dp_24);
+
+        maskPaint.setColor(ContextCompat.getColor(getContext(), com.zsp.core.R.color.color_DC000000));
         maskPaint.setStyle(Paint.Style.FILL);
 
         borderPaint.setColor(Color.WHITE);
         borderPaint.setStyle(Paint.Style.STROKE);
-        borderPaint.setStrokeWidth(4f);
+        borderPaint.setStrokeWidth(getResources().getDimension(com.zsp.core.R.dimen.dp_4));
 
         handlePaint.setColor(Color.WHITE);
         handlePaint.setStyle(Paint.Style.FILL);
@@ -202,11 +231,16 @@ public class CropOverlayView extends View {
         canvas.drawPath(maskPath, maskPaint);
         // 绘制裁剪框白边
         canvas.drawRect(cropRect, borderPaint);
+        // 绘制四角拖动手柄触点
+        canvas.drawCircle(cropRect.left, cropRect.top, handleRadius, handlePaint);
+        canvas.drawCircle(cropRect.right, cropRect.top, handleRadius, handlePaint);
+        canvas.drawCircle(cropRect.left, cropRect.bottom, handleRadius, handlePaint);
+        canvas.drawCircle(cropRect.right, cropRect.bottom, handleRadius, handlePaint);
         // 绘制四边中间的拖动手柄触点
-        canvas.drawCircle(cropRect.left, cropRect.centerY(), HANDLE_RADIUS, handlePaint);
-        canvas.drawCircle(cropRect.right, cropRect.centerY(), HANDLE_RADIUS, handlePaint);
-        canvas.drawCircle(cropRect.centerX(), cropRect.top, HANDLE_RADIUS, handlePaint);
-        canvas.drawCircle(cropRect.centerX(), cropRect.bottom, HANDLE_RADIUS, handlePaint);
+        canvas.drawCircle(cropRect.left, cropRect.centerY(), handleRadius, handlePaint);
+        canvas.drawCircle(cropRect.right, cropRect.centerY(), handleRadius, handlePaint);
+        canvas.drawCircle(cropRect.centerX(), cropRect.top, handleRadius, handlePaint);
+        canvas.drawCircle(cropRect.centerX(), cropRect.bottom, handleRadius, handlePaint);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -233,8 +267,10 @@ public class CropOverlayView extends View {
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                activeHandle = HANDLE_NONE;
-                updateNormalizedFromCropRect();
+                if (activeHandle != HANDLE_NONE) {
+                    activeHandle = HANDLE_NONE;
+                    updateNormalizedFromCropRect();
+                }
                 break;
         }
         return super.onTouchEvent(event);
@@ -248,13 +284,24 @@ public class CropOverlayView extends View {
      * @return 触摸的手柄标识
      */
     private int getTouchedHandle(float x, float y) {
-        if (Math.abs(x - cropRect.left) < TOUCH_TOLERANCE && Math.abs(y - cropRect.centerY()) < TOUCH_TOLERANCE * 2) {
+        // 优先响应四角触控
+        if (Math.abs(x - cropRect.left) < touchTolerance && Math.abs(y - cropRect.top) < touchTolerance) {
+            return HANDLE_TOP_LEFT;
+        } else if (Math.abs(x - cropRect.right) < touchTolerance && Math.abs(y - cropRect.top) < touchTolerance) {
+            return HANDLE_TOP_RIGHT;
+        } else if (Math.abs(x - cropRect.left) < touchTolerance && Math.abs(y - cropRect.bottom) < touchTolerance) {
+            return HANDLE_BOTTOM_LEFT;
+        } else if (Math.abs(x - cropRect.right) < touchTolerance && Math.abs(y - cropRect.bottom) < touchTolerance) {
+            return HANDLE_BOTTOM_RIGHT;
+        }
+        // 次之响应四边触控
+        else if (Math.abs(x - cropRect.left) < touchTolerance && Math.abs(y - cropRect.centerY()) < touchTolerance * 2) {
             return HANDLE_LEFT;
-        } else if (Math.abs(x - cropRect.right) < TOUCH_TOLERANCE && Math.abs(y - cropRect.centerY()) < TOUCH_TOLERANCE * 2) {
+        } else if (Math.abs(x - cropRect.right) < touchTolerance && Math.abs(y - cropRect.centerY()) < touchTolerance * 2) {
             return HANDLE_RIGHT;
-        } else if (Math.abs(y - cropRect.top) < TOUCH_TOLERANCE && Math.abs(x - cropRect.centerX()) < TOUCH_TOLERANCE * 2) {
+        } else if (Math.abs(y - cropRect.top) < touchTolerance && Math.abs(x - cropRect.centerX()) < touchTolerance * 2) {
             return HANDLE_TOP;
-        } else if (Math.abs(y - cropRect.bottom) < TOUCH_TOLERANCE && Math.abs(x - cropRect.centerX()) < TOUCH_TOLERANCE * 2) {
+        } else if (Math.abs(y - cropRect.bottom) < touchTolerance && Math.abs(x - cropRect.centerX()) < touchTolerance * 2) {
             return HANDLE_BOTTOM;
         }
         return HANDLE_NONE;
@@ -282,8 +329,23 @@ public class CropOverlayView extends View {
             case HANDLE_BOTTOM:
                 cropRect.bottom = Math.max(Math.min(getHeight(), cropRect.bottom + dy), cropRect.top + minSize);
                 break;
+            case HANDLE_TOP_LEFT:
+                cropRect.left = Math.min(Math.max(0, cropRect.left + dx), cropRect.right - minSize);
+                cropRect.top = Math.min(Math.max(0, cropRect.top + dy), cropRect.bottom - minSize);
+                break;
+            case HANDLE_TOP_RIGHT:
+                cropRect.right = Math.max(Math.min(getWidth(), cropRect.right + dx), cropRect.left + minSize);
+                cropRect.top = Math.min(Math.max(0, cropRect.top + dy), cropRect.bottom - minSize);
+                break;
+            case HANDLE_BOTTOM_LEFT:
+                cropRect.left = Math.min(Math.max(0, cropRect.left + dx), cropRect.right - minSize);
+                cropRect.bottom = Math.max(Math.min(getHeight(), cropRect.bottom + dy), cropRect.top + minSize);
+                break;
+            case HANDLE_BOTTOM_RIGHT:
+                cropRect.right = Math.max(Math.min(getWidth(), cropRect.right + dx), cropRect.left + minSize);
+                cropRect.bottom = Math.max(Math.min(getHeight(), cropRect.bottom + dy), cropRect.top + minSize);
+                break;
         }
-        updateNormalizedFromCropRect();
     }
 
     /**
@@ -294,6 +356,20 @@ public class CropOverlayView extends View {
     @NonNull
     public RectF getNormalizedCropRect() {
         return new RectF(normalizedCropRect);
+    }
+
+    /**
+     * 设置归一化裁剪矩形
+     * <p>
+     * 用于实时算法 ROI 检测结果回显
+     *
+     * @param normalizedCropRect 归一化裁剪矩形
+     *                           [0.0 ~ 1.0]
+     */
+    public void setNormalizedCropRect(@NonNull RectF normalizedCropRect) {
+        this.normalizedCropRect.set(normalizedCropRect);
+        updateCropRectFromNormalized();
+        postInvalidate();
     }
 
     /**
