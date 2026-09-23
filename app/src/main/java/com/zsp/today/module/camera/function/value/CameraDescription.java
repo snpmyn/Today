@@ -37,23 +37,23 @@ public class CameraDescription {
      */
     private final String displayName;
     /**
-     * USB 产品名称
+     * USB 设备产品名称
      */
-    private final String usbProductName;
+    private final String usbDeviceProductName;
 
     /**
      * constructor
      *
-     * @param cameraId       相机 ID
-     * @param lensFacing     镜头朝向
-     * @param displayName    展示名称
-     * @param usbProductName USB 产品名称
+     * @param cameraId             相机 ID
+     * @param lensFacing           镜头朝向
+     * @param displayName          展示名称
+     * @param usbDeviceProductName USB 设备产品名称
      */
-    public CameraDescription(@NonNull String cameraId, int lensFacing, @NonNull String displayName, @Nullable String usbProductName) {
+    public CameraDescription(@NonNull String cameraId, int lensFacing, @NonNull String displayName, @Nullable String usbDeviceProductName) {
         this.cameraId = cameraId;
         this.lensFacing = lensFacing;
         this.displayName = displayName;
-        this.usbProductName = usbProductName;
+        this.usbDeviceProductName = usbDeviceProductName;
     }
 
     @NonNull
@@ -71,13 +71,13 @@ public class CameraDescription {
     }
 
     @Nullable
-    public String getUsbProductName() {
-        return usbProductName;
+    public String getUsbDeviceProductName() {
+        return usbDeviceProductName;
     }
 
     @NonNull
     @Override
     public String toString() {
-        return "CameraDescription{" + "cameraId='" + cameraId + '\'' + ", lensFacing=" + lensFacing + ", displayName='" + displayName + '\'' + ", usbProductName='" + usbProductName + '\'' + '}';
+        return "CameraDescription{" + "cameraId='" + cameraId + '\'' + ", lensFacing=" + lensFacing + ", displayName='" + displayName + '\'' + ", usbProductName='" + usbDeviceProductName + '\'' + '}';
     }
 }
