@@ -1,6 +1,7 @@
 package com.zsp.today.module.camera.function;
 
 import android.content.Context;
+import android.hardware.usb.UsbConstants;
 import android.hardware.usb.UsbDevice;
 
 import androidx.annotation.NonNull;
@@ -43,7 +44,7 @@ public class CameraDeviceKit {
      * 通过 USB 硬件底层协议辨识
      * 基于 USB 设备描述符进行双重校验
      * 1. 检查设备全局类代码 (Device Class Code)
-     * 标准 UVC 设备类代码通常为 14 (0x0E，即 Video 视频类)
+     * 标准 UVC 设备通常为 14 [0x0E - Video 视频类]
      * 2. 全局类代码未直接声明
      * 如复合设备或由接口定义
      * 遍历该 USB 设备所有接口类代码 (Interface Class Code)
@@ -53,15 +54,18 @@ public class CameraDeviceKit {
      * @param usbDevice USB 设备
      * @return 是否是 UVC 设备
      */
-    public static boolean isUvcDevice(@NonNull UsbDevice usbDevice) {
+    public static boolean isUvcDevice(@Nullable UsbDevice usbDevice) {
+        if (usbDevice == null) {
+            return false;
+        }
         // 1. 检查 UsbDevice 级别 Class Code
-        // 14: Video
-        if (usbDevice.getDeviceClass() == 14) {
+        // UsbConstants.USB_CLASS_VIDEO 即 14 (0x0E)
+        if (usbDevice.getDeviceClass() == UsbConstants.USB_CLASS_VIDEO) {
             return true;
         }
         // 2. 检查 Interface 级别 Class Code
         for (int i = 0; i < usbDevice.getInterfaceCount(); i++) {
-            if (usbDevice.getInterface(i).getInterfaceClass() == 14) {
+            if (usbDevice.getInterface(i).getInterfaceClass() == UsbConstants.USB_CLASS_VIDEO) {
                 return true;
             }
         }
@@ -73,7 +77,7 @@ public class CameraDeviceKit {
      * <p>
      * 通过 USB 硬件层与 Camera2 框架层差异化辨识
      * 侧重通过 CameraX 的 Camera2 互操作层
-     * 根据指定相机 ID 动态过滤并映射到对应的底层 CameraInfo
+     * 根据指定相机 ID 动态过滤并映射到对应底层 CameraInfo
      * 进而交由后续逻辑判定该相机节点是否属于外部设备 (External / Unknown)
      * 以此精准识别 UVC 物理或虚拟外置相机
      *
@@ -83,7 +87,7 @@ public class CameraDeviceKit {
      * @return 是否为 UVC 高拍仪
      */
     @OptIn(markerClass = ExperimentalCamera2Interop.class)
-    public static boolean checkIsUvcCamera(@NonNull Context context, @Nullable ProcessCameraProvider processCameraProvider, String cameraId) {
+    public static boolean checkIsUvcCamera(@NonNull Context context, @Nullable ProcessCameraProvider processCameraProvider, @Nullable String cameraId) {
         if ((cameraId == null) || cameraId.isEmpty()) {
             return false;
         }
@@ -101,12 +105,13 @@ public class CameraDeviceKit {
         // 构建精确匹配指定 cameraId 的选择器
         final ProcessCameraProvider finalProvider = provider;
         CameraSelector cameraSelector = new CameraSelector.Builder().addCameraFilter(new CameraFilter() {
+            @NonNull
             @Override
-            public @org.jspecify.annotations.NonNull List<CameraInfo> filter(@org.jspecify.annotations.NonNull List<CameraInfo> cameraInfos) {
+            public List<CameraInfo> filter(@NonNull List<CameraInfo> cameraInfos) {
                 List<CameraInfo> result = new ArrayList<>();
                 for (CameraInfo cameraInfo : cameraInfos) {
                     try {
-                        if (Camera2CameraInfo.from(cameraInfo).getCameraId().equals(cameraId)) {
+                        if (cameraId.equals(Camera2CameraInfo.from(cameraInfo).getCameraId())) {
                             result.add(cameraInfo);
                         }
                     } catch (Exception e) {
