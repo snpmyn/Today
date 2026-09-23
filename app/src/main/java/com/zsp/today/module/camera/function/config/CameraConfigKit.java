@@ -32,6 +32,11 @@ public class CameraConfigKit {
 
     /**
      * 存储旋转角度
+     * <p>
+     * {@link Surface#ROTATION_0} 屏幕竖屏正向
+     * {@link Surface#ROTATION_90} 屏幕顺旋九十
+     * {@link Surface#ROTATION_180} 屏幕顺旋一八
+     * {@link Surface#ROTATION_270} 屏幕顺旋二七
      *
      * @param cameraId       相机 ID
      * @param targetRotation 旋转角度
@@ -42,6 +47,11 @@ public class CameraConfigKit {
 
     /**
      * 决断指定相机 ID 最终生效旋转角度
+     * <p>
+     * {@link Surface#ROTATION_0} 屏幕竖屏正向
+     * {@link Surface#ROTATION_90} 屏幕顺旋九十
+     * {@link Surface#ROTATION_180} 屏幕顺旋一八
+     * {@link Surface#ROTATION_270} 屏幕顺旋二七
      *
      * @param cameraId    相机 ID
      * @param previewView 预览视图
