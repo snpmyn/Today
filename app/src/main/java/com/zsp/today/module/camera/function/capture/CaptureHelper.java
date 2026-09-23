@@ -1,4 +1,4 @@
-package com.zsp.today.module.camera.function;
+package com.zsp.today.module.camera.function.capture;
 
 import android.content.Context;
 import android.graphics.Bitmap;
