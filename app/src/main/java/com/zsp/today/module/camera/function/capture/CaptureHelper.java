@@ -10,6 +10,7 @@ import android.graphics.ImageFormat;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.YuvImage;
 
 import androidx.annotation.NonNull;
@@ -106,12 +107,14 @@ public class CaptureHelper {
      * @param imageCapture          抓拍用例对象
      * @param previewView           预览视图
      *                              硬件抓拍失败时降级方案
+     * @param normalizedCropRect    归一化裁剪矩形
+     *                              [0.0, 1.0]
      * @param isUvcCamera           是否为 UVC 高拍仪
      * @param executorService       增强实现
      * @param enhanceMode           图像增强模式
      * @param cameraCaptureCallback 相机拍照回调
      */
-    public static void capture(@NonNull Context context, ImageCapture imageCapture, @NonNull PreviewView previewView, boolean isUvcCamera, @NonNull ExecutorService executorService, EnhanceMode enhanceMode, CameraCaptureCallback cameraCaptureCallback) {
+    public static void capture(@NonNull Context context, ImageCapture imageCapture, @NonNull PreviewView previewView, @Nullable RectF normalizedCropRect, boolean isUvcCamera, @NonNull ExecutorService executorService, EnhanceMode enhanceMode, CameraCaptureCallback cameraCaptureCallback) {
         Executor mainExecutor = ContextCompat.getMainExecutor(context);
         if (imageCapture == null) {
             if (cameraCaptureCallback != null) {
@@ -132,20 +135,76 @@ public class CaptureHelper {
         imageCapture.takePicture(outputOptions, executorService, new ImageCapture.OnImageSavedCallback() {
             @Override
             public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
-                Timber.tag(LogKit.TAG).d("相机硬件传感器抓拍成功 || %s", rawPhotoFile.getAbsolutePath());
-                // 扫描单个文件
-                MediaScanKit.scanSingleFile(context, rawPhotoFile.getAbsolutePath(), "image/jpeg");
-                if (cameraCaptureCallback != null) {
-                    mainExecutor.execute(() -> cameraCaptureCallback.onCameraCaptureSuccess(rawPhotoFile));
+                // 若传入了裁剪区域
+                // 则对落盘文件进行选区裁剪与图像增强
+                if ((normalizedCropRect != null) && !normalizedCropRect.isEmpty()) {
+                    processAndSaveCroppedImage(context, rawPhotoFile, normalizedCropRect, enhanceMode, mainExecutor, cameraCaptureCallback);
+                } else {
+                    Timber.tag(LogKit.TAG).d("相机硬件传感器抓拍成功 || %s", rawPhotoFile.getAbsolutePath());
+                    // 扫描单个文件
+                    MediaScanKit.scanSingleFile(context, rawPhotoFile.getAbsolutePath(), "image/jpeg");
+                    if (cameraCaptureCallback != null) {
+                        mainExecutor.execute(() -> cameraCaptureCallback.onCameraCaptureSuccess(rawPhotoFile));
+                    }
                 }
             }
 
             @Override
             public void onError(@NonNull ImageCaptureException exception) {
                 Timber.tag(LogKit.TAG).w(exception, "硬件抓拍失败，自动降级至 ImageAnalysis 原始帧抓拍处理。");
-                captureFromLatestFrame(context, previewView, rawPhotoFile, isUvcCamera, executorService, enhanceMode, cameraCaptureCallback);
+                captureFromLatestFrame(context, previewView, normalizedCropRect, rawPhotoFile, isUvcCamera, executorService, enhanceMode, cameraCaptureCallback);
             }
         });
+    }
+
+    /**
+     * 处理并保存已裁剪图像
+     *
+     * @param context               上下文
+     * @param photoFile             照片文件
+     * @param normalizedCropRect    归一化裁剪矩形
+     *                              [0.0, 1.0]
+     * @param enhanceMode           图像增强模式
+     * @param executor              Executor
+     * @param cameraCaptureCallback 相机拍照回调
+     */
+    private static void processAndSaveCroppedImage(@NonNull Context context, @NonNull File photoFile, @NonNull RectF normalizedCropRect, EnhanceMode enhanceMode, Executor executor, CameraCaptureCallback cameraCaptureCallback) {
+        try {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inMutable = true;
+            Bitmap bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(), options);
+            if (bitmap == null) {
+                throw new IllegalStateException("解码文件失败");
+            }
+            // 1. 执行归一化选区映射裁剪
+            Bitmap croppedBitmap = cropBitmapByNormalizedRect(bitmap, normalizedCropRect);
+            if (croppedBitmap == null) {
+                croppedBitmap = bitmap;
+            }
+            // 2. 执行算法增强
+            Bitmap finalBitmap = enhanceBitmap(croppedBitmap, enhanceMode);
+            // 3. 覆盖写入本地文件
+            try (OutputStream outputStream = new FileOutputStream(photoFile)) {
+                finalBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+            }
+            if (croppedBitmap != bitmap) {
+                bitmap.recycle();
+            }
+            if (finalBitmap != croppedBitmap) {
+                croppedBitmap.recycle();
+            }
+            finalBitmap.recycle();
+            MediaScanKit.scanSingleFile(context, photoFile.getAbsolutePath(), "image/jpeg");
+            Timber.tag(LogKit.TAG).d("相机硬件传感器抓拍并选区裁剪成功 || %s", photoFile.getAbsolutePath());
+            if (cameraCaptureCallback != null) {
+                executor.execute(() -> cameraCaptureCallback.onCameraCaptureSuccess(photoFile));
+            }
+        } catch (Exception e) {
+            Timber.tag(LogKit.TAG).e(e, "硬件抓拍照片裁剪失败");
+            if (cameraCaptureCallback != null) {
+                executor.execute(() -> cameraCaptureCallback.onCameraCaptureError(new ImageCaptureException(ImageCapture.ERROR_UNKNOWN, "照片裁剪失败: " + e.getMessage(), e)));
+            }
+        }
     }
 
     /**
@@ -153,13 +212,15 @@ public class CaptureHelper {
      *
      * @param context               上下文
      * @param previewView           预览视图
+     * @param normalizedCropRect    归一化裁剪矩形
+     *                              [0.0, 1.0]
      * @param photoFile             照片文件
      * @param isUvcCamera           是否为 UVC 高拍仪
      * @param executorService       增强实现
      * @param enhanceMode           图像增强模式
      * @param cameraCaptureCallback 相机拍照回调
      */
-    private static void captureFromLatestFrame(@NonNull Context context, @NonNull PreviewView previewView, File photoFile, boolean isUvcCamera, @NonNull ExecutorService executorService, EnhanceMode enhanceMode, CameraCaptureCallback cameraCaptureCallback) {
+    private static void captureFromLatestFrame(@NonNull Context context, @NonNull PreviewView previewView, @Nullable RectF normalizedCropRect, File photoFile, boolean isUvcCamera, @NonNull ExecutorService executorService, EnhanceMode enhanceMode, CameraCaptureCallback cameraCaptureCallback) {
         Executor mainExecutor = ContextCompat.getMainExecutor(context);
         executorService.execute(() -> {
             byte[] yuvData;
@@ -179,7 +240,7 @@ public class CaptureHelper {
             }
             if ((yuvData == null) || (width <= 0) || (height <= 0)) {
                 Timber.tag(LogKit.TAG).w("帧数据缓存为空，降级至 PreviewView 截屏处理。");
-                mainExecutor.execute(() -> captureFromPreviewView(context, previewView, photoFile, executorService, cameraCaptureCallback));
+                mainExecutor.execute(() -> captureFromPreviewView(context, previewView, normalizedCropRect, photoFile, executorService, cameraCaptureCallback));
                 return;
             }
             try {
@@ -191,15 +252,17 @@ public class CaptureHelper {
                 // UVC 场景旋转角度恒为 0° -> 无需旋转
                 // 非 UVC 且存在旋转角度场景 -> 需要旋转
                 boolean needRotate = (!isUvcCamera && (rotation != 0));
-                // 2. 判断是否需要图像增强
+                // 2. 判断是否需要裁剪选区
+                boolean needCrop = ((normalizedCropRect != null) && !normalizedCropRect.isEmpty());
+                // 3. 判断是否需要图像增强
                 boolean needEnhance = (enhanceMode != EnhanceMode.NONE);
                 try (OutputStream outputStream = new FileOutputStream(photoFile)) {
-                    if (!needRotate && !needEnhance) {
-                        // 无需旋转 && 无需图像增强
+                    if (!needRotate && !needCrop && !needEnhance) {
+                        // 无需旋转 && 无需裁剪 && 无需图像增强
                         // 直接写入 -> 避免二次编解码开销
                         outputStream.write(imageBytes);
                     } else {
-                        // 需要旋转 || 需要图像增强
+                        // 需要旋转 || 需要裁剪 || 需要图像增强
                         // 只要有任何一项需求，就必须解码成 Bitmap 处理。
                         BitmapFactory.Options options = new BitmapFactory.Options();
                         options.inMutable = true;
@@ -215,9 +278,17 @@ public class CaptureHelper {
                             }
                             bitmap = rotatedBitmap;
                         }
-                        // 2. 需要图像增强 -> 才做图像增强
+                        // 2. 需要裁剪选区 -> 才做裁剪选区
+                        if (needCrop) {
+                            Bitmap croppedBitmap = cropBitmapByNormalizedRect(bitmap, normalizedCropRect);
+                            if (croppedBitmap != null && croppedBitmap != bitmap) {
+                                bitmap.recycle();
+                                bitmap = croppedBitmap;
+                            }
+                        }
+                        // 3. 需要图像增强 -> 才做图像增强
                         Bitmap processedBitmap = enhanceBitmap(bitmap, enhanceMode);
-                        // 3. 重新压缩写盘
+                        // 4. 重新压缩写盘
                         processedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
                         // 回收 Bitmap 规避内存溢出
                         if (processedBitmap != bitmap) {
@@ -233,7 +304,7 @@ public class CaptureHelper {
                 }
             } catch (Exception e) {
                 Timber.tag(LogKit.TAG).e(e, "ImageAnalysis 原始帧保存失败，尝试 PreviewView 截屏兜底");
-                mainExecutor.execute(() -> captureFromPreviewView(context, previewView, photoFile, executorService, cameraCaptureCallback));
+                mainExecutor.execute(() -> captureFromPreviewView(context, previewView, normalizedCropRect, photoFile, executorService, cameraCaptureCallback));
             }
         });
     }
@@ -243,11 +314,13 @@ public class CaptureHelper {
      *
      * @param context               上下文
      * @param previewView           预览视图
+     * @param normalizedCropRect    归一化裁剪矩形
+     *                              [0.0, 1.0]
      * @param photoFile             照片文件
      * @param executorService       增强实现
      * @param cameraCaptureCallback 相机拍照回调
      */
-    private static void captureFromPreviewView(@NonNull Context context, @NonNull PreviewView previewView, File photoFile, @NonNull ExecutorService executorService, CameraCaptureCallback cameraCaptureCallback) {
+    private static void captureFromPreviewView(@NonNull Context context, @NonNull PreviewView previewView, @Nullable RectF normalizedCropRect, File photoFile, @NonNull ExecutorService executorService, CameraCaptureCallback cameraCaptureCallback) {
         Executor mainExecutor = ContextCompat.getMainExecutor(context);
         Bitmap bitmap = previewView.getBitmap();
         if (bitmap == null) {
@@ -257,9 +330,19 @@ public class CaptureHelper {
             return;
         }
         executorService.execute(() -> {
+            Bitmap targetBitmap = bitmap;
+            if ((normalizedCropRect != null) && !normalizedCropRect.isEmpty()) {
+                Bitmap croppedBitmap = cropBitmapByNormalizedRect(bitmap, normalizedCropRect);
+                if (croppedBitmap != null) {
+                    targetBitmap = croppedBitmap;
+                }
+            }
             try (OutputStream outputStream = new FileOutputStream(photoFile)) {
                 Timber.tag(LogKit.TAG).d("PreviewView 截屏降级拍照成功 || %s", photoFile.getAbsolutePath());
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                targetBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                if (targetBitmap != bitmap) {
+                    targetBitmap.recycle();
+                }
                 bitmap.recycle();
                 MediaScanKit.scanSingleFile(context, photoFile.getAbsolutePath());
                 if (cameraCaptureCallback != null) {
@@ -272,6 +355,51 @@ public class CaptureHelper {
                 }
             }
         });
+    }
+
+    /**
+     * 将归一化坐标转换为原始图像尺寸的实际像素 Rect
+     *
+     * @param normalizedCropRect 归一化裁剪矩形
+     *                           [0.0, 1.0]
+     * @param imageWidth         原始图像宽度
+     * @param imageHeight        原始图像高度
+     * @return 原始图像尺寸的实际像素 Rect
+     */
+    @NonNull
+    public static Rect mapToImageCropRect(@NonNull RectF normalizedCropRect, int imageWidth, int imageHeight) {
+        int left = (int) (normalizedCropRect.left * imageWidth);
+        int top = (int) (normalizedCropRect.top * imageHeight);
+        int right = (int) (normalizedCropRect.right * imageWidth);
+        int bottom = (int) (normalizedCropRect.bottom * imageHeight);
+        // 边界安全校验
+        // 防止数组越界
+        left = Math.max(0, left);
+        top = Math.max(0, top);
+        right = Math.min(imageWidth, right);
+        bottom = Math.min(imageHeight, bottom);
+        return new Rect(left, top, right, bottom);
+    }
+
+    /**
+     * 根据归一化坐标同步裁切 Bitmap
+     *
+     * @param originalBitmap     原始像素数据
+     * @param normalizedCropRect 归一化裁剪矩形
+     *                           [0.0, 1.0]
+     * @return 裁切后的 Bitmap
+     */
+    @Nullable
+    public static Bitmap cropBitmapByNormalizedRect(@NonNull Bitmap originalBitmap, @NonNull RectF normalizedCropRect) {
+        int width = originalBitmap.getWidth();
+        int height = originalBitmap.getHeight();
+        Rect realCropRect = mapToImageCropRect(normalizedCropRect, width, height);
+        int cropWidth = realCropRect.width();
+        int cropHeight = realCropRect.height();
+        if ((cropWidth <= 0) || (cropHeight <= 0)) {
+            return null;
+        }
+        return Bitmap.createBitmap(originalBitmap, realCropRect.left, realCropRect.top, cropWidth, cropHeight);
     }
 
     /**

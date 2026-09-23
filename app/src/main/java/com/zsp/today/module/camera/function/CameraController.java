@@ -3,6 +3,7 @@ package com.zsp.today.module.camera.function;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.RectF;
 import android.os.SystemClock;
 import android.util.Size;
 import android.view.Surface;
@@ -327,14 +328,16 @@ public class CameraController {
      *
      * @param context               上下文
      * @param previewView           预览视图
+     * @param normalizedCropRect    归一化裁剪矩形
+     *                              [0.0, 1.0]
      * @param cameraCaptureCallback 相机拍照回调
      */
-    public void capture(@NonNull Context context, @NonNull PreviewView previewView, CameraCaptureCallback cameraCaptureCallback) {
+    public void capture(@NonNull Context context, @NonNull PreviewView previewView, RectF normalizedCropRect, CameraCaptureCallback cameraCaptureCallback) {
         boolean isExecutorRecreated = ensureExecutorAvailable();
         if (isExecutorRecreated && (imageAnalysis != null)) {
             imageAnalysis.setAnalyzer(executorService, image -> CaptureHelper.updateLatestFrame(image, isUvcCamera));
         }
-        CaptureHelper.capture(context, imageCapture, previewView, isUvcCamera, executorService, currentCameraConfig.getEnhanceMode(), cameraCaptureCallback);
+        CaptureHelper.capture(context, imageCapture, previewView, normalizedCropRect, isUvcCamera, executorService, currentCameraConfig.getEnhanceMode(), cameraCaptureCallback);
     }
 
     /**

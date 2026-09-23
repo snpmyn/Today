@@ -139,6 +139,7 @@
 
             <!--裁剪覆盖视图-->
             <com.zsp.today.module.camera.function.view.CropOverlayView
+                android:id="@+id/cameraActivityCov"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 

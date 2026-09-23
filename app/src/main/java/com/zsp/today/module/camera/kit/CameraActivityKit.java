@@ -1,6 +1,7 @@
 package com.zsp.today.module.camera.kit;
 
 import android.content.Context;
+import android.graphics.RectF;
 import android.util.Size;
 import android.view.Surface;
 import android.view.View;
@@ -45,6 +46,12 @@ public class CameraActivityKit {
      */
     private final CameraController cameraController;
     /**
+     * 归一化裁剪矩形
+     * <p>
+     * [0.0, 1.0]
+     */
+    private final RectF normalizedCropRect = new RectF(0.0f, 0.0f, 1.0f, 1.0f);
+    /**
      * 相机描述列表
      */
     private List<CameraDescription> cameraDescriptionList = new ArrayList<>();
@@ -87,11 +94,17 @@ public class CameraActivityKit {
      * @param lifecycleOwner        生命周期拥有者
      * @param activityCameraBinding ActivityCameraBinding
      */
-    public void initCameraConfig(Context context, LifecycleOwner lifecycleOwner, ActivityCameraBinding activityCameraBinding) {
+    public void initCameraConfig(Context context, LifecycleOwner lifecycleOwner, @NonNull ActivityCameraBinding activityCameraBinding) {
+        // 归一化裁剪矩形
+        normalizedCropRect.set(activityCameraBinding.cameraActivityCov.getNormalizedCropRect());
+        // 设置裁剪覆盖回调
+        activityCameraBinding.cameraActivityCov.setOnCropOverlayCallback(CameraActivityKit.this.normalizedCropRect::set);
+
         // 帧率追踪器
         FpsTracker fpsTracker = new FpsTracker(fps -> activityCameraBinding.getRoot().post(() -> activityCameraBinding.cameraActivityTv.setText(String.format(Locale.getDefault(), context.getString(R.string.formatFpsWithValue), fps))));
         // 设置帧率追踪器
         cameraController.setFpsTracker(fpsTracker);
+
         // 获取相机描述列表
         cameraDescriptionList = CameraManagerKit.getCameraDescriptionList(context);
         if (ListUtils.listIsEmpty(cameraDescriptionList)) {
@@ -294,7 +307,7 @@ public class CameraActivityKit {
      */
     public void capture(Context context, @NonNull ActivityCameraBinding activityCameraBinding) {
         activityCameraBinding.cameraActivityMtCapture.setEnabled(false);
-        cameraController.capture(context, activityCameraBinding.cameraActivityPv, new CameraCaptureCallback() {
+        cameraController.capture(context, activityCameraBinding.cameraActivityPv, normalizedCropRect, new CameraCaptureCallback() {
             @Override
             public void onCameraCaptureSuccess(File photoFile) {
                 Timber.tag(LogKit.TAG).i("拍照成功: %s", photoFile.getAbsolutePath());
