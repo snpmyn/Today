@@ -30,6 +30,10 @@ public class CameraPreviewKit {
      * 绑定的 PreviewView 弱引用
      */
     private WeakReference<PreviewView> previewViewWeakReference;
+    /**
+     * 异步挂载任务 Runnable (供 release 时精准移除)
+     */
+    private Runnable setupFpsRunnable;
 
     /**
      * 应用预览配置
@@ -60,11 +64,14 @@ public class CameraPreviewKit {
         if (resolution == null) {
             return;
         }
-        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) previewViewContainerView.getLayoutParams();
-        int width = resolution.getWidth();
-        int height = resolution.getHeight();
-        layoutParams.dimensionRatio = "H," + width + ":" + height;
-        previewViewContainerView.setLayoutParams(layoutParams);
+        ViewGroup.LayoutParams params = previewViewContainerView.getLayoutParams();
+        if (params instanceof ConstraintLayout.LayoutParams) {
+            ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) params;
+            int width = resolution.getWidth();
+            int height = resolution.getHeight();
+            layoutParams.dimensionRatio = "H," + width + ":" + height;
+            previewViewContainerView.setLayoutParams(layoutParams);
+        }
     }
 
     /**
@@ -75,30 +82,38 @@ public class CameraPreviewKit {
      */
     public void setupFpsTrackerProxy(@NonNull PreviewView previewView, @Nullable FpsTracker fpsTracker) {
         this.previewViewWeakReference = new WeakReference<>(previewView);
+        if (setupFpsRunnable != null) {
+            previewView.removeCallbacks(setupFpsRunnable);
+        }
         // 获取异步挂载 TextureView
-        previewView.post(() -> {
-            TextureView textureView = findTextureView(previewView);
+        setupFpsRunnable = () -> {
+            PreviewView pv = previewViewWeakReference.get();
+            if (pv == null) {
+                return;
+            }
+            TextureView textureView = findTextureView(pv);
             if (textureView != null) {
                 attachTextureViewListener(textureView, fpsTracker);
             } else {
                 // 首帧未成功获取 TextureView 则监听 View 树状态再次尝试并缓存 Listener 供销毁时精准移除
-                if (layoutChangeListener != null && previewViewWeakReference.get() != null) {
-                    previewViewWeakReference.get().removeOnLayoutChangeListener(layoutChangeListener);
+                if (layoutChangeListener != null) {
+                    pv.removeOnLayoutChangeListener(layoutChangeListener);
                 }
                 layoutChangeListener = new View.OnLayoutChangeListener() {
                     @Override
                     public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                        TextureView tv = findTextureView(previewView);
+                        TextureView tv = findTextureView(pv);
                         if (tv != null) {
-                            previewView.removeOnLayoutChangeListener(this);
+                            pv.removeOnLayoutChangeListener(this);
                             layoutChangeListener = null;
                             attachTextureViewListener(tv, fpsTracker);
                         }
                     }
                 };
-                previewView.addOnLayoutChangeListener(layoutChangeListener);
+                pv.addOnLayoutChangeListener(layoutChangeListener);
             }
-        });
+        };
+        previewView.post(setupFpsRunnable);
     }
 
     /**
@@ -143,12 +158,19 @@ public class CameraPreviewKit {
      * @param previewView 预览视图
      */
     public void release(@Nullable PreviewView previewView) {
-        if ((layoutChangeListener != null) && (previewView != null)) {
-            previewView.removeOnLayoutChangeListener(layoutChangeListener);
-            layoutChangeListener = null;
+        if (previewView != null) {
+            if (setupFpsRunnable != null) {
+                previewView.removeCallbacks(setupFpsRunnable);
+                setupFpsRunnable = null;
+            }
+            if (layoutChangeListener != null) {
+                previewView.removeOnLayoutChangeListener(layoutChangeListener);
+                layoutChangeListener = null;
+            }
         }
         if (previewViewWeakReference != null) {
             previewViewWeakReference.clear();
+            previewViewWeakReference = null;
         }
     }
 
