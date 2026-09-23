@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.SystemClock;
 import android.util.Size;
+import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -32,9 +33,13 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.zsp.today.module.camera.LogKit;
 import com.zsp.today.module.camera.function.callback.CameraCaptureCallback;
 import com.zsp.today.module.camera.function.callback.CameraInitCallback;
+import com.zsp.today.module.camera.function.capture.CaptureHelper;
 import com.zsp.today.module.camera.function.config.CameraConfig;
 import com.zsp.today.module.camera.function.config.CameraConfigKit;
-import com.zsp.today.module.camera.function.other.FpsTracker;
+import com.zsp.today.module.camera.function.device.CameraDeviceKit;
+import com.zsp.today.module.camera.function.fps.FpsKit;
+import com.zsp.today.module.camera.function.fps.FpsTracker;
+import com.zsp.today.module.camera.function.preview.CameraPreviewKit;
 import com.zsp.today.module.camera.function.value.EnhanceMode;
 
 import java.util.ArrayList;
@@ -56,6 +61,10 @@ public class CameraController {
      * 相机预览配套原件
      */
     private final CameraPreviewKit cameraPreviewKit;
+    /**
+     * 帧率配套原件
+     */
+    private final FpsKit fpsKit;
     /**
      * 增强实现
      */
@@ -95,6 +104,8 @@ public class CameraController {
     public CameraController() {
         // 相机预览配套原件
         this.cameraPreviewKit = new CameraPreviewKit();
+        // 帧率配套原件
+        this.fpsKit = new FpsKit();
         // 增强实现
         this.executorService = Executors.newSingleThreadExecutor();
     }
@@ -212,7 +223,7 @@ public class CameraController {
                 processCameraProvider.bindToLifecycle(lifecycleOwner, cameraSelector, preview, imageCapture, imageAnalysis);
 
                 // 8. 初始化帧率追踪器代理
-                cameraPreviewKit.setupFpsTrackerProxy(previewView, fpsTracker);
+                fpsKit.setupFpsTrackerProxy(previewView, fpsTracker);
 
                 // 9. 更新预览视图容器宽高比
                 cameraPreviewKit.updatePreviewContainerRatio(previewViewContainerView, resolutionFromCameraConfig);
@@ -323,7 +334,10 @@ public class CameraController {
      *
      * @param previewView    预览视图
      * @param targetRotation 旋转角度
-     *                       [Surface.ROTATION_0, ROTATION_90, ROTATION_180, ROTATION_270]
+     *                       {@link Surface#ROTATION_0} 屏幕竖屏正向
+     *                       {@link Surface#ROTATION_90} 屏幕顺旋九十
+     *                       {@link Surface#ROTATION_180} 屏幕顺旋一八
+     *                       {@link Surface#ROTATION_270} 屏幕顺旋二七
      */
     public void setRotation(@NonNull PreviewView previewView, int targetRotation) {
         // 1. 存储旋转角度
@@ -434,7 +448,7 @@ public class CameraController {
             fpsTracker.reset();
         }
         // 2. 释放
-        cameraPreviewKit.release(previewView);
+        fpsKit.release(previewView);
         // 3. 图像分析用例对象
         if (imageAnalysis != null) {
             imageAnalysis.clearAnalyzer();
