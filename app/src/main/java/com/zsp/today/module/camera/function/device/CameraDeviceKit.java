@@ -1,4 +1,4 @@
-package com.zsp.today.module.camera.function;
+package com.zsp.today.module.camera.function.device;
 
 import android.content.Context;
 import android.hardware.usb.UsbConstants;
