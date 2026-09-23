@@ -16,12 +16,12 @@ import com.zsp.today.R;
 import com.zsp.today.databinding.ActivityCameraBinding;
 import com.zsp.today.module.camera.LogKit;
 import com.zsp.today.module.camera.function.CameraController;
-import com.zsp.today.module.camera.function.CameraDeviceKit;
 import com.zsp.today.module.camera.function.CameraManagerKit;
 import com.zsp.today.module.camera.function.callback.CameraCaptureCallback;
 import com.zsp.today.module.camera.function.callback.CameraInitCallback;
 import com.zsp.today.module.camera.function.config.CameraConfigKit;
-import com.zsp.today.module.camera.function.other.FpsTracker;
+import com.zsp.today.module.camera.function.device.CameraDeviceKit;
+import com.zsp.today.module.camera.function.fps.FpsTracker;
 import com.zsp.today.module.camera.function.value.CameraDescription;
 
 import java.io.File;
