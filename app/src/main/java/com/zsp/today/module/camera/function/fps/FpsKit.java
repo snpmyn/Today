@@ -23,6 +23,10 @@ public class FpsKit {
      */
     private Runnable runnable;
     /**
+     * 帧率追踪器
+     */
+    private FpsTracker fpsTracker;
+    /**
      * View 布局改变监听器
      */
     private View.OnLayoutChangeListener layoutChangeListener;
@@ -32,12 +36,20 @@ public class FpsKit {
     private WeakReference<PreviewView> previewViewWeakReference;
 
     /**
+     * 设置帧率追踪器
+     *
+     * @param fpsTracker 帧率追踪器
+     */
+    public void setFpsTracker(@Nullable FpsTracker fpsTracker) {
+        this.fpsTracker = fpsTracker;
+    }
+
+    /**
      * 初始化帧率追踪器代理
      *
      * @param previewView 预览视图
-     * @param fpsTracker  帧率追踪器
      */
-    public void setupFpsTrackerProxy(@NonNull PreviewView previewView, @Nullable FpsTracker fpsTracker) {
+    public void setupFpsTrackerProxy(@NonNull PreviewView previewView) {
         this.previewViewWeakReference = new WeakReference<>(previewView);
         if (runnable != null) {
             previewView.removeCallbacks(runnable);
@@ -110,11 +122,21 @@ public class FpsKit {
     }
 
     /**
+     * 重置
+     */
+    public void reset() {
+        if (fpsTracker != null) {
+            fpsTracker.reset();
+        }
+    }
+
+    /**
      * 释放
      *
      * @param previewView 预览视图
      */
     public void release(@Nullable PreviewView previewView) {
+        reset();
         if (previewView != null) {
             if (runnable != null) {
                 previewView.removeCallbacks(runnable);
