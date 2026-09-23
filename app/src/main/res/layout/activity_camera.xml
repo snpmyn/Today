@@ -130,6 +130,18 @@
                 android:layout_height="match_parent"
                 app:scaleType="fillCenter" />
 
+            <!--相机网格视图-->
+            <com.zsp.today.module.camera.function.view.CameraGridView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/dp_20"
+                app:lineWidth="@dimen/px1" />
+
+            <!--裁剪覆盖视图-->
+            <com.zsp.today.module.camera.function.view.CropOverlayView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
             <TextView
                 android:id="@+id/cameraActivityTv"
                 android:layout_width="wrap_content"
@@ -140,12 +152,6 @@
                 android:textSize="@dimen/sp_10"
                 android:textStyle="bold"
                 tools:text="FPS 30" />
-
-            <com.zsp.today.module.camera.function.view.CameraGridView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="@dimen/dp_20"
-                app:lineWidth="@dimen/px1" />
         </com.google.android.material.card.MaterialCardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
