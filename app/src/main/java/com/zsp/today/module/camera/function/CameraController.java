@@ -13,12 +13,8 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.OptIn;
-import androidx.camera.camera2.interop.Camera2CameraInfo;
 import androidx.camera.camera2.interop.ExperimentalCamera2Interop;
-import androidx.camera.core.CameraFilter;
-import androidx.camera.core.CameraInfo;
 import androidx.camera.core.CameraSelector;
-import androidx.camera.core.ExperimentalLensFacing;
 import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.ImageCapture;
 import androidx.camera.core.Preview;
@@ -42,9 +38,6 @@ import com.zsp.today.module.camera.function.fps.FpsTracker;
 import com.zsp.today.module.camera.function.preview.CameraPreviewKit;
 import com.zsp.today.module.camera.function.value.EnhanceMode;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -149,41 +142,12 @@ public class CameraController {
         cameraProviderFuture.addListener(() -> {
             try {
                 processCameraProvider = cameraProviderFuture.get();
-                // 构建相机选择器
-                CameraSelector cameraSelector;
+
                 // 获取相机配置相机 ID
                 String cameraIdFromCameraConfig = currentCameraConfig.getCameraId();
-                if ((cameraIdFromCameraConfig != null) && !cameraIdFromCameraConfig.isEmpty()) {
-                    // 已指定 CameraID 则根据 CameraID 精确过滤
-                    cameraSelector = new CameraSelector.Builder().addCameraFilter(new CameraFilter() {
-                        @Override
-                        public @org.jspecify.annotations.NonNull List<CameraInfo> filter(@org.jspecify.annotations.NonNull List<CameraInfo> cameraInfos) {
-                            List<CameraInfo> result = new ArrayList<>();
-                            for (CameraInfo cameraInfo : cameraInfos) {
-                                try {
-                                    String id = Camera2CameraInfo.from(cameraInfo).getCameraId();
-                                    if (id.equals(cameraIdFromCameraConfig)) {
-                                        result.add(cameraInfo);
-                                        break;
-                                    }
-                                } catch (Exception e) {
-                                    Timber.tag(LogKit.TAG).w(e, "解析 CameraInfo 的 Camera2 ID 失败: %s", cameraInfo);
-                                }
-                            }
-                            // 兜底校验
-                            // 指定 CameraID 匹配失败 (如设备拔出) 时降级走自定义优先级过滤，防止返回空列表抛出异常。
-                            if (result.isEmpty()) {
-                                Timber.tag(LogKit.TAG).w("未匹配到 CameraID 为 [%s] 的摄像头，降级使用默认优先级匹配规则", cameraIdFromCameraConfig);
-                                return filterCamera(cameraInfos);
-                            }
-                            return result;
-                        }
-                    }).build();
-                } else {
-                    // 兜底校验
-                    // 未指定 CameraID 则降级走自定义优先级过滤
-                    cameraSelector = new CameraSelector.Builder().addCameraFilter(this::filterCamera).build();
-                }
+
+                // 构建相机选择器
+                CameraSelector cameraSelector = CameraDeviceKit.buildCameraSelector(cameraIdFromCameraConfig);
 
                 // 检测是否为 UVC 高拍仪
                 this.isUvcCamera = CameraDeviceKit.checkIsUvcCamera(processCameraProvider, cameraSelector);
@@ -356,42 +320,6 @@ public class CameraController {
         if (preview != null) {
             preview.setSurfaceProvider(previewView.getSurfaceProvider());
         }
-    }
-
-    /**
-     * 过滤相机
-     * <p>
-     * 优先级顺序
-     * 1. 外接摄像头 - LENS_FACING_EXTERNAL
-     * 适用标准 UVC 高拍仪
-     * 2. 朝向未知摄像头 - LENS_FACING_UNKNOWN
-     * 兼容未按标准实现驱动的定制硬件
-     * 3. 相机列表最后一个摄像头
-     * 作为异常硬件架构下兜底选项
-     *
-     * @param cameraInfos 相机信息列表
-     * @return 过滤后的相机信息列表
-     */
-    @OptIn(markerClass = ExperimentalLensFacing.class)
-    private List<CameraInfo> filterCamera(List<CameraInfo> cameraInfos) {
-        if ((cameraInfos == null) || cameraInfos.isEmpty()) {
-            return Collections.emptyList();
-        }
-        CameraInfo unknownCameraInfo = null;
-        for (CameraInfo cameraInfo : cameraInfos) {
-            int lensFacing = cameraInfo.getLensFacing();
-            if (lensFacing == CameraSelector.LENS_FACING_EXTERNAL) {
-                return Collections.singletonList(cameraInfo);
-            } else if ((lensFacing == CameraSelector.LENS_FACING_UNKNOWN) && (unknownCameraInfo == null)) {
-                unknownCameraInfo = cameraInfo;
-            }
-        }
-        if (unknownCameraInfo != null) {
-            return Collections.singletonList(unknownCameraInfo);
-        }
-        CameraInfo fallbackCameraInfo = cameraInfos.get(cameraInfos.size() - 1);
-        Timber.tag(LogKit.TAG).w("未匹配到标准 EXTERNAL 或 UNKNOWN 类型的摄像头，使用摄像头列表中最后一个节点兜底匹配: CameraInfo = %s", fallbackCameraInfo);
-        return Collections.singletonList(fallbackCameraInfo);
     }
 
     /**
