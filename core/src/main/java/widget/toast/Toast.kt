@@ -1,5 +1,6 @@
 package widget.toast
 
+import android.view.Gravity
 import android.widget.Toast
 import pool.application.BasePoolApp
 
@@ -13,11 +14,31 @@ import pool.application.BasePoolApp
  * Java 必须手动传所有参数
  */
 @JvmOverloads
-fun String.showToast(duration: Int = Toast.LENGTH_SHORT) {
-    Toast.makeText(BasePoolApp.getBasePoolAppInstance(), this, duration).show()
+fun String.showToast(
+    duration: Int = Toast.LENGTH_SHORT, gravity: Int? = null, xOffset: Int = 0, yOffset: Int = 0
+) {
+    Toast.makeText(BasePoolApp.getBasePoolAppInstance(), this, duration).apply {
+        gravity?.let { setGravity(it, xOffset, yOffset) }
+        show()
+    }
 }
 
 @JvmOverloads
-fun Int.showToast(duration: Int = Toast.LENGTH_SHORT) {
-    Toast.makeText(BasePoolApp.getBasePoolAppInstance(), this, duration).show()
+fun Int.showToast(
+    duration: Int = Toast.LENGTH_SHORT, gravity: Int? = null, xOffset: Int = 0, yOffset: Int = 0
+) {
+    Toast.makeText(BasePoolApp.getBasePoolAppInstance(), this, duration).apply {
+        gravity?.let { setGravity(it, xOffset, yOffset) }
+        show()
+    }
+}
+
+@JvmOverloads
+fun String.showCenterToast(duration: Int = Toast.LENGTH_SHORT) {
+    showToast(duration = duration, gravity = Gravity.CENTER)
+}
+
+@JvmOverloads
+fun Int.showCenterToast(duration: Int = Toast.LENGTH_SHORT) {
+    showToast(duration = duration, gravity = Gravity.CENTER)
 }
