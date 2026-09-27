@@ -9,8 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
+import java.util.Iterator;
 import java.util.List;
 
 import timber.log.Timber;
@@ -20,17 +21,28 @@ import util.list.ListUtils;
  * Created on 2017/9/19.
  *
  * @author 郑少鹏
- * @desc ActivitySuperviseManager
+ * @desc 活动监督管理器
  * 使用一
- * {@link Application#registerActivityLifecycleCallbacks(Application.ActivityLifecycleCallbacks)} 之 onActivityCreated 当 {@link AppCompatActivity#onCreate(Bundle, PersistableBundle)} 时执行，android:launchMode="singleTask" 时不执行。
- * {@link Application#registerActivityLifecycleCallbacks(Application.ActivityLifecycleCallbacks)} 之 onActivityDestroyed 当 {@link AppCompatActivity#finish()(Bundle, PersistableBundle)} 时执行，android:launchMode="singleTask" 时不执行。
+ * {@link Application#registerActivityLifecycleCallbacks(Application.ActivityLifecycleCallbacks)} 之 onActivityCreated 当 {@link AppCompatActivity#onCreate(Bundle, PersistableBundle)} 时执行，已存在的 android:launchMode="singleTask" 实例被复用时不执行 onCreate。
+ * {@link Application#registerActivityLifecycleCallbacks(Application.ActivityLifecycleCallbacks)} 之 onActivityDestroyed 当 {@link AppCompatActivity#finish()} 时执行。
  * <p>
  * 使用二
  * 基类之 {@link AppCompatActivity#onCreate(Bundle, PersistableBundle)} 推当前 Activity 至 Activity 管理容器，需时遍历容器并 finish 所有 Activity。
  */
 public class ActivitySuperviseManager {
-    private final List<Activity> ACTIVITIES = Collections.synchronizedList(new LinkedList<>());
+    /**
+     * 活动列表
+     * <p>
+     * ArrayList 提升连续内存寻址性能
+     * 配合全同步锁保证安全
+     */
+    private final List<Activity> ACTIVITIES = Collections.synchronizedList(new ArrayList<>());
 
+    /**
+     * 获取单例
+     *
+     * @return 单例
+     */
     public static ActivitySuperviseManager getInstance() {
         return InstanceHolder.INSTANCE;
     }
@@ -41,11 +53,19 @@ public class ActivitySuperviseManager {
      * @param activity Activity
      */
     public void pushActivity(Activity activity) {
-        ACTIVITIES.add(activity);
-        Timber.d("推入 - %s", activity.getClass().getSimpleName());
-        Timber.d("活动数 - %s", ACTIVITIES.size());
-        for (int i = 0; i < ACTIVITIES.size(); i++) {
-            Timber.d("概览 - %s", ACTIVITIES.get(i).getClass().getSimpleName());
+        if (null == activity) {
+            return;
+        }
+        synchronized (ACTIVITIES) {
+            ACTIVITIES.add(activity);
+            Timber.d("推入 - %s", activity.getClass().getSimpleName());
+            Timber.d("活动数 - %s", ACTIVITIES.size());
+            for (int i = 0; i < ACTIVITIES.size(); i++) {
+                Activity item = ACTIVITIES.get(i);
+                if (null != item) {
+                    Timber.d("概览 - %s", item.getClass().getSimpleName());
+                }
+            }
         }
     }
 
@@ -55,11 +75,19 @@ public class ActivitySuperviseManager {
      * @param activity Activity
      */
     public void removeActivity(Activity activity) {
-        ACTIVITIES.remove(activity);
-        Timber.d("去除 - %s", activity.getClass().getSimpleName());
-        Timber.d("活动数 - %s", ACTIVITIES.size());
-        for (int i = 0; i < ACTIVITIES.size(); i++) {
-            Timber.d("概览 - %s", ACTIVITIES.get(i).getClass().getSimpleName());
+        if (null == activity) {
+            return;
+        }
+        synchronized (ACTIVITIES) {
+            ACTIVITIES.remove(activity);
+            Timber.d("去除 - %s", activity.getClass().getSimpleName());
+            Timber.d("活动数 - %s", ACTIVITIES.size());
+            for (int i = 0; i < ACTIVITIES.size(); i++) {
+                Activity item = ACTIVITIES.get(i);
+                if (null != item) {
+                    Timber.d("概览 - %s", item.getClass().getSimpleName());
+                }
+            }
         }
     }
 
@@ -109,7 +137,9 @@ public class ActivitySuperviseManager {
         if (null != activity) {
             Timber.d("结束 - %s", activity.getClass().getSimpleName());
             ACTIVITIES.remove(activity);
-            activity.finish();
+            if (!activity.isFinishing()) {
+                activity.finish();
+            }
         }
     }
 
@@ -119,12 +149,20 @@ public class ActivitySuperviseManager {
      * @param cls Class<?>
      */
     public void finishActivity(Class<?> cls) {
-        if (ListUtils.listIsEmpty(ACTIVITIES)) {
+        if (ListUtils.listIsEmpty(ACTIVITIES) || (null == cls)) {
             return;
         }
-        for (Activity activity : ACTIVITIES) {
-            if (activity.getClass().equals(cls)) {
-                finishActivity(activity);
+        synchronized (ACTIVITIES) {
+            Iterator<Activity> iterator = ACTIVITIES.iterator();
+            while (iterator.hasNext()) {
+                Activity activity = iterator.next();
+                if ((null != activity) && activity.getClass().equals(cls)) {
+                    Timber.d("结束 - %s", activity.getClass().getSimpleName());
+                    iterator.remove();
+                    if (!activity.isFinishing()) {
+                        activity.finish();
+                    }
+                }
             }
         }
     }
@@ -133,10 +171,14 @@ public class ActivitySuperviseManager {
      * 结束所有 Activity
      */
     public void finishAllActivity() {
-        for (Activity activity : ACTIVITIES) {
-            activity.finish();
+        synchronized (ACTIVITIES) {
+            for (Activity activity : ACTIVITIES) {
+                if (null != activity && !activity.isFinishing()) {
+                    activity.finish();
+                }
+            }
+            ACTIVITIES.clear();
         }
-        ACTIVITIES.clear();
     }
 
     private static final class InstanceHolder {
