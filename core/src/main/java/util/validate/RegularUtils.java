@@ -1,6 +1,11 @@
 package util.validate;
 
+import androidx.annotation.NonNull;
+
+import org.jetbrains.annotations.Contract;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,7 +22,7 @@ public class RegularUtils {
      * <p>
      * Phone number + IoT number + Data only number
      */
-    private static final String REGEX_ALL_MOBILE = "^(?:\\+?86)?1(?:3\\d{3}|5[^4\\D]\\d{2}|8\\d{3}|7(?:[01356789]\\d{2}|4(?:0\\d|1[0-2]|9\\d))|9[189]\\d{2}|6[567]\\d{2}|4(?:[14]0\\d{3}|[68]\\d{4}|[579]\\d{2}))\\d{6}$";
+    private static final Pattern REGEX_ALL_MOBILE = Pattern.compile("^(?:\\+?86)?1(?:3\\d{3}|5[^4\\D]\\d{2}|8\\d{3}|7(?:[01356789]\\d{2}|4(?:0\\d|1[0-2]|9\\d))|9[189]\\d{2}|6[567]\\d{2}|4(?:[14]0\\d{3}|[68]\\d{4}|[579]\\d{2}))\\d{6}$");
     /**
      * 手机号（精确）
      * <p>
@@ -35,43 +40,45 @@ public class RegularUtils {
      * <p>
      * 卫星通信：1349
      */
-    private static final String REGEX_MOBILE_EXACT = "^((13[0-9])|(14[5,7,9])|(15([0-3]|[5-9]))|(166)|(17[0,1,3,5,6,7,8])|(18[0-9])|(19[8|9]))\\d{8}$";
+    private static final Pattern REGEX_MOBILE_EXACT = Pattern.compile("^((13[0-9])|(14[579])|(15[0-35-9])|(166)|(17[0135-8])|(18[0-9])|(19[89]))\\d{8}$");
     /**
      * all numbers with SMS
      * <p>
      * Phone number + Data only number
      */
-    private static final String REGEX_ALL_MOBILE_WITH_SMS = "^(?:\\+?86)?1(?:3\\d{3}|5[^4\\D]\\d{2}|8\\d{3}|7(?:[01356789]\\d{2}|4(?:0\\d|1[0-2]|9\\d))|9[189]\\d{2}|6[567]\\d{2}|4[579]\\d{2})\\d{6}$";
+    private static final Pattern REGEX_ALL_MOBILE_WITH_SMS = Pattern.compile("^(?:\\+?86)?1(?:3\\d{3}|5[^4\\D]\\d{2}|8\\d{3}|7(?:[01356789]\\d{2}|4(?:0\\d|1[0-2]|9\\d))|9[189]\\d{2}|6[567]\\d{2}|4[579]\\d{2})\\d{6}$");
     /**
      * 电话号码（正则）
      */
-    private static final String REGEX_TEL = "^0\\d{2,3}[- ]?\\d{7,8}";
+    private static final Pattern REGEX_TEL = Pattern.compile("^0\\d{2,3}[- ]?\\d{7,8}$");
     /**
      * 身份证号码 15 位（正则）
      */
-    private static final String REGEX_ID_CARD15 = "^[1-9]\\d{7}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}$";
+    private static final Pattern REGEX_ID_CARD15 = Pattern.compile("^[1-9]\\d{7}((0\\d)|(1[0-2]))(([0-2]\\d)|3[0-1])\\d{3}$");
     /**
      * 身份证号码 18 位（正则）
      */
-    private static final String REGEX_ID_CARD18 = "^[1-9]\\d{5}[1-9]\\d{3}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}([0-9Xx])$";
+    private static final Pattern REGEX_ID_CARD18 = Pattern.compile("^[1-9]\\d{5}[1-9]\\d{3}((0\\d)|(1[0-2]))(([0-2]\\d)|3[0-1])\\d{3}([0-9Xx])$");
     /**
      * 邮箱（正则）
      */
-    private static final String REGEX_EMAIL = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$";
+    private static final Pattern REGEX_EMAIL = Pattern.compile("^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$");
     /**
      * URL（正则）
      */
-    private static final String REGEX_URL = "[a-zA-z]+://[^\\s]*";
+    private static final Pattern REGEX_URL = Pattern.compile("[a-zA-Z]+://\\S*");
     /**
      * 汉字（正则）
      */
-    private static final String REGEX_ZH = "^[\\u4e00-\\u9fa5]+$";
+    private static final Pattern REGEX_ZH = Pattern.compile("^[\\u4e00-\\u9fa5]+$");
 
     /**
      * constructor
+     * <p>
+     * 私有构造函数 + 防止实例化
      */
     private RegularUtils() {
-        throw new UnsupportedOperationException("You can't instantiate me...");
+
     }
 
     /**
@@ -167,12 +174,12 @@ public class RegularUtils {
     /**
      * 匹正则否
      *
-     * @param regex 正则表达式
-     * @param input 所匹字符串
+     * @param pattern 预编译正则表达式
+     * @param input   所匹字符串
      * @return true 匹 / false 不匹
      */
-    private static boolean areMatch(String regex, CharSequence input) {
-        return ((null != input) && (input.length() > 0) && Pattern.matches(regex, input));
+    private static boolean areMatch(Pattern pattern, CharSequence input) {
+        return ((null != input) && (input.length() > 0) && pattern.matcher(input).matches());
     }
 
     /**
@@ -182,9 +189,10 @@ public class RegularUtils {
      * @param input 所匹字符串
      * @return 正则匹配部分
      */
+    @NonNull
     public static List<String> getMatches(String regex, CharSequence input) {
-        if (null == input) {
-            return null;
+        if (null == input || null == regex) {
+            return Collections.emptyList();
         }
         List<String> matches = new ArrayList<>();
         Pattern pattern = Pattern.compile(regex);
@@ -202,9 +210,11 @@ public class RegularUtils {
      * @param regex 正则表达式
      * @return 正则匹配分组
      */
+    @NonNull
+    @Contract("null, _ -> new")
     public static String[] getSplits(String input, String regex) {
         if (null == input) {
-            return null;
+            return new String[0];
         }
         return input.split(regex);
     }
@@ -218,8 +228,8 @@ public class RegularUtils {
      * @return 替正则匹配第一部分
      */
     public static String getReplaceFirst(String input, String regex, String replacement) {
-        if (null == input) {
-            return null;
+        if (null == input || null == regex || null == replacement) {
+            return input;
         }
         return Pattern.compile(regex).matcher(input).replaceFirst(replacement);
     }
@@ -233,8 +243,8 @@ public class RegularUtils {
      * @return 替所有正则匹配部分
      */
     public static String getReplaceAll(String input, String regex, String replacement) {
-        if (null == input) {
-            return null;
+        if (null == input || null == regex || null == replacement) {
+            return input;
         }
         return Pattern.compile(regex).matcher(input).replaceAll(replacement);
     }
