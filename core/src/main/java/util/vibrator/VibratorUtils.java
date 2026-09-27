@@ -1,7 +1,5 @@
 package util.vibrator;
 
-import static android.content.Context.VIBRATOR_SERVICE;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.VibrationEffect;
@@ -24,6 +22,7 @@ public class VibratorUtils {
      * @param amplitude    振动强度（1 到 255 间或 DEFAULT_AMPLITUDE）
      */
     @SuppressLint("MissingPermission")
+    @SuppressWarnings("deprecation")
     public static void oneShotVibration(Context context, long milliseconds, int amplitude) {
         Vibrator vibrator = getVibrator(context);
         if (null != vibrator) {
@@ -31,7 +30,7 @@ public class VibratorUtils {
                 VibrationEffect vibrationEffect = VibrationEffect.createOneShot(milliseconds, amplitude);
                 vibrator.vibrate(vibrationEffect);
             } else {
-                vibrator.vibrate(200);
+                vibrator.vibrate(milliseconds);
             }
         }
     }
@@ -45,6 +44,7 @@ public class VibratorUtils {
      * @param repeat     振动重复模式（-1 不重复、0 一直重复、1 从数组下标 1 开始重复振动后结束、2 从数组下标 2 开始重复振动后结束）
      */
     @SuppressLint("MissingPermission")
+    @SuppressWarnings("deprecation")
     public static void waveformVibration(Context context, long[] timings, int[] amplitudes, int repeat) {
         Vibrator vibrator = getVibrator(context);
         if (null != vibrator) {
@@ -77,9 +77,10 @@ public class VibratorUtils {
      * @param context Context
      * @return Vibrator
      */
+    @SuppressWarnings("deprecation")
     private static Vibrator getVibrator(Context context) {
         if (null == vibrator) {
-            vibrator = (Vibrator) context.getSystemService(VIBRATOR_SERVICE);
+            vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         }
         return vibrator;
     }
