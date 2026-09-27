@@ -24,7 +24,7 @@ public class TimberInitConfigure {
                 protected void log(int priority, String tag, @NonNull String message, Throwable t) {
                     // 传入 tag 为 null 时系统 Log 会报错或打印不规范
                     // 提供默认 Tag 保护
-                    String finalTag = (tag != null) ? tag : "AppLog";
+                    String finalTag = (tag != null) ? tag : "today";
                     // 有异常则拼接 Throwable 堆栈信息
                     String finalMessage = message;
                     if (t != null) {
