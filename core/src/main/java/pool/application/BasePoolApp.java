@@ -166,7 +166,7 @@ public abstract class BasePoolApp extends Application implements MMKVHandler {
      */
     private void initConfiguration() {
         // 日志工具类
-        LogUtils.Builder.initConfiguration(true, true, true, true);
+        LogUtils.Builder.initConfiguration(true, true, true, false);
         // MMKV
         MmkvInitConfigure.initMmkv(this, debug, this);
         // 应用监听
