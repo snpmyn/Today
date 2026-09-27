@@ -42,21 +42,12 @@ public class ViewClickKit {
      * @param onClickListener 点击监听
      */
     public static void singleClick(@NonNull final View view, final long intervalMs, final View.OnClickListener onClickListener) {
-        view.setOnClickListener(new View.OnClickListener() {
-            private long lastClickTime = 0;
-
-            @Override
-            public void onClick(View v) {
-                // 当前时间
-                // Android 官方用于计算时间间隔的标准方案
-                long currentTime = SystemClock.elapsedRealtime();
-                if (currentTime - lastClickTime < intervalMs) {
-                    return;
-                }
-                lastClickTime = currentTime;
-                if (onClickListener != null) {
-                    onClickListener.onClick(v);
-                }
+        view.setOnClickListener(v -> {
+            if (isFastClick(v, intervalMs)) {
+                return;
+            }
+            if (onClickListener != null) {
+                onClickListener.onClick(v);
             }
         });
     }
@@ -79,8 +70,10 @@ public class ViewClickKit {
                 long currentTime = SystemClock.elapsedRealtime();
                 if ((currentTime - lastClickTime) < DOUBLE_CLICK_INTERVAL) {
                     onDoubleClickListener.onDoubleClick();
+                    lastClickTime = 0;
+                } else {
+                    lastClickTime = currentTime;
                 }
-                lastClickTime = currentTime;
             }
         });
     }
