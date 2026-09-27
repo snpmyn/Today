@@ -102,7 +102,7 @@ public class LogUtils {
     }
 
     public static void thread() {
-        d("[Thread]: ", Thread.currentThread() + "");
+        d("[Thread]: ", Thread.currentThread().getName());
     }
 
     public static void exception(Exception e) {
@@ -123,6 +123,7 @@ public class LogUtils {
         log(level, method, tag, info, throwable);
     }
 
+    @SuppressWarnings("all")
     private static void systemLog(int level, String tag, String info) {
         String levelTag;
         switch (level) {
@@ -152,19 +153,23 @@ public class LogUtils {
         if (null == info) {
             return;
         }
-        if (!Builder.logSystem) {
+        if (!Builder.logSystem && null != cls && cls != LogUtils.class) {
             try {
                 if ((method == methodDebugWithThrowable) || (method == methodInfoWithThrowable) || (method == methodErrorWithThrowable) || (method == methodWarnWithThrowable) || (method == methodVerboseWithThrowable)) {
-                    method.invoke(cls, tag, info, throwable);
+                    if (null != method) {
+                        method.invoke(cls, tag, info, throwable);
+                    }
                 } else {
-                    method.invoke(cls, tag, info + (throwable == null ? "" : "\n" + getStackTraceString(throwable)));
+                    if (null != method) {
+                        method.invoke(cls, tag, (null == throwable) ? info : (info + "\n" + getStackTraceString(throwable)));
+                    }
                 }
+                return;
             } catch (Exception e) {
                 exception(e);
             }
-            return;
         }
-        systemLog(level, tag, info + (throwable == null ? "" : "\n" + getStackTraceString(throwable)));
+        systemLog(level, tag, (null == throwable) ? info : (info + "\n" + getStackTraceString(throwable)));
     }
 
     private static void printInvokeStack() {
@@ -172,19 +177,21 @@ public class LogUtils {
             return;
         }
         StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
-        StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder(256);
         StackTraceElement stackTraceElement;
         boolean start = false;
+        String logUtilsClassName = LogUtils.class.getName();
         for (int index = 0; index < stackTraceElements.length; index++) {
             if (!start && (index < stackTraceElements.length - 1)) {
-                boolean flag = TextUtils.equals(stackTraceElements[index].getClassName(), LogUtils.class.getName()) && !TextUtils.equals(stackTraceElements[index + 1].getClassName(), LogUtils.class.getName());
+                boolean flag = TextUtils.equals(stackTraceElements[index].getClassName(), logUtilsClassName) && !TextUtils.equals(stackTraceElements[index + 1].getClassName(), logUtilsClassName);
                 if (flag) {
                     start = true;
                 }
             }
             if (start) {
                 stackTraceElement = stackTraceElements[index];
-                stringBuilder.append("    ").append(stackTraceElement.getClassName()).append(".").append(stackTraceElement.getMethodName()).append("(").append(stackTraceElement.getFileName()).append(":").append(stackTraceElement.getLineNumber()).append(")").append("\n");
+                String fileName = (null != stackTraceElement.getFileName()) ? stackTraceElement.getFileName() : "Unknown Source";
+                stringBuilder.append("    ").append(stackTraceElement.getClassName()).append(".").append(stackTraceElement.getMethodName()).append("(").append(fileName).append(":").append(stackTraceElement.getLineNumber()).append(")\n");
             }
         }
         log(INFO, methodInfo, "stack", stringBuilder.toString(), null);
@@ -202,7 +209,7 @@ public class LogUtils {
             }
             throwable = throwable.getCause();
         }
-        StringWriter stringWriter = new StringWriter();
+        StringWriter stringWriter = new StringWriter(256);
         PrintWriter printWriter = new PrintWriter(stringWriter);
         e.printStackTrace(printWriter);
         printWriter.flush();
@@ -210,10 +217,10 @@ public class LogUtils {
     }
 
     public static class Builder {
-        private static boolean logEnable = false;
-        private static boolean logInvokeStack = false;
-        private static boolean logException = false;
-        private static boolean logSystem = false;
+        private static volatile boolean logEnable = false;
+        private static volatile boolean logInvokeStack = false;
+        private static volatile boolean logException = false;
+        private static volatile boolean logSystem = false;
 
         public static void initConfiguration(boolean logEnable, boolean logInvokeStack, boolean logException, boolean logSystem) {
             Builder.logEnable = logEnable;
