@@ -2,6 +2,9 @@ package util.density;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.util.TypedValue;
+
+import androidx.annotation.NonNull;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -20,7 +23,18 @@ public class DensityUtils {
      * @param dip     设备独立像素
      * @return 像素
      */
-    public static int dipToPxByFloat(@NotNull Context context, float dip) {
+    public static float dipToPxFloat(@NonNull Context context, float dip) {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dip, context.getResources().getDisplayMetrics());
+    }
+
+    /**
+     * 设备独立像素转像素
+     *
+     * @param context 上下文
+     * @param dip     设备独立像素
+     * @return 像素
+     */
+    public static int dipToPxInt(@NotNull Context context, float dip) {
         return (int) ((dip * context.getResources().getDisplayMetrics().density) + 0.5F);
     }
 
