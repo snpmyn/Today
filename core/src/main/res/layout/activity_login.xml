@@ -41,7 +41,7 @@
                 android:id="@+id/loginActivityTietPhoneNumber"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
-                android:inputType="numberDecimal"
+                android:inputType="phone"
                 android:textSize="@dimen/sp_16" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -94,7 +94,7 @@
             style="?attr/materialCardViewFilledStyle"
             android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginStart="@dimen/dp_20"
             android:layout_weight="1">
 
             <TextView
