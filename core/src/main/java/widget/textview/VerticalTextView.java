@@ -53,6 +53,31 @@ public class VerticalTextView extends androidx.appcompat.widget.AppCompatTextVie
      * 上下文
      */
     private final Context mContext;
+    private final OnClickListener mMenuClickListener = new OnClickListener() {
+        @Override
+        public void onClick(@NonNull View v) {
+            String menuItemTitle = (String) v.getTag();
+            if (menuItemTitle.equals(ActionMenu.DEFAULT_ACTION_MENU_ITEM_TITLE_SELECT_ALL)) {
+                mSelectedText = getText().toString();
+                int[] drawPadding = getDrawPadding(areLeftToRight);
+                mStartLine = 1;
+                mCurrentLine = mMaxTextLine;
+                mStartTextOffset = drawPadding[1];
+                mCurrentTextOffset = getHeight() - drawPadding[3];
+                areLongPressTouchActionUp = true;
+                invalidate();
+            } else if (menuItemTitle.equals(ActionMenu.DEFAULT_ACTION_MENU_ITEM_TITLE_COPY)) {
+                KeyboardUtils.copyText(mContext, mSelectedText);
+                ToastKt.showToast(R.string.copySuccessful);
+                hideActionMenu();
+            } else {
+                if (null != mActionMenuCallBack) {
+                    mActionMenuCallBack.onActionMenuItemClick(menuItemTitle, mSelectedText);
+                }
+                hideActionMenu();
+            }
+        }
+    };
     /**
      * 屏高
      */
@@ -195,31 +220,6 @@ public class VerticalTextView extends androidx.appcompat.widget.AppCompatTextVie
     private ActionMenu mActionMenu = null;
     private OnClickListener mOnClickListener;
     private ActionMenuCallBack mActionMenuCallBack;
-    private final OnClickListener mMenuClickListener = new OnClickListener() {
-        @Override
-        public void onClick(@NonNull View v) {
-            String menuItemTitle = (String) v.getTag();
-            if (menuItemTitle.equals(ActionMenu.DEFAULT_ACTION_MENU_ITEM_TITLE_SELECT_ALL)) {
-                mSelectedText = getText().toString();
-                int[] drawPadding = getDrawPadding(areLeftToRight);
-                mStartLine = 1;
-                mCurrentLine = mMaxTextLine;
-                mStartTextOffset = drawPadding[1];
-                mCurrentTextOffset = getHeight() - drawPadding[3];
-                areLongPressTouchActionUp = true;
-                invalidate();
-            } else if (menuItemTitle.equals(ActionMenu.DEFAULT_ACTION_MENU_ITEM_TITLE_COPY)) {
-                KeyboardUtils.copyText(mContext, mSelectedText);
-                ToastKt.showToast(R.string.copySuccessful);
-                hideActionMenu();
-            } else {
-                if (null != mActionMenuCallBack) {
-                    mActionMenuCallBack.onActionMenuItemClick(menuItemTitle, mSelectedText);
-                }
-                hideActionMenu();
-            }
-        }
-    };
 
     public VerticalTextView(Context context) {
         this(context, null);
@@ -259,7 +259,7 @@ public class VerticalTextView extends androidx.appcompat.widget.AppCompatTextVie
         mLinesTextIndex = new SparseArray<>();
         mTextAreaRoughBound = new int[]{0, 0};
         mStatusBarHeight = StatusBarUtils.getStatusBarHeight(mContext);
-        mActionMenuHeight = DensityUtils.dipToPxByFloat(mContext, 45.0F);
+        mActionMenuHeight = DensityUtils.dipToPxInt(mContext, 45.0F);
     }
 
     public VerticalTextView setAreLeftToRight(boolean areLeftToRight) {
@@ -268,12 +268,12 @@ public class VerticalTextView extends androidx.appcompat.widget.AppCompatTextVie
     }
 
     public VerticalTextView setLineSpacingExtra(float lineSpacingExtra) {
-        this.mLineSpacingExtra = DensityUtils.dipToPxByFloat(mContext, lineSpacingExtra);
+        this.mLineSpacingExtra = DensityUtils.dipToPxInt(mContext, lineSpacingExtra);
         return this;
     }
 
     public VerticalTextView setCharSpacingExtra(float charSpacingExtra) {
-        this.mCharSpacingExtra = DensityUtils.dipToPxByFloat(mContext, charSpacingExtra);
+        this.mCharSpacingExtra = DensityUtils.dipToPxInt(mContext, charSpacingExtra);
         return this;
     }
 
@@ -293,7 +293,7 @@ public class VerticalTextView extends androidx.appcompat.widget.AppCompatTextVie
     }
 
     public VerticalTextView setUnderLineOffset(float underLineOffset) {
-        this.mUnderLineOffset = DensityUtils.dipToPxByFloat(mContext, underLineOffset);
+        this.mUnderLineOffset = DensityUtils.dipToPxInt(mContext, underLineOffset);
         return this;
     }
 
