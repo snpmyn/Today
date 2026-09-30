@@ -120,8 +120,8 @@ public class BocLottieClickDialog extends BaseBocInstanceDialog {
             return;
         }
         ViewGroup.LayoutParams layoutParams = bocLottieClickDialogLav.getLayoutParams();
-        layoutParams.width = DensityUtils.dipToPxByFloat(context, bocLottieDialogEnum.getWidth());
-        layoutParams.height = DensityUtils.dipToPxByFloat(context, bocLottieDialogEnum.getHeight());
+        layoutParams.width = DensityUtils.dipToPxInt(context, bocLottieDialogEnum.getWidth());
+        layoutParams.height = DensityUtils.dipToPxInt(context, bocLottieDialogEnum.getHeight());
         bocLottieClickDialogLav.setLayoutParams(layoutParams);
         if (repeatCount == ValueAnimator.INFINITE) {
             // 无限次数重复
@@ -187,6 +187,15 @@ public class BocLottieClickDialog extends BaseBocInstanceDialog {
         setAnimation(bocLottieDialogEnum, repeatCount, bocLottieDialogAnimationEndListener);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (null != onBackPressedListener) {
+            onBackPressedListener.backPressed();
+            onBackPressedListener = null;
+        }
+    }
+
     public static class Builder {
         private final BocLottieClickDialog bocLottieClickDialog;
 
@@ -216,15 +225,6 @@ public class BocLottieClickDialog extends BaseBocInstanceDialog {
 
         public BocLottieClickDialog build() {
             return bocLottieClickDialog;
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        if (null != onBackPressedListener) {
-            onBackPressedListener.backPressed();
-            onBackPressedListener = null;
         }
     }
 }
