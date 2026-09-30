@@ -1,6 +1,7 @@
 package widget.toast
 
 import android.view.Gravity
+import android.widget.TextView
 import android.widget.Toast
 import pool.application.BasePoolApp
 
@@ -13,23 +14,51 @@ import pool.application.BasePoolApp
  * 如果不加 @JvmOverloads
  * Java 必须手动传所有参数
  */
+@Suppress("DEPRECATION")
 @JvmOverloads
 fun String.showToast(
     duration: Int = Toast.LENGTH_SHORT, gravity: Int? = null, xOffset: Int = 0, yOffset: Int = 0
 ) {
-    Toast.makeText(BasePoolApp.getBasePoolAppInstance(), this, duration).apply {
-        gravity?.let { setGravity(it, xOffset, yOffset) }
-        show()
+    val context = BasePoolApp.getBasePoolAppInstance()
+    if (gravity != null) {
+        // 传递了 gravity 时使用自定义 View 方式构造
+        // 保证全版本 (含 Android 11+) 位置控制均可生效
+        val textView = TextView(context).apply {
+            text = this@showToast
+            this.gravity = Gravity.CENTER
+        }
+        Toast(context).apply {
+            this.duration = duration
+            this.view = textView
+            setGravity(gravity, xOffset, yOffset)
+            show()
+        }
+    } else {
+        Toast.makeText(context, this, duration).show()
     }
 }
 
+@Suppress("DEPRECATION")
 @JvmOverloads
 fun Int.showToast(
     duration: Int = Toast.LENGTH_SHORT, gravity: Int? = null, xOffset: Int = 0, yOffset: Int = 0
 ) {
-    Toast.makeText(BasePoolApp.getBasePoolAppInstance(), this, duration).apply {
-        gravity?.let { setGravity(it, xOffset, yOffset) }
-        show()
+    val context = BasePoolApp.getBasePoolAppInstance()
+    if (gravity != null) {
+        // 传递了 gravity 时使用自定义 View 方式构造
+        // 保证全版本 (含 Android 11+) 位置控制均可生效
+        val textView = TextView(context).apply {
+            setText(this@showToast)
+            this.gravity = Gravity.CENTER
+        }
+        Toast(context).apply {
+            this.duration = duration
+            this.view = textView
+            setGravity(gravity, xOffset, yOffset)
+            show()
+        }
+    } else {
+        Toast.makeText(context, this, duration).show()
     }
 }
 

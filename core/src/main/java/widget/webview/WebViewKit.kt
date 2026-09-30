@@ -21,8 +21,8 @@ class WebViewKit {
             val webChromeClient = object : WebChromeClient() {
                 override fun onReceivedTitle(view: WebView?, title: String?) {
                     super.onReceivedTitle(view, title)
-                    val safeTitle = title?.takeIf { title.isNotBlank() } ?: return
-                    materialToolbar.setTitle(safeTitle)
+                    val safeTitle = title?.takeIf { it.isNotBlank() } ?: return
+                    materialToolbar.title = safeTitle
                 }
             }
             webView.webChromeClient = webChromeClient
@@ -30,15 +30,12 @@ class WebViewKit {
 
         /**
          * 加载统一资源定位符
-         *
          * @param webView WebView
          * @param url     统一资源定位符
          */
         fun loadUrl(webView: WebView?, url: String?) {
-            webView?.let { webView ->
-                val safeUrl = url ?: return
-                webView.loadUrl(safeUrl)
-            }
+            if (url.isNullOrBlank()) return
+            webView?.loadUrl(url)
         }
     }
 }
