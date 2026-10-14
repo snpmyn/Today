@@ -165,15 +165,15 @@ public abstract class BaseDialog extends DialogFragment {
                 }
                 // Dialog 宽
                 if ((width == 0) && (null != getContext())) {
-                    layoutParams.width = ScreenUtils.screenWidth(getContext()) - 2 * DensityUtils.dipToPxByFloat(getContext(), margin);
+                    layoutParams.width = ScreenUtils.screenWidth(getContext()) - 2 * DensityUtils.dipToPxInt(getContext(), margin);
                 } else {
-                    layoutParams.width = DensityUtils.dipToPxByFloat(Objects.requireNonNull(getContext(), "must not be null"), width);
+                    layoutParams.width = DensityUtils.dipToPxInt(Objects.requireNonNull(getContext(), "must not be null"), width);
                 }
                 // Dialog 高
                 if (height == 0) {
                     layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
                 } else {
-                    layoutParams.height = DensityUtils.dipToPxByFloat(getContext(), height);
+                    layoutParams.height = DensityUtils.dipToPxInt(getContext(), height);
                 }
                 // Dialog 进 / 退动画
                 window.setWindowAnimations(animStyle);

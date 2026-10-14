@@ -52,9 +52,9 @@ public class RecyclerViewConfigure {
     /**
      * SpruceKit 配置
      * <p>
-     * {@link #linearHorizontalLayout(boolean, int, boolean, boolean, boolean)} 前调。
+     * {@link #linearHorizontalLayout(boolean, int, boolean, boolean, boolean, boolean, boolean)} 前调。
      * {@link #linearVerticalLayout(boolean, int, boolean, boolean, boolean)} 前调。
-     * {@link #gridLayout(int, int, boolean, boolean, boolean)} 前调。
+     * {@link #gridLayout(int, int, boolean, boolean, boolean, boolean, boolean, boolean)} 前调。
      *
      * @param interObjectDelay 实体整型延迟
      * @param duration         时长
@@ -73,13 +73,15 @@ public class RecyclerViewConfigure {
      * <p>
      * {@link #spruceKitConfigure(long, long, boolean, LinearSort.Direction)} 后调。
      *
-     * @param needSpace          需间距
-     * @param space              间距
-     * @param topAndBottomOffset 上下偏移
-     * @param hasFixedSize       已固定大小
-     * @param spruce             spruce 否
+     * @param needSpace                     需间距
+     * @param space                         间距
+     * @param topAndBottomOffset            上下偏移
+     * @param leftmostItemIncludeLeftEdge   最左边条目是否包含左侧边缘间距
+     * @param rightmostItemIncludeRightEdge 最右边条目是否包含右侧边缘间距
+     * @param hasFixedSize                  已固定大小
+     * @param spruce                        spruce 否
      */
-    public void linearHorizontalLayout(boolean needSpace, int space, boolean topAndBottomOffset, boolean hasFixedSize, boolean spruce) {
+    public void linearHorizontalLayout(boolean needSpace, int space, boolean topAndBottomOffset, boolean leftmostItemIncludeLeftEdge, boolean rightmostItemIncludeRightEdge, boolean hasFixedSize, boolean spruce) {
         // 条目装饰数量
         if (recyclerView.getItemDecorationCount() > 0) {
             recyclerView.removeItemDecorationAt(0);
@@ -94,7 +96,7 @@ public class RecyclerViewConfigure {
         // 固定 RecyclerView 高（避 RecyclerView 重 measure）
         recyclerView.setHasFixedSize(hasFixedSize);
         if (needSpace) {
-            recyclerView.addItemDecoration(new LinearLayoutHorizontalSpaceItemDecoration(DensityUtils.dipToPxByInt(space), topAndBottomOffset));
+            recyclerView.addItemDecoration(new LinearLayoutHorizontalSpaceItemDecoration(DensityUtils.dipToPxByInt(space), topAndBottomOffset, leftmostItemIncludeLeftEdge, rightmostItemIncludeRightEdge));
         }
     }
 
@@ -132,13 +134,16 @@ public class RecyclerViewConfigure {
      * <p>
      * {@link #spruceKitConfigure(long, long, boolean, LinearSort.Direction)} 后调。
      *
-     * @param spanCount                      跨距数
-     * @param space                          间距
-     * @param firstRowHaveTopSpaceDecoration 头行有上间距装饰否
-     * @param hasFixedSize                   已固定大小
-     * @param spruce                         spruce 否
+     * @param spanCount                     跨距数
+     * @param space                         间距
+     * @param includeTopEdge                是否包含顶部边缘间距
+     * @param includeBottomEdge             是否包含底部边缘间距
+     * @param leftmostItemIncludeLeftEdge   最左边条目是否包含左侧边缘间距
+     * @param rightmostItemIncludeRightEdge 最右边条目是否包含右侧边缘间距
+     * @param hasFixedSize                  已固定大小
+     * @param spruce                        spruce 否
      */
-    public void gridLayout(int spanCount, int space, boolean firstRowHaveTopSpaceDecoration, boolean hasFixedSize, boolean spruce) {
+    public void gridLayout(int spanCount, int space, boolean includeTopEdge, boolean includeBottomEdge, boolean leftmostItemIncludeLeftEdge, boolean rightmostItemIncludeRightEdge, boolean hasFixedSize, boolean spruce) {
         // 条目装饰数量
         if (recyclerView.getItemDecorationCount() > 0) {
             recyclerView.removeItemDecorationAt(0);
@@ -151,6 +156,6 @@ public class RecyclerViewConfigure {
         }));
         // 固定 RecyclerView 高（避 RecyclerView 重 measure）
         recyclerView.setHasFixedSize(hasFixedSize);
-        recyclerView.addItemDecoration(new GridLayoutSpaceItemDecoration(spanCount, DensityUtils.dipToPxByInt(space), firstRowHaveTopSpaceDecoration, true));
+        recyclerView.addItemDecoration(new GridLayoutSpaceItemDecoration(spanCount, DensityUtils.dipToPxByInt(space), includeTopEdge, includeBottomEdge, leftmostItemIncludeLeftEdge, rightmostItemIncludeRightEdge));
     }
 }

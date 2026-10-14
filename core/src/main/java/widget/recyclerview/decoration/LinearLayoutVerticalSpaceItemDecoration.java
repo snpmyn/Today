@@ -11,7 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
  *
  * @author 郑少鹏
  * @desc 线性布局垂直条目间距装饰
- * 头条目上间距，其后都下间距。
+ * 头条目上间距
+ * 其后都下间距
  */
 public class LinearLayoutVerticalSpaceItemDecoration extends RecyclerView.ItemDecoration {
     /**

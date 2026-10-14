@@ -34,7 +34,7 @@ public class FunctionAdapterKit {
     public void display(AppCompatActivity appCompatActivity, RecyclerView recyclerView, List<FunctionBean> functionBeanList, int spanCount, int space, int totalMargin, FunctionAdapterKitInterface functionAdapterKitInterface) {
         // 控件
         RecyclerViewConfigure recyclerViewConfigure = new RecyclerViewConfigure(appCompatActivity, recyclerView);
-        recyclerViewConfigure.gridLayout(spanCount, space, true, true, false);
+        recyclerViewConfigure.gridLayout(spanCount, space, true, true, true, true, true, false);
         // 适配器
         FunctionAdapter functionAdapter = new FunctionAdapter(appCompatActivity, spanCount, totalMargin);
         functionAdapter.setFunctionData(functionBeanList);

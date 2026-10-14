@@ -94,9 +94,9 @@ public class BocLottieCommonDialog extends BaseBocInstanceDialog {
             bocLottieCommonDialogTv.setText(hint);
         }
         // 设置视图布局参数
-        LayoutParamsUtils.setViewLayoutParams(view, false, 0, true, DensityUtils.dipToPxByFloat(context, value));
+        LayoutParamsUtils.setViewLayoutParams(view, false, 0, true, DensityUtils.dipToPxInt(context, value));
         // 设置窗口管理器布局参数
-        LayoutParamsUtils.setWindowManagerLayoutParams(getWindow(), true, DensityUtils.dipToPxByFloat(context, value), false, 0);
+        LayoutParamsUtils.setWindowManagerLayoutParams(getWindow(), true, DensityUtils.dipToPxInt(context, value), false, 0);
     }
 
     /**
@@ -115,8 +115,8 @@ public class BocLottieCommonDialog extends BaseBocInstanceDialog {
             return;
         }
         ViewGroup.LayoutParams layoutParams = bocLottieCommonDialogLav.getLayoutParams();
-        layoutParams.width = DensityUtils.dipToPxByFloat(context, bocLottieDialogEnum.getWidth());
-        layoutParams.height = DensityUtils.dipToPxByFloat(context, bocLottieDialogEnum.getHeight());
+        layoutParams.width = DensityUtils.dipToPxInt(context, bocLottieDialogEnum.getWidth());
+        layoutParams.height = DensityUtils.dipToPxInt(context, bocLottieDialogEnum.getHeight());
         bocLottieCommonDialogLav.setLayoutParams(layoutParams);
         if (repeatCount == ValueAnimator.INFINITE) {
             // 无限次数重复
@@ -179,6 +179,15 @@ public class BocLottieCommonDialog extends BaseBocInstanceDialog {
         setAnimation(bocLottieDialogEnum, repeatCount, bocLottieDialogAnimationEndListener);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (null != onBackPressedListener) {
+            onBackPressedListener.backPressed();
+            onBackPressedListener = null;
+        }
+    }
+
     public static class Builder {
         private final BocLottieCommonDialog bocLottieCommonDialog;
 
@@ -203,15 +212,6 @@ public class BocLottieCommonDialog extends BaseBocInstanceDialog {
 
         public BocLottieCommonDialog build() {
             return bocLottieCommonDialog;
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        if (null != onBackPressedListener) {
-            onBackPressedListener.backPressed();
-            onBackPressedListener = null;
         }
     }
 }

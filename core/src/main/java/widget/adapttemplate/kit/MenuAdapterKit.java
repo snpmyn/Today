@@ -35,7 +35,7 @@ public class MenuAdapterKit {
     public void display(AppCompatActivity appCompatActivity, RecyclerView recyclerView, List<MenuBean> menuBeanList, int spanCount, int space, int totalMargin, boolean spruce, MenuAdapterKitInterface menuAdapterKitInterface) {
         // 控件
         RecyclerViewConfigure recyclerViewConfigure = new RecyclerViewConfigure(appCompatActivity, recyclerView);
-        recyclerViewConfigure.gridLayout(spanCount, space, true, true, spruce);
+        recyclerViewConfigure.gridLayout(spanCount, space, true, true, true, true, true, spruce);
         // 适配器
         MenuAdapter menuAdapter = new MenuAdapter(appCompatActivity, spanCount, totalMargin);
         menuAdapter.setMenuData(menuBeanList);

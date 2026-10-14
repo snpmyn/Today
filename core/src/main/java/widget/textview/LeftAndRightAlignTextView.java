@@ -52,6 +52,52 @@ public class LeftAndRightAlignTextView extends AppCompatEditText {
      */
     private final Context mContext;
     /**
+     * 菜单点击事件监听
+     */
+    private final OnClickListener mMenuClickListener = new OnClickListener() {
+        @Override
+        public void onClick(@NonNull View v) {
+            String menuItemTitle = (String) v.getTag();
+            // 选中字符开始和结束位
+            int start = getSelectionStart();
+            int end = getSelectionEnd();
+            // 获选中字符
+            String selectedStr;
+            if ((start < 0) || (end < 0) || (end <= start)) {
+                selectedStr = "";
+            } else {
+                selectedStr = Objects.requireNonNull(getText()).toString().substring(start, end);
+            }
+            switch (menuItemTitle) {
+                // 全选
+                case ActionMenu.DEFAULT_ACTION_MENU_ITEM_TITLE_SELECT_ALL:
+                    if (areTextJustify) {
+                        mStartLine = 0;
+                        mCurrentLine = getLayout().getLineCount() - 1;
+                        mStartTextOffset = 0;
+                        mCurrentTextOffset = getLayout().getLineEnd(mCurrentLine);
+                        areActionSelectAll = true;
+                        LeftAndRightAlignTextView.this.invalidate();
+                    }
+                    Selection.selectAll(getEditableText());
+                    break;
+                // 复制
+                case ActionMenu.DEFAULT_ACTION_MENU_ITEM_TITLE_COPY:
+                    KeyboardUtils.copyText(mContext, selectedStr);
+                    ToastKt.showToast(R.string.copySuccessful);
+                    hideActionMenu();
+                    break;
+                default:
+                    // 自定
+                    if (null != mActionMenuCallBack) {
+                        mActionMenuCallBack.onActionMenuItemClick(menuItemTitle, selectedStr);
+                    }
+                    hideActionMenu();
+                    break;
+            }
+        }
+    };
+    /**
      * 屏高
      */
     private int mScreenHeight;
@@ -124,52 +170,6 @@ public class LeftAndRightAlignTextView extends AppCompatEditText {
     private ActionMenu mActionMenu = null;
     private OnClickListener mOnClickListener;
     private ActionMenuCallBack mActionMenuCallBack;
-    /**
-     * 菜单点击事件监听
-     */
-    private final OnClickListener mMenuClickListener = new OnClickListener() {
-        @Override
-        public void onClick(@NonNull View v) {
-            String menuItemTitle = (String) v.getTag();
-            // 选中字符开始和结束位
-            int start = getSelectionStart();
-            int end = getSelectionEnd();
-            // 获选中字符
-            String selectedStr;
-            if ((start < 0) || (end < 0) || (end <= start)) {
-                selectedStr = "";
-            } else {
-                selectedStr = Objects.requireNonNull(getText()).toString().substring(start, end);
-            }
-            switch (menuItemTitle) {
-                // 全选
-                case ActionMenu.DEFAULT_ACTION_MENU_ITEM_TITLE_SELECT_ALL:
-                    if (areTextJustify) {
-                        mStartLine = 0;
-                        mCurrentLine = getLayout().getLineCount() - 1;
-                        mStartTextOffset = 0;
-                        mCurrentTextOffset = getLayout().getLineEnd(mCurrentLine);
-                        areActionSelectAll = true;
-                        LeftAndRightAlignTextView.this.invalidate();
-                    }
-                    Selection.selectAll(getEditableText());
-                    break;
-                // 复制
-                case ActionMenu.DEFAULT_ACTION_MENU_ITEM_TITLE_COPY:
-                    KeyboardUtils.copyText(mContext, selectedStr);
-                    ToastKt.showToast(R.string.copySuccessful);
-                    hideActionMenu();
-                    break;
-                default:
-                    // 自定
-                    if (null != mActionMenuCallBack) {
-                        mActionMenuCallBack.onActionMenuItemClick(menuItemTitle, selectedStr);
-                    }
-                    hideActionMenu();
-                    break;
-            }
-        }
-    };
 
     public LeftAndRightAlignTextView(Context context) {
         this(context, null);
@@ -193,7 +193,7 @@ public class LeftAndRightAlignTextView extends AppCompatEditText {
     private void init() {
         mScreenHeight = ScreenUtils.screenHeight(mContext);
         mStatusBarHeight = StatusBarUtils.getStatusBarHeight(mContext);
-        mActionMenuHeight = DensityUtils.dipToPxByFloat(mContext, 45.0F);
+        mActionMenuHeight = DensityUtils.dipToPxInt(mContext, 45.0F);
         if (areTextJustify) {
             setGravity(Gravity.TOP);
         }

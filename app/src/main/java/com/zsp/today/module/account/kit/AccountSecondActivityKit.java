@@ -61,7 +61,7 @@ public class AccountSecondActivityKit {
         }
         // 控件
         RecyclerViewConfigure recyclerViewConfigure = new RecyclerViewConfigure(appCompatActivity, recyclerView);
-        recyclerViewConfigure.gridLayout(3, 12, true, true, false);
+        recyclerViewConfigure.gridLayout(3, 12, true, true, true, true, true, false);
         // 适配器
         AccountDateListAdapter accountDateListAdapter = new AccountDateListAdapter(appCompatActivity, 3, 192);
         accountDateListAdapter.setAccountDateListData(accountDateListBeanList);
