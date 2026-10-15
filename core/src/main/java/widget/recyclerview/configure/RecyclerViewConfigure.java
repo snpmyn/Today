@@ -134,16 +134,16 @@ public class RecyclerViewConfigure {
      * <p>
      * {@link #spruceKitConfigure(long, long, boolean, LinearSort.Direction)} 后调。
      *
-     * @param spanCount                     跨距数
-     * @param space                         间距
-     * @param includeTopEdge                是否包含顶部边缘间距
-     * @param includeBottomEdge             是否包含底部边缘间距
-     * @param leftmostItemIncludeLeftEdge   最左边条目是否包含左侧边缘间距
-     * @param rightmostItemIncludeRightEdge 最右边条目是否包含右侧边缘间距
-     * @param hasFixedSize                  已固定大小
-     * @param spruce                        spruce 否
+     * @param spanCount                       跨距数
+     * @param space                           间距
+     * @param topmostItemIncludeTopEdge       最顶部条目是否包含顶部边缘间距
+     * @param bottommostItemIncludeBottomEdge 最底部条目是否包含底部边缘间距
+     * @param leftmostItemIncludeLeftEdge     最左边条目是否包含左侧边缘间距
+     * @param rightmostItemIncludeRightEdge   最右边条目是否包含右侧边缘间距
+     * @param hasFixedSize                    已固定大小
+     * @param spruce                          spruce 否
      */
-    public void gridLayout(int spanCount, int space, boolean includeTopEdge, boolean includeBottomEdge, boolean leftmostItemIncludeLeftEdge, boolean rightmostItemIncludeRightEdge, boolean hasFixedSize, boolean spruce) {
+    public void gridLayout(int spanCount, int space, boolean topmostItemIncludeTopEdge, boolean bottommostItemIncludeBottomEdge, boolean leftmostItemIncludeLeftEdge, boolean rightmostItemIncludeRightEdge, boolean hasFixedSize, boolean spruce) {
         // 条目装饰数量
         if (recyclerView.getItemDecorationCount() > 0) {
             recyclerView.removeItemDecorationAt(0);
@@ -156,6 +156,6 @@ public class RecyclerViewConfigure {
         }));
         // 固定 RecyclerView 高（避 RecyclerView 重 measure）
         recyclerView.setHasFixedSize(hasFixedSize);
-        recyclerView.addItemDecoration(new GridLayoutSpaceItemDecoration(spanCount, DensityUtils.dipToPxByInt(space), includeTopEdge, includeBottomEdge, leftmostItemIncludeLeftEdge, rightmostItemIncludeRightEdge));
+        recyclerView.addItemDecoration(new GridLayoutSpaceItemDecoration(spanCount, DensityUtils.dipToPxByInt(space), topmostItemIncludeTopEdge, bottommostItemIncludeBottomEdge, leftmostItemIncludeLeftEdge, rightmostItemIncludeRightEdge));
     }
 }
