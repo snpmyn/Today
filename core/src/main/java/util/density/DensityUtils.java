@@ -134,4 +134,28 @@ public class DensityUtils {
     public static float getDpiOnY(@NotNull Context context) {
         return context.getResources().getDisplayMetrics().ydpi;
     }
+
+    /**
+     * 获取屏幕宽度
+     * <p>
+     * 像素
+     *
+     * @param context 上下文
+     * @return 屏幕宽度
+     */
+    public static int getScreenWidth(@NotNull Context context) {
+        return context.getResources().getDisplayMetrics().widthPixels;
+    }
+
+    /**
+     * 获取屏幕高度
+     * <p>
+     * 像素
+     *
+     * @param context 上下文
+     * @return 屏幕高度
+     */
+    public static int getScreenHeight(@NotNull Context context) {
+        return context.getResources().getDisplayMetrics().heightPixels;
+    }
 }
