@@ -22,10 +22,22 @@ public class SystemBarKit {
      * @param activity 活动
      */
     public static void hideNavigationBar(Activity activity) {
-        if ((activity == null) || (activity.getWindow() == null)) {
+        if (activity == null) {
             return;
         }
-        Window window = activity.getWindow();
+        hideNavigationBar(activity.getWindow());
+    }
+
+    /**
+     * 隐藏导航栏
+     *
+     * @param window 窗口
+     */
+    @SuppressWarnings("deprecation")
+    public static void hideNavigationBar(Window window) {
+        if (window == null) {
+            return;
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             // Android 11+
             // 新版 API 隐藏
@@ -47,10 +59,22 @@ public class SystemBarKit {
      * @param activity 活动
      */
     public static void showNavigationBar(Activity activity) {
-        if ((activity == null) || (activity.getWindow() == null)) {
+        if (activity == null) {
             return;
         }
-        Window window = activity.getWindow();
+        showNavigationBar(activity.getWindow());
+    }
+
+    /**
+     * 显示导航栏
+     *
+     * @param window 窗口
+     */
+    @SuppressWarnings("deprecation")
+    public static void showNavigationBar(Window window) {
+        if (window == null) {
+            return;
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             // Android 11+
             // 核心修复点，让布局恢复服从系统窗口限制，缩回排版。
@@ -77,10 +101,24 @@ public class SystemBarKit {
      * @param activity 活动
      */
     public static void hideSystemBars(Activity activity) {
-        if ((activity == null) || (activity.getWindow() == null)) {
+        if (activity == null) {
             return;
         }
-        Window window = activity.getWindow();
+        hideSystemBars(activity.getWindow());
+    }
+
+    /**
+     * 隐藏状态栏 + 导航栏
+     * <p>
+     * 全屏沉浸
+     *
+     * @param window 窗口
+     */
+    @SuppressWarnings("deprecation")
+    public static void hideSystemBars(Window window) {
+        if (window == null) {
+            return;
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             // Android 11+
             WindowCompat.setDecorFitsSystemWindows(window, false);
@@ -103,10 +141,24 @@ public class SystemBarKit {
      * @param activity 活动
      */
     public static void showSystemBars(Activity activity) {
-        if ((activity == null) || (activity.getWindow() == null)) {
+        if (activity == null) {
             return;
         }
-        Window window = activity.getWindow();
+        showSystemBars(activity.getWindow());
+    }
+
+    /**
+     * 显示状态栏 + 导航栏
+     * <p>
+     * 退出全屏恢复
+     *
+     * @param window 窗口
+     */
+    @SuppressWarnings("deprecation")
+    public static void showSystemBars(Window window) {
+        if (window == null) {
+            return;
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             // Android 11+
             // 核心修复点，让布局恢复服从系统窗口限制，避免重叠遮挡。
