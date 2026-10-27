@@ -85,9 +85,9 @@ public class AddAccountActivity extends BasePoolActivity {
         addAccountActivityTilChooseDate.setEndIconOnClickListener(v -> addAccountActivityKit.chooseDate(AddAccountActivity.this, addAccountActivityMactvDate));
         addAccountActivityTilChooseCategory.setEndIconOnClickListener(v -> addAccountActivityKit.chooseCategory(AddAccountActivity.this, addAccountActivityMactvCategory));
         // MaterialAutoCompleteTextView
-        addAccountActivityMactvCategory.addTextChangedListener(new CustomTextWatcher(addAccountActivityTilChooseCategory, addAccountActivityMactvCategory));
+        addAccountActivityMactvCategory.addTextChangedListener(new CustomTextWatcher(addAccountActivityTilChooseCategory));
         // TextInputEditText
-        addAccountActivityTietAmount.addTextChangedListener(new CustomTextWatcher(addAccountActivityTilInputAmount, addAccountActivityTietAmount));
+        addAccountActivityTietAmount.addTextChangedListener(new CustomTextWatcher(addAccountActivityTilInputAmount));
     }
 
     /**

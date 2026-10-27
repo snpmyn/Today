@@ -37,6 +37,7 @@ public class Spruce {
         getAnimatorSetForSort(animators, sortFunction, builder.exclusionHelper, builder.interpolator);
     }
 
+    @SuppressWarnings({"unchecked"})
     private void getAnimatorSetForSort(Object[] animators, @NonNull SortFunction sortFunction, @NonNull ExclusionHelper exclusionHelper, Interpolator interpolator) {
         List<SpruceTimedView> childrenWithTime;
         // starts the filtering process
@@ -112,7 +113,7 @@ public class Spruce {
      */
     private void sanityCheck(Object animatorChild) {
         if (!(animatorChild instanceof SpruceDynamics<?>) && !(animatorChild instanceof Animator)) {
-            throw new UnsupportedOperationException("Error: Items added for animation should be the subtype of" + "DynamicAnimation or Animator.");
+            throw new UnsupportedOperationException("Error: Items added for animation should be the subtype of DynamicAnimation or Animator.");
         }
     }
 

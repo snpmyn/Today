@@ -30,16 +30,16 @@ import widget.transition.kit.TransitionKit;
  * @date: 2021/9/17 4:31 下午
  */
 public class LoginActivity extends BasePoolActivity implements View.OnClickListener {
+    /**
+     * 登录页监听
+     */
+    private static LoginActivityListener loginActivityListener;
     private TextView loginActivityTvLoginPageTopHint;
     private TextInputLayout loginActivityTilInputPhoneNumber;
     private TextInputEditText loginActivityTietPhoneNumber;
     private MaterialButton loginActivityMbLogin;
     private MaterialCardView loginActivityMcvUserAgreement;
     private MaterialCardView loginActivityMcvPrivacyPolicy;
-    /**
-     * 登录页监听
-     */
-    private static LoginActivityListener loginActivityListener;
     /**
      * 登录页配套元件
      */
@@ -127,7 +127,7 @@ public class LoginActivity extends BasePoolActivity implements View.OnClickListe
 
             }
         });
-        loginActivityTietPhoneNumber.addTextChangedListener(new CustomTextWatcher(loginActivityTilInputPhoneNumber, loginActivityTietPhoneNumber));
+        loginActivityTietPhoneNumber.addTextChangedListener(new CustomTextWatcher(loginActivityTilInputPhoneNumber));
         // MaterialButton
         loginActivityMbLogin.setOnClickListener(this);
         // MaterialCardView
