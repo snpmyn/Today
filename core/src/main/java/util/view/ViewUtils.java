@@ -70,6 +70,28 @@ public class ViewUtils {
     /**
      * 隐藏视图
      *
+     * @param view 视图
+     */
+    public static void hideViewGone(@NotNull View view) {
+        if (view.getVisibility() == View.VISIBLE) {
+            view.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * 隐藏视图
+     *
+     * @param view 视图
+     */
+    public static void hideViewInvisible(@NotNull View view) {
+        if (view.getVisibility() == View.VISIBLE) {
+            view.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    /**
+     * 隐藏视图
+     *
      * @param viewList 视图集
      * @param view     视图
      * @param state    状态
