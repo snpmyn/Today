@@ -15,6 +15,21 @@ import com.zsp.core.R;
  */
 public class ViewClickKit {
     /**
+     * 默认间隔毫秒
+     */
+    private static final long DEFAULT_INTERVAL_MS = 500L;
+
+    /**
+     * 是否是快速点击
+     *
+     * @param view 视图
+     * @return 是否是快速点击
+     */
+    public static boolean isFastClick(@NonNull View view) {
+        return isFastClick(view, DEFAULT_INTERVAL_MS);
+    }
+
+    /**
      * 是否是快速点击
      *
      * @param view       视图
