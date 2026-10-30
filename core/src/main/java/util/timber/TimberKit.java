@@ -238,6 +238,10 @@ public final class TimberKit {
 
     /**
      * 打印异常日志
+     * <p>
+     * 用例
+     * TimberKit.e(e, true, "polling task error");
+     * TimberKit.e(e, true, "polling task error, isRunning: %b", isRunning);
      *
      * @param t              异常对象
      * @param showMethodInfo 是否显示方法信息
