@@ -17,6 +17,7 @@ sealed class ZhiLinMenuAction {
     object FLOATING : ZhiLinMenuAction()
     object OVERLAY : ZhiLinMenuAction()
     object CAROUSEL : ZhiLinMenuAction()
+    object CAMERA : ZhiLinMenuAction()
 
     companion object {
         fun getMenuIdFromZhiLinMenuAction(zhiLinMenuAction: ZhiLinMenuAction): Int {
@@ -32,6 +33,7 @@ sealed class ZhiLinMenuAction {
                 is FLOATING -> 9
                 is OVERLAY -> 10
                 is CAROUSEL -> 11
+                is CAMERA -> 12
             }
         }
     }

@@ -56,7 +56,11 @@ public enum ZhiLinMenuEnum {
     /**
      * 轮播
      */
-    CAROUSEL(ZhiLinMenuAction.CAROUSEL.INSTANCE, R.drawable.ic_widget_cos_24dp, "轮播", true);
+    CAROUSEL(ZhiLinMenuAction.CAROUSEL.INSTANCE, R.drawable.ic_widget_cos_24dp, "轮播", true),
+    /**
+     * 相机
+     */
+    CAMERA(ZhiLinMenuAction.CAMERA.INSTANCE, R.drawable.ic_widget_cos_24dp, "相机", true);
     /**
      * 菜单 ID
      */

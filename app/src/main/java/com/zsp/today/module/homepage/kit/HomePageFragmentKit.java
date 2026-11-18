@@ -17,7 +17,6 @@ import com.google.android.material.carousel.HeroCarouselStrategy;
 import com.zsp.today.R;
 import com.zsp.today.application.App;
 import com.zsp.today.module.account.AccountHomeActivity;
-import com.zsp.today.module.camera.CameraActivity;
 import com.zsp.today.module.dangerous.DangerousActivity;
 import com.zsp.today.module.detect.DetectActivity;
 import com.zsp.today.module.function.database.FunctionDataBaseTable;
@@ -346,10 +345,6 @@ public class HomePageFragmentKit {
             // 知林
             case 9:
                 IntentJump.getInstance().jump(null, appCompatActivity, false, ZhiLinActivity.class);
-                break;
-            // 相机
-            case 10:
-                IntentJump.getInstance().jump(null, appCompatActivity, false, CameraActivity.class);
                 break;
             default:
                 break;

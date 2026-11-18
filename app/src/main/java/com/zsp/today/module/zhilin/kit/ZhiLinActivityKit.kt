@@ -4,6 +4,7 @@ import android.content.Intent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.zsp.today.module.camera.CameraActivity
 import com.zsp.today.module.zhilin.bean.ZhiLinMenuAction
 import com.zsp.today.module.zhilin.bean.ZhiLinMenuEnum
 import com.zsp.today.module.zhilin.carousel.CarouselActivity
@@ -169,6 +170,14 @@ class ZhiLinActivityKit {
                     Intent(appCompatActivity, CarouselActivity::class.java)
                 TransitionKit.getInstance().jumpWithTransition(
                     appCompatActivity, view, fromThisToCarouselActivityIntent, false
+                )
+            }
+
+            12 -> {
+                val fromThisToCameraActivityIntent =
+                    Intent(appCompatActivity, CameraActivity::class.java)
+                TransitionKit.getInstance().jumpWithTransition(
+                    appCompatActivity, view, fromThisToCameraActivityIntent, false
                 )
             }
 
